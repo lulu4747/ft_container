@@ -8,6 +8,7 @@ namespace	ft
 
 	class Map;
 	class Stack;
+	template < class T, class Alloc = std::allocator<T> >
 	class Vector;
 
 	// std::pair reimplementation

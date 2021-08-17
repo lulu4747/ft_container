@@ -3,7 +3,7 @@
 
 # include "ft.hpp"
 
-template <class T, class Container = ft::Vector<T> >
+template < class T, class Container = ft::Vector<T> >
 class ft::Stack{
 
 public:
