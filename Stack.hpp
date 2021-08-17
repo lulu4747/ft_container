@@ -1,8 +1,10 @@
 #ifndef STACK_HPP
 # define STACK_HPP
 
+# include "ft.hpp"
+
 template <class T, class Container = ft::Vector<T> >
-class Stack{
+class ft::Stack{
 
 public:
 	Stack(void);

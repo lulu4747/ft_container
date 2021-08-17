@@ -1,8 +1,10 @@
 #ifndef VECTOR_HPP
 # define VECTOR_HPP
 
-template < class T, class Alloc = allocator<T> >
-class Vector{
+# include "ft.hpp"
+
+template < class T, class Alloc = std::allocator<T> >
+class ft::Vector{
 
 public:
 	Vector(void);

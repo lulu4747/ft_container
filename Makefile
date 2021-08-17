@@ -2,9 +2,10 @@ NAME	= ft_container_tester
 
 SRCS	= main.cpp
 
-INC		= Map.hpp
-INC		= Stack.hpp
-INC		= Vector.hpp
+INC		= ft.hpp
+INC		+= Map.hpp
+INC		+= Stack.hpp
+INC		+= Vector.hpp
 
 OBJ		= $(SRCS:.cpp=.o)
 
