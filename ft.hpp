@@ -4,12 +4,20 @@
 namespace	ft
 {
 
-	// Containers
+	// less template for Map
 
-	class Map;
-	class Stack;
-	template < class T, class Alloc = std::allocator<T> >
-	class Vector;
+	template < class T >
+	struct less
+	{
+		typedef	bool	result_type;
+		typedef	T		first_argument_type;
+		typedef	T		second_argument_type;
+
+		bool operator()( T const & lhs, T const & rhs ) const
+		{
+			return lhs < rhs;
+		}
+	};
 
 	// std::pair reimplementation
 
@@ -23,9 +31,25 @@ namespace	ft
 		first_type	first;
 		second_type	second;
 
-		pair(void){};
-		pair(T1 k, T2 t):first(k), second(t){};
-		pair(pair<T1, T2> const & src){*this = src;}
+		pair(void)
+		:
+			first(),
+			second()
+		{}
+
+		pair(T1 const & x, T2 const & y)
+		:
+			first(x),
+			second(y)
+		{}
+
+		template< class U1, class U2 >
+		pair( const pair<U1, U2>& p )
+		:
+			first(p.first),
+			second(p.second)
+		{}
+
 		pair & operator=(pair<T1, T2> const & rhs)
 		{
 			if (this != &rhs)

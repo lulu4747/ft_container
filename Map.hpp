@@ -1,19 +1,25 @@
 #ifndef MAP_HPP
 # define MAP_HPP
 
+# include <memory>
 # include "ft.hpp"
 
-template < class Key, class T, class Compare = less<Key>, class Alloc = std::allocator<ft::pair<const Key,T> >
-class ft::Map{
+namespace	ft
+{
+	template < class Key, class T, class Compare = ft::less<Key>,
+			class Alloc = std::allocator< ft::pair<const Key,T> > >
+	class Map{
 
-public:
-	Map(void);
-	~Map();
+	public:
+		Map(void);
+		~Map();
 
 
-private:
-	/* data */
+	private:
+		/* data */
 
-};
+	};
+}
+
 
 #endif

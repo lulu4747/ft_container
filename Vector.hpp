@@ -4,17 +4,20 @@
 # include <memory>
 # include "ft.hpp"
 
-template < class T, class Alloc = std::allocator<T> >
-class ft::Vector{
+namespace	ft
+{
 
-public:
-	Vector(void);
-	~Vector();
+	template < class T, class Alloc = std::allocator<T> >
+	class Vector{
 
+	public:
+		Vector(void);
+		~Vector();
 
-private:
-	/* data */
+	private:
+		/* data */
 
-};
+	};
+}
 
 #endif
