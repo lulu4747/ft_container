@@ -3,6 +3,7 @@
 
 # include <memory>
 # include "ft.hpp"
+# include "Iterator.hpp"
 
 namespace	ft
 {
