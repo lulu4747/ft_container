@@ -24,11 +24,11 @@ namespace	ft
 
 		typedef typename	Alloc::pointer			pointer;
 		typedef typename	Alloc::const_pointer	const_pointer;
-/*	need to check iterators
-iterator 	LegacyRandomAccessIterator to value_type
-const_iterator 	LegacyRandomAccessIterator to const value_type
-reverse_iterator 	std::reverse_iterator<iterator>
-const_reverse_iterator 	std::reverse_iterator<const_iterator>*/
+
+		typedef typename	VectorIterator<value_type>				iterator;
+		typedef typename	VectorConstIterator<value_type>			const_iterator;
+		typedef typename	VectorReverseIterator<iterator>			reverse_iterator;
+		typedef typename	VectorConstReverseIterator<iterator>	const_reverse_iterator;
 
 	//	Member Functions :
 

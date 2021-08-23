@@ -52,6 +52,34 @@ namespace ft
     	typedef	const T&					reference;
     	typedef	random_access_iterator_tag	iterator_category;
   	};
+
+	//	Vector :
+
+	template <class Category, class T, class Distance = ptrdiff_t, class Pointer = T*, class Reference = T&>
+	class VectorIterator : public iterator_traits<Iterator<Category, T, Distance, Pointer, Reference> >{
+	
+	public:
+
+		VectorIterator<Category, T, Distance, Pointer, Reference> ( void ){}
+		VectorIterator<Category, T, Distance, Pointer, Reference> ( VectorIterator const & src )
+		{	*this = src;	}
+
+		VectorIterator &	operator=( VectorIterator const & rhs )
+		{
+			if (this != &rhs)
+				this->_ptr = rhs.getPointer();
+			return *this;
+		}
+
+		Pointer	getPointer( void )
+		{	return this->_ptr;	}
+
+	private:
+
+		Pointer	_ptr;
+		
+	};
+	
 }
 
 #endif
