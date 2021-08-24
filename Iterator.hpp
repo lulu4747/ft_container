@@ -9,9 +9,9 @@ namespace ft
 
     struct	input_iterator_tag{};
     struct	output_iterator_tag{};
-    struct	forward_iterator_tag{};
-    struct	bidirectional_iterator_tag{};
-    struct	random_access_iterator_tag{};
+    struct	forward_iterator_tag : public input_iterator_tag {};
+    struct	bidirectional_iterator_tag : public forward_iterator_tag {};
+    struct	random_access_iterator_tag : public bidirectional_iterator_tag {};
 
 	template <class Category, class T, class Distance = ptrdiff_t, class Pointer = T*, class Reference = T&>
 	struct Iterator{
@@ -53,26 +53,56 @@ namespace ft
     	typedef	random_access_iterator_tag	iterator_category;
   	};
 
-	//	Vector :
+	//	Random Access Iterator :
 
-	template <class Category, class T, class Distance = ptrdiff_t, class Pointer = T*, class Reference = T&>
-	class VectorIterator : public iterator_traits<Iterator<Category, T, Distance, Pointer, Reference> >{
+	template <class T, class Category = random_access_iterator_tag, class Distance = ptrdiff_t, class Pointer = T*, class Reference = T&>
+	class FTiterator : public iterator_traits<Iterator<Category, T, Distance, Pointer, Reference> >{
 	
 	public:
 
-		VectorIterator<Category, T, Distance, Pointer, Reference> ( void ){}
-		VectorIterator<Category, T, Distance, Pointer, Reference> ( VectorIterator const & src )
-		{	*this = src;	}
+		FTiterator<Category, T, Distance, Pointer, Reference> ( void ){}
+		FTiterator<Category, T, Distance, Pointer, Reference> ( FTiterator const & src )
+			{	*this = src;	}
+		
+		FTiterator<Category, T, Distance, Pointer, Reference> ( Pointer ptr )
+			:	_ptr(ptr)	{}
 
-		VectorIterator &	operator=( VectorIterator const & rhs )
+		FTiterator &	operator=( FTiterator const & rhs )
 		{
 			if (this != &rhs)
 				this->_ptr = rhs.getPointer();
 			return *this;
 		}
 
-		Pointer	getPointer( void )
-		{	return this->_ptr;	}
+		Pointer	getPointer( void ) const
+			{	return this->_ptr;	}
+
+			// Equivalence :
+
+		bool	operator==(  FTiterator const & rhs ) const
+			{	return this->_ptr == rhs.getPointer();	}
+		
+		bool	operator!=(  FTiterator const & rhs ) const
+			{	return this->_ptr != rhs.getPointer();	}
+
+			// Relationnal :
+
+		bool	operator<(  FTiterator const & rhs ) const
+			{	return this->_ptr < rhs.getPointer();	}
+		
+		bool	operator<=(  FTiterator const & rhs ) const
+			{	return this->_ptr <= rhs.getPointer();	}
+
+		bool	operator>(  FTiterator const & rhs ) const
+			{	return this->_ptr == rhs.getPointer();	}
+		
+		bool	operator>=(  FTiterator const & rhs ) const
+			{	return this->_ptr >= rhs.getPointer();	}
+
+			//	Dereference
+		
+		Reference	operator*( void )
+			{	return &(this->*_ptr);	}
 
 	private:
 
