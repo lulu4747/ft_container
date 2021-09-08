@@ -56,18 +56,18 @@ namespace ft
 	//	Random Access Iterator :
 
 	template <class T, class Category = random_access_iterator_tag, class Distance = ptrdiff_t, class Pointer = T*, class Reference = T&>
-	class FTiterator : public iterator_traits<Iterator<Category, T, Distance, Pointer, Reference> >{
+	class ft_Iterator : public iterator_traits<Iterator<Category, T, Distance, Pointer, Reference> >{
 	
 	public:
 
-		FTiterator<Category, T, Distance, Pointer, Reference> ( void ){}
-		FTiterator<Category, T, Distance, Pointer, Reference> ( FTiterator const & src )
+		ft_Iterator<Category, T, Distance, Pointer, Reference> ( void ){}
+		ft_Iterator<Category, T, Distance, Pointer, Reference> ( ft_Iterator const & src )
 			{	*this = src;	}
 		
-		FTiterator<Category, T, Distance, Pointer, Reference> ( Pointer ptr )
+		ft_Iterator<Category, T, Distance, Pointer, Reference> ( Pointer ptr )
 			:	_ptr(ptr)	{}
 
-		FTiterator &	operator=( FTiterator const & rhs )
+		ft_Iterator &	operator=( ft_Iterator const & rhs )
 		{
 			if (this != &rhs)
 				this->_ptr = rhs.getPointer();
@@ -79,24 +79,24 @@ namespace ft
 
 			// Equivalence :
 
-		bool	operator==(  FTiterator const & rhs ) const
+		bool	operator==(  ft_Iterator const & rhs ) const
 			{	return this->_ptr == rhs.getPointer();	}
 		
-		bool	operator!=(  FTiterator const & rhs ) const
+		bool	operator!=(  ft_Iterator const & rhs ) const
 			{	return this->_ptr != rhs.getPointer();	}
 
 			// Relationnal :
 
-		bool	operator<(  FTiterator const & rhs ) const
+		bool	operator<(  ft_Iterator const & rhs ) const
 			{	return this->_ptr < rhs.getPointer();	}
 		
-		bool	operator<=(  FTiterator const & rhs ) const
+		bool	operator<=(  ft_Iterator const & rhs ) const
 			{	return this->_ptr <= rhs.getPointer();	}
 
-		bool	operator>(  FTiterator const & rhs ) const
+		bool	operator>(  ft_Iterator const & rhs ) const
 			{	return this->_ptr == rhs.getPointer();	}
 		
-		bool	operator>=(  FTiterator const & rhs ) const
+		bool	operator>=(  ft_Iterator const & rhs ) const
 			{	return this->_ptr >= rhs.getPointer();	}
 
 			//	Dereference

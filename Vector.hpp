@@ -25,10 +25,11 @@ namespace	ft
 		typedef typename	Alloc::pointer			pointer;
 		typedef typename	Alloc::const_pointer	const_pointer;
 
-		typedef typename	VectorIterator<value_type>				iterator;
-		typedef typename	VectorConstIterator<value_type>			const_iterator;
-		typedef typename	VectorReverseIterator<iterator>			reverse_iterator;
-		typedef typename	VectorConstReverseIterator<iterator>	const_reverse_iterator;
+
+		typedef	ft_Iterator<value_type>				iterator;
+		typedef	ft_Iterator<value_type>				const_iterator;
+		typedef	ft_ReverseIterator<iterator>		reverse_iterator;
+		typedef	ft_ReverseIterator<iterator>		const_reverse_iterator;
 
 	//	Member Functions :
 
@@ -61,14 +62,14 @@ namespace	ft
 
 	private:
 
-		allocator_type		_alloc;
-		value_type*			_value;
+		allocator_type	const	_alloc;
+		pointer					_value;
 
-		size_type			_size;
-		size_type			_capacity;
+		size_type				_size;
+		size_type				_capacity;
 
-		reference			_front;
-		reference			_back;
+		reference				_front;
+		reference				_back;
 	};
 }
 
