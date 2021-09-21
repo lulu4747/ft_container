@@ -13,7 +13,7 @@ namespace ft
     struct	bidirectional_iterator_tag : public forward_iterator_tag {};
     struct	random_access_iterator_tag : public bidirectional_iterator_tag {};
 
-	template <class Category, class T, class Distance = ptrdiff_t, class Pointer = T*, class Reference = T&>
+	template <class Category, class T, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
 	struct Iterator{
 
 		typedef T         value_type;
@@ -36,7 +36,7 @@ namespace ft
 	template <class T>
 	class	iterator_traits<T*>
 	{
-		typedef	ptrdiff_t					difference_type;
+		typedef	std::ptrdiff_t				difference_type;
     	typedef	T							value_type;
     	typedef	T*							pointer;
     	typedef	T&							reference;
@@ -46,7 +46,7 @@ namespace ft
 	template <class T>
 	class	iterator_traits<const T*>
 	{
-		typedef	ptrdiff_t					difference_type;
+		typedef	std::ptrdiff_t				difference_type;
     	typedef	T							value_type;
     	typedef	const T*					pointer;
     	typedef	const T&					reference;
@@ -55,7 +55,7 @@ namespace ft
 
 	//	Random Access Iterator :
 
-	template <class T, class Category = random_access_iterator_tag, class Distance = ptrdiff_t, class Pointer = T*, class Reference = T&>
+	template <class T, class Category = random_access_iterator_tag, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
 	class ft_Iterator : public iterator_traits<Iterator<Category, T, Distance, Pointer, Reference> >{
 	
 	public:
@@ -65,48 +65,50 @@ namespace ft
 			{	*this = src;	}
 		
 		ft_Iterator<Category, T, Distance, Pointer, Reference> ( Pointer ptr )
-			:	_ptr(ptr)	{}
+			:	_current(ptr)	{}
 
 		ft_Iterator &	operator=( ft_Iterator const & rhs )
 		{
 			if (this != &rhs)
-				this->_ptr = rhs.getPointer();
+				this->_current = rhs.getCurrent();
 			return *this;
 		}
-
-		Pointer	getPointer( void ) const
-			{	return this->_ptr;	}
 
 			// Equivalence :
 
 		bool	operator==(  ft_Iterator const & rhs ) const
-			{	return this->_ptr == rhs.getPointer();	}
+			{	return this->_current == rhs.getCurrent();	}
 		
 		bool	operator!=(  ft_Iterator const & rhs ) const
-			{	return this->_ptr != rhs.getPointer();	}
+			{	return this->_current != rhs.getCurrent();	}
 
 			// Relationnal :
 
 		bool	operator<(  ft_Iterator const & rhs ) const
-			{	return this->_ptr < rhs.getPointer();	}
+			{	return this->_current < rhs.getCurrent();	}
 		
 		bool	operator<=(  ft_Iterator const & rhs ) const
-			{	return this->_ptr <= rhs.getPointer();	}
+			{	return this->_current <= rhs.getCurrent();	}
 
 		bool	operator>(  ft_Iterator const & rhs ) const
-			{	return this->_ptr == rhs.getPointer();	}
+			{	return this->_current == rhs.getCurrent();	}
 		
 		bool	operator>=(  ft_Iterator const & rhs ) const
-			{	return this->_ptr >= rhs.getPointer();	}
+			{	return this->_current >= rhs.getCurrent();	}
 
 			//	Dereference
 		
 		Reference	operator*( void )
-			{	return &(this->*_ptr);	}
+			{	return &(this->*_current);	}
 
 	private:
 
-		Pointer	_ptr;
+		Pointer	_current;
+
+		Pointer	getCurrent( void ) const
+		{	return this->_current;	}
+
+		//	test friend operator
 		
 	};
 	

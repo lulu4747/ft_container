@@ -2,6 +2,7 @@
 # define VECTOR_HPP
 
 # include <memory>
+# include <stdexcept>
 # include "ft.hpp"
 # include "Iterator.hpp"
 
@@ -18,7 +19,7 @@ namespace	ft
 		typedef T					value_type;
 		typedef	Alloc				allocator_type;
 		typedef	size_t				size_type;
-		typedef	ptrdiff_t			difference_type;
+		typedef	std::ptrdiff_t		difference_type;
 		typedef	value_type&			reference;
  		typedef const value_type&	const_reference;
 
@@ -28,8 +29,8 @@ namespace	ft
 
 		typedef	ft_Iterator<value_type>				iterator;
 		typedef	ft_Iterator<value_type>				const_iterator;
-		typedef	ft_ReverseIterator<iterator>		reverse_iterator;
-		typedef	ft_ReverseIterator<iterator>		const_reverse_iterator;
+		/*typedef	ft_ReverseIterator<iterator>		reverse_iterator;
+		typedef	ft_ReverseIterator<iterator>		const_reverse_iterator;*/
 
 	//	Member Functions :
 
@@ -37,17 +38,19 @@ namespace	ft
 		//	Canons
 		explicit Vector (const allocator_type& alloc = allocator_type())
 		:
-			_alloc(alloc), _size(0), _capacity(0)
+			_alloc(alloc), _front(NULL), _back(NULL), _last(NULL)
 		{}
 
 		explicit Vector (size_type n, const value_type& val = value_type(),
 				const allocator_type& alloc = allocator_type())
 		:
-			_alloc(alloc), _size(n), _capacity(n)
+			_alloc(alloc)
 		{
-			_value = _alloc.allocate(_capacity);
-			for (size_type i = 0; i < _size; i++)
-				_value[i] = val;
+			_front = _alloc.allocate(n);
+			for (size_type i = 0; i < n; i++)
+				_front[i] = val;
+			_back = _front + n;
+			_last = _back;
 		}
 
 		template <class InputIterator>
@@ -58,18 +61,72 @@ namespace	ft
 
 		~Vector();
 
+		// Element Access
+
+		reference	at( size_type n )
+		{
+			if ( n > this->size() )
+				throw	std::out_of_range("vector");
+			return this->_front[n];
+		}
+
+		reference	operator[]( size_type n )
+		{
+			return this->_front[n];
+		}
+
+		reference	front( void )
+		{
+			return this->*_front;
+		}
+
+		reference	back( void )
+		{
+			return	this->*_back;
+		}
+
+		pointer		data( void )
+		{
+			return	this->_front;
+		}
+
 		//	Iterators
 
-	private:
+		iterator	begin( void )
+		{
+			return	ft_Iterator<value_type>(this->_front);
+		}
+
+		iterator	end( void )
+		{
+			return	ft_Iterator<value_type>(this->_back + sizeof(value_type));
+		}
+
+		// Capacity
+
+		bool		empty( void )
+		{
+			return this->_front == NULL;
+		}
+
+		size_type	size( void )
+		{
+			return this->_back - this->_front;
+		}
+
+		size_type	capacity( void )
+		{
+			return this->_last - this->_front;
+		}
+
+	protected:
 
 		allocator_type	const	_alloc;
-		pointer					_value;
 
-		size_type				_size;
-		size_type				_capacity;
+		pointer					_front;
+		pointer					_back;
+		pointer					_last;
 
-		reference				_front;
-		reference				_back;
 	};
 }
 

@@ -6,5 +6,8 @@
 
 int main(void){
 
+	//this needs to work
+	ft::Vector<int>	test {1, 2};
+
 	return 0;
 }
