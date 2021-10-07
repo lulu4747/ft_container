@@ -38,7 +38,7 @@ namespace	ft
 		//	Canons
 		explicit Vector (const allocator_type& alloc = allocator_type())
 		:
-			_alloc(alloc), _front(NULL), _back(NULL), _last(NULL)
+			_alloc(alloc), _data(NULL), _back(NULL), _last(NULL)
 		{}
 
 		explicit Vector (size_type n, const value_type& val = value_type(),
@@ -46,10 +46,10 @@ namespace	ft
 		:
 			_alloc(alloc)
 		{
-			_front = _alloc.allocate(n);
+			_data = _alloc.allocate(n);
 			for (size_type i = 0; i < n; i++)
-				_front[i] = val;
-			_back = _front + n;
+				_data[i] = val;
+			_back = _data + n;
 			_last = _back;
 		}
 
@@ -67,17 +67,17 @@ namespace	ft
 		{
 			if ( n > this->size() )
 				throw	std::out_of_range("vector");
-			return this->_front[n];
+			return this->_data[n];
 		}
 
 		reference	operator[]( size_type n )
 		{
-			return this->_front[n];
+			return this->_data[n];
 		}
 
 		reference	front( void )
 		{
-			return this->*_front;
+			return this->*_data;
 		}
 
 		reference	back( void )
@@ -87,14 +87,14 @@ namespace	ft
 
 		pointer		data( void )
 		{
-			return	this->_front;
+			return	this->_data;
 		}
 
 		//	Iterators
 
 		iterator	begin( void )
 		{
-			return	ft_Iterator<value_type>(this->_front);
+			return	ft_Iterator<value_type>(this->_data);
 		}
 
 		iterator	end( void )
@@ -106,24 +106,24 @@ namespace	ft
 
 		bool		empty( void )
 		{
-			return this->_front == NULL;
+			return this->_data == NULL;
 		}
 
 		size_type	size( void )
 		{
-			return this->_back - this->_front;
+			return this->_back - this->_data;
 		}
 
 		size_type	capacity( void )
 		{
-			return this->_last - this->_front;
+			return this->_last - this->_data;
 		}
 
 	protected:
 
 		allocator_type	const	_alloc;
 
-		pointer					_front;
+		pointer					_data;
 		pointer					_back;
 		pointer					_last;
 
