@@ -37,7 +37,7 @@ namespace	ft
 			second()
 		{}
 
-		pair(T1 const & x, T2 const & y)
+		pair(first_type const & x, second_type const & y)
 		:
 			first(x),
 			second(y)
