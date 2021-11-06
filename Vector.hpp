@@ -193,8 +193,7 @@ namespace	ft
 
 		explicit Vector (size_type n, const value_type& val = value_type(),
 				const allocator_type& alloc = allocator_type())
-		:
-			_alloc(alloc)
+		:_alloc(alloc)
 		{
 			_data = _alloc.allocate(n);
 			for (size_type i = 0; i < n; i++)
@@ -255,17 +254,57 @@ namespace	ft
 
 		bool		empty( void )
 		{
-			return this->_data == NULL;
+			return this->_data == nullptr;
 		}
 
 		size_type	size( void )
 		{
+			if (!this->_data)
+				return 0;
 			return this->_back - this->_data;
 		}
 
 		size_type	capacity( void )
 		{
+			if (!this->_data)
+				return 0;
 			return this->_last - this->_data;
+		}
+
+		void	assign(iterator first, iterator last)
+		{
+			this->clear();
+			this->reserve(last - first);
+		}
+
+		void	reserve(size_type n)
+		{
+			if (!this->_data)
+			{
+				this->_data.pointer(n);
+				this->_back = this->_data;
+				this->_last = this->_data + n;
+			}
+			else if (this->capacity() > n)
+			{
+				//voir plus en detail comment fonctionne cette fonction de mort
+			}
+		}
+
+		void	clear()
+		{
+			pointer		tmp(this->_data);
+
+			while (tmp != this->_last)
+			{
+				tmp++;
+				this->_data.~pointer();
+				this->_data = tmp;
+			}
+			this->_data.~pointer();
+			this->_data(nullptr);
+			this->_back(nullptr);
+			this->_last(nullptr);
 		}
 
 	protected:
