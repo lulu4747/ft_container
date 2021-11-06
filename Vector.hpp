@@ -285,7 +285,7 @@ namespace	ft
 				this->_back = this->_data;
 				this->_last = this->_data + n;
 			}
-			else if (this->capacity() > n)
+			else if (this->capacity() > n)				//PAS SUR DU TOUT
 			{
 				pointer	tmp(_data);
 				size_t	size = this->size();
