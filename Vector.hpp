@@ -281,13 +281,21 @@ namespace	ft
 		{
 			if (!this->_data)
 			{
-				this->_data.pointer(n);
+				this->_data = _alloc.allocate(n);
 				this->_back = this->_data;
 				this->_last = this->_data + n;
 			}
 			else if (this->capacity() > n)
 			{
-				//voir plus en detail comment fonctionne cette fonction de mort
+				pointer	tmp(_data);
+				size_t	size = this->size();
+
+				this->_data = _alloc.allocate(n);
+				this->_back = this->_data;
+				this->_last = this->_data + n;
+				for (size_t i; i < size; i++)
+					this->_data[i] = tmp[i];
+				tmp.~pointer();
 			}
 		}
 
