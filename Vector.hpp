@@ -22,7 +22,7 @@ namespace	ft
     	typedef value_type const &	const_reference;
     	typedef std::ptrdiff_t		difference_type;
 
-		VectorIterator():value(nullptr)	{}
+		VectorIterator():_ptr(NULL)	{}
 		VectorIterator(pointer ptr):_ptr(ptr) {}
 		VectorIterator(VectorIterator const & src):_ptr(src._ptr)	{}
 		virtual	~VectorIterator()	{}
@@ -188,18 +188,18 @@ namespace	ft
 		//	Canons
 		explicit Vector (const allocator_type& alloc = allocator_type())
 		:
-			_alloc(alloc), _data(nullptr), _back(nullptr), _last(nullptr)
+			_alloc(alloc), _data(NULL), _back(NULL), _last(NULL)
 		{}
 
 		explicit Vector (size_type n, const value_type& val = value_type(),
 				const allocator_type& alloc = allocator_type())
 		:_alloc(alloc)
 		{
-			_data = _alloc.allocate(n);
+			this->_allocate(n);
 			for (size_type i = 0; i < n; i++)
-				_data[i] = val;
-			_back = _data + n;
-			_last = _back;
+				this->_data[i] = val;
+			this->_back = this->_data + n;
+			this->_last = this->_back;
 		}
 
 		template <class iterator>
@@ -207,7 +207,10 @@ namespace	ft
 
 		Vector (const Vector& x);
 
-		~Vector();
+		virtual	~Vector()
+		{
+			this->clear();
+		}
 
 		// Element Access
 
@@ -242,19 +245,19 @@ namespace	ft
 
 		iterator	begin( void )
 		{
-			return	VectorIterator<value_type>(this->_data);
+			return	iterator(this->_data);
 		}
 
 		iterator	end( void )
 		{
-			return	VectorIterator<value_type>(this->_back);
+			return	iterator(this->_back);
 		}
 
 		// Capacity
 
 		bool		empty( void )
 		{
-			return this->_data == nullptr;
+			return this->_data == NULL;
 		}
 
 		size_type	size( void )
@@ -271,57 +274,76 @@ namespace	ft
 			return this->_last - this->_data;
 		}
 
+		void	assign(size_type count, const T& value)
+		{
+			this->clear();
+			this->reserve(count);
+			for (size_type i = 0; i < count; i++)
+				this->_data[i] = value;
+		}
+
 		void	assign(iterator first, iterator last)
 		{
 			this->clear();
 			this->reserve(last - first);
+			for (iterator it = this->begin(); it++ && first++; first != last)
+				it = first;
 		}
 
 		void	reserve(size_type n)
 		{
 			if (!this->_data)
 			{
-				this->_data = _alloc.allocate(n);
-				this->_back = this->_data;
-				this->_last = this->_data + n;
+				this->_allocate(n);
+				this->_back = this->_data + n;
+				this->_last = this->_back;
 			}
-			else if (this->capacity() > n)				//PAS SUR DU TOUT
+			else if (this->capacity() > n)
 			{
-				pointer	tmp(_data);
-				size_t	size = this->size();
+				pointer		tmp = this->_data;
+				size_type	size = this->size();
 
-				this->_data = _alloc.allocate(n);
-				this->_back = this->_data;
-				this->_last = this->_data + n;
-				for (size_t i; i < size; i++)
+				this->_allocate(n);
+				this->_back = this->_data + n;
+				this->_last = this->_back;
+				for (size_type i = 0; i < size; i++)
+				{
 					this->_data[i] = tmp[i];
-				tmp.~pointer();
+					tmp[i].~value_type();
+				}
 			}
 		}
 
 		void	clear()
 		{
-			pointer		tmp(this->_data);
+			pointer		tmp = this->_data;
 
 			while (tmp != this->_last)
 			{
 				tmp++;
-				this->_data.~pointer();
+				this->_data->~value_type();
 				this->_data = tmp;
 			}
-			this->_data.~pointer();
-			this->_data(nullptr);
-			this->_back(nullptr);
-			this->_last(nullptr);
+			this->_data->~value_type();
+			this->_data = NULL;
+			this->_back = NULL;
+			this->_last = NULL;
 		}
 
 	protected:
 
-		allocator_type	const	_alloc;
+		allocator_type	_alloc;
 
-		pointer					_data;
-		pointer					_back;
-		pointer					_last;
+		pointer			_data;
+		pointer			_back;
+		pointer			_last;
+
+	private:
+
+		void	_allocate(size_type n)
+		{
+			this->_data = this->_alloc.allocate(sizeof(value_type) * n);
+		}
 
 	};
 }
