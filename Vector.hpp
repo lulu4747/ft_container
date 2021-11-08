@@ -257,7 +257,7 @@ namespace	ft
 
 		bool		empty( void )
 		{
-			return this->_data == NULL;
+			return this->_data == this->_back;
 		}
 
 		size_type	size( void )
@@ -292,39 +292,30 @@ namespace	ft
 
 		void	reserve(size_type n)
 		{
-			if (!this->_data)
+			if (this->empty())
 			{
 				this->_allocate(n);
 				this->_back = this->_data + n;
 				this->_last = this->_back;
 			}
-			else if (this->capacity() > n)
+			else if (this->capacity() < n)
 			{
 				pointer		tmp = this->_data;
 				size_type	size = this->size();
+				size_type	capacity = this->capacity();
 
 				this->_allocate(n);
 				this->_back = this->_data + n;
 				this->_last = this->_back;
 				for (size_type i = 0; i < size; i++)
-				{
 					this->_data[i] = tmp[i];
-					tmp[i].~value_type();
-				}
+				this->_alloc.deallocate(tmp, capacity);
 			}
 		}
 
 		void	clear()
 		{
-			pointer		tmp = this->_data;
-
-			while (tmp != this->_last)
-			{
-				tmp++;
-				this->_data->~value_type();
-				this->_data = tmp;
-			}
-			this->_data->~value_type();
+			this->_alloc.deallocate(this->_data, this->capacity());
 			this->_data = NULL;
 			this->_back = NULL;
 			this->_last = NULL;
@@ -339,7 +330,7 @@ namespace	ft
 		pointer			_last;
 
 	private:
-
+				// PAS SUR
 		void	_allocate(size_type n)
 		{
 			this->_data = this->_alloc.allocate(sizeof(value_type) * n);
