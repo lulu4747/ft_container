@@ -30,51 +30,51 @@ namespace	ft
 		VectorIterator&	operator=(VectorIterator const & rhs)
 		{
 			if (this != &rhs)
-				this->_ptr = rhs._ptr;
+				_ptr = rhs._ptr;
 			return *this;
 		}
 
 		reference	operator*()
 		{
-			return *(this->_ptr);
+			return *(_ptr);
 		}
 
 		const_reference	operator*() const
 		{
-			return *(this->_ptr);
+			return *(_ptr);
 		}
 
 		pointer	operator->()
 		{
-			return this->_ptr;
+			return _ptr;
 		}
 
 		const_pointer	operator->() const
 		{
-			return this->_ptr;
+			return _ptr;
 		}
 
 		reference	operator[](size_t index)
 		{
-			return *(this->_ptrtr + index);
+			return *(_ptr + index);
 		}
 
 		const_reference	operator[](size_t index) const
 		{
-			return *(this->_ptrtr + index);
+			return *(_ptr + index);
 		}
 
 		VectorIterator operator++(int)
 		{
 			VectorIterator 	tmp(*this);
 
-			++this->_ptr;
+			++_ptr;
 			return tmp;
 		}
 
 		VectorIterator& operator++()
 		{
-			++this->_ptr;
+			++_ptr;
 			return *this;
 		}
 
@@ -82,19 +82,19 @@ namespace	ft
 		{
 			VectorIterator 	tmp(*this);
 
-			--this->_ptr;
+			--_ptr;
 			return tmp;
 		}
 
 		VectorIterator& operator--()
 		{
-			--this->_ptr;
+			--_ptr;
 			return *this;
 		}
 
 		VectorIterator& operator+=(int value)
 		{
-			this->_ptr += value;
+			_ptr += value;
 			return *this;
 		}
 
@@ -107,7 +107,7 @@ namespace	ft
 
 		VectorIterator& operator-=(int value)
 		{
-			this->_ptr -= value;
+			_ptr -= value;
 			return *this;
 		}
 
@@ -120,37 +120,37 @@ namespace	ft
 
 		difference_type operator-(VectorIterator const &rhs) const
 		{
-			return (this->_ptr - rhs._ptr);
+			return (_ptr - rhs._ptr);
 		}
 
 		bool operator==(VectorIterator const &rhs) const
 		{
-			return (this->_ptr == rhs._ptr);
+			return (_ptr == rhs._ptr);
 		}
 
 		bool operator!=(VectorIterator const &rhs) const
 		{
-			return (this->_ptr != rhs._ptr);
+			return (_ptr != rhs._ptr);
 		}
 
 		bool operator<(VectorIterator const &rhs) const
 		{
-			return (this->_ptr < rhs._ptr);
+			return (_ptr < rhs._ptr);
 		}
 
 		bool operator<=(VectorIterator const &rhs) const
 		{
-			return (this->_ptr <= rhs._ptr);
+			return (_ptr <= rhs._ptr);
 		}
 
 		bool operator>(VectorIterator const &rhs) const
 		{
-			return (this->_ptr > rhs._ptr);
+			return (_ptr > rhs._ptr);
 		}
 
 		bool operator>=(VectorIterator const &rhs) const
 		{
-			return (this->_ptr >= rhs._ptr);
+			return (_ptr >= rhs._ptr);
 		}
 
 	protected:
@@ -195,130 +195,271 @@ namespace	ft
 				const allocator_type& alloc = allocator_type())
 		:_alloc(alloc)
 		{
-			this->_allocate(n);
+			_allocate(n);
 			for (size_type i = 0; i < n; i++)
-				this->_data[i] = val;
-			this->_back = this->_data + n;
-			this->_last = this->_back;
+				_data[i] = val;
+			_back = _data + n;
+			_last = _back;
 		}
 
 		template <class iterator>
 		Vector (iterator first, iterator last, const allocator_type& alloc = allocator_type());
 
-		Vector (const Vector& x);
+		Vector (const Vector& x)
+		{
+			*this = x;
+		}
+
+		Vector &	operator=(const Vector& rhs)
+		{
+			if (this != &rhs)
+			{
+				assign(rhs.begin(), rhs.end());
+			}
+			return *this;
+		}
 
 		virtual	~Vector()
 		{
-			this->clear();
-		}
-
-		// Element Access
-
-		reference	at( size_type n )
-		{
-			if ( n > this->size() )
-				throw	std::out_of_range("vector");
-			return this->_data[n];
-		}
-
-		reference	operator[]( size_type n )
-		{
-			return this->_data[n];
-		}
-
-		reference	front( void )
-		{
-			return this->*_data;
-		}
-
-		reference	back( void )
-		{
-			return	this->*_back;
-		}
-
-		pointer		data( void )
-		{
-			return	this->_data;
+			clear();
 		}
 
 		//	Iterators
 
 		iterator	begin( void )
 		{
-			return	iterator(this->_data);
+			return	iterator(_data);
 		}
 
 		iterator	end( void )
 		{
-			return	iterator(this->_back);
+			return	iterator(_back);
 		}
 
 		// Capacity
 
-		bool		empty( void )
+		size_type	size( void ) const
 		{
-			return this->_data == this->_back;
+			return _back - _data;
 		}
 
-		size_type	size( void )
+		size_type max_size() const
 		{
-			if (!this->_data)
-				return 0;
-			return this->_back - this->_data;
+			return _alloc.max_size();
 		}
 
-		size_type	capacity( void )
+		void resize (size_type n, value_type val = value_type())
 		{
-			if (!this->_data)
-				return 0;
-			return this->_last - this->_data;
+			while (!empty() && size() > n)
+				pop_back();
+			while (size() < n)
+				push_back(val);
 		}
 
-		void	assign(size_type count, const T& value)
+		size_type	capacity( void ) const
 		{
-			this->clear();
-			this->reserve(count);
-			for (size_type i = 0; i < count; i++)
-				this->_data[i] = value;
+			return _last - _data;
 		}
 
-		void	assign(iterator first, iterator last)
+		bool		empty( void ) const
 		{
-			this->clear();
-			this->reserve(last - first);
-			for (iterator it = this->begin(); it++ && first++; first != last)
-				it = first;
+			return _data == _back;
 		}
 
 		void	reserve(size_type n)
 		{
-			if (this->empty())
+			if (empty())
 			{
-				this->_allocate(n);
-				this->_back = this->_data + n;
-				this->_last = this->_back;
+				_allocate(n);
+				_back = _data;
+				_last = _data + n;
 			}
-			else if (this->capacity() < n)
+			else if (capacity() < n)
 			{
-				pointer		tmp = this->_data;
+				pointer		tmp = _data;
 				size_type	size = this->size();
 				size_type	capacity = this->capacity();
 
-				this->_allocate(n);
-				this->_back = this->_data + n;
-				this->_last = this->_back;
+				_allocate(n);
+				_back = _data + size;
+				_last = _data + n;
 				for (size_type i = 0; i < size; i++)
-					this->_data[i] = tmp[i];
-				this->_alloc.deallocate(tmp, capacity);
+					_data[i] = tmp[i];
+				_alloc.deallocate(tmp, capacity);
 			}
+		}
+
+		// Element Access
+
+		reference	operator[]( size_type n )
+		{
+			return _data[n];
+		}
+
+		reference	at( size_type n )
+		{
+			if ( n > size() )
+				throw	std::out_of_range("vector");		//voir si on peut faire mieux
+			return _data[n];
+		}
+
+		reference	front( void )
+		{
+			return *_data;
+		}
+
+		reference	back( void )
+		{
+			return	*_back;
+		}
+
+		//	Modifier
+
+		void	assign(size_type count, const T& value)
+		{
+			clear();
+			reserve(count);
+			for (size_type i = 0; i < count; i++)
+				_data[i] = value;
+		}
+
+		template <class InputIterator>
+		void	assign(InputIterator first, InputIterator last)
+		{
+			clear();
+			reserve(last - first);
+			for (iterator it = begin(); first != last; first++)
+			{
+				*it = *first;
+				it++;
+			}
+		}
+
+		void	push_back(const value_type& val)
+		{
+			if (empty())
+				reserve(1);
+			else if(size() == capacity())
+				reserve(capacity() * 2);
+			_back = val;
+			_back++;
+		}
+
+		void	pop_back()
+		{
+			if (empty())
+				return;
+			_back->~value_type();
+			_back--;
+		}
+
+		iterator insert (iterator position, const value_type& val)
+		{
+			size_type i = position - begin();
+
+			insert(position, 1, val);
+			return begin() + i;
+		}
+
+		void insert (iterator position, size_type n, const value_type& val) // Verifier avec n = 0 meme si c est con
+		{
+			if (position == end())
+			{
+				for (size_type i = 0; i < n; i++)
+					push_back(val);
+				return ;
+			}
+			for (size_t i = size(); i < size() + n; i++)
+			{
+				size_type j = position - begin();
+
+				push_back(back());
+				position = begin() + j;
+			}
+			iterator	it(end());
+
+			_back++;
+			while (it != position)
+				*it = *(--it);
+			while (it != _back && n > 0)
+			{
+				n--;
+				*it = val;
+				it++;
+			}
+		}
+
+		template <class InputIterator>
+    	void insert (iterator position, InputIterator first, InputIterator last)
+		{
+			size_type	to_add(last - first);
+
+			for (size_type i(size()); i < size() + to_add; i++)
+			{
+				size_type j = position - begin();
+
+				push_back(back());
+				position = begin() + j;
+			}
+
+			iterator	it(end());
+
+			_back++;
+			while (it != position)
+				*it = *(--it);
+			while (first != last)
+				it = first++;
+		}
+
+		iterator erase (iterator position)
+		{
+			if (empty())
+				return _back;
+			for (iterator it = position; it != _back; it++)
+				*it = *(it + 1);
+			return position;
+		}
+
+		iterator erase (iterator first, iterator last)
+		{
+			size_type	count(last - first);
+			pointer		tmp;
+
+			while (first + count <= back())
+			{
+				first = first + count;
+				first++;
+			}
+			tmp = first;
+			while (first != back())
+			{
+				(*first).~value_type();
+				first++;
+			}
+			_back = tmp;
+			return last++;
+		}
+
+		void swap(Vector& x)
+		{
+			Vector	tmp(*this);
+
+			*this = x;
+			x = tmp;
+			tmp.clear();
 		}
 
 		void	clear()
 		{
-			this->_alloc.deallocate(this->_data, this->capacity());
-			this->_data = NULL;
-			this->_back = NULL;
-			this->_last = NULL;
+			_alloc.deallocate(_data, capacity());
+			_data = NULL;
+			_back = NULL;
+			_last = NULL;
+		}
+
+		allocator_type get_allocator() const
+		{
+			return _alloc;
 		}
 
 	protected:
@@ -333,7 +474,7 @@ namespace	ft
 				// PAS SUR
 		void	_allocate(size_type n)
 		{
-			this->_data = this->_alloc.allocate(sizeof(value_type) * n);
+			_data = _alloc.allocate(sizeof(value_type) * n);
 		}
 
 	};
