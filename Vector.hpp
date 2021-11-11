@@ -326,11 +326,12 @@ namespace	ft
 		template <class InputIterator>
 		void	assign(InputIterator first, InputIterator last)
 		{
+			//sans doute non opti
 			clear();
 			reserve(last - first);
 			for (iterator it = begin(); first != last; first++)
 			{
-				*it = *first;
+				it[0] = *first;
 				it++;
 			}
 		}
