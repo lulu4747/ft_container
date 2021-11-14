@@ -1,6 +1,7 @@
 #ifndef VECTOR_HPP
 # define VECTOR_HPP
 
+# include <iostream>
 # include <memory>
 # include <stdexcept>
 # include "ft.hpp"
@@ -202,8 +203,11 @@ namespace	ft
 			_last = _back;
 		}
 
-		template <class iterator>
-		Vector (iterator first, iterator last, const allocator_type& alloc = allocator_type());
+		template <class InputIterator>
+		Vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()):_alloc(alloc)
+		{
+			assign(first, last);
+		}
 
 		Vector (const Vector& x)
 		{
@@ -323,14 +327,14 @@ namespace	ft
 				_data[i] = value;
 		}
 
-		template <class InputIterator>
+		template <class InputIterator, enable_if < !is_integral<InputIterator>::value > >
 		void	assign(InputIterator first, InputIterator last)
 		{
 			clear();
 			reserve(last - first);
 			for (iterator it = begin(); first != last; first++)
 			{
-				*it = *first;	 //c est le compilo qui confume 100%
+				*it = *first;
 				it++;
 			}
 		}

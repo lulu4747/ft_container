@@ -16,10 +16,10 @@ int main(void){
 	ft::Vector<int>::iterator	ite = test.end();
 	while (it != ite)
 	{
-		std::cout << *it << std::endl;
+		std::cout << "yo" << *it << std::endl;
 		it++;
 	}
-	std::cout << std::endl;
+	std::cout << std::endl;/*
 	classic.assign(4, 4);
 	std::cout << "test : " << test.size() << std::endl << "classic : " << classic.size() << std::endl << std::endl;
 	std::vector<int>::iterator	cit = classic.begin();
@@ -28,6 +28,6 @@ int main(void){
 	{
 		std::cout << *cit << std::endl;
 		cit++;
-	}
+	}*/
 	return 0;
 }
