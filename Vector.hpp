@@ -217,9 +217,7 @@ namespace	ft
 		Vector &	operator=(const Vector& rhs)
 		{
 			if (this != &rhs)
-			{
 				assign(rhs.begin(), rhs.end());
-			}
 			return *this;
 		}
 
