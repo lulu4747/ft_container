@@ -324,11 +324,15 @@ namespace	ft
 			clear();
 			reserve(count);
 			for (size_type i = 0; i < count; i++)
+			{
 				_data[i] = value;
+				_back++;
+			}
 		}
 
-		template <class InputIterator, enable_if < !is_integral<InputIterator>::value > >
-		void	assign(InputIterator first, InputIterator last)
+		template <class InputIterator>
+		void	assign(InputIterator first, InputIterator last,
+		typename enable_if<!is_integral<InputIterator>::value, InputIterator >::type* = NULL)
 		{
 			clear();
 			reserve(last - first);
@@ -336,6 +340,7 @@ namespace	ft
 			{
 				*it = *first;
 				it++;
+				_back++;
 			}
 		}
 
