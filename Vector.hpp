@@ -101,9 +101,9 @@ namespace	ft
 
 		VectorIterator operator+(int value)
 		{
-			VectorIterator	tmp(*this);
+			VectorIterator tmp(this->_ptr + value);
 
-			return tmp + value;
+			return tmp;
 		}
 
 		VectorIterator& operator-=(int value)
@@ -114,9 +114,9 @@ namespace	ft
 
 		VectorIterator operator-(int value)
 		{
-			VectorIterator	tmp(*this);
+			VectorIterator	tmp(this->_ptr - value);
 
-			return tmp - value;
+			return tmp;
 		}
 
 		difference_type operator-(VectorIterator const &rhs) const
@@ -303,7 +303,7 @@ namespace	ft
 		reference	at( size_type n )
 		{
 			if ( n > size() )
-				throw	std::out_of_range("vector");		//voir si on peut faire mieux
+				throw	std::out_of_range("vector");		//faire mieux
 			return _data[n];
 		}
 
@@ -350,7 +350,7 @@ namespace	ft
 				reserve(1);
 			else if(size() == capacity())
 				reserve(capacity() * 2);
-			_back = val;
+			*_back = val;
 			_back++;
 		}
 
@@ -426,26 +426,28 @@ namespace	ft
 				return _back;
 			for (iterator it = position; it != _back; it++)
 				*it = *(it + 1);
+			(*end()).~value_type();
+			_back--;
 			return position;
 		}
 
 		iterator erase (iterator first, iterator last)
 		{
 			size_type	count(last - first);
-			pointer		tmp;
+			iterator	tmp;
 
-			while (first + count <= back())
+			while (first + count < end())
 			{
-				first = first + count;
+				*first = *(first + count);
 				first++;
 			}
 			tmp = first;
-			while (first != back())
+			while (first != end())
 			{
 				(*first).~value_type();
 				first++;
 			}
-			_back = tmp;
+			_back = &(*tmp);
 			return last++;
 		}
 
