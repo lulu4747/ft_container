@@ -11,17 +11,18 @@ namespace	ft
 {
 
 	template< typename T>
-	class VectorIterator
+	class VectorIterator //: public iterator_traits< T >
 	{
 
 	public:
 
-		typedef T					value_type;
-    	typedef value_type*			pointer;
-    	typedef value_type const *	const_pointer;
-    	typedef value_type&			reference;
-    	typedef value_type const &	const_reference;
-    	typedef std::ptrdiff_t		difference_type;
+		typedef T							value_type;
+    	typedef value_type*					pointer;
+    	typedef value_type const *			const_pointer;
+    	typedef value_type&					reference;
+    	typedef value_type const &			const_reference;
+    	typedef std::ptrdiff_t				difference_type;
+		typedef random_access_iterator_tag	iterator_category;
 
 		VectorIterator():_ptr(NULL)	{}
 		VectorIterator(pointer ptr):_ptr(ptr) {}
@@ -223,7 +224,7 @@ namespace	ft
 
 		virtual	~Vector()
 		{
-			clear();
+			_deallocate();
 		}
 
 		//	Iterators
@@ -319,7 +320,7 @@ namespace	ft
 
 		void	assign(size_type count, const T& value)
 		{
-			clear();
+			_deallocate();
 			reserve(count);
 			for (size_type i = 0; i < count; i++)
 			{
@@ -332,7 +333,7 @@ namespace	ft
 		void	assign(InputIterator first, InputIterator last,
 		typename enable_if<!is_integral<InputIterator>::value, InputIterator >::type* = NULL)
 		{
-			clear();
+			_deallocate();
 			reserve(last - first);
 			for (iterator it = begin(); first != last; first++)
 			{
@@ -344,7 +345,7 @@ namespace	ft
 
 		void	push_back(const value_type& val)
 		{
-			if (empty())
+			if (!capacity())
 				reserve(1);
 			else if(size() == capacity())
 				reserve(capacity() * 2);
@@ -372,50 +373,66 @@ namespace	ft
 		{
 			if (position == end())
 			{
-				for (size_type i = 0; i < n; i++)
+				while (n--)
 					push_back(val);
 				return ;
 			}
-			for (size_t i = size(); i < size() + n; i++)
-			{
-				size_type j = position - begin();
 
-				push_back(back());
-				position = begin() + j;
+			while (size() - 1 + n > capacity())
+			{
+				push_back(*_back);
+				_back++;
 			}
-			iterator	it(end());
 
-			_back++;
-			while (it != position)
-				*it = *(--it);
-			while (it != _back && n > 0)
+			iterator	tmp(end());
+
+			while (tmp != position)
 			{
-				n--;
-				*it = val;
-				it++;
+				*tmp = *(tmp - 1);
+				tmp--;
+			}
+			while (n--)
+			{
+				*tmp = val;
+				tmp++;
 			}
 		}
 
 		template <class InputIterator>
-    	void insert (iterator position, InputIterator first, InputIterator last)
+    	void insert (iterator position, InputIterator first, InputIterator last,
+			typename enable_if<!is_integral<InputIterator>::value, InputIterator >::type* = NULL)
 		{
-			size_type	to_add(last - first);
+			size_type	size_to_add(last - first);
 
-			for (size_type i(size()); i < size() + to_add; i++)
+			if (position == end())
 			{
-				size_type j = position - begin();
-
-				push_back(back());
-				position = begin() + j;
+				while (first != last)
+				{
+					push_back(*first);
+					first++;
+				}
+				return ;
 			}
 
-			iterator	it(end());
+			while (size() - 1 + size_to_add > capacity())
+			{
+				push_back(*_back);
+				_back++;
+			}
 
-			_back++;
-			while (it != position)
-				*it = *(--it);
+			iterator	tmp(end());
+
+			while (tmp != position)
+			{
+				*tmp = *(tmp - 1);
+				tmp--;
+			}
 			while (first != last)
-				it = first++;
+			{
+				*tmp = *first;
+				first++;
+				tmp++;
+			}
 		}
 
 		iterator erase (iterator position)
@@ -455,15 +472,14 @@ namespace	ft
 
 			*this = x;
 			x = tmp;
-			tmp.clear();
+			tmp._deallocate();
 		}
 
 		void	clear()
 		{
-			_alloc.deallocate(_data, capacity());
-			_data = NULL;
-			_back = NULL;
-			_last = NULL;
+			for (size_type i = 0; i < size(); i++)
+				_data[i].~value_type();
+			_back = _data;
 		}
 
 		allocator_type get_allocator() const
@@ -484,6 +500,14 @@ namespace	ft
 		void	_allocate(size_type n)
 		{
 			_data = _alloc.allocate(sizeof(value_type) * n);
+		}
+
+		void	_deallocate()
+		{
+			_alloc.deallocate(_data, capacity());
+			_data = NULL;
+			_back = NULL;
+			_last = NULL;
 		}
 
 	};

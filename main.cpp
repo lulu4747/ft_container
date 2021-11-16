@@ -67,11 +67,24 @@ int main(void){
 		cit++;
 		it++;
 	}
-	while (!test.empty())
-		test.pop_back();
-	while (!classic.empty())
-		classic.pop_back();
+	test.clear();
+	classic.clear();
 	std::cout << std::endl << "test : " << test.size() << "	/	" << test.capacity() << std::endl
 		<< "classic : " << classic.size() << "	/	" << classic.capacity() << std::endl << std::endl;
+	test.insert(test.begin(), 1);
+	classic.insert(classic.begin(), 1);
+	classic.assign(5, 47);
+	test.insert(test.begin(), classic.begin(), classic.end());
+	std::cout << std::endl << "test : " << test.size() << "	/	" << test.capacity() << std::endl
+		<< "classic : " << classic.size() << "	/	" << classic.capacity() << std::endl << std::endl;
+	it = test.begin();
+	while (it < test.end())
+		std::cout << *it++ << std::endl;
+	test.assign(5, 47);
+	std::cout << std::endl << "test : " << test.size() << "	/	" << test.capacity() << std::endl
+		<< "classic : " << classic.size() << "	/	" << classic.capacity() << std::endl << std::endl;
+	it = test.begin();
+	while (it < test.end())
+		std::cout << *it++ << std::endl;
 	return 0;
 }
