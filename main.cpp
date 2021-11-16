@@ -73,14 +73,16 @@ int main(void){
 		<< "classic : " << classic.size() << "	/	" << classic.capacity() << std::endl << std::endl;
 	test.insert(test.begin(), 1);
 	classic.insert(classic.begin(), 1);
+
+
 	classic.assign(5, 47);
-	test.insert(test.begin(), classic.begin(), classic.end());
+	test.insert(test.begin(), classic.begin(), classic.end());													// need to correct
 	std::cout << std::endl << "test : " << test.size() << "	/	" << test.capacity() << std::endl
 		<< "classic : " << classic.size() << "	/	" << classic.capacity() << std::endl << std::endl;
 	it = test.begin();
 	while (it < test.end())
 		std::cout << *it++ << std::endl;
-	test.assign(5, 47);
+	test.assign(5, 47);																							// capacity() should'nt change
 	std::cout << std::endl << "test : " << test.size() << "	/	" << test.capacity() << std::endl
 		<< "classic : " << classic.size() << "	/	" << classic.capacity() << std::endl << std::endl;
 	it = test.begin();
