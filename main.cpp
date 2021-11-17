@@ -1,92 +1,89 @@
 #include <iostream>
+#include <string>
+#include <list>
 #include <vector>
 #include "ft.hpp"
 #include "Map.hpp"
 #include "Stack.hpp"
 #include "Vector.hpp"
 
+template < class FT, class STD >
+void	output(const FT & ft_c, const STD & std_c)
+{
+	std::cout << "____________________________________________" << std::endl << std::endl
+		<< "ft	:	" << ft_c.size() << "	/	" << ft_c.capacity() << std::endl
+		<< "std	:	" << std_c.size() << "	/	" << std_c.capacity() << std::endl
+		<< "____________________________________________" << std::endl << std::endl;
+}
+
+template < class C >
+void	inside(C c)
+{
+	typename C::iterator it(c.begin());
+
+	while (it != c.end())
+		std::cout << " |" << *(it++);
+	std::cout << std::endl;
+}
+
+template < class FT, class STD >
+void	content(const FT & ft_c, const STD & std_c)
+{
+	std::cout << "____________________________________________" << std::endl << std::endl
+		<< "ft	:	" << std::endl;
+	inside(ft_c);
+	std::cout << "____________________________________________" << std::endl << std::endl
+		<< "std	:	" << std::endl;
+	inside(std_c);
+	std::cout << "____________________________________________" << std::endl << std::endl;
+}
+
 int main(void){
 
-	ft::Vector<int>	test;
-	std::vector<int> classic;
-/*
-	std::cout << "test : " << test.size() << std::endl << "classic : " << classic.size() << std::endl << std::endl;
-	test.assign(4, 4);
-	ft::Vector<int>::iterator	it = test.begin();
-	ft::Vector<int>::iterator	ite = test.end();
-	while (it != ite)
-	{
-		std::cout << *it << std::endl;
-		it++;
-	}
-	classic.assign(10, 98);
-	std::cout << "test : " << test.size() << std::endl << "classic : " << classic.size() << std::endl << std::endl;
-	std::vector<int>::iterator	cit = classic.begin();
-	std::vector<int>::iterator	cite = classic.end();
-	while (cit != cite)
-	{
-		std::cout << *cit << std::endl;
-		cit++;
-	}
-	test.assign(classic.begin(), classic.end());
-	it = test.begin();
-	ite = test.end();
-	while (it != ite)
-	{
-		std::cout << *it << std::endl;
-		it++;
-	}*/
-	for (int i = 0; i < 10; i++)
-	{
-		test.push_back(i);
-		classic.push_back(i);
-	}
-	std::cout << "test : " << test.size() << "	/	" << test.capacity() << std::endl
-		<< "classic : " << classic.size() << "	/	" << classic.capacity() << std::endl << std::endl;
-	test.erase(test.begin(), test.begin() + 4);
-	classic.erase(classic.begin(), classic.begin() + 4);
-	std::cout << "test : " << test.size() << "	/	" << test.capacity() << std::endl
-		<< "classic : " << classic.size() << "	/	" << classic.capacity() << std::endl << std::endl;
-	std::vector<int>::iterator	cit = classic.begin();
-	ft::Vector<int>::iterator	it = test.begin();
-	while (it < test.end())
-	{
-		std::cout << "test : " << *it << std::endl << "classic : " << *cit << std::endl << std::endl;
-		cit++;
-		it++;
-	}
-	it = test.begin();
-	cit = classic.begin();
-	test.pop_back();
-	classic.pop_back();
-	std::cout << std::endl << "test : " << test.size() << "	/	" << test.capacity() << std::endl
-		<< "classic : " << classic.size() << "	/	" << classic.capacity() << std::endl << std::endl;
-	while (it < test.end())
-	{
-		std::cout << "test : " << *it << std::endl << "classic : " << *cit << std::endl << std::endl;
-		cit++;
-		it++;
-	}
-	test.clear();
-	classic.clear();
-	std::cout << std::endl << "test : " << test.size() << "	/	" << test.capacity() << std::endl
-		<< "classic : " << classic.size() << "	/	" << classic.capacity() << std::endl << std::endl;
-	test.insert(test.begin(), 1);
-	classic.insert(classic.begin(), 1);
+	ft::Vector<int>		ft_c;
+	std::vector<int>	std_c;
+	std::vector<int>	lst(80, 5);
 
+	output(ft_c, std_c);
+	content(ft_c, std_c);
 
-	classic.assign(5, 47);
-	test.insert(test.begin(), classic.begin(), classic.end());													// need to correct
-	std::cout << std::endl << "test : " << test.size() << "	/	" << test.capacity() << std::endl
-		<< "classic : " << classic.size() << "	/	" << classic.capacity() << std::endl << std::endl;
-	it = test.begin();
-	while (it < test.end())
-		std::cout << *it++ << std::endl;
-	test.assign(5, 47);																							// capacity() should'nt change
-	std::cout << std::endl << "test : " << test.size() << "	/	" << test.capacity() << std::endl
-		<< "classic : " << classic.size() << "	/	" << classic.capacity() << std::endl << std::endl;
-	it = test.begin();
-	while (it < test.end())
-		std::cout << *it++ << std::endl;
+	std_c.assign(lst.begin(), lst.end());
+	ft_c.assign(lst.begin(), lst.end());
+
+	output(ft_c, std_c);
+	content(ft_c, std_c);
+
+	lst.assign(7, 4);
+
+	std_c.insert(std_c.begin(), lst.begin(), lst.end());
+	ft_c.insert(ft_c.begin(), lst.begin(), lst.end());
+
+	output(ft_c, std_c);
+	content(ft_c, std_c);
+
+	std_c.insert(std_c.begin() + 15, lst.begin(), lst.end());
+	ft_c.insert(ft_c.begin() + 15, lst.begin(), lst.end());
+
+	output(ft_c, std_c);
+	content(ft_c, std_c);
+
+	std_c.erase(std_c.begin());
+	ft_c.erase(ft_c.begin());
+
+	output(ft_c, std_c);
+	content(ft_c, std_c);
+
+	std_c.erase(std_c.begin() + 4, std_c.begin() + 11);
+	ft_c.erase(ft_c.begin() + 4, ft_c.begin() + 11);
+
+	output(ft_c, std_c);
+	content(ft_c, std_c);
+
+	std_c.clear();
+	ft_c.clear();
+
+	output(ft_c, std_c);
+	content(ft_c, std_c);
+
 	return 0;
 }

@@ -229,12 +229,12 @@ namespace	ft
 
 		//	Iterators
 
-		iterator	begin( void )
+		iterator	begin( void ) const
 		{
 			return	iterator(_data);
 		}
 
-		iterator	end( void )
+		iterator	end( void ) const
 		{
 			return	iterator(_back);
 		}
@@ -266,7 +266,7 @@ namespace	ft
 
 		bool		empty( void ) const
 		{
-			return _data == _back;
+			return size() == 0;
 		}
 
 		void	reserve(size_type n)
@@ -320,27 +320,25 @@ namespace	ft
 
 		void	assign(size_type count, const T& value)
 		{
-			_deallocate();
 			reserve(count);
 			for (size_type i = 0; i < count; i++)
-			{
 				_data[i] = value;
-				_back++;
-			}
+			_back = _data + count;
 		}
 
 		template <class InputIterator>
 		void	assign(InputIterator first, InputIterator last,
 		typename enable_if<!is_integral<InputIterator>::value, InputIterator >::type* = NULL)
 		{
-			_deallocate();
-			reserve(last - first);
+			size_type	count = last - first;
+		
+			reserve(count);
 			for (iterator it = begin(); first != last; first++)
 			{
 				*it = *first;
 				it++;
-				_back++;
 			}
+			_back = _data + count;
 		}
 
 		void	push_back(const value_type& val)
@@ -378,11 +376,8 @@ namespace	ft
 				return ;
 			}
 
-			while (size() - 1 + n > capacity())
-			{
+			for (size_type i = n; i > 0; i--)
 				push_back(*_back);
-				_back++;
-			}
 
 			iterator	tmp(end());
 
@@ -403,6 +398,7 @@ namespace	ft
 			typename enable_if<!is_integral<InputIterator>::value, InputIterator >::type* = NULL)
 		{
 			size_type	size_to_add(last - first);
+			size_type	pos(position - begin());
 
 			if (position == end())
 			{
@@ -414,17 +410,15 @@ namespace	ft
 				return ;
 			}
 
-			while (size() - 1 + size_to_add > capacity())
-			{
+			for (size_type i = size_to_add; i > 0; i--)
 				push_back(*_back);
-				_back++;
-			}
 
 			iterator	tmp(end());
+			position = _data + pos;
 
 			while (tmp != position)
 			{
-				*tmp = *(tmp - 1);
+				*tmp = *(tmp - size_to_add);
 				tmp--;
 			}
 			while (first != last)
