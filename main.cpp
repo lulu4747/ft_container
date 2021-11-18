@@ -22,7 +22,9 @@ void	inside(C c)
 	typename C::iterator it(c.begin());
 
 	while (it != c.end())
+	{
 		std::cout << " |" << *(it++);
+	}
 	std::cout << std::endl;
 }
 
@@ -82,15 +84,7 @@ int main(void){
 	std_c.clear();
 	ft_c.clear();
 
-	output(ft_c, std_c);
-	content(ft_c, std_c);
-
-	//std::vector<int>::iterator	stdit = std_c.erase(std_c.begin());
-	ft::Vector<int>::iterator	ftit = ft_c.erase(ft_c.begin());
-	std::cout << "erase on empty" << std::endl /*<< *stdit */<< std::endl
-			<< *ftit << std::endl;
-
-	for (size_t i = 0; i < std_c.capacity(); i++)
+	for (size_t i = 0; i < ft_c.capacity(); i++)
 	{
 		std_c.push_back(i);
 		ft_c.push_back(i);
@@ -101,6 +95,18 @@ int main(void){
 
 	std_c.erase(std_c.begin() + 2);
 	ft_c.erase(ft_c.begin() + 2);
+
+	output(ft_c, std_c);
+	content(ft_c, std_c);
+
+	std_c.erase(std_c.begin() + 2, std_c.begin() + 85);
+	ft_c.erase(ft_c.begin() + 2, ft_c.begin() + 85);
+
+	output(ft_c, std_c);
+	content(ft_c, std_c);
+
+	std_c.erase(std_c.begin() + 2, std_c.begin() + 85);
+	ft_c.erase(ft_c.begin() + 2, ft_c.begin() + 85);
 
 	output(ft_c, std_c);
 	content(ft_c, std_c);
