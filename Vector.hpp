@@ -266,7 +266,7 @@ namespace	ft
 
 		bool		empty( void ) const
 		{
-			return size() == 0;
+			return !size();
 		}
 
 		void	reserve(size_type n)
@@ -383,7 +383,7 @@ namespace	ft
 
 			while (tmp != position)
 			{
-				*tmp = *(tmp - 1);
+				*tmp = *(tmp - n);
 				tmp--;
 			}
 			while (n--)
@@ -431,12 +431,10 @@ namespace	ft
 
 		iterator erase (iterator position)
 		{
-			if (empty())
-				return _back;
-			for (iterator it = position; it != _back; it++)
+			(*position).~value_type();
+			for (iterator it = position; it != end(); it++)
 				*it = *(it + 1);
-			(*end()).~value_type();
-			_back--;
+			pop_back();
 			return position;
 		}
 
@@ -489,7 +487,6 @@ namespace	ft
 		pointer			_back;
 		pointer			_last;
 
-	private:
 				// PAS SUR
 		void	_allocate(size_type n)
 		{
