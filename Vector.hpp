@@ -5,6 +5,7 @@
 # include <memory>
 # include <stdexcept>
 # include "ft.hpp"
+# include "algorithm.hpp"
 # include "Iterator.hpp"
 
 namespace	ft
@@ -429,8 +430,7 @@ namespace	ft
 			while (first != last)
 			{
 				*it = *first;
-				first++;
-				it++;
+				first++;	it++;
 			}
 		}
 
@@ -525,16 +525,13 @@ namespace	ft
 		void	_allocate(size_type n)
 		{
 			_data = _alloc.allocate(n);
-			_end = _data;
-			_capacity = _data + n;
+			_end = _data;	_capacity = _data + n;
 		}
 
 		void	_deallocate()
 		{
 			_alloc.deallocate(_data, capacity());
-			_data = NULL;
-			_end = NULL;
-			_capacity = NULL;
+			_data = NULL;	_end = NULL;	_capacity = NULL;
 		}
 
 	};
@@ -542,14 +539,7 @@ namespace	ft
 	template < class T, class Alloc >
 	bool operator== (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
 	{
-		if (lhs.size() != rhs.size())
-			return false;
-		for (size_type	i = 0; i < lhs.size(); i++)
-		{
-			if (lhs._data[i] != rhs._data[i])
-				return false;
-		}
-		return true;
+		return equal(lhs.begin(), iterator(lhs.back()), rhs.begin());
 	}
 
 	template < class T, class Alloc >
@@ -561,18 +551,14 @@ namespace	ft
 	template < class T, class Alloc >
 	bool operator<  (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
 	{
-		for (size_type i = 0; i < lhs.size() && i < rhs.size(); i++)
-		{
-			if (lhs._data[i] < rhs._data[i])
-				return true;
-		}
-		return false;
+		return (lexicographical_compare(lhs.begin(), iterator(lhs.back()),
+				rhs.begin(), iterator(rhs.back())));
 	}
 
 	template < class T, class Alloc >
 	bool operator<= (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
 	{
-		return !(lhs < rhs);
+		return !(rhs < lhs);
 	}
 
 	template < class T, class Alloc >
@@ -584,7 +570,7 @@ namespace	ft
 	template < class T, class Alloc >
 	bool operator>= (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
 	{
-		return !(rhs < lhs);
+		return !(lhs < rhs);
 	}
 }
 

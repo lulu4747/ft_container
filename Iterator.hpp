@@ -55,7 +55,71 @@ namespace ft
 		typedef	const T&					reference;
 		typedef	random_access_iterator_tag	iterator_category;
   	};
+
+	template < class Iter >
+	class	reverse_iterator : public Iter
+	{
+
+	public:
+
+		typedef	typename	Iter										iterator_type;
+		typedef typename	iterator_traits<Iter>::difference_type		difference_type;
+		typedef typename	iterator_traits<Iter>::value_type			value_type;
+		typedef typename	iterator_traits<Iter>::pointer				pointer;
+		typedef typename	iterator_traits<Iter>::reference			reference;
+		typedef typename	iterator_traits<Iter>::iterator_category	iterator_category;
+
+		reverse_iterator()
+			:current()
+		{}
+
+		reverse_iterator( iterator_type x )
+			:current(x)
+		{}
+
+		template< class U >
+		reverse_iterator( const reverse_iterator<U>& other )
+			:current(other.base())
+		{}
+
+		template< class U >
+		reverse_iterator& operator=( const reverse_iterator<U>& other )
+		{
+			if (this != other)
+				current = other.base();
+			return *this;
+		}
+
+		iterator_type base() const
+		{
+			return current;
+		}
+
+		reference operator*() const
+		{
+			iterator_type	tmp(current);
+
+			return *--tmp;
+		}
+
+		pointer operator->() const
+		{
+			iterator_type	tmp(current);
+
+			return (--tmp).operator->();
+		}
+
+		operator[]( difference_type n ) const
+		{
+			return base()[-n-1];
+		}	//le reste
 	
+	protected:
+
+		iterator_type	current;
+
+	}
+
 }
 
 #endif

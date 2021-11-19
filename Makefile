@@ -2,7 +2,8 @@ NAME	= ft_container_tester
 
 SRCS	= main.cpp
 
-INC		= ft.hpp
+INC		= algorithm.hpp
+INC		+= ft.hpp
 INC		+= Map.hpp
 INC		+= Stack.hpp
 INC		+= Vector.hpp

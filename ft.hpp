@@ -97,33 +97,48 @@ namespace	ft
 
 			// std::pair Non-Member Function
 	template < class T1, class T2>
-	pair<T1, T2>	make_pair(T1 k, T2 d){
-		return pair<T1, T2>(k, d);}
+	pair<T1, T2>	make_pair(T1 k, T2 d)
+	{
+		return pair<T1, T2>(k, d);
+	}
 
 			// std::pair lexicographical comparison operators
 	template < class T1, class T2>
-	bool	operator==(pair<T1, T2> const & lhs, pair<T1, T2> const & rhs){
-		return (lhs.first == rhs.first && lhs.second == rhs.second);}
+	bool	operator==(pair<T1, T2> const & lhs, pair<T1, T2> const & rhs)
+	{
+		return (lhs.first == rhs.first && lhs.second == rhs.second);
+	}
 
 	template < class T1, class T2>
-	bool	operator!=(pair<T1, T2> const & lhs, pair<T1, T2> const & rhs){
-		return (lhs.first != rhs.first || lhs.second != rhs.second);}
+	bool	operator!=(pair<T1, T2> const & lhs, pair<T1, T2> const & rhs)
+	{
+		return !(lhs == rhs);
+	}
 
 	template < class T1, class T2>
-	bool	operator<(pair<T1, T2> const & lhs, pair<T1, T2> const & rhs){
-		return (lhs.first == rhs.first && lhs.second < rhs.second);}
+	bool	operator<(pair<T1, T2> const & lhs, pair<T1, T2> const & rhs)
+	{
+		return ((lhs.first < rhs.first || (!(rhs.first < lhs.first)))
+				&& (lhs.second < rhs.second || (!(rhs.second < lhs.second)));
+	}
 
 	template < class T1, class T2>
 	bool	operator<=(pair<T1, T2> const & lhs, pair<T1, T2> const & rhs)
-	{	return (lhs.first == rhs.first && lhs.second <= rhs.second);	}
+	{
+		return !(rhs < lhs);
+	}
 
 	template < class T1, class T2>
 	bool	operator>(pair<T1, T2> const & lhs, pair<T1, T2> const & rhs)
-	{	return (lhs.first == rhs.first && lhs.second > rhs.second);	}
+	{
+		return rhs < lhs;
+	}
 
 	template < class T1, class T2>
 	bool	operator>=(pair<T1, T2> const & lhs, pair<T1, T2> const & rhs)
-	{	return (lhs.first == rhs.first && lhs.second >= rhs.second);	}
+	{
+		return !(lhs < rhs);
+	}
 
 }
 
