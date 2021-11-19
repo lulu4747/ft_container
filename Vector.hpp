@@ -307,7 +307,7 @@ namespace	ft
 		reference	at( size_type n )
 		{
 			if ( n > size() )
-				throw	std::out_of_range("vector");		//faire mieux
+				throw	std::out_of_range("Vector");		//faire mieux
 			return _data[n];
 		}
 
@@ -458,7 +458,7 @@ namespace	ft
 
 			for (iterator it = first; it != last; it++)
 			{
-				_alloc.destroy(&(*(it)));
+				_alloc.destroy(&(*(it)));				//does'nt segfault when destructing past capacity
 				range++;
 			}
 			while (first != last)
@@ -538,6 +538,54 @@ namespace	ft
 		}
 
 	};
+
+	template < class T, class Alloc >
+	bool operator== (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
+	{
+		if (lhs.size() != rhs.size())
+			return false;
+		for (size_type	i = 0; i < lhs.size(); i++)
+		{
+			if (lhs._data[i] != rhs._data[i])
+				return false;
+		}
+		return true;
+	}
+
+	template < class T, class Alloc >
+ 	bool operator!= (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
+	{
+		return !(lhs == rhs);
+	}
+
+	template < class T, class Alloc >
+	bool operator<  (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
+	{
+		for (size_type i = 0; i < lhs.size() && i < rhs.size(); i++)
+		{
+			if (lhs._data[i] < rhs._data[i])
+				return true;
+		}
+		return false;
+	}
+
+	template < class T, class Alloc >
+	bool operator<= (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
+	{
+		return !(lhs < rhs);
+	}
+
+	template < class T, class Alloc >
+	bool operator>  (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
+	{
+		return (rhs < lhs);
+	}
+
+	template < class T, class Alloc >
+	bool operator>= (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
+	{
+		return !(rhs < lhs);
+	}
 }
 
 #endif
