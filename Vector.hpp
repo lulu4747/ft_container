@@ -190,29 +190,29 @@ namespace	ft
 		//	Canons
 		explicit Vector (const allocator_type& alloc = allocator_type())
 		:
-			_alloc(alloc), _data(NULL), _back(NULL), _last(NULL)
+			_alloc(alloc), _data(NULL), _end(NULL), _capacity(NULL)
 		{}
 
 		explicit Vector (size_type n, const value_type& val = value_type(),
 				const allocator_type& alloc = allocator_type())
-		:_alloc(alloc), _data(NULL), _back(NULL), _last(NULL)
+		:_alloc(alloc), _data(NULL), _end(NULL), _capacity(NULL)
 		{
 			_allocate(n);
 			for (size_type i = 0; i < n; i++)
 				_alloc.construct(_data + i, val);
-			_back += n;
+			_end += n;
 		}
 
 		template <class InputIterator>
 		Vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type())
 		:
-			_alloc(alloc), _data(NULL), _back(NULL), _last(NULL)
+			_alloc(alloc), _data(NULL), _end(NULL), _capacity(NULL)
 		{
 			assign(first, last);
 		}
 
 		Vector (const Vector& x):
-			_alloc(x.get_allocator()), _data(NULL), _back(NULL), _last(NULL)
+			_alloc(x.get_allocator()), _data(NULL), _end(NULL), _capacity(NULL)
 		{
 			*this = x;
 		}
@@ -244,14 +244,14 @@ namespace	ft
 
 		iterator	end( void ) const
 		{
-			return	iterator(_back);
+			return	iterator(_end);
 		}
 
 		// Capacity
 
 		size_type	size( void ) const
 		{
-			return _back - _data;
+			return _end - _data;
 		}
 
 		size_type max_size() const
@@ -269,7 +269,7 @@ namespace	ft
 
 		size_type	capacity( void ) const
 		{
-			return _last - _data;
+			return _capacity - _data;
 		}
 
 		bool		empty( void ) const
@@ -283,13 +283,17 @@ namespace	ft
 				_allocate(n);
 			else if (capacity() < n)
 			{
-				Vector*		old_vector(this);
+				pointer		copy(_data);
+				size_type	size(this->size());
 
+				_deallocate();
 				_allocate(n);
-				_back += old_vector->size();
-				for (size_type i = 0; i < old_vector->size(); i++)
-					_alloc.construct(_data + i, old_vector->_data[i]);
-				old_vector->~Vector();
+				_end += size;
+				for (size_type i = 0; i < size; i++)
+				{
+					_alloc.construct(_data + i, copy[i]);
+					_alloc.destroy(copy + i);
+				}
 			}
 		}
 
@@ -314,7 +318,7 @@ namespace	ft
 
 		reference	back( void )
 		{
-			return	*_back;
+			return	*(_data + size());
 		}
 
 		//	Modifier
@@ -324,7 +328,7 @@ namespace	ft
 			reserve(count);
 			for (size_type i = 0; i < count; i++)
 				_alloc.construct(_data + i, value);
-			_back += count;
+			_end += count;
 		}
 
 		template <class InputIterator>
@@ -339,7 +343,7 @@ namespace	ft
 				_alloc.construct(&(*it), *first);
 				it++;
 			}
-			_back += count;
+			_end += count;
 		}
 
 		void	push_back(const value_type& val)
@@ -348,16 +352,16 @@ namespace	ft
 				reserve(1);
 			else if(size() == capacity())
 				reserve(capacity() * 2);
-			_alloc.construct(_back, val);
-			_back++;
+			_alloc.construct(_end, val);
+			_end++;
 		}
 
 		void	pop_back()
 		{
 			if (empty())
 				return;
-			_alloc.destroy(_back);
-			_back--;
+			_alloc.destroy(_end);
+			_end--;
 		}
 
 		iterator insert (iterator position, const value_type& val)
@@ -378,9 +382,9 @@ namespace	ft
 			}
 
 			for (size_type i = n; i > 0; i--)
-				push_back(*_back);
+				push_back(back());
 
-			iterator	it(_back);
+			iterator	it(_end);
 
 			while (it != position)
 			{
@@ -412,9 +416,9 @@ namespace	ft
 			}
 
 			for (size_type i = size_to_add; i > 0; i--)
-				push_back(*_back);
+				push_back(back());
 
-			iterator	it(_back);
+			iterator	it(_end);
 			position = _data + pos;
 
 			while (it != position)
@@ -432,23 +436,62 @@ namespace	ft
 
 		iterator erase (iterator position)
 		{
+			size_type	new_pos(position - begin());
+
 			if (position == end())
 			{
 				pop_back();
 				return end();
 			}
-			for (iterator it = position; it != end(); it++)
-				*it = *(it + 1);
+			for (iterator it = position; it + 1 != end(); it++)
+			{
+				_alloc.destroy(&(*it));
+				_alloc.construct(&(*it), *(it + 1));
+			}
 			pop_back();
-			return ++position;
+			return (begin() + new_pos);
 		}
 
 		iterator erase (iterator first, iterator last)
 		{
+			size_type	range = 0;
+
+			for (iterator it = first; it != last; it++)
+			{
+				_alloc.destroy(&(*(it)));
+				range++;
+			}
 			while (first != last)
-				first = erase(first);
+			{
+				_alloc.construct(&(*first), *(first + range));
+				first++;
+			}
+			while (range--)
+				pop_back();
 			return first;
 		}
+/*
+		iterator erase (iterator position)
+		{
+			if (position == end())
+			{
+				pop_back();
+				return end();
+			}
+			for (iterator it = position; it + 1 != end(); it++)
+				*it = *(it + 1);
+			pop_back();
+			return position;
+		}
+
+		iterator erase (iterator first, iterator last)
+		{
+			iterator	tmp(first);
+
+			while (first++ != last)			//should be very slow =(
+				erase(tmp);
+			return first;
+		}*/
 
 		void swap(Vector& x)
 		{
@@ -463,7 +506,7 @@ namespace	ft
 		{
 			for (size_type i = 0; i < size(); i++)
 				_alloc.destroy(_data + i);
-			_back = _data;
+			_end = _data;
 		}
 
 		allocator_type get_allocator() const
@@ -476,22 +519,22 @@ namespace	ft
 		allocator_type	_alloc;
 
 		pointer			_data;
-		pointer			_back;
-		pointer			_last;
+		pointer			_end;
+		pointer			_capacity;
 
 		void	_allocate(size_type n)
 		{
 			_data = _alloc.allocate(n);
-			_back = _data;
-			_last = _data + n;
+			_end = _data;
+			_capacity = _data + n;
 		}
 
 		void	_deallocate()
 		{
 			_alloc.deallocate(_data, capacity());
 			_data = NULL;
-			_back = NULL;
-			_last = NULL;
+			_end = NULL;
+			_capacity = NULL;
 		}
 
 	};
