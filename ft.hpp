@@ -119,7 +119,7 @@ namespace	ft
 	bool	operator<(pair<T1, T2> const & lhs, pair<T1, T2> const & rhs)
 	{
 		return ((lhs.first < rhs.first || (!(rhs.first < lhs.first)))
-				&& (lhs.second < rhs.second || (!(rhs.second < lhs.second)));
+				&& (lhs.second < rhs.second || (!(rhs.second < lhs.second))));
 	}
 
 	template < class T1, class T2>

@@ -56,13 +56,25 @@ namespace ft
 		typedef	random_access_iterator_tag	iterator_category;
   	};
 
+	template <class T>
+	struct is_input_iterator_tagged
+	{ 
+		static const bool value = false;
+	};
+
+	template <> struct is_input_iterator_tagged<input_iterator_tag> { static const bool value = true; };
+	template <> struct is_input_iterator_tagged<forward_iterator_tag> { static const bool value = true; };
+	template <> struct is_input_iterator_tagged<bidirectional_iterator_tag> { static const bool value = true; };
+	template <> struct is_input_iterator_tagged<random_access_iterator_tag> { static const bool value = true; };
+
 	template < class Iter >
 	class	reverse_iterator : public Iter
 	{
 
 	public:
 
-		typedef	typename	Iter										iterator_type;
+		typedef	Iter	iterator_type;
+
 		typedef typename	iterator_traits<Iter>::difference_type		difference_type;
 		typedef typename	iterator_traits<Iter>::value_type			value_type;
 		typedef typename	iterator_traits<Iter>::pointer				pointer;
@@ -109,16 +121,70 @@ namespace ft
 			return (--tmp).operator->();
 		}
 
-		operator[]( difference_type n ) const
+		reference	operator[]( difference_type n ) const
 		{
 			return base()[-n-1];
-		}	//le reste
-	
+		}
+
+		reverse_iterator& operator++()
+		{
+			return current--;
+		}
+
+		reverse_iterator& operator--()
+		{
+			return current++;
+		}
+
+		reverse_iterator operator++( int )
+		{
+			reverse_iterator	tmp(current);
+
+			--current;
+			return tmp;
+		}
+
+		reverse_iterator operator--( int )
+		{
+			reverse_iterator	tmp(current);
+
+			++current;
+			return tmp;
+		}
+
+		reverse_iterator operator+( difference_type n ) const
+		{
+			reverse_iterator	tmp(current - n);
+
+			return tmp;
+		}
+
+		reverse_iterator operator-( difference_type n ) const
+		{
+			reverse_iterator	tmp(current + n);
+
+			return tmp;
+		}
+
+		reverse_iterator& operator+=( difference_type n )
+		{
+			current -= n;
+			return *this;
+		}
+
+		reverse_iterator& operator-=( difference_type n )
+		{
+			current += n;
+			return *this;
+		}
+
 	protected:
 
 		iterator_type	current;
 
-	}
+	};
+
+
 
 }
 

@@ -12,7 +12,7 @@ namespace	ft
 {
 
 	template< typename T>
-	class VectorIterator //: public iterator_traits< T >
+	class VectorIterator //: public iterator_traits< VectorIterator<T> >
 	{
 
 	public:
@@ -181,9 +181,9 @@ namespace	ft
 
 
 		typedef	VectorIterator<value_type>				iterator;
-		typedef	VectorIterator<value_type>				const_iterator;
-		/*typedef	ft_ReverseIterator<iterator>		reverse_iterator;
-		typedef	ft_ReverseIterator<iterator>		const_reverse_iterator;*/
+		typedef	const iterator							const_iterator;
+		typedef	reverse_iterator<value_type>			reverse_iterator;
+		typedef	const reverse_iterator					const_reverse_iterator;
 
 	//	Member Functions :
 
@@ -242,12 +242,42 @@ namespace	ft
 		{
 			return	iterator(_data);
 		}
-
+/*
+		const_iterator begin() const
+		{
+			return const_iterator(_data);
+		}
+*/
 		iterator	end( void ) const
 		{
 			return	iterator(_end);
 		}
-
+/*
+		const_iterator end() const
+		{
+			return	const_iterator(_end);
+		}
+*/
+		reverse_iterator rbegin()
+		{
+			return reverse_iterator(back());
+		}
+/*
+		const_reverse_iterator rbegin() const
+		{
+			return const_reverse_iterator(back());
+		}
+*/
+		reverse_iterator rend()
+		{
+			return reverse_iterator(_data - 1);
+		}
+/*
+		const_reverse_iterator rend() const
+		{
+			return const_reverse_iterator(_data - 1);
+		}
+*/
 		// Capacity
 
 		size_type	size( void ) const
@@ -336,6 +366,8 @@ namespace	ft
 		void	assign(InputIterator first, InputIterator last,
 		typename enable_if<!is_integral<InputIterator>::value, InputIterator >::type* = NULL)
 		{
+			//bool	is_valid;
+			//if (!(is_valid = is_input_iterator_tagged<typename ft::>))
 			size_type	count = last - first;
 
 			reserve(count);
