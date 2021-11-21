@@ -4,7 +4,7 @@
 # include <memory>
 # include "ft.hpp"
 # include "Iterator.hpp"
-
+/*
 namespace	ft
 {
 	template < class Key, class T, class Compare = ft::less<Key>,
@@ -17,10 +17,10 @@ namespace	ft
 
 
 	private:
-		/* data */
+		 _data
 
 	};
 }
-
+*/
 
 #endif

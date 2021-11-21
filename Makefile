@@ -3,6 +3,7 @@ NAME	= ft_container_tester
 SRCS	= main.cpp
 
 INC		= algorithm.hpp
+INC		+= Iterator.hpp
 INC		+= ft.hpp
 INC		+= Map.hpp
 INC		+= Stack.hpp

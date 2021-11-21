@@ -11,157 +11,6 @@
 namespace	ft
 {
 
-	template< typename T>
-	class VectorIterator //: public iterator_traits< VectorIterator<T> >
-	{
-
-	public:
-
-		typedef T							value_type;
-    	typedef value_type*					pointer;
-    	typedef value_type const *			const_pointer;
-    	typedef value_type&					reference;
-    	typedef value_type const &			const_reference;
-    	typedef std::ptrdiff_t				difference_type;
-		typedef random_access_iterator_tag	iterator_category;
-
-		VectorIterator():_ptr(NULL)	{}
-		VectorIterator(pointer ptr):_ptr(ptr) {}
-		VectorIterator(VectorIterator const & src):_ptr(src._ptr)	{}
-		virtual	~VectorIterator()	{}
-
-		VectorIterator&	operator=(VectorIterator const & rhs)
-		{
-			if (this != &rhs)
-				_ptr = rhs._ptr;
-			return *this;
-		}
-
-		reference	operator*()
-		{
-			return *(_ptr);
-		}
-
-		const_reference	operator*() const
-		{
-			return *(_ptr);
-		}
-
-		pointer	operator->()
-		{
-			return _ptr;
-		}
-
-		const_pointer	operator->() const
-		{
-			return _ptr;
-		}
-
-		reference	operator[](size_t index)
-		{
-			return *(_ptr + index);
-		}
-
-		const_reference	operator[](size_t index) const
-		{
-			return *(_ptr + index);
-		}
-
-		VectorIterator operator++(int)
-		{
-			VectorIterator 	tmp(*this);
-
-			++_ptr;
-			return tmp;
-		}
-
-		VectorIterator& operator++()
-		{
-			++_ptr;
-			return *this;
-		}
-
-		VectorIterator operator--(int)
-		{
-			VectorIterator 	tmp(*this);
-
-			--_ptr;
-			return tmp;
-		}
-
-		VectorIterator& operator--()
-		{
-			--_ptr;
-			return *this;
-		}
-
-		VectorIterator& operator+=(int value)
-		{
-			_ptr += value;
-			return *this;
-		}
-
-		VectorIterator operator+(int value)
-		{
-			VectorIterator tmp(this->_ptr + value);
-
-			return tmp;
-		}
-
-		VectorIterator& operator-=(int value)
-		{
-			_ptr -= value;
-			return *this;
-		}
-
-		VectorIterator operator-(int value)
-		{
-			VectorIterator	tmp(this->_ptr - value);
-
-			return tmp;
-		}
-
-		difference_type operator-(VectorIterator const &rhs) const
-		{
-			return (_ptr - rhs._ptr);
-		}
-
-		bool operator==(VectorIterator const &rhs) const
-		{
-			return (_ptr == rhs._ptr);
-		}
-
-		bool operator!=(VectorIterator const &rhs) const
-		{
-			return (_ptr != rhs._ptr);
-		}
-
-		bool operator<(VectorIterator const &rhs) const
-		{
-			return (_ptr < rhs._ptr);
-		}
-
-		bool operator<=(VectorIterator const &rhs) const
-		{
-			return (_ptr <= rhs._ptr);
-		}
-
-		bool operator>(VectorIterator const &rhs) const
-		{
-			return (_ptr > rhs._ptr);
-		}
-
-		bool operator>=(VectorIterator const &rhs) const
-		{
-			return (_ptr >= rhs._ptr);
-		}
-
-	protected:
-
-		pointer	_ptr;
-
-	};
-
 	template < class T, class Alloc = std::allocator<T> >
 	class Vector{
 
@@ -180,7 +29,7 @@ namespace	ft
 		typedef typename	allocator_type::const_pointer	const_pointer;
 
 
-		typedef	VectorIterator<value_type>				iterator;
+		typedef	random_access_iterator<value_type>		iterator;
 		typedef	const iterator							const_iterator;
 		typedef	reverse_iterator<value_type>			reverse_iterator;
 		typedef	const reverse_iterator					const_reverse_iterator;
@@ -238,46 +87,46 @@ namespace	ft
 
 		//	Iterators
 
-		iterator	begin( void ) const
+		iterator	begin( void )
 		{
 			return	iterator(_data);
 		}
-/*
+
 		const_iterator begin() const
 		{
 			return const_iterator(_data);
 		}
-*/
-		iterator	end( void ) const
+
+		iterator	end( void )
 		{
 			return	iterator(_end);
 		}
-/*
+
 		const_iterator end() const
 		{
 			return	const_iterator(_end);
 		}
-*/
+
 		reverse_iterator rbegin()
 		{
 			return reverse_iterator(back());
 		}
-/*
+
 		const_reverse_iterator rbegin() const
 		{
 			return const_reverse_iterator(back());
 		}
-*/
+
 		reverse_iterator rend()
 		{
 			return reverse_iterator(_data - 1);
 		}
-/*
+
 		const_reverse_iterator rend() const
 		{
 			return const_reverse_iterator(_data - 1);
 		}
-*/
+
 		// Capacity
 
 		size_type	size( void ) const
@@ -356,6 +205,7 @@ namespace	ft
 
 		void	assign(size_type count, const T& value)
 		{
+			clear()
 			reserve(count);
 			for (size_type i = 0; i < count; i++)
 				_alloc.construct(_data + i, value);
@@ -366,10 +216,12 @@ namespace	ft
 		void	assign(InputIterator first, InputIterator last,
 		typename enable_if<!is_integral<InputIterator>::value, InputIterator >::type* = NULL)
 		{
-			//bool	is_valid;
-			//if (!(is_valid = is_input_iterator_tagged<typename ft::>))
+			if(!(is_input_iterator_tagged< typename iterator_traits<InputIterator>::iterator_category >::value))
+				throw 
+
 			size_type	count = last - first;
 
+			clear()
 			reserve(count);
 			for (iterator it = begin(); first != last; first++)
 			{

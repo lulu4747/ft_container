@@ -104,12 +104,12 @@ int main(void){
 
 	output(ft_c, std_c);
 	content(ft_c, std_c);
-
-	/*std_c.erase(std_c.begin() + 2, std_c.begin() + 85);
+/*
+	std_c.erase(std_c.begin() + 2, std_c.begin() + 85);
 	ft_c.erase(ft_c.begin() + 2, ft_c.begin() + 85);
 
 	output(ft_c, std_c);
-	content(ft_c, std_c);*/			//this test segfault on original vector and doesn't on mine
-
+	content(ft_c, std_c);		//this test segfault on original vector and doesn't on mine
+*/
 	return 0;
 }
