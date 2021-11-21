@@ -217,7 +217,7 @@ namespace	ft
 		typename enable_if<!is_integral<InputIterator>::value, InputIterator >::type* = NULL)
 		{
 			if(!(is_input_iterator_tagged< typename iterator_traits<InputIterator>::iterator_category >::value))
-				throw 
+				throw std::invalid_argument("Iterator is'nt at least ft::InputIterator tagged");						//faire mieux
 
 			size_type	count = last - first;
 
@@ -287,6 +287,9 @@ namespace	ft
     	void insert (iterator position, InputIterator first, InputIterator last,
 			typename enable_if<!is_integral<InputIterator>::value, InputIterator >::type* = NULL)
 		{
+			if(!(is_input_iterator_tagged< typename iterator_traits<InputIterator>::iterator_category >::value))
+				throw std::invalid_argument("Iterator is'nt at least ft::InputIterator tagged");					//Faire mieux
+
 			size_type	size_to_add(last - first);
 			size_type	pos(position - begin());
 
