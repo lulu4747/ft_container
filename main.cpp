@@ -43,73 +43,26 @@ void	content(const FT & ft_c, const STD & std_c)
 int main(void){
 
 	ft::Vector<int>		ft_c;
+	ft::Vector<int>		ft_lst(6, 78);
 	std::vector<int>	std_c;
-	std::vector<int>	lst(80, 5);
+	std::vector<int>	std_lst(6, 78);
+
+	ft_c.assign(5, 5);
+	std_c.assign(5, 5);
 
 	output(ft_c, std_c);
 	content(ft_c, std_c);
+//	output(ft_lst, std_lst);
+//	content(ft_lst, std_lst);
 
-	std_c.assign(lst.begin(), lst.end());
-	ft_c.assign(lst.begin(), lst.end());
+	ft_c.push_back(8);		//original does'nt augment capacity * 2 ??
+	std_c.push_back(8);
 
-	output(ft_c, std_c);
+	ft_c.insert(ft_c.begin() + 2, ft_lst.begin(), ft_lst.end());
+	std_c.insert(std_c.begin() + 2, std_lst.begin(), std_lst.end());
+
+	output(ft_c, std_c);		//a value is overwritten, need to go back at it with fresh mind
 	content(ft_c, std_c);
 
-	lst.assign(7, 4);
-
-	std_c.insert(std_c.begin(), lst.begin(), lst.end());
-	ft_c.insert(ft_c.begin(), lst.begin(), lst.end());
-
-	output(ft_c, std_c);
-	content(ft_c, std_c);
-
-	std_c.insert(std_c.begin() + 15, lst.begin(), lst.end());
-	ft_c.insert(ft_c.begin() + 15, lst.begin(), lst.end());
-
-	output(ft_c, std_c);
-	content(ft_c, std_c);
-
-	std_c.erase(std_c.begin());
-	ft_c.erase(ft_c.begin());
-
-	output(ft_c, std_c);
-	content(ft_c, std_c);
-
-	std_c.erase(std_c.begin() + 4, std_c.begin() + 11);
-	ft_c.erase(ft_c.begin() + 4, ft_c.begin() + 11);
-
-	output(ft_c, std_c);
-	content(ft_c, std_c);
-
-	std_c.clear();
-	ft_c.clear();
-
-	for (size_t i = 0; i < ft_c.capacity(); i++)
-	{
-		std_c.push_back(i);
-		ft_c.push_back(i);
-	}
-
-	output(ft_c, std_c);
-	content(ft_c, std_c);
-
-	std_c.erase(std_c.begin() + 2);
-	ft_c.erase(ft_c.begin() + 2);
-
-	output(ft_c, std_c);
-	content(ft_c, std_c);
-
-	std_c.erase(std_c.begin() + 2, std_c.begin() + 85);
-	ft_c.erase(ft_c.begin() + 2, ft_c.begin() + 85);
-
-	output(ft_c, std_c);
-	content(ft_c, std_c);
-/*
-	std_c.erase(std_c.begin() + 2, std_c.begin() + 85);
-	ft_c.erase(ft_c.begin() + 2, ft_c.begin() + 85);
-
-	output(ft_c, std_c);
-	content(ft_c, std_c);		//this test segfault on original vector and doesn't on mine
-*/
 	return 0;
 }
