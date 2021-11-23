@@ -12,7 +12,8 @@ namespace	ft
 {
 
 	template < class T, class Alloc = std::allocator<T> >
-	class Vector{
+	class Vector
+	{
 
 	public:
 
@@ -62,7 +63,7 @@ namespace	ft
 			_alloc(alloc), _data(NULL), _end(NULL), _capacity(NULL)
 		{
 			if(!(is_input_iterator_tagged< typename iterator_traits<InputIterator>::iterator_category >::value))
-				throw std::invalid_argument("Iterator is'nt at least ft::InputIterator tagged");						//faire mieux
+				throw std::invalid_argument("In ft::Vector(InputIterator first, InputIterator last), InuputIterator class is'nt at least ft::InputIterator tagged");					//Faire mieux
 
 			assign(first, last);
 		}
@@ -246,8 +247,8 @@ namespace	ft
 
 		void	assign(size_type count, const T& value)
 		{
-			clear();
 			reserve(count);
+			clear();
 			for (size_type i = 0; i < count; i++)
 				_alloc.construct(_data + i, value);
 			_end += count;
@@ -258,12 +259,12 @@ namespace	ft
 		typename enable_if<!is_integral<InputIterator>::value, InputIterator >::type* = NULL)
 		{
 			if(!(is_input_iterator_tagged< typename iterator_traits<InputIterator>::iterator_category >::value))
-				throw std::invalid_argument("Iterator is'nt at least ft::InputIterator tagged");						//faire mieux
+				throw std::invalid_argument("In ft::Vector::assign(InputIterator first, InputIterator last), InuputIterator class is'nt at least ft::InputIterator tagged");					//Faire mieux
 
 			size_type	count = last - first;
 
-			clear();
 			reserve(count);
+			clear();
 			for (iterator it = begin(); first != last; first++)
 			{
 				_alloc.construct(&(*it), *first);
@@ -315,8 +316,8 @@ namespace	ft
     	void insert (iterator position, InputIterator first, InputIterator last,
 			typename enable_if<!is_integral<InputIterator>::value, InputIterator >::type* = NULL)
 		{
-			//if(!(is_input_iterator_tagged< typename iterator_traits<InputIterator>::iterator_category >::value))
-			//	throw std::invalid_argument("Iterator is'nt at least ft::InputIterator tagged");					//Faire mieux
+			if(!(is_input_iterator_tagged< typename iterator_traits<InputIterator>::iterator_category >::value))
+				throw std::invalid_argument("In ft::Vector::insert(iterator position, InputIterator first, InputIterator last), InuputIterator class is'nt at least ft::InputIterator tagged");					//Faire mieux
 
 			size_type	new_size(size() + (last - first));
 
@@ -324,17 +325,6 @@ namespace	ft
 				return ;
 			if (new_size > this->max_size())
 				throw (std::length_error("vector::insert(iterator position, InputIterator first, InputIterator last)"));
-
-			if (position == end())
-			{
-				while (first != last)
-				{
-					push_back(*first);
-					first++;
-				}
-				return ;
-			}
-
 
 			if (new_size > capacity())
 			{
@@ -350,7 +340,7 @@ namespace	ft
 			difference_type	range(new_size - size());
 
 			_end = _data + new_size;
-			for (iterator it(end() - difference_type(1)); (it - range) != position; it--)
+			for (iterator it(end() - difference_type(1)); (it - range) != position - difference_type(1); it--)
 			{
 				_alloc.destroy(&(*(it)));
 				_alloc.construct(&(*(it)), *(it - range));
@@ -445,6 +435,12 @@ namespace	ft
 		}
 
 	};
+/*
+	template < class Alloc >
+	class Vector <bool, Alloc>		//unsure if I should add this
+	{
+		typedef	bool	value_type;
+	};*/
 
 	template < class T, class Alloc >
 	bool operator== (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)

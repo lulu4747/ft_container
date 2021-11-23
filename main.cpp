@@ -43,25 +43,34 @@ void	content(const FT & ft_c, const STD & std_c)
 int main(void){
 
 	ft::Vector<int>		ft_c;
-	ft::Vector<int>		ft_lst(6, 78);
+	ft::Vector<int>		ft_lst(7, 78);
 	std::vector<int>	std_c;
-	std::vector<int>	std_lst(6, 78);
+	std::vector<int>	std_lst(7, 78);
+
+
+	for (int i = 1; i < 6; i++)
+	{
+		ft_c.push_back(i);
+		std_c.push_back(i);
+	}
+
+	output(ft_c, std_c);
+	content(ft_c, std_c);
+
 
 	ft_c.assign(5, 5);
 	std_c.assign(5, 5);
 
 	output(ft_c, std_c);
 	content(ft_c, std_c);
-//	output(ft_lst, std_lst);
-//	content(ft_lst, std_lst);
 
-	ft_c.push_back(8);		//original does'nt augment capacity * 2 ??
+	ft_c.push_back(8);
 	std_c.push_back(8);
 
-	ft_c.insert(ft_c.begin() + 2, ft_lst.begin(), ft_lst.end());
-	std_c.insert(std_c.begin() + 2, std_lst.begin(), std_lst.end());
+	//ft_c.insert(ft_c.end() + 2, ft_lst.begin(), ft_lst.end());		//	undefined behaviour mais
+	//std_c.insert(std_c.end() + 2, std_lst.begin(), std_lst.end());	//	OSKOUUUUUUR
 
-	output(ft_c, std_c);		//a value is overwritten, need to go back at it with fresh mind
+	output(ft_c, std_c);
 	content(ft_c, std_c);
 
 	return 0;
