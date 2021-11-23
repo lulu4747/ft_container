@@ -16,7 +16,6 @@ namespace ft
 	template <class Category, class T, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
 	struct Iterator
 	{
-
 		typedef T         value_type;
 		typedef Distance  difference_type;
 		typedef Pointer   pointer;
@@ -28,7 +27,6 @@ namespace ft
 	template <class Iterator>
 	struct	iterator_traits
 	{
-
 		typedef	typename	Iterator::difference_type	difference_type;
 		typedef typename	Iterator::value_type		value_type;
 		typedef typename	Iterator::pointer			pointer;
@@ -68,7 +66,7 @@ namespace ft
 	template <> struct is_input_iterator_tagged<random_access_iterator_tag> { static const bool value = true; };
 
 	template< typename T>
-	class random_access_iterator : public iterator_traits< Iterator< random_access_iterator_tag, T > >
+	class RandomAccessIterator : public iterator_traits< Iterator< random_access_iterator_tag, T > >
 	{
 
 	public:
@@ -219,7 +217,7 @@ namespace ft
 	};
 
 	template < class Iter >
-	class	reverse_iterator : public Iter
+	class	ReverseIterator : public Iter
 	{
 
 	public:

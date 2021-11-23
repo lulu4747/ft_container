@@ -19,21 +19,21 @@ namespace	ft
 
 	//	Member Types :
 
-		typedef T					value_type;
-		typedef	Alloc				allocator_type;
-		typedef	size_t				size_type;
-		typedef	std::ptrdiff_t		difference_type;
-		typedef	value_type&			reference;
- 		typedef const value_type&	const_reference;
+		typedef 			T										value_type;
+		typedef				Alloc									allocator_type;
+		typedef				size_t									size_type;
+		typedef				std::ptrdiff_t							difference_type;
+		typedef				value_type&								reference;
+ 		typedef const		value_type&								const_reference;
 
-		typedef typename	allocator_type::pointer			pointer;
-		typedef typename	allocator_type::const_pointer	const_pointer;
+		typedef typename	allocator_type::pointer					pointer;
+		typedef typename	allocator_type::const_pointer			const_pointer;
 
 
-		typedef	random_access_iterator<value_type>		iterator;
-		typedef	const iterator							const_iterator;
-		typedef	reverse_iterator<value_type>			reverse_iterator;
-		typedef	const reverse_iterator					const_reverse_iterator;
+		typedef				RandomAccessIterator<value_type>		iterator;
+		typedef				RandomAccessIterator<const value_type>	const_iterator;
+		typedef				ReverseIterator<value_type>				reverse_iterator;
+		typedef				ReverseIterator<const value_type>		const_reverse_iterator;
 
 	//	Member Functions :
 
@@ -56,14 +56,14 @@ namespace	ft
 			_end += n;
 		}
 
-		template <class InputIterator>
-		Vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
-			typename enable_if<!is_integral<InputIterator>::value, InputIterator >::type* = NULL)
+		template <class InputIt>
+		Vector (InputIt first, InputIt last, const allocator_type& alloc = allocator_type(),
+			typename enable_if<!is_integral<InputIt>::value, InputIt >::type* = NULL)
 		:
 			_alloc(alloc), _data(NULL), _end(NULL), _capacity(NULL)
 		{
-			if(!(is_input_iterator_tagged< typename iterator_traits<InputIterator>::iterator_category >::value))
-				throw std::invalid_argument("In ft::Vector(InputIterator first, InputIterator last), InuputIterator class is'nt at least ft::InputIterator tagged");					//Faire mieux
+			if(!(is_input_iterator_tagged< typename iterator_traits<InputIt>::iterator_category >::value))
+				throw std::invalid_argument("In ft::Vector(InputIt first, InputIt last), InputIterator class is'nt at least ft::InputIterator tagged");					//Faire mieux
 
 			assign(first, last);
 		}
@@ -254,12 +254,12 @@ namespace	ft
 			_end += count;
 		}
 
-		template <class InputIterator>
-		void	assign(InputIterator first, InputIterator last,
-		typename enable_if<!is_integral<InputIterator>::value, InputIterator >::type* = NULL)
+		template <class InputIt>
+		void	assign(InputIt first, InputIt last,
+		typename enable_if<!is_integral<InputIt>::value, InputIt >::type* = NULL)
 		{
-			if(!(is_input_iterator_tagged< typename iterator_traits<InputIterator>::iterator_category >::value))
-				throw std::invalid_argument("In ft::Vector::assign(InputIterator first, InputIterator last), InuputIterator class is'nt at least ft::InputIterator tagged");					//Faire mieux
+			if(!(is_input_iterator_tagged< typename iterator_traits<InputIt>::iterator_category >::value))
+				throw std::invalid_argument("In ft::Vector::assign(InputIt first, InputIt last), InputIterator class is'nt at least ft::InputIterator tagged");					//Faire mieux
 
 			size_type	count = last - first;
 
@@ -312,19 +312,19 @@ namespace	ft
 			return;
 		}
 
-		template <class InputIterator>
-    	void insert (iterator position, InputIterator first, InputIterator last,
-			typename enable_if<!is_integral<InputIterator>::value, InputIterator >::type* = NULL)
+		template <class InputIt>
+    	void insert (iterator position, InputIt first, InputIt last,
+			typename enable_if<!is_integral<InputIt>::value, InputIt >::type* = NULL)
 		{
-			if(!(is_input_iterator_tagged< typename iterator_traits<InputIterator>::iterator_category >::value))
-				throw std::invalid_argument("In ft::Vector::insert(iterator position, InputIterator first, InputIterator last), InuputIterator class is'nt at least ft::InputIterator tagged");					//Faire mieux
+			if(!(is_input_iterator_tagged< typename iterator_traits<InputIt>::iterator_category >::value))
+				throw std::invalid_argument("In ft::Vector::insert(iterator position, InputIt first, InputIt last), InputIterator class is'nt at least ft::InputIterator tagged");					//Faire mieux
 
 			size_type	new_size(size() + (last - first));
 
 			if (size() == new_size)
 				return ;
 			if (new_size > this->max_size())
-				throw (std::length_error("vector::insert(iterator position, InputIterator first, InputIterator last)"));
+				throw (std::length_error("vector::insert(iterator position, InputIt first, InputIt last)"));
 
 			if (new_size > capacity())
 			{
