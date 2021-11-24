@@ -57,6 +57,29 @@ int main(void){
 	output(ft_c, std_c);
 	content(ft_c, std_c);
 
+	for (int i = 1; i < 6; i++)
+	{
+		ft_c.pop_back();
+		std_c.pop_back();
+	}
+
+	output(ft_c, std_c);
+	content(ft_c, std_c);
+
+	for (int i = 1; i < 6; i++)
+	{
+		ft_c.push_back(i);
+		std_c.push_back(i);
+	}
+
+	output(ft_c, std_c);
+	content(ft_c, std_c);
+
+	ft_c.clear();
+	std_c.clear();
+
+	output(ft_c, std_c);
+	content(ft_c, std_c);
 
 	ft_c.assign(5, 5);
 	std_c.assign(5, 5);
