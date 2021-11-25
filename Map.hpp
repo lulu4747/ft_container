@@ -3,7 +3,7 @@
 
 # include <memory>
 # include "ft.hpp"
-//# include "rb_tree.hpp"
+# include "rb_tree.hpp"
 # include "Iterator.hpp"
 
 namespace	ft
@@ -44,8 +44,8 @@ namespace	ft
 
 	private:
 
-		pointer			_data;
-		allocator_type	_alloc;
+		rb_tree<value_type, key_compare>	_data;
+		allocator_type						_alloc;
 
 	};
 }
