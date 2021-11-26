@@ -59,24 +59,36 @@ namespace	ft
 		}
 	};
 
-	template< class T, class Compare, class key = typename T::key_type >
+	template< class T, class Compare = ft::less< T > , class key = typename T::key_type, class N = ft::node< T >
+				, class T_Alloc = typename std::allocator< T >, class N_Alloc = typename std::allocator< N >>
 	struct rb_tree
 	{
 		typedef	T					value_type;
+		typedef T_Alloc				value_allocater_type;
+		typedef	N					node_type;
+		typedef node_type*			node_pointer;
+		typedef N_Alloc				node_allocater_type;
+
 		typedef Compare				key_compare;
 		typedef	key					key_type;
-		typedef node<value_type>	leaf;
 
-		leaf*	root;
-		leaf*	end;
+		node_pointer			root;
+		node_pointer			end;
+		value_allocater_type	value_alloc;
+		node_allocater_type		node_alloc;
 
 		rb_tree()
-			:root(NULL), end(NULL)
+			:root(NULL), end(NULL),
+			value_alloc(value_allocater_type()),
+			node_alloc(node_allocater_type())
 		{}
 
 		rb_tree(value_type const& val)
-			:root(new leaf(val)), end(root)
-		{}
+			:rb_tree()
+		{
+			node_alloc.construct(root, val);
+			end = root;
+		}
 
 		rb_tree(rb_tree const& src)
 			:rb_tree()
@@ -109,16 +121,16 @@ namespace	ft
 				clear(root->left);
 			if (root->right)
 				clear(root->right);
-			delete root;
+			node_alloc.destroy(root);
 		}
 
-		void	clear(leaf* l)
+		void	clear(node_pointer ptr)
 		{
-			if (l->left)
-				clear(l->left);
-			if (l->right)
-				clear(l->right);
-			delete l;
+			if (ptr->left)
+				clear(ptr->left);
+			if (ptr->right)
+				clear(ptr->right);
+			node_alloc.destroy(ptr);
 		}
 
 		void	copy(rb_tree const& src)
@@ -126,7 +138,7 @@ namespace	ft
 			clear();
 			if (src.empty())
 				return ;
-			root = new leaf(src.root);
+			root = new node_type(src.root);
 			if (src->left)
 				root->left = copy(root->left, src->left);
 			else
@@ -138,34 +150,40 @@ namespace	ft
 			return ;
 		}
 
-		leaf*	copy(leaf* l, leaf* src_l)
+		node_pointer	copy(node_pointer ptr1, node_pointer ptr2)
 		{
-			l = new leaf(src_l);
-			if (src_l->left)
-				l->left = copy(l->left, src_l->left);
+			ptr1 = new node_type(ptr2);
+			if (ptr2->left)
+				ptr1->left = copy(ptr1->left, ptr2->left);
 			else
-				l->left = NULL;
-			if (src_l->right)
-				l->right = copy(l->right, src_l->right);
+				ptr1->left = NULL;
+			if (ptr2->right)
+				ptr1->right = copy(ptr1->right, ptr2->right);
 			else
-				l->right = NULL;
-			return l;
+				ptr1->right = NULL;
+			return ptr1;
 		}
 
-		bool	insert(const value_type& value)
+		void	insert(const value_type& value)
 		{
-			leaf*	new_l(root);
-			leaf*	new_p;
+			node_pointer	new_node(root);
+			node_pointer	new_parent;
+			bool			side;
 
-			while (new_l != NULL)
+			while (new_node)
 			{
-				new_p = new_l;
-				if (key_compare(value.first, new_l->value.first))
-					new_l = new_l->left;
+				new_parent = new_node;
+				if (key_compare(value.first, new_node->value.first))
+				{	new_node = new_node->left;	side = 0;}
 				else
-					new_l = new_l->right;
+				{	new_node = new_node->right;	side = 1;}
 			}
-			new_l = new leaf(value, new_p);
+			node_alloc.construct(new_node, value);
+			new_node->parent = new_parent;
+			if (!side)
+				new_parent->left = new_node;
+			else
+				new_parent->right = new_node;
 		}
 
 	};
