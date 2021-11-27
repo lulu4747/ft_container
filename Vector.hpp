@@ -420,8 +420,6 @@ namespace	ft
 		pointer			_end;
 		pointer			_capacity;
 
-	private:
-
 		void	_allocate(size_type n)
 		{
 			_data = _alloc.allocate(n);
@@ -435,12 +433,14 @@ namespace	ft
 		}
 
 	};
+
 /*
 	template < class Alloc >
 	class Vector <bool, Alloc>		//unsure if I should add this
 	{
 		typedef	bool	value_type;
-	};*/
+	};
+*/
 
 	template < class T, class Alloc >
 	bool operator== (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
