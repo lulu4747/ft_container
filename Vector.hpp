@@ -409,7 +409,7 @@ namespace	ft
 			for (iterator it = first; it != last; it++)
 			{
 				if (*it)
-					_alloc.destroy(&(*(it)));				//does'nt segfault when destructing past capacity
+					_alloc.destroy(&(*(it)));
 				range++;
 			}
 			while (first != last)
@@ -464,14 +464,6 @@ namespace	ft
 		}
 
 	};
-
-/*
-	template < class Alloc >
-	class Vector <bool, Alloc>		//unsure if I should add this
-	{
-		typedef	bool	value_type;
-	};
-*/
 
 	template < class T, class Alloc >
 	bool operator== (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)

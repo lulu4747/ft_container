@@ -67,36 +67,36 @@ namespace	ft
 	};
 
 	template< class T, class Compare = ft::less< T > , class key = typename T::key_type, class N = ft::node< T >
-				, class T_Alloc = typename std::allocator< T >, class N_Alloc = typename std::allocator< N >>
+				, class T_Alloc = typename std::allocator< T >, class N_Alloc = typename std::allocator< N > >
 	struct rb_tree
 	{
-		typedef	T					value_type;
-		typedef T_Alloc				value_allocater_type;
-		typedef	N					node_type;
-		typedef node_type*			node_pointer;
-		typedef N_Alloc				node_allocater_type;
+		typedef				T										value_type;
+		typedef 			T_Alloc									value_allocator_type;
+		typedef				N										node_type;
+		typedef 			node_type*								node_pointer;
+		typedef 			N_Alloc									node_allocator_type;
 
-		typedef Compare				key_compare;
-		typedef	key					key_type;
-		typedef	size_t				size_type;
+		typedef 			Compare									key_compare;
+		typedef				key										key_type;
+		typedef				size_t									size_type;
+	
+		typedef				BidirectionalIterator<value_type>		iterator;
+		typedef				BidirectionalIterator<const value_type>	const_iterator;
+
+		typedef typename	value_type::second_type					mapped_type;
 
 		node_pointer			root;
 		node_pointer			end;
-		value_allocater_type	value_alloc;
-		node_allocater_type		node_alloc;
+		value_allocator_type	value_alloc;
+		node_allocator_type		node_alloc;
+		key_compare				comp;
 
-		rb_tree()
-			:root(NULL), end(NULL),
-			value_alloc(value_allocater_type()),
-			node_alloc(node_allocater_type())
+		explicit rb_tree(const key_compare& compare = key_compare(), const value_allocator_type& v_alloc = value_allocator_type(),
+							const node_allocator_type& n_alloc = node_allocator_type())
+			:root(NULL), end(NULL), comp(compare),
+			value_alloc(v_alloc),
+			node_alloc(n_alloc)
 		{}
-
-		rb_tree(value_type const& val)
-			:rb_tree()
-		{
-			node_alloc.construct(root, node_type(val));
-			end = root;
-		}
 
 		rb_tree(rb_tree const& src)
 			:rb_tree()
@@ -134,6 +134,7 @@ namespace	ft
 				clear(root->left);
 			if (root->right)
 				clear(root->right);
+			value_alloc.destroy(root->value);
 			node_alloc.destroy(root);
 		}
 
@@ -154,16 +155,18 @@ namespace	ft
 			return ;
 		}
 
-		void	insert(const value_type& value)
+		bool	insert(const value_type& value)
 		{
 			node_pointer	new_node(root);
 			node_pointer	new_parent;
 			bool			side;
 
+			if (find(value))
+				return false;
 			while (new_node)
 			{
 				new_parent = new_node;
-				if (key_compare(value.first, new_node->value.first))
+				if (comp(value.first, new_node->value.first))
 				{	new_node = new_node->left;	side = 0;}
 				else
 				{	new_node = new_node->right;	side = 1;}
@@ -174,6 +177,7 @@ namespace	ft
 				new_parent->left = new_node;
 			else
 				new_parent->right = new_node;
+			return true;
 		}
 
 		void	erase(node_pointer ptr)
@@ -215,6 +219,7 @@ namespace	ft
 					parent->right = NULL;
 				parent = parent->right;
 			}
+			value_alloc.destroy(ptr->value);
 			node_alloc.destroy(ptr);
 			if (child)
 				_relocate(child, parent);
@@ -245,6 +250,7 @@ namespace	ft
 				clear(ptr->left);
 			if (ptr->right)
 				clear(ptr->right);
+			value_alloc.destroy(ptr->value);
 			node_alloc.destroy(ptr);
 		}
 
@@ -266,7 +272,7 @@ namespace	ft
 
 		void	_relocate(node_pointer to_relocate, node_pointer to_compare)
 		{
-			if (key_compare(to_relocate->key(), to_compare->key()))
+			if (comp(to_relocate->key(), to_compare->key()))
 			{
 				while (to_compare->left)
 					to_compare = to_compare->left;

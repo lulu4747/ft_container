@@ -2,11 +2,12 @@
 #include <string>
 #include <list>
 #include <vector>
+#include <map>
 #include "ft.hpp"
 #include "Map.hpp"
 #include "Stack.hpp"
 #include "Vector.hpp"
-
+/*
 template < class FT, class STD >
 void	output(const FT & ft_c, const STD & std_c)
 {
@@ -39,9 +40,9 @@ void	content(const FT & ft_c, const STD & std_c)
 	inside(std_c);
 	std::cout << "____________________________________________" << std::endl << std::endl;
 }
-
+*/
 int main(void){
-
+/*
 	ft::Vector<int>		ft_c;
 	ft::Vector<int>		ft_lst(7, 78);
 	std::vector<int>	std_c;
@@ -96,5 +97,20 @@ int main(void){
 	output(ft_c, std_c);
 	content(ft_c, std_c);
 
-	return 0;
+	return 0;*/
+
+  std::map<char,int> first;
+  std::map<char,int> second;
+
+  first['x']=8;
+  first['y']=16;
+  first['z']=32;
+
+  second=first;                // second now contains 3 ints
+  first=std::map<char,int>();  // and first is now empty
+
+  std::cout << "Size of first: " << first.size() << '\n';
+  std::cout << "Size of second: " << second.size() << '\n';
+  return 0;
+
 }

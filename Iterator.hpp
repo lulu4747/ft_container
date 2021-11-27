@@ -7,11 +7,11 @@
 namespace ft
 {
 
-	struct	output_iterator_tag{};
-	struct	input_iterator_tag{};
-	struct	forward_iterator_tag : public input_iterator_tag {};
-	struct	bidirectional_iterator_tag : public forward_iterator_tag {};
-	struct	RandomAccessIterator_tag : public bidirectional_iterator_tag {};
+	struct	Output_Iterator_tag{};
+	struct	Input_Iterator_tag{};
+	struct	Forward_Iterator_tag : public Input_Iterator_tag {};
+	struct	Bidirectional_Iterator_tag : public Forward_Iterator_tag {};
+	struct	Random_Access_Iterator_tag : public Bidirectional_Iterator_tag {};
 
 	template <class Category, class T, class Distance = std::ptrdiff_t, class Pointer = T*, class Reference = T&>
 	struct Iterator
@@ -41,7 +41,7 @@ namespace ft
     	typedef	T							value_type;
     	typedef	T*							pointer;
     	typedef	T&							reference;
-    	typedef	RandomAccessIterator_tag	iterator_category;
+    	typedef	Random_Access_Iterator_tag	iterator_category;
   	};
 
 	template <class T>
@@ -51,7 +51,7 @@ namespace ft
 		typedef	T							value_type;
 		typedef	const T*					pointer;
 		typedef	const T&					reference;
-		typedef	RandomAccessIterator_tag	iterator_category;
+		typedef	Random_Access_Iterator_tag	iterator_category;
   	};
 
 	template <class T>
@@ -60,13 +60,16 @@ namespace ft
 		static const bool value = false;
 	};
 
-	template <> struct is_input_iterator_tagged<input_iterator_tag> { static const bool value = true; };
-	template <> struct is_input_iterator_tagged<forward_iterator_tag> { static const bool value = true; };
-	template <> struct is_input_iterator_tagged<bidirectional_iterator_tag> { static const bool value = true; };
-	template <> struct is_input_iterator_tagged<RandomAccessIterator_tag> { static const bool value = true; };
+	template <> struct is_input_iterator_tagged<Input_Iterator_tag> { static const bool value = true; };
+	template <> struct is_input_iterator_tagged<Forward_Iterator_tag> { static const bool value = true; };
+	template <> struct is_input_iterator_tagged<Bidirectional_Iterator_tag> { static const bool value = true; };
+	template <> struct is_input_iterator_tagged<Random_Access_Iterator_tag> { static const bool value = true; };
 
-	template< typename T>
-	class RandomAccessIterator : public iterator_traits< Iterator< RandomAccessIterator_tag, T > >
+	template< typename T >
+	class	BidirectionalIterator : public iterator_traits< Iterator< Random_Access_Iterator_tag, T > >;
+
+	template< typename T >
+	class RandomAccessIterator : public iterator_traits< Iterator< Random_Access_Iterator_tag, T > >
 	{
 
 	public:
@@ -77,7 +80,7 @@ namespace ft
     	typedef value_type&					reference;
     	typedef value_type const &			const_reference;
     	typedef std::ptrdiff_t				difference_type;
-		typedef RandomAccessIterator_tag	iterator_category;
+		typedef Random_Access_Iterator_tag	iterator_category;
 
 		RandomAccessIterator():_ptr(NULL)	{}
 		RandomAccessIterator(pointer ptr):_ptr(ptr) {}
