@@ -63,7 +63,7 @@ namespace	ft
 			_alloc(alloc), _data(NULL), _end(NULL), _capacity(NULL)
 		{
 			if(!(is_input_iterator_tagged< typename iterator_traits<InputIt>::iterator_category >::value))
-				throw std::invalid_argument("In ft::Vector(InputIt first, InputIt last), InputIterator class is'nt at least ft::InputIterator tagged");					//Faire mieux
+				throw std::invalid_argument("In ft::Vector(InputIt first, InputIt last), InputIt class is'nt at least ft::InputIterator tagged");					//Faire mieux
 
 			assign(first, last);
 		}
@@ -178,10 +178,15 @@ namespace	ft
 
 				_allocate(n);
 				_end += size;
-				for (size_type i = 0; i < size; i++)
+				for (size_type i = 0; i < capacity(); i++)
 				{
-					_alloc.construct(_data + i, prev_data[i]);
-					_alloc.destroy(prev_data + i);
+					if (i < this->size())
+					{
+						_alloc.construct(_data + i, prev_data[i]);
+						_alloc.destroy(prev_data + i);
+					}
+					else
+						_data + i = NULL;
 				}
 				_alloc.deallocate(prev_data, (prev_capacity - prev_data));
 			}
@@ -259,7 +264,7 @@ namespace	ft
 		typename enable_if<!is_integral<InputIt>::value, InputIt >::type* = NULL)
 		{
 			if(!(is_input_iterator_tagged< typename iterator_traits<InputIt>::iterator_category >::value))
-				throw std::invalid_argument("In ft::Vector::assign(InputIt first, InputIt last), InputIterator class is'nt at least ft::InputIterator tagged");					//Faire mieux
+				throw std::invalid_argument("In ft::Vector::assign(InputIt first, InputIt last), InputIt class is'nt at least ft::InputIterator tagged");					//Faire mieux
 
 			size_type	count = last - first;
 
@@ -301,14 +306,39 @@ namespace	ft
 
 		void insert (iterator position, size_type n, const value_type& val)
 		{
+			size_type	new_size(size() + n);
+
 			if (n == 0)
 				return;
-			if (size() + n > max_size())
+			if (new_size > max_size())
 				throw (std::length_error("vector::insert(iterator position, size_type n, const value_type& val)"));
 
-			Vector	tmp(n, val);
+			
+			if (new_size > capacity())
+			{
+				difference_type	new_pos(position - begin());
 
-			insert(position, tmp.begin(), tmp.end());
+				if (new_size <= capacity() * 2)
+					reserve(capacity() * 2);
+				else
+					reserve(new_size);
+				position = begin() + new_pos;
+			}
+
+			difference_type	range(new_size - size());
+
+			_end = _data + new_size;
+			for (iterator it(end() - difference_type(1)); (it - range) != position - difference_type(1); it--)
+			{
+				if (&(*it))
+					_alloc.destroy(&(*it));
+				_alloc.construct(&(*it), *(it - range));
+			}
+			while (n--)
+			{
+				_alloc.destroy(&(*(position)));
+				_alloc.construct(&(*position), val);
+			}
 			return;
 		}
 
@@ -317,7 +347,7 @@ namespace	ft
 			typename enable_if<!is_integral<InputIt>::value, InputIt >::type* = NULL)
 		{
 			if(!(is_input_iterator_tagged< typename iterator_traits<InputIt>::iterator_category >::value))
-				throw std::invalid_argument("In ft::Vector::insert(iterator position, InputIt first, InputIt last), InputIterator class is'nt at least ft::InputIterator tagged");					//Faire mieux
+				throw std::invalid_argument("In ft::Vector::insert(iterator position, InputIt first, InputIt last), InputIt class is'nt at least ft::InputIterator tagged");					//Faire mieux
 
 			size_type	new_size(size() + (last - first));
 
@@ -342,8 +372,9 @@ namespace	ft
 			_end = _data + new_size;
 			for (iterator it(end() - difference_type(1)); (it - range) != position - difference_type(1); it--)
 			{
-				_alloc.destroy(&(*(it)));
-				_alloc.construct(&(*(it)), *(it - range));
+				if (&(*it))
+					_alloc.destroy(&(*it));
+				_alloc.construct(&(*it), *(it - range));
 			}
 			while (first != last)
 			{

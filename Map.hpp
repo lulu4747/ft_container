@@ -3,6 +3,7 @@
 
 # include <memory>
 # include "ft.hpp"
+# include "rb_tree.hpp"
 # include "Iterator.hpp"
 
 namespace	ft
@@ -24,31 +25,28 @@ namespace	ft
 		typedef				value_type&										reference;
 		typedef	const 		value_type&										const_reference;
 
-		typedef	typename	Allocator::pointer								pointer;
-		typedef	typename	Allocator::const_pointer						const_pointer;
+		typedef	typename	allocator_type::pointer							pointer;
+		typedef	typename	allocator_type::const_pointer					const_pointer;
 		
-		typedef				BidirectionalIterator<value_type>				iterator;
-		typedef				BidirectionalIterator<const value_type>			const_iterator;
-		typedef				ReverseIterator<iterator>						reverse_iterator;
-		typedef				ReverseIterator<const_iterator>					const_reverse_iterator;
+//		typedef				BidirectionalIterator<value_type>				iterator;
+//		typedef				BidirectionalIterator<const value_type>			const_iterator;
+//		typedef				ReverseIterator<iterator>						reverse_iterator;
+//		typedef				ReverseIterator<const_iterator>					const_reverse_iterator;
 
-		explicit	Map( const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type() )
-			:_comp(comp),
-			_alloc(alloc)
-		{}
+		Map();
+		//explicit	Map(void);
 
 		template< class InputIt >
 		Map( InputIt first, InputIt last,
-				const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type() );
-		
-		Map (const Map& x);
-
+     		const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type() );
 		~Map();
 
 	protected:
 
-		key_compare		_comp;
-		allocator_type	_alloc;
+	private:
+
+		rb_tree<value_type, key_compare>	_data;
+		allocator_type						_alloc;
 
 	};
 }

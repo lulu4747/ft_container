@@ -6,6 +6,7 @@ INC		= algorithm.hpp
 INC		+= Iterator.hpp
 INC		+= ft.hpp
 INC		+= Map.hpp
+INC		+= rb_tree.hpp
 INC		+= Stack.hpp
 INC		+= Vector.hpp
 
