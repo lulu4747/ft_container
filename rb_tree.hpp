@@ -80,8 +80,8 @@ namespace	ft
 		typedef				key										key_type;
 		typedef				size_t									size_type;
 	
-		typedef				BidirectionalIterator<value_type>		iterator;
-		typedef				BidirectionalIterator<const value_type>	const_iterator;
+		typedef				BidirectionalIterator<node_type>		iterator;
+		typedef				BidirectionalIterator<const node_type>	const_iterator;
 
 		typedef typename	value_type::second_type					mapped_type;
 
@@ -180,8 +180,9 @@ namespace	ft
 			return true;
 		}
 
-		void	erase(node_pointer ptr)
+		void	erase(iterator& to_remove)
 		{
+			node_pointer	ptr(&(*to_remove));
 			node_pointer	parent(ptr->parent);
 			node_pointer	child(NULL);
 

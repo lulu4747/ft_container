@@ -113,11 +113,81 @@ namespace	ft
 //		template <class InputIterator>
 //		void insert (InputIterator first, InputIterator last);
 
-		void erase (iterator position);
+		void	erase (iterator position)
+		{
+			_data.erase(position);
+		}
 
-		size_type erase (const key_type& k);
-	
-		void erase (iterator first, iterator last);
+		void	erase (iterator first, iterator last)
+		{
+			while (first != last)
+			{
+				erase(first);
+				first++;
+			}
+		}
+
+		size_type	erase (const key_type& k)
+		{
+			iterator	position(find(k));
+
+			if (position == end())
+				return 0;
+			erase(position);
+			return 1;
+		}
+
+		void	swap (map& x);
+
+		void	clear()
+		{
+			_data.clear();
+		}
+
+		//	Observer
+
+		key_compare key_comp() const
+		{
+			return _comp;
+		}
+/*
+		value_compare value_comp() const;	// define value_compare
+*/
+
+		//	Operation
+
+		iterator	find (const key_type& k)
+		{
+			return (_data.find(k))	//NIY
+		}
+
+		const_iterator	find (const key_type& k) const;
+		{
+			const_iterator	r(_data.find(k));	//NIY
+
+			return r;
+		}
+
+		size_type	count (const key_type& k) const
+		{
+			if (_data.find(k) != end())		//NIY
+				return 1;
+			return 0;
+		}
+
+		iterator	lower_bound (const key_type& k);
+
+		const_iterator	lower_bound (const key_type& k) const;
+
+		pair<iterator,iterator>	equal_range (const key_type& k);
+		pair<const_iterator,const_iterator>	equal_range (const key_type& k) const;
+
+		// Allocator
+
+		allocator_type	get_allocator() const
+		{
+			return _alloc;
+		}
 
 	protected:
 
