@@ -50,7 +50,7 @@ namespace	ft
 		{}
 
 		Map( Map const & src)
-			:Map< key_type, mapped_type, key_compare , allocator_type >(x.key_comp(), x.get_allocator())
+			:Map< key_type, mapped_type, key_compare , allocator_type >(src.key_comp(), src.get_allocator())
 		{
 			*this = src;
 		}
@@ -66,6 +66,46 @@ namespace	ft
 		}
 
 		//	Iterators
+
+		iterator	begin()
+		{
+			return _data.begin();
+		}
+
+		const_iterator	begin() const
+		{
+			return _data.begin();
+		}
+
+		iterator	end()
+		{
+			return _data.end();
+		}
+
+		const_iterator	end() const
+		{
+			return _data.end();
+		}
+
+		reverse_iterator	rbegin()
+		{
+			return _data.rbegin();
+		}
+
+		const_reverse_iterator	rbegin() const
+		{
+			return _data.rbegin();
+		}
+
+		reverse_iterator	rend()
+		{
+			return _data.rend();
+		}
+
+		const_reverse_iterator	rend() const
+		{
+			return _data.rend();
+		}
 
 		//	Capacity
 
@@ -137,7 +177,14 @@ namespace	ft
 			return 1;
 		}
 
-		void	swap (map& x);
+		void	swap(Map& x)
+		{
+			Map	tmp(x);
+
+			x._data = this->_data;
+			this->_data = tmp._data;
+			tmp.~Map();
+		}
 
 		void	clear()
 		{
@@ -158,14 +205,12 @@ namespace	ft
 
 		iterator	find (const key_type& k)
 		{
-			return (_data.find(k))	//NIY
+			return (_data.find(k));	//NIY
 		}
 
-		const_iterator	find (const key_type& k) const;
+		const_iterator	find (const key_type& k) const
 		{
-			const_iterator	r(_data.find(k));	//NIY
-
-			return r;
+			return (_data.find(k));	//NIY
 		}
 
 		size_type	count (const key_type& k) const

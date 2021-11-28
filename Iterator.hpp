@@ -2,6 +2,7 @@
 # define ITERATOR_HPP
 
 # include <memory>
+# include "Stack.hpp"
 # include "ft.hpp"
 
 namespace ft
@@ -66,7 +67,153 @@ namespace ft
 	template <> struct is_input_iterator_tagged<Random_Access_Iterator_tag> { static const bool value = true; };
 
 	template< typename T >
-	class	BidirectionalIterator : public iterator_traits< Iterator< Random_Access_Iterator_tag, T > >;
+	class	Binary_Search_Tree_Iterator : public iterator_traits< Iterator< Bidirectional_Iterator_tag, T > >
+	{
+
+	public :
+
+		typedef typename	T::value_type				value_type;
+    	typedef 			value_type*					pointer;
+    	typedef 			value_type const *			const_pointer;
+    	typedef 			value_type&					reference;
+    	typedef 			value_type const &			const_reference;
+    	typedef 			std::ptrdiff_t				difference_type;
+		typedef 			Bidirectional_Iterator_tag	iterator_category;
+	
+		explicit Binary_Search_Tree_Iterator(pointer ptr = NULL)
+			:_inf(stack()), _sup(stack())
+		{
+			from_greater(ptr);
+			from_smallest(ptr);
+		}
+
+		Binary_Search_Tree_Iterator(Binary_Search_Tree_Iterator const & src)
+		{
+			*this = src;
+		}
+
+		virtual	~Binary_Search_Tree_Iterator()	{}
+
+		Binary_Search_Tree_Iterator&	operator=(Binary_Search_Tree_Iterator const & rhs)
+		{
+			if (this != &rhs)
+			{
+				from_greater(rhs._current());
+				from_smallest(rhs._current());
+			}
+			return *this;
+		}
+
+		reference	operator*()
+		{
+			return *(_current()->value);
+		}
+
+		const_reference	operator*() const
+		{
+			return *(_current()->value);
+		}
+
+		pointer	operator->()
+		{
+			return _current()->value;
+		}
+
+		const_pointer	operator->() const
+		{
+			return _current()->value;
+		}
+
+		Binary_Search_Tree_Iterator operator++(int)
+		{
+			Binary_Search_Tree_Iterator 	tmp(*this);
+
+			operator++();
+			return tmp;
+		}
+
+		Binary_Search_Tree_Iterator& operator++()
+		{
+			_inf.push(_sup.top());
+			_sup.pop();
+			return *this;
+		}
+
+		Binary_Search_Tree_Iterator operator--(int)
+		{
+			Binary_Search_Tree_Iterator 	tmp(*this);
+
+			operator--();
+			return tmp;
+		}
+
+		Binary_Search_Tree_Iterator& operator--()
+		{
+			_sup.push(_inf.top());	// Verify true behaviour when begin()--
+			_inf.pop();
+			return *this;
+		}
+
+		bool operator==(Binary_Search_Tree_Iterator const &rhs) const
+		{
+			return (_current() == rhs._current());
+		}
+
+		bool operator!=(Binary_Search_Tree_Iterator const &rhs) const
+		{
+			return !(operator==(rhs));
+		}
+
+	protected :
+
+		typedef	T*					node_pointer;
+		typedef	Stack<node_pointer>	stack;
+
+		stack			_inf;
+		stack			_sup;
+
+		node_pointer	_get_root(node_pointer ptr)
+		{
+			while (ptr->parent)
+				ptr = ptr->parent;
+			return ptr;
+		}
+
+		node_pointer	_current()
+		{
+			return (_inf.top())
+		}
+
+		void	from_greater(node_pointer ptr, node_pointer current = NULL, node_pointer root = _get_root(ptr))
+		{
+			if (!current)
+				current = root;
+			if (current->right)
+				from_greater(ptr, current->right, root);
+			if (_sup.empty())
+				_suo.push(NULL);
+			if (_sup.top() == ptr || current == ptr)
+				return ;
+			_sup.push(current);
+			if (current->left)
+				from_greater(ptr, current->left, root);
+		}
+
+		void	from_smallest(node_pointer ptr, node_pointer current = NULL, node_pointer root = _get_root(ptr))
+		{
+			if (!current)
+				current = root;
+			if (current->left)
+				from_greater(ptr, current->left, root);
+			if (_sup.top() == ptr)
+				return ;
+			_sup.push(current);
+			if (current == ptr)
+				return ;
+			if (current->right)
+				from_greater(ptr, current->right, root);
+		}
+	};
 
 	template< typename T >
 	class RandomAccessIterator : public iterator_traits< Iterator< Random_Access_Iterator_tag, T > >
@@ -249,7 +396,7 @@ namespace ft
 		template< class U >
 		ReverseIterator& operator=( const ReverseIterator<U>& other )
 		{
-			if (this != other)
+			if (this != &other)
 				current = other.base();
 			return *this;
 		}

@@ -70,18 +70,18 @@ namespace	ft
 				, class T_Alloc = typename std::allocator< T >, class N_Alloc = typename std::allocator< N > >
 	struct rb_tree
 	{
-		typedef				T										value_type;
-		typedef 			T_Alloc									value_allocator_type;
-		typedef				N										node_type;
-		typedef 			node_type*								node_pointer;
-		typedef 			N_Alloc									node_allocator_type;
+		typedef				T												value_type;
+		typedef 			T_Alloc											value_allocator_type;
+		typedef				N												node_type;
+		typedef 			node_type*										node_pointer;
+		typedef 			N_Alloc											node_allocator_type;
 
-		typedef 			Compare									key_compare;
-		typedef				key										key_type;
-		typedef				size_t									size_type;
+		typedef 			Compare											key_compare;
+		typedef				key												key_type;
+		typedef				size_t											size_type;
 	
-		typedef				BidirectionalIterator<node_type>		iterator;
-		typedef				BidirectionalIterator<const node_type>	const_iterator;
+		typedef				Binary_Search_Tree_Iterator<node_type>			iterator;
+		typedef				Binary_Search_Tree_Iterator<const node_type>	const_iterator;
 
 		typedef typename	value_type::second_type					mapped_type;
 
