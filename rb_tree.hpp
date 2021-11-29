@@ -83,17 +83,20 @@ namespace	ft
 		typedef				Binary_Search_Tree_Iterator<node_type>			iterator;
 		typedef				Binary_Search_Tree_Iterator<const node_type>	const_iterator;
 
-		typedef typename	value_type::second_type					mapped_type;
+		typedef typename	value_type::second_type							mapped_type;
 
 		node_pointer			root;
-		node_pointer			end;
 		value_allocator_type	value_alloc;
 		node_allocator_type		node_alloc;
 		key_compare				comp;
 
+/*
+			**		Construction		**
+*/
+
 		explicit rb_tree(const key_compare& compare = key_compare(), const value_allocator_type& v_alloc = value_allocator_type(),
 							const node_allocator_type& n_alloc = node_allocator_type())
-			:root(NULL), end(NULL), comp(compare),
+			:root(NULL), comp(compare),
 			value_alloc(v_alloc),
 			node_alloc(n_alloc)
 		{}
@@ -104,38 +107,11 @@ namespace	ft
 			*this = src;
 		}
 
-		virtual ~rb_tree()
-		{
-			clear();
-		}
-
 		rb_tree&	operator=(rb_tree const& rhs)
 		{
 			if (this != &rhs)
-				this->copy(rhs);
+				this->_copy(rhs);
 			return *this;
-		}
-
-		bool	empty()
-		{
-			return root == NULL;
-		}
-
-		size_type	size()
-		{
-			return size(root);
-		}
-
-		void	clear()
-		{
-			if (empty())
-				return ;
-			if (root->left)
-				clear(root->left);
-			if (root->right)
-				clear(root->right);
-			value_alloc.destroy(root->value);
-			node_alloc.destroy(root);
 		}
 
 		void	copy(rb_tree const& src)
@@ -144,149 +120,295 @@ namespace	ft
 			if (src.empty())
 				return ;
 			node_alloc.construct(root, *(src.root));
+			root->parent = NULL;
 			if (src->left)
-				root->left = copy(root->left, src->left);
+				root->left = _copy(root->left, src->left, root);
 			else
 				root->left = NULL;
 			if (src->right)
-				root->right = copy(root->right, src->right);
+				root->right = _copy(root->right, src->right, root);
 			else
 				root->right = NULL;
 			return ;
 		}
 
+/*
+			**		destruction		**
+*/
+
+		virtual ~rb_tree()
+		{
+			clear();
+		}
+
+		void	clear()
+		{
+			if (empty())
+				return ;
+			if (root->left)
+				_clear(root->left);
+			if (root->right)
+				_clear(root->right);
+			value_alloc.destroy(root->value);
+			node_alloc.destroy(root);
+		}
+
+/*
+			**		infos		**
+*/
+
+		bool	empty()
+		{
+			return root == NULL;
+		}
+
+		size_type	size()
+		{
+			return _size(root);
+		}
+
+/*
+			**		Iterators		**
+*/
+
+		iterator	begin()
+		{
+			iterator	it(_min());
+
+			return it;
+		}
+
+		const_iterator	begin() const
+		{
+			const_iterator	it(_min());
+
+			return it;
+		}
+
+		iterator	end()
+		{
+			iterator	it(NULL);
+
+			return it;
+		}
+
+		const_iterator	end() const
+		{
+			const_iterator	it(NULL);
+
+			return it;
+		}
+
+		iterator	find(const key_type& k)
+		{
+			iterator	pos(_find(k));
+
+			return pos;
+		}
+
+		const_iterator	find(const key_type& k) const
+		{
+			const_iterator	pos(_find(k));
+
+			return pos;
+		}
+
+		size_type	count(const key_type& k) const
+		{
+			if (_find(k))
+				return 1;
+			return 0;
+		}
+
+/*
+			**		ElementAccess		**
+*/
+
+		mapped_type&	operator[](const key_type& k)
+		{
+			node_pointer	ptr(_find(k));
+			value_type*		new_val;
+
+			if (ptr)
+				return ptr->value.second;
+			value_alloc(new_val, value_type(k, mapped_type()));
+			insert(*new_val);
+			return new_val->second;
+		}
+
+/*
+			**		Modifiers		**
+*/
+
 		bool	insert(const value_type& value)
 		{
 			node_pointer	new_node(root);
-			node_pointer	new_parent;
-			bool			side;
+			node_pointer	new_parent(NULL);
+			bool			is_left;
 
-			if (find(value))
+			if (_find(value.first))
 				return false;
 			while (new_node)
 			{
 				new_parent = new_node;
-				if (comp(value.first, new_node->value.first))
-				{	new_node = new_node->left;	side = 0;}
-				else
-				{	new_node = new_node->right;	side = 1;}
+				is_left = comp(value.first, new_node->value.first);
+				new_node = is_left ? new_node->left : new_node->right;
 			}
-			node_alloc.construct(new_node, value);
-			new_node->parent = new_parent;
-			if (!side)
-				new_parent->left = new_node;
-			else
-				new_parent->right = new_node;
-			return true;
+			return _node_init(new_node, value, new_parent, is_left);
 		}
 
 		void	erase(iterator& to_remove)
 		{
 			node_pointer	ptr(&(*to_remove));
 			node_pointer	parent(ptr->parent);
-			node_pointer	child(NULL);
+			node_pointer	orphan(NULL);
 
 			if (ptr == root)
 			{	_root_erase();	return;}
-			if (ptr == parent->left)
-			{
-				if (size(ptr->left) <= size(ptr->right))
-				{
-					parent->left = ptr->right;
-					child = ptr->left;
-				}
-				else if (size(ptr->right) < size(ptr->left))
-				{
-					parent->left = ptr->left;
-					child = ptr->right;
-				}
-				else
-					parent->left = NULL;
-				parent = parent->left;
-			}
+			if (!ptr->left && !ptr->right)
+				ptr == parent->left ? parent->left = NULL : parent->right = NULL;
 			else
 			{
-				if (size(ptr->left) <= size(ptr->right))
-				{
-					parent->right = ptr->right;
-					child = ptr->left;
-				}
-				else if (size(ptr->right) < size(ptr->left))
-				{
-					parent->right = ptr->left;
-					child = ptr->right;
-				}
-				else
-					parent->right = NULL;
-				parent = parent->right;
+				bool			is_left((!ptr->right || _size(ptr->right) < _size(ptr->left))); // verify after implementing proper balance (size comp might have no impact at all)
+				node_pointer	tmp(is_left ? ptr->left : ptr->right);
+
+				ptr == parent->left ?
+					parent->left = tmp : parent->right = tmp;
+				orphan = is_left ? ptr->right : ptr->left;
 			}
 			value_alloc.destroy(ptr->value);
 			node_alloc.destroy(ptr);
-			if (child)
-				_relocate(child, parent);
+			_relink(orphan);
 		}
 	
 	private:
 
-		size_type	size(node_pointer ptr)
-		{
-			size_type	size = 0;
+/*
+			**		copy() helper		**
+*/
 
-			if (ptr->left)
-			{
-				size++;
-				size += size(ptr->left);
-			}
-			if (ptr->right)
-			{
-				size++;
-				size += size(ptr->right);
-			}
-			return size;
-		}
-
-		void	clear(node_pointer ptr)
-		{
-			if (ptr->left)
-				clear(ptr->left);
-			if (ptr->right)
-				clear(ptr->right);
-			value_alloc.destroy(ptr->value);
-			node_alloc.destroy(ptr);
-		}
-
-		node_pointer	copy(node_pointer ptr1, node_pointer ptr2)
+		node_pointer	_copy(node_pointer ptr1, node_pointer ptr2, node_pointer parent)
 		{
 			node_alloc.construct(ptr1, *ptr2);
+			ptr1->parent = parent;
 			if (ptr2->left)
-				ptr1->left = copy(ptr1->left, ptr2->left);
+				ptr1->left = _copy(ptr1->left, ptr2->left, ptr1);
 			else
 				ptr1->left = NULL;
 			if (ptr2->right)
-				ptr1->right = copy(ptr1->right, ptr2->right);
+				ptr1->right = _copy(ptr1->right, ptr2->right, ptr1);
 			else
 				ptr1->right = NULL;
 			return ptr1;
 		}
 
-		void	_root_erase();
+/*
+			**		clear() helper		**
+*/
 
-		void	_relocate(node_pointer to_relocate, node_pointer to_compare)
+		void	_clear(node_pointer ptr)
 		{
-			if (comp(to_relocate->key(), to_compare->key()))
+			if (ptr->left)
+				_clear(ptr->left);
+			if (ptr->right)
+				_clear(ptr->right);
+			value_alloc.destroy(ptr->value);
+			node_alloc.destroy(ptr);
+		}
+
+/*
+			**		size() helper		**
+*/
+
+		size_type	_size(node_pointer ptr)
+		{
+			size_type	size(1);
+
+			if (!ptr)
+				return 0;
+			size += _size(ptr->left);
+			size += _size(ptr->right);
+			return size;
+		}
+
+/*
+			**		find() helper		**
+*/
+
+		node_pointer	_find(const key_type& k)
+		{
+			node_pointer	ptr(root);
+
+			if (ptr)
 			{
-				while (to_compare->left)
-					to_compare = to_compare->left;
-				to_compare->left = to_relocate;
-				to_relocate->parent = to_compare;
+				for(bool bl(comp(k, ptr.first)); ptr && bl != comp(ptr.first, k); bl = comp(k, ptr.first))
+					ptr = bl ? ptr->left : ptr->right;
+			}
+			return ptr;
+		}
+
+/*
+			**		insert() helper		**
+*/
+
+		bool _node_init(node_pointer new_node, const value_type& value, node_pointer new_parent, bool is_left = 0)
+		{
+			if (!new_parent)
+			{
+				node_alloc.construct(root, value);
+				root->parent = NULL;
+				root->left = NULL;
+				root->right = NULL;
 			}
 			else
 			{
-				while (to_compare->right)
-					to_compare = to_compare->right;
-				to_compare->right = to_relocate;
-				to_relocate->parent = to_compare;
+				node_alloc.construct(new_node, value);
+				new_node->left = NULL;
+				new_node->right = NULL;
+				new_node->parent = new_parent;
+				if (is_left)
+					new_parent->left = new_node;
+				else
+					new_parent->right = new_node;
 			}
+			return true;
+		}
+
+/*
+			**		erase() helper		**
+*/
+
+		void	_root_erase();
+
+		void	_relink(node_pointer orphan)
+		{
+			node_pointer	parent(NULL);
+			node_pointer	ptr(root);
+			bool			is_left = 0;
+
+			if (!orphan || !ptr)
+				return ;
+			while (ptr)
+			{
+				parent = ptr->parent;
+				is_left = comp(orphan->value.first, ptr->value.first);
+				ptr = is_left ? ptr->left : ptr->right;
+			}
+			orphan->parent = parent;
+			is_left ? parent->left = orphan : parent->right = orphan;
+		}
+
+/*
+			**		Iterators helper		**
+*/
+
+		node_pointer	_min()
+		{
+			node_pointer	ptr(root);
+
+			while(ptr && ptr->left)
+				ptr = ptr->left;
+			return ptr;
 		}
 
 	};

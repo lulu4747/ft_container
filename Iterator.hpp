@@ -83,8 +83,8 @@ namespace ft
 		explicit Binary_Search_Tree_Iterator(pointer ptr = NULL)
 			:_inf(stack()), _sup(stack())
 		{
-			from_greater(ptr);
-			from_smallest(ptr);
+			_stack_from_greater(ptr);
+			_stack_from_smallest(ptr);
 		}
 
 		Binary_Search_Tree_Iterator(Binary_Search_Tree_Iterator const & src)
@@ -98,8 +98,8 @@ namespace ft
 		{
 			if (this != &rhs)
 			{
-				from_greater(rhs._current());
-				from_smallest(rhs._current());
+				_stack_from_greater(rhs._current());
+				_stack_from_smallest(rhs._current());
 			}
 			return *this;
 		}
@@ -184,34 +184,34 @@ namespace ft
 			return (_inf.top())
 		}
 
-		void	from_greater(node_pointer ptr, node_pointer current = NULL, node_pointer root = _get_root(ptr))
+		void	_stack_from_greater(node_pointer ptr, node_pointer current = NULL, node_pointer root = _get_root(ptr))
 		{
 			if (!current)
 				current = root;
 			if (current->right)
-				from_greater(ptr, current->right, root);
+				_stack_from_greater(ptr, current->right, root);
 			if (_sup.empty())
 				_suo.push(NULL);
 			if (_sup.top() == ptr || current == ptr)
 				return ;
 			_sup.push(current);
 			if (current->left)
-				from_greater(ptr, current->left, root);
+				_stack_from_greater(ptr, current->left, root);
 		}
 
-		void	from_smallest(node_pointer ptr, node_pointer current = NULL, node_pointer root = _get_root(ptr))
+		void	_stack_from_smallest(node_pointer ptr, node_pointer current = NULL, node_pointer root = _get_root(ptr))
 		{
 			if (!current)
 				current = root;
 			if (current->left)
-				from_greater(ptr, current->left, root);
+				_stack_from_smallest(ptr, current->left, root);
 			if (_sup.top() == ptr)
 				return ;
 			_sup.push(current);
 			if (current == ptr)
 				return ;
 			if (current->right)
-				from_greater(ptr, current->right, root);
+				_stack_from_smallest(ptr, current->right, root);
 		}
 	};
 

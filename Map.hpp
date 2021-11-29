@@ -89,22 +89,30 @@ namespace	ft
 
 		reverse_iterator	rbegin()
 		{
-			return _data.rbegin();
+			reverse_iterator rit(--(_data.end()));
+
+			return rit;
 		}
 
 		const_reverse_iterator	rbegin() const
 		{
-			return _data.rbegin();
+			const_reverse_iterator rit(--(_data.end()));
+
+			return rit;
 		}
 
 		reverse_iterator	rend()
 		{
-			return _data.rend();
+			reverse_iterator rit((_data.begin()));
+
+			return rit;
 		}
 
 		const_reverse_iterator	rend() const
 		{
-			return _data.rend();
+			const_reverse_iterator rit((_data.begin()));
+
+			return rit;
 		}
 
 		//	Capacity
@@ -121,14 +129,14 @@ namespace	ft
 
 		size_type max_size() const
 		{
-			return _data.max_size();	//	NIY
+			return _alloc.max_size();	//	verify
 		}
 
 		//	Element access
 
 		mapped_type&	operator[](const key_type& k)
 		{
-			return _data[k];	// NIY
+			return _data[k];
 		}
 
 		//	Modifiers
@@ -153,12 +161,12 @@ namespace	ft
 //		template <class InputIterator>
 //		void insert (InputIterator first, InputIterator last);
 
-		void	erase (iterator position)
+		void	erase(iterator position)
 		{
 			_data.erase(position);
 		}
 
-		void	erase (iterator first, iterator last)
+		void	erase(iterator first, iterator last)
 		{
 			while (first != last)
 			{
@@ -167,7 +175,7 @@ namespace	ft
 			}
 		}
 
-		size_type	erase (const key_type& k)
+		size_type	erase(const key_type& k)
 		{
 			iterator	position(find(k));
 
@@ -203,29 +211,27 @@ namespace	ft
 
 		//	Operation
 
-		iterator	find (const key_type& k)
+		iterator	find(const key_type& k)
 		{
-			return (_data.find(k));	//NIY
+			return (_data.find(k));
 		}
 
-		const_iterator	find (const key_type& k) const
+		const_iterator	find(const key_type& k) const
 		{
-			return (_data.find(k));	//NIY
+			return (_data.find(k));
 		}
 
-		size_type	count (const key_type& k) const
+		size_type	count(const key_type& k) const
 		{
-			if (_data.find(k) != end())		//NIY
-				return 1;
-			return 0;
+			return _data.count();
 		}
 
-		iterator	lower_bound (const key_type& k);
+		iterator	lower_bound(const key_type& k);
 
-		const_iterator	lower_bound (const key_type& k) const;
+		const_iterator	lower_bound(const key_type& k) const;
 
-		pair<iterator,iterator>	equal_range (const key_type& k);
-		pair<const_iterator,const_iterator>	equal_range (const key_type& k) const;
+		pair<iterator,iterator>	equal_range(const key_type& k);
+		pair<const_iterator,const_iterator>	equal_range(const key_type& k) const;
 
 		// Allocator
 
