@@ -70,7 +70,7 @@ namespace	ft
 	};
 
 	template< class T, class Compare = ft::less< T > , class T_Alloc = typename std::allocator< T >,
-					class key = typename T::key_type, class N = ft::node< T >, class N_Alloc = typename std::allocator< N > >
+					class key = typename T::first_type, class N = ft::node< T >, class N_Alloc = typename std::allocator< N > >
 	struct rb_tree
 	{
 		typedef				T												value_type;

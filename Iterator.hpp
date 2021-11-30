@@ -496,8 +496,6 @@ namespace ft
 
 	};
 
-
-
 }
 
 #endif
