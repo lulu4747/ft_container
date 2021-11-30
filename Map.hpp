@@ -37,17 +37,30 @@ namespace	ft
 
 		explicit Map(const key_compare& comp = key_compare(),
 						const allocator_type& alloc = allocator_type())
-			:_data(rb_tree< value_type, key_compare, key_type, node< value_type >, allocator_type, std::allocator< node< value_type > > >()),
+			:_data(rb_tree< value_type, key_compare, allocator_type, key_type, node< value_type >, std::allocator< node< value_type > > >()),
 			_comp(comp),
 			_alloc(alloc)
 		{}
 
 		template< class InputIt >
 		Map(InputIt first, InputIt last,
-				const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
-			: Map< key_type, mapped_type, key_compare , allocator_type >(comp, alloc),
-			_data(_data.copy(first, last))	// NIY, will be whith Map Iterators
-		{}
+				const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type(),
+				typename enable_if<!is_integral<InputIt>::value, InputIt >::type* = NULL)
+			: Map< key_type, mapped_type, key_compare , allocator_type >(comp, alloc))
+		{
+			pointer	new_val;
+
+			if(!(is_input_iterator_tagged< typename iterator_traits<InputIt>::iterator_category >::value))
+				throw std::invalid_argument("In ft::Map(InputIt first, InputIt last), InputIt class is'nt at least ft::InputIterator tagged");
+
+			while (first != last)
+			{
+				_alloc.construct(new_val, *first)
+				_data.insert(*new_val);
+				new_val = NULL;
+				first++;
+			}
+		}
 
 		Map( Map const & src)
 			:Map< key_type, mapped_type, key_compare , allocator_type >(src.key_comp(), src.get_allocator())
@@ -56,7 +69,9 @@ namespace	ft
 		}
 
 		~Map()
-		{	_data.clear();}
+		{
+			_data.clear();
+		}
 
 		Map&	operator=(Map const & rhs)
 		{
@@ -141,7 +156,7 @@ namespace	ft
 
 		//	Modifiers
 
-		pair<iterator,bool> insert (const value_type& val)
+		pair< iterator, bool > insert (const value_type& val)
 		{
 			iterator	first(find(val.first));
 			bool		second(false);
@@ -226,12 +241,19 @@ namespace	ft
 			return _data.count();
 		}
 
-		iterator	lower_bound(const key_type& k);
+		iterator	lower_bound(const key_type& k)
+		{
+			return _data.lower_bound(k);
+		}
 
 		const_iterator	lower_bound(const key_type& k) const;
 
-		pair<iterator,iterator>	equal_range(const key_type& k);
-		pair<const_iterator,const_iterator>	equal_range(const key_type& k) const;
+		iterator	upper_bound(const key_type& k);
+
+		const_iterator	upper_bound(const key_type& k) const;
+
+		pair< iterator, iterator >	equal_range(const key_type& k);
+		pair< const_iterator, const_iterator >	equal_range(const key_type& k) const;
 
 		// Allocator
 
@@ -244,9 +266,9 @@ namespace	ft
 
 	private:
 
-		rb_tree<value_type, key_compare>	_data;
-		key_compare							_comp;
-		allocator_type						_alloc;
+		rb_tree<value_type, key_compare, allocator_type>	_data;
+		key_compare											_comp;
+		allocator_type										_alloc;
 
 	};
 }

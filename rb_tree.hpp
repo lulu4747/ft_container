@@ -1,7 +1,10 @@
 #ifndef RB_TREE_HPP
 # define RB_TREE_HPP
 
+# include "algorithm.hpp"
+# include "ft.hpp"
 # include "Map.hpp"
+# include "Iterator.hpp"
 
 namespace	ft
 {
@@ -66,8 +69,8 @@ namespace	ft
 		}
 	};
 
-	template< class T, class Compare = ft::less< T > , class key = typename T::key_type, class N = ft::node< T >
-				, class T_Alloc = typename std::allocator< T >, class N_Alloc = typename std::allocator< N > >
+	template< class T, class Compare = ft::less< T > , class T_Alloc = typename std::allocator< T >,
+					class key = typename T::key_type, class N = ft::node< T >, class N_Alloc = typename std::allocator< N > >
 	struct rb_tree
 	{
 		typedef				T												value_type;
@@ -167,6 +170,13 @@ namespace	ft
 			return _size(root);
 		}
 
+		size_type	count(const key_type& k) const
+		{
+			if (_find(k))
+				return 1;
+			return 0;
+		}
+
 /*
 			**		Iterators		**
 */
@@ -213,11 +223,24 @@ namespace	ft
 			return pos;
 		}
 
-		size_type	count(const key_type& k) const
+		iterator	lower_bound(const key_type& k)
 		{
-			if (_find(k))
-				return 1;
-			return 0;
+			iterator		it(begin());
+			iterator		ite(end());
+
+			while (it != ite && comp(k, (*it).first))
+				it++;
+			return it;
+		}
+
+		iterator	upper_bound(const key_type& k)
+		{
+			iterator		it(begin());
+			iterator		ite(end());
+
+			while (it != ite && !comp((*it).first), k)
+				it++;
+			return it;
 		}
 
 /*

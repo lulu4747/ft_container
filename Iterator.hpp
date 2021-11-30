@@ -92,12 +92,17 @@ namespace ft
 			*this = src;
 		}
 
-		virtual	~Binary_Search_Tree_Iterator()	{}
+		virtual	~Binary_Search_Tree_Iterator()
+		{
+			_inf.~Stack();
+			_sup.~Stack();
+		}
 
 		Binary_Search_Tree_Iterator&	operator=(Binary_Search_Tree_Iterator const & rhs)
 		{
 			if (this != &rhs)
 			{
+				_empty_stacks()
 				_stack_from_greater(rhs._current());
 				_stack_from_smallest(rhs._current());
 			}
@@ -182,6 +187,14 @@ namespace ft
 		node_pointer	_current()
 		{
 			return (_inf.top())
+		}
+
+		void	_empty_stacks()
+		{
+			while (!_inf.empty())
+				_inf.pop();
+			while (!_sup.empty())
+				_sup.pop();
 		}
 
 		void	_stack_from_greater(node_pointer ptr, node_pointer current = NULL, node_pointer root = _get_root(ptr))

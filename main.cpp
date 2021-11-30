@@ -98,7 +98,7 @@ int main(void){
 	content(ft_c, std_c);
 
 	return 0;*/
-
+/*
   std::map<char,int> first;
   std::map<char,int> second;
 
@@ -108,6 +108,19 @@ int main(void){
 
   second=first;                // second now contains 3 ints
   first=std::map<char,int>();  // and first is now empty
+
+  std::cout << "Size of first: " << first.size() << '\n';
+  std::cout << "Size of second: " << second.size() << '\n';
+*/
+  ft::Map<char,int> first;
+  ft::Map<char,int> second;
+
+  first['x']=8;
+  first['y']=16;
+  first['z']=32;
+
+  second=first;                // second now contains 3 ints
+  first=ft::Map<char,int>();  // and first is now empty
 
   std::cout << "Size of first: " << first.size() << '\n';
   std::cout << "Size of second: " << second.size() << '\n';
