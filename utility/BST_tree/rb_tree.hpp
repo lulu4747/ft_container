@@ -12,7 +12,11 @@ namespace	ft
 					class key = typename T::first_type, typename N = ft::node< T >, class N_Alloc = typename std::allocator< N > >
 	class rb_tree
 	{
+
+	public :
+
 		typedef				T												value_type;
+		typedef				value_type*										pointer;
 		typedef 			T_Alloc											value_allocator_type;
 		typedef				N												node_type;
 		typedef 			node_type*										node_pointer;
@@ -28,9 +32,9 @@ namespace	ft
 		typedef typename	value_type::second_type							mapped_type;
 
 		node_pointer			root;
+		key_compare				comp;
 		value_allocator_type	value_alloc;
 		node_allocator_type		node_alloc;
-		key_compare				comp;
 
 /*
 			**		Construction		**
@@ -52,7 +56,7 @@ namespace	ft
 		rb_tree&	operator=(rb_tree const& rhs)
 		{
 			if (this != &rhs)
-				this->_copy(rhs);
+				this->copy(rhs);
 			return *this;
 		}
 
@@ -63,12 +67,12 @@ namespace	ft
 				return ;
 			node_alloc.construct(root, *(src.root));
 			root->parent = NULL;
-			if (src->left)
-				root->left = _copy(root->left, src->left, root);
+			if (src.root->left)
+				root->left = _copy(root->left, src.root->left, root);
 			else
 				root->left = NULL;
-			if (src->right)
-				root->right = _copy(root->right, src->right, root);
+			if (src.root->right)
+				root->right = _copy(root->right, src.root->right, root);
 			else
 				root->right = NULL;
 			return ;
@@ -99,12 +103,12 @@ namespace	ft
 			**		infos		**
 */
 
-		bool	empty()
+		bool	empty() const
 		{
 			return root == NULL;
 		}
 
-		size_type	size()
+		size_type	size() const
 		{
 			return _size(root);
 		}
@@ -189,12 +193,12 @@ namespace	ft
 		mapped_type&	operator[](const key_type& k)
 		{
 			node_pointer	ptr(_find(k));
-			value_type*		new_val;
+			value_type*		new_val(NULL);
 
 			if (ptr)
-				return ptr->value.second;
-			value_alloc(new_val, value_type(k, mapped_type()));
-			insert(*new_val);
+				return ptr->value->second;
+			value_alloc.construct(new_val, value_type(k, mapped_type()));
+			insert(new_val);
 			return new_val->second;
 		}
 
@@ -202,18 +206,18 @@ namespace	ft
 			**		Modifiers		**
 */
 
-		bool	insert(const value_type& value)
+		bool	insert(pointer value)
 		{
 			node_pointer	new_node(root);
 			node_pointer	new_parent(NULL);
 			bool			is_left;
 
-			if (_find(value.first))
+			if (_find(value->first))
 				return false;
 			while (new_node)
 			{
 				new_parent = new_node;
-				is_left = comp(value.first, new_node->value.first);
+				is_left = comp(value->first, new_node->value->first);
 				new_node = is_left ? new_node->left : new_node->right;
 			}
 			return _node_init(new_node, value, new_parent, is_left);
@@ -246,7 +250,7 @@ namespace	ft
 	private:
 
 /*
-			**		copy() helper		**
+			**		copy() helpers		**
 */
 
 		node_pointer	_copy(node_pointer ptr1, node_pointer ptr2, node_pointer parent)
@@ -282,7 +286,7 @@ namespace	ft
 			**		size() helper		**
 */
 
-		size_type	_size(node_pointer ptr)
+		size_type	_size(node_pointer ptr) const
 		{
 			size_type	size(1);
 
@@ -303,7 +307,8 @@ namespace	ft
 
 			if (ptr)
 			{
-				for(bool bl(comp(k, ptr->value.first)); ptr && bl != comp(ptr->value.first, k); bl = comp(k, ptr->value.first))
+				for(bool bl(comp(k, ptr->value->first)); ptr && bl != comp(ptr->value->first, k);
+							bl = comp(k, ptr->value->first))
 					ptr = bl ? ptr->left : ptr->right;
 			}
 			return ptr;
@@ -313,18 +318,20 @@ namespace	ft
 			**		insert() helper		**
 */
 
-		bool _node_init(node_pointer new_node, const value_type& value, node_pointer new_parent, bool is_left = 0)
+		bool _node_init(node_pointer new_node, pointer value, node_pointer new_parent, bool is_left = 0)
 		{
+			node_type	tmp(value);
+
 			if (!new_parent)
 			{
-				node_alloc.construct(root, value);
+				node_alloc.construct(root, tmp);
 				root->parent = NULL;
 				root->left = NULL;
 				root->right = NULL;
 			}
 			else
 			{
-				node_alloc.construct(new_node, value);
+				node_alloc.construct(new_node, tmp);
 				new_node->left = NULL;
 				new_node->right = NULL;
 				new_node->parent = new_parent;

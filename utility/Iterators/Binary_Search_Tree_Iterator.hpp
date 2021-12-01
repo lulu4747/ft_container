@@ -21,7 +21,7 @@ namespace	ft
 		typedef 			Bidirectional_Iterator_tag	iterator_category;
 	
 		explicit Binary_Search_Tree_Iterator(pointer ptr = NULL)
-			:_inf(Stack()), _sup(Stack())
+			:_inf(_inf.Stack()), _sup(_sup.Stack())
 		{
 			_stack_from_greater(ptr);
 			_stack_from_smallest(ptr);
@@ -126,7 +126,7 @@ namespace	ft
 
 		node_pointer	_current()
 		{
-			return (_inf.top())
+			return (_inf.top());
 		}
 
 		void	_empty_stacks()
@@ -137,14 +137,16 @@ namespace	ft
 				_sup.pop();
 		}
 
-		void	_stack_from_greater(node_pointer ptr, node_pointer current = NULL, node_pointer root = _get_root(ptr))
+		void	_stack_from_greater(node_pointer ptr, node_pointer current = NULL, node_pointer root = NULL)
 		{
+			if (!root)
+				root = _get_root(ptr);
 			if (!current)
 				current = root;
 			if (current->right)
 				_stack_from_greater(ptr, current->right, root);
 			if (_sup.empty())
-				_suo.push(NULL);
+				_sup.push(NULL);
 			if (_sup.top() == ptr || current == ptr)
 				return ;
 			_sup.push(current);
@@ -152,8 +154,10 @@ namespace	ft
 				_stack_from_greater(ptr, current->left, root);
 		}
 
-		void	_stack_from_smallest(node_pointer ptr, node_pointer current = NULL, node_pointer root = _get_root(ptr))
+		void	_stack_from_smallest(node_pointer ptr, node_pointer current = NULL, node_pointer root = NULL)
 		{
+			if (!root)
+				root = _get_root(ptr);
 			if (!current)
 				current = root;
 			if (current->left)

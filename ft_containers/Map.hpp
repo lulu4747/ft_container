@@ -48,7 +48,7 @@ namespace	ft
 		Map(InputIt first, InputIt last,
 				const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type(),
 				typename enable_if<!is_integral<InputIt>::value, InputIt >::type* = NULL)
-			: Map< key_type, mapped_type, key_compare , allocator_type >(comp, alloc))
+			: Map< key_type, mapped_type, key_compare , allocator_type >(comp, alloc)
 		{
 			pointer	new_val;
 
@@ -57,7 +57,7 @@ namespace	ft
 
 			while (first != last)
 			{
-				_alloc.construct(new_val, *first)
+				_alloc.construct(new_val, *first);
 				_data.insert(*new_val);
 				new_val = NULL;
 				first++;
@@ -167,7 +167,7 @@ namespace	ft
 			if (first == end())
 			{
 				_alloc.construct(new_val, val);
-				_data.insert(*new_val);
+				_data.insert(new_val);
 				first = find(val.first);
 				second = true;
 			}
@@ -240,7 +240,7 @@ namespace	ft
 
 		size_type	count(const key_type& k) const
 		{
-			return _data.count();
+			return _data.count(k);
 		}
 
 		iterator	lower_bound(const key_type& k)
