@@ -1,14 +1,20 @@
 NAME	= ft_container_tester
 
-SRCS	= main.cpp
+SRCS	= tester/main.cpp
 
-INC		= algorithm.hpp
-INC		+= ft.hpp
-INC		+= Iterator.hpp
-INC		+= Map.hpp
-INC		+= rb_tree.hpp
-INC		+= Stack.hpp
-INC		+= Vector.hpp
+INC		= ft_containers/Map.hpp
+INC		+= ft_containers/Stack.hpp
+INC		+= ft_containers/Vector.hpp
+INC		+= utility/BST_tree/node.hpp
+INC		+= utility/BST_tree/rb_tree.hpp
+INC		+= utility/Iterators/Binary_Search_Tree_Iterator.hpp
+INC		+= utility/Iterators/Iterator.hpp
+INC		+= utility/Iterators/Random_Access_Iterator.hpp
+INC		+= utility/Iterators/Reverse_Iterator.hpp
+INC		+= utility/algorithm.hpp
+INC		+= utility/less.hpp
+INC		+= utility/pair.hpp
+INC		+= utility/type_trait.hpp
 
 OBJ		= $(SRCS:.cpp=.o)
 

@@ -2,13 +2,12 @@
 # define STACK_HPP
 
 # include "Vector.hpp"
-# include "ft.hpp"
 
 namespace	ft
 {
 
 	template < class T, class Container = Vector<T> >
-	class Stack/* : public Container*/
+	class Stack
 	{
 
 	public:

@@ -3,10 +3,10 @@
 #include <list>
 #include <vector>
 #include <map>
-#include "ft.hpp"
-#include "Map.hpp"
-#include "Stack.hpp"
-#include "Vector.hpp"
+#include "../ft_containers/Map.hpp"
+#include "../ft_containers/Stack.hpp"
+#include "../ft_containers/Vector.hpp"
+
 /*
 template < class FT, class STD >
 void	output(const FT & ft_c, const STD & std_c)

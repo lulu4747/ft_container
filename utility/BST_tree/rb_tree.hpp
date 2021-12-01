@@ -1,77 +1,16 @@
 #ifndef RB_TREE_HPP
 # define RB_TREE_HPP
 
-# include "algorithm.hpp"
-# include "ft.hpp"
-# include "Map.hpp"
-# include "Iterator.hpp"
+# include <memory>
+# include "node.hpp"
+# include "../less.hpp"
+# include "../Iterators/Binary_Search_Tree_Iterator.hpp"
 
 namespace	ft
 {
-
-	template< class T >
-	struct node
-	{
-
-		typedef	struct		node*						pointer;
-		typedef	struct		node&						reference;
-		typedef				T							value_type;
-		typedef				value_type*					value_pointer;
-
-		typedef	typename	value_type::first&			key_type;
-
-		pointer			parent;
-		pointer			left;
-		pointer			right;
-		value_pointer	value;
-
-		explicit node(reference src_value = value_type(),
-			pointer const& src_parent = NULL, pointer const& src_left = NULL, pointer const& src_right = NULL)
-		:
-			parent(src_parent),
-			left(src_left),
-			right(src_right),
-			value(src_value)
-		{}
-
-		node(node const & src)
-		{
-			*this = src;
-		}
-
-		virtual ~node();
-
-		reference	operator=(node const & rhs)
-		{
-			if (this != &rhs)
-			{
-				parent = rhs.parent;
-				left = rhs.left;
-				right = rhs.right;
-				value = rhs.value;
-			}
-			return *this;
-		}
-
-		key_type	key() const
-		{
-			return value->first;
-		}
-
-		bool	operator==(node const & rhs) const
-		{
-			return (*value == *(rhs.value));
-		}
-
-		bool	operator!=(node const & rhs) const
-		{
-			return !(*value == *(rhs.value));
-		}
-	};
-
 	template< class T, class Compare = ft::less< T > , class T_Alloc = typename std::allocator< T >,
-					class key = typename T::first_type, class N = ft::node< T >, class N_Alloc = typename std::allocator< N > >
-	struct rb_tree
+					class key = typename T::first_type, typename N = ft::node< T >, class N_Alloc = typename std::allocator< N > >
+	class rb_tree
 	{
 		typedef				T												value_type;
 		typedef 			T_Alloc											value_allocator_type;
@@ -364,7 +303,7 @@ namespace	ft
 
 			if (ptr)
 			{
-				for(bool bl(comp(k, ptr.first)); ptr && bl != comp(ptr.first, k); bl = comp(k, ptr.first))
+				for(bool bl(comp(k, ptr->value.first)); ptr && bl != comp(ptr->value.first, k); bl = comp(k, ptr->value.first))
 					ptr = bl ? ptr->left : ptr->right;
 			}
 			return ptr;

@@ -2,9 +2,11 @@
 # define MAP_HPP
 
 # include <memory>
-# include "ft.hpp"
-# include "rb_tree.hpp"
-# include "Iterator.hpp"
+# include "../utility/less.hpp"
+# include "../utility/pair.hpp"
+# include "../utility/type_trait.hpp"
+# include "../utility/BST_tree/rb_tree.hpp"
+# include "../utility/Iterators/Reverse_Iterator.hpp"
 
 namespace	ft
 {
@@ -30,14 +32,14 @@ namespace	ft
 
 		typedef	typename	rb_tree<value_type, key_compare>::iterator			iterator;
 		typedef	typename	rb_tree<value_type, key_compare>::const_iterator	const_iterator;
-		typedef				ReverseIterator<iterator>							reverse_iterator;
-		typedef				ReverseIterator<const_iterator>						const_reverse_iterator;
+		typedef				Reverse_Iterator<iterator>							reverse_iterator;
+		typedef				Reverse_Iterator<const_iterator>					const_reverse_iterator;
 
 		//	Canon
 
 		explicit Map(const key_compare& comp = key_compare(),
 						const allocator_type& alloc = allocator_type())
-			:_data(rb_tree< value_type, key_compare, allocator_type, key_type, node< value_type >, std::allocator< node< value_type > > >()),
+			:_data(comp, alloc),
 			_comp(comp),
 			_alloc(alloc)
 		{}

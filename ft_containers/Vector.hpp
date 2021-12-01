@@ -1,12 +1,12 @@
 #ifndef VECTOR_HPP
 # define VECTOR_HPP
 
-# include <iostream>
 # include <memory>
 # include <stdexcept>
-# include "ft.hpp"
-# include "algorithm.hpp"
-# include "Iterator.hpp"
+# include "../utility/Iterators/Random_Access_Iterator.hpp"
+# include "../utility/Iterators/Reverse_Iterator.hpp"
+# include "../utility/algorithm.hpp"
+# include "../utility/type_trait.hpp"
 
 namespace	ft
 {
@@ -30,10 +30,10 @@ namespace	ft
 		typedef typename	allocator_type::const_pointer			const_pointer;
 
 
-		typedef				RandomAccessIterator<value_type>		iterator;
-		typedef				RandomAccessIterator<const value_type>	const_iterator;
-		typedef				ReverseIterator<value_type>				reverse_iterator;
-		typedef				ReverseIterator<const value_type>		const_reverse_iterator;
+		typedef				Random_Access_Iterator<value_type>		iterator;
+		typedef				Random_Access_Iterator<const value_type>	const_iterator;
+		typedef				Reverse_Iterator<value_type>				reverse_iterator;
+		typedef				Reverse_Iterator<const value_type>		const_reverse_iterator;
 
 	//	Member Functions :
 
@@ -468,7 +468,7 @@ namespace	ft
 	template < class T, class Alloc >
 	bool operator== (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
 	{
-		return equal(lhs.begin(), iterator(lhs.back()), rhs.begin());
+		return ft::equal(lhs.begin(), iterator(lhs.back()), rhs.begin());
 	}
 
 	template < class T, class Alloc >
@@ -480,7 +480,7 @@ namespace	ft
 	template < class T, class Alloc >
 	bool operator<  (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
 	{
-		return (lexicographical_compare(lhs.begin(), iterator(lhs.back()),
+		return (ft::lexicographical_compare(lhs.begin(), iterator(lhs.back()),
 				rhs.begin(), iterator(rhs.back())));
 	}
 
