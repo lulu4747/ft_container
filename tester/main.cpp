@@ -7,13 +7,15 @@
 #include "../ft_containers/Stack.hpp"
 #include "../ft_containers/Vector.hpp"
 
-/*
+
 template < class FT, class STD >
 void	output(const FT & ft_c, const STD & std_c)
 {
 	std::cout << "____________________________________________" << std::endl << std::endl
-		<< "ft	:	" << ft_c.size() << "	/	" << ft_c.capacity() << std::endl
-		<< "std	:	" << std_c.size() << "	/	" << std_c.capacity() << std::endl
+	/*	<< "ft	:	" << ft_c.size() << "	/	" << ft_c.capacity() << std::endl
+		<< "std	:	" << std_c.size() << "	/	" << std_c.capacity() << std::endl*/
+		<< "ft	:	" << ft_c.size() << "	/	" << std::endl
+		<< "std	:	" << std_c.size() << "	/	" << std::endl
 		<< "____________________________________________" << std::endl << std::endl;
 }
 
@@ -21,10 +23,11 @@ template < class C >
 void	inside(C c)
 {
 	typename C::iterator it(c.begin());
+	typename C::iterator ite(c.end());
 
-	while (it != c.end())
+	while (it != ite)
 	{
-		std::cout << " |" << *(it++);
+		std::cout << " |" << (*(it++)).first;
 	}
 	std::cout << std::endl;
 }
@@ -40,10 +43,11 @@ void	content(const FT & ft_c, const STD & std_c)
 	inside(std_c);
 	std::cout << "____________________________________________" << std::endl << std::endl;
 }
-*/
+
 int main(void){
 /*
 	ft::Vector<int>		ft_c;
+
 	ft::Vector<int>		ft_lst(7, 78);
 	std::vector<int>	std_c;
 	std::vector<int>	std_lst(7, 78);
@@ -113,17 +117,36 @@ int main(void){
   std::cout << "Size of second: " << second.size() << '\n';
 */
 
-	ft::Map<char,int> first;
-	ft::Map<char,int> second;
+	ft::Map<char,int> ft;
+	std::map<char,int> std;
+	//ft::Map<char,int> second;
 
-	first['x']=8;
-	first['y']=16;
-	first['z']=32;
+	output(ft, std);
+	content(ft, std);
 
-	second=first;                // second now contains 3 ints
-	first=ft::Map<char,int>();  // and first is now empty
+	ft['x']=8;
+	std['x']=8;
 
-	std::cout << "Size of first: " << first.size() << '\n';
-	std::cout << "Size of second: " << second.size() << '\n';
+	output(ft, std);
+	content(ft, std);
+
+	ft['y']=16;
+	std['y']=16;
+
+	output(ft, std);
+	content(ft, std);
+
+	ft['z']=32;
+	std['z']=32;
+
+	output(ft, std);
+	content(ft, std);
+
+
+	//second=first;                // second now contains 3 ints
+	//first=ft::Map<char,int>();  // and first is now empty
+
+//	std::cout << "Size of first: " << first.size() << '\n';
+//	std::cout << "Size of second: " << second.size() << '\n';
 	return 0;
 }

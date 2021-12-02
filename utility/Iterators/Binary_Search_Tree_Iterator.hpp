@@ -20,8 +20,8 @@ namespace	ft
     	typedef 			std::ptrdiff_t				difference_type;
 		typedef 			Bidirectional_Iterator_tag	iterator_category;
 	
-		explicit Binary_Search_Tree_Iterator(pointer ptr = NULL)
-			:_inf(_inf.Stack()), _sup(_sup.Stack())
+		explicit Binary_Search_Tree_Iterator(T* ptr = NULL)
+			:_inf(), _sup()
 		{
 			_stack_from_greater(ptr);
 			_stack_from_smallest(ptr);
@@ -124,7 +124,7 @@ namespace	ft
 			return ptr;
 		}
 
-		node_pointer	_current()
+		node_pointer	_current() const
 		{
 			return (_inf.top());
 		}

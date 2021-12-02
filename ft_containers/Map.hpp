@@ -65,7 +65,9 @@ namespace	ft
 		}
 
 		Map( Map const & src)
-			:Map< key_type, mapped_type, key_compare , allocator_type >(src.key_comp(), src.get_allocator())
+			:_data(src.key_comp(), src.get_allocator()),
+			_comp(src.key_comp()),
+			_alloc(src.get_allocator())
 		{
 			*this = src;
 		}
