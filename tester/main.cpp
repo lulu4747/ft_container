@@ -112,18 +112,18 @@ int main(void){
   std::cout << "Size of first: " << first.size() << '\n';
   std::cout << "Size of second: " << second.size() << '\n';
 */
-  ft::Map<char,int> first;
-  ft::Map<char,int> second;
 
-  first['x']=8;
-  first['y']=16;
-  first['z']=32;
+	ft::Map<char,int> first;
+	ft::Map<char,int> second;
 
-  second=first;                // second now contains 3 ints
-  first=ft::Map<char,int>();  // and first is now empty
+	first['x']=8;
+	first['y']=16;
+	first['z']=32;
 
-  std::cout << "Size of first: " << first.size() << '\n';
-  std::cout << "Size of second: " << second.size() << '\n';
-  return 0;
+	second=first;                // second now contains 3 ints
+	first=ft::Map<char,int>();  // and first is now empty
 
+	std::cout << "Size of first: " << first.size() << '\n';
+	std::cout << "Size of second: " << second.size() << '\n';
+	return 0;
 }

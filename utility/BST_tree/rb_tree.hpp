@@ -1,6 +1,10 @@
 #ifndef RB_TREE_HPP
 # define RB_TREE_HPP
 
+//
+# include <iostream>
+//
+
 # include <memory>
 # include "node.hpp"
 # include "../less.hpp"
@@ -62,19 +66,18 @@ namespace	ft
 
 		void	copy(rb_tree const& src)
 		{
+			pointer	new_val;
+
 			clear();
 			if (src.empty())
 				return ;
-			node_alloc.construct(root, *(src.root));
-			root->parent = NULL;
+			new_val = value_alloc.allocate(sizeof(value_type));
+			value_alloc.construct(new_val,make_pair(src.root->value->first, src.root->value->second));
+			_node_init(root, new_val, NULL);
 			if (src.root->left)
-				root->left = _copy(root->left, src.root->left, root);
-			else
-				root->left = NULL;
+				_copy(root->left, src.root->left, root, true);
 			if (src.root->right)
-				root->right = _copy(root->right, src.root->right, root);
-			else
-				root->right = NULL;
+				_copy(root->right, src.root->right, root, false);
 			return ;
 		}
 
@@ -96,7 +99,10 @@ namespace	ft
 			if (root->right)
 				_clear(root->right);
 			value_alloc.destroy(root->value);
+			value_alloc.deallocate(root->value, 1);
 			node_alloc.destroy(root);
+			node_alloc.deallocate(root, 1);
+			root = NULL;
 		}
 
 /*
@@ -197,7 +203,8 @@ namespace	ft
 
 			if (ptr)
 				return ptr->value->second;
-			value_alloc.construct(new_val, value_type(k, mapped_type()));
+			new_val = value_alloc.allocate(sizeof(value_type));
+			value_alloc.construct(new_val, make_pair(k, mapped_type()));
 			insert(new_val);
 			return new_val->second;
 		}
@@ -253,18 +260,17 @@ namespace	ft
 			**		copy() helpers		**
 */
 
-		node_pointer	_copy(node_pointer ptr1, node_pointer ptr2, node_pointer parent)
+		node_pointer	_copy(node_pointer ptr1, node_pointer ptr2, node_pointer parent, bool is_left)
 		{
-			node_alloc.construct(ptr1, *ptr2);
-			ptr1->parent = parent;
+			pointer	new_val(value_alloc.allocate(sizeof(value_type)));
+
+			value_alloc.construct(new_val, make_pair(ptr2->value->first, ptr2->value->second));
+			_node_init(ptr1, new_val, parent, is_left);
+			ptr1 = is_left ? parent->left : parent->right;
 			if (ptr2->left)
-				ptr1->left = _copy(ptr1->left, ptr2->left, ptr1);
-			else
-				ptr1->left = NULL;
+				_copy(ptr1->left, ptr2->left, ptr1, true);
 			if (ptr2->right)
-				ptr1->right = _copy(ptr1->right, ptr2->right, ptr1);
-			else
-				ptr1->right = NULL;
+				_copy(ptr1->right, ptr2->right, ptr1, false);
 			return ptr1;
 		}
 
@@ -279,7 +285,9 @@ namespace	ft
 			if (ptr->right)
 				_clear(ptr->right);
 			value_alloc.destroy(ptr->value);
+			value_alloc.deallocate(ptr->value, 1);
 			node_alloc.destroy(ptr);
+			node_alloc.deallocate(ptr, 1);
 		}
 
 /*
@@ -307,15 +315,19 @@ namespace	ft
 
 			if (ptr)
 			{
-				for(bool bl(comp(k, ptr->value->first)); ptr && bl != comp(ptr->value->first, k);
+				for(bool bl(comp(k, ptr->value->first)); bl != comp(ptr->value->first, k);
 							bl = comp(k, ptr->value->first))
+				{
 					ptr = bl ? ptr->left : ptr->right;
+					if (!ptr)
+						return ptr;
+				}
 			}
 			return ptr;
 		}
 
 /*
-			**		insert() helper		**
+			**		insert() / copy() helper		**
 */
 
 		bool _node_init(node_pointer new_node, pointer value, node_pointer new_parent, bool is_left = 0)
@@ -324,6 +336,7 @@ namespace	ft
 
 			if (!new_parent)
 			{
+				root = node_alloc.allocate(sizeof(node_type));
 				node_alloc.construct(root, tmp);
 				root->parent = NULL;
 				root->left = NULL;
@@ -331,6 +344,7 @@ namespace	ft
 			}
 			else
 			{
+				new_node = node_alloc.allocate(sizeof(node_type));
 				node_alloc.construct(new_node, tmp);
 				new_node->left = NULL;
 				new_node->right = NULL;
