@@ -11,6 +11,7 @@ namespace	ft
 	{
 
 		typedef	struct		node*						pointer;
+		typedef	const		pointer						const_pointer;
 		typedef	struct		node&						reference;
 		typedef				T							value_type;
 		typedef				value_type*					value_pointer;
@@ -51,6 +52,60 @@ namespace	ft
 		key_type&	key() const
 		{
 			return value->first;
+		}
+
+		pointer	root()
+		{
+			pointer	ptr(this);
+
+			while (ptr->parent->value)
+				ptr = ptr->parent;
+			return ptr;
+		}
+
+		const_pointer	root() const
+		{
+			const_pointer	ptr(this);
+
+			while (ptr->parent->value)
+				ptr = ptr->parent;
+			return ptr;
+		}
+
+		pointer	leftmost()
+		{
+			pointer	ptr(root());
+
+			while (ptr->left->value)
+				ptr = ptr->left;
+			return ptr;
+		}
+
+		const_pointer	leftmost() const
+		{
+			const_pointer	ptr(root());
+
+			while (ptr->left->value)
+				ptr = ptr->left;
+			return ptr;
+		}
+
+		pointer	rightmost()
+		{
+			pointer	ptr(root());
+
+			while (ptr->right->value)
+				ptr = ptr->right;
+			return ptr;
+		}
+
+		const_pointer	rightmost() const
+		{
+			const_pointer	ptr(root());
+
+			while (ptr->right->value)
+				ptr = ptr->right;
+			return ptr;
 		}
 
 		bool	operator==(node const & rhs) const

@@ -115,8 +115,14 @@ int main(void){
 
   std::cout << "Size of first: " << first.size() << '\n';
   std::cout << "Size of second: " << second.size() << '\n';
-*/
+  std::map<char, int>::iterator it(second.begin());
+  std::map<char, int>::iterator ite(second.end());
 
+	it--;
+	if (it == ite)
+		std::cout << "HAHA" << std::endl;
+*/
+/*
 	ft::Map<char,int> ft;
 	std::map<char,int> std;
 	//ft::Map<char,int> second;
@@ -141,7 +147,7 @@ int main(void){
 
 	output(ft, std);
 	content(ft, std);
-
+*/
 
 	//second=first;                // second now contains 3 ints
 	//first=ft::Map<char,int>();  // and first is now empty
