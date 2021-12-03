@@ -21,52 +21,41 @@ namespace	ft
 		typedef 			Bidirectional_Iterator_tag	iterator_category;
 	
 		explicit Binary_Search_Tree_Iterator(T* ptr = NULL)
-			:_inf(), _sup()
-		{
-			_stack_from_greater(ptr);
-			_stack_from_smallest(ptr);
-		}
+			:_ptr(ptr)
+		{}
 
 		Binary_Search_Tree_Iterator(Binary_Search_Tree_Iterator const & src)
 		{
 			*this = src;
 		}
 
-		virtual	~Binary_Search_Tree_Iterator()
-		{
-			_inf.~Stack();
-			_sup.~Stack();
-		}
+		virtual	~Binary_Search_Tree_Iterator()	{}
 
 		Binary_Search_Tree_Iterator&	operator=(Binary_Search_Tree_Iterator const & rhs)
 		{
 			if (this != &rhs)
-			{
-				_empty_stacks();
-				_stack_from_greater(rhs._current());
-				_stack_from_smallest(rhs._current());
-			}
+				_ptr = rhs._ptr;
 			return *this;
 		}
 
 		reference	operator*()
 		{
-			return *(_current()->value);
+			return *(_ptr->value);
 		}
 
 		const_reference	operator*() const
 		{
-			return *(_current()->value);
+			return *(_ptr->value);
 		}
 
 		pointer	operator->()
 		{
-			return _current()->value;
+			return _ptr->value;
 		}
 
 		const_pointer	operator->() const
 		{
-			return _current()->value;
+			return _ptr->value;
 		}
 
 		Binary_Search_Tree_Iterator operator++(int)
@@ -79,8 +68,24 @@ namespace	ft
 
 		Binary_Search_Tree_Iterator& operator++()
 		{
-			_inf.push(_sup.top());
-			_sup.pop();
+			if (!_ptr->value)
+				_ptr = _ptr->left;
+			if (_ptr->right)
+			{
+				_ptr = _ptr->right;
+				while (_ptr->left)
+					_ptr = _ptr->left;
+			}
+			else
+			{
+				node_pointer	tmp(_ptr);
+
+				while (_ptr->value && tmp != _ptr->left)
+				{
+					tmp = _ptr;
+					_ptr = _ptr->parent;
+				}
+			}
 			return *this;
 		}
 
@@ -94,14 +99,30 @@ namespace	ft
 
 		Binary_Search_Tree_Iterator& operator--()
 		{
-			_sup.push(_inf.top());	// Verify true behaviour when begin()--
-			_inf.pop();
+			if (!_ptr->value)
+				_ptr = _ptr->right;
+			if (_ptr->left)
+			{
+				_ptr = _ptr->left;
+				while (_ptr->right)
+					_ptr = _ptr->right;
+			}
+			else
+			{
+				node_pointer	tmp(_ptr);
+
+				while (_ptr->value && tmp != _ptr->right)
+				{
+					tmp = _ptr;
+					_ptr = _ptr->parent;
+				}
+			}
 			return *this;
 		}
 
 		bool operator==(Binary_Search_Tree_Iterator const &rhs) const
 		{
-			return (_current() == rhs._current());
+			return (_ptr == rhs._ptr);
 		}
 
 		bool operator!=(Binary_Search_Tree_Iterator const &rhs) const
@@ -111,65 +132,9 @@ namespace	ft
 
 	protected :
 
-		typedef	T*					node_pointer;
-		typedef	Stack<node_pointer>	stack;
+		typedef	T*		node_pointer;
 
-		stack			_inf;
-		stack			_sup;
-
-		node_pointer	_get_root(node_pointer ptr)
-		{
-			while (ptr->parent)
-				ptr = ptr->parent;
-			return ptr;
-		}
-
-		node_pointer	_current() const
-		{
-			return (_inf.top());
-		}
-
-		void	_empty_stacks()
-		{
-			while (!_inf.empty())
-				_inf.pop();
-			while (!_sup.empty())
-				_sup.pop();
-		}
-
-		void	_stack_from_greater(node_pointer ptr, node_pointer current = NULL, node_pointer root = NULL)
-		{
-			if (!root)
-				root = _get_root(ptr);
-			if (!current)
-				current = root;
-			if (current->right)
-				_stack_from_greater(ptr, current->right, root);
-			if (_sup.empty())
-				_sup.push(NULL);
-			if (_sup.top() == ptr || current == ptr)
-				return ;
-			_sup.push(current);
-			if (current->left)
-				_stack_from_greater(ptr, current->left, root);
-		}
-
-		void	_stack_from_smallest(node_pointer ptr, node_pointer current = NULL, node_pointer root = NULL)
-		{
-			if (!root)
-				root = _get_root(ptr);
-			if (!current)
-				current = root;
-			if (current->left)
-				_stack_from_smallest(ptr, current->left, root);
-			if (_sup.top() == ptr)
-				return ;
-			_sup.push(current);
-			if (current == ptr)
-				return ;
-			if (current->right)
-				_stack_from_smallest(ptr, current->right, root);
-		}
+		node_pointer	_ptr;
 	};
 }
 
