@@ -54,6 +54,8 @@ namespace	ft
 			end_node = node_alloc.allocate(1);
 			node_alloc.construct(end_node, node_type());
 			root = end_node;
+			end_node->right = end_node;
+			end_node->left = end_node;
 		}
 
 		rb_tree(rb_tree const& src)
@@ -94,7 +96,7 @@ namespace	ft
 		{
 			clear();
 			node_alloc.destroy(end_node);
-			node_alloc.deallocate(end_node);
+			node_alloc.deallocate(end_node, 1);
 		}
 
 		void	clear()
@@ -107,8 +109,8 @@ namespace	ft
 				_clear(root->right);
 			_node_remover(root);
 			root = end_node;
-			end_node->right = NULL;
-			end_node->left = NULL;
+			end_node->right = end_node;
+			end_node->left = end_node;
 		}
 
 /*
@@ -253,9 +255,9 @@ namespace	ft
 
 			value_alloc.construct(new_val, make_pair(ptr->value->first, ptr->value->second));
 			_insert(new_val);
-			if (ptr->left && ptr->left != ptr->end_node)
+			if (ptr->left && ptr->left->value)
 				_copy(ptr->left);
-			if (ptr->right && ptr->right != ptr->end_node)
+			if (ptr->right && ptr->right->value)
 				_copy(ptr->right);
 		}
 
@@ -314,8 +316,8 @@ namespace	ft
 
 		bool	_insert(pointer value)
 		{
-			pointer	new_parent;
-			pointer	ptr(root);
+			node_pointer	new_parent;
+			node_pointer	ptr(root);
 			bool	is_left;
 	
 			if (comp(value->first, end_node->left->value->first))
@@ -343,10 +345,10 @@ namespace	ft
 			return true;
 		}
 
-		bool	_new_lefttmost(pointer value)
+		bool	_new_leftmost(pointer value)
 		{
-			pointer	parent(end_node->left);
-			pointer	new_node;
+			node_pointer	parent(end_node->left);
+			node_pointer	new_node;
 
 			new_node = node_alloc.allocate(1);
 			node_alloc.construct(new_node, node_type(value));
@@ -359,8 +361,8 @@ namespace	ft
 
 		bool	_new_rightmost(pointer value)
 		{
-			pointer	parent(end_node->right);
-			pointer	new_node;
+			node_pointer	parent(end_node->right);
+			node_pointer	new_node;
 
 			new_node = node_alloc.allocate(1);
 			node_alloc.construct(new_node, node_type(value));
