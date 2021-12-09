@@ -246,22 +246,6 @@ namespace	ft
 	private:
 
 /*
-			**		copy() helpers		**
-*/
-
-		void	_copy(node_pointer ptr)
-		{
-			pointer	new_val(value_alloc.allocate(1));
-
-			value_alloc.construct(new_val, make_pair(ptr->value->first, ptr->value->second));
-			_insert(new_val);
-			if (ptr->left && ptr->left->value)
-				_copy(ptr->left);
-			if (ptr->right && ptr->right->value)
-				_copy(ptr->right);
-		}
-
-/*
 			**		clear() helper		**
 */
 
@@ -296,15 +280,23 @@ namespace	ft
 		node_pointer	_find(const key_type& k)
 		{
 			node_pointer	ptr(root);
+			bool			is_left;
 
-			if (ptr != end_node)
+			while (ptr != end_node)
 			{
-				for(bool bl(comp(k, ptr->value->first)); ptr != end_node && bl != comp(ptr->value->first, k);
-							bl = comp(k, ptr->value->first))
+			//	std::cout << "is : " << ptr << std::endl;
+				if ((is_left = comp(k, ptr->value->first)) == comp(ptr->value->first, k))
+					return ptr;
+			//	std::cout << "is : " << ptr << std::endl;
+				if (is_left)
 				{
-					ptr = bl ? ptr->left : ptr->right;
-					if (!ptr)
-						return end_node;
+			//		std::cout << "oui ?" << std::endl;
+					ptr = ptr->left;
+				}
+				else
+				{
+			//		std::cout << "non ?" << std::endl;
+					ptr = ptr->right;
 				}
 			}
 			return ptr;
@@ -313,6 +305,18 @@ namespace	ft
 /*
 			**		insert() / copy() helper		**
 */
+
+		void	_copy(node_pointer ptr)
+		{
+			pointer	new_val(value_alloc.allocate(1));
+
+			value_alloc.construct(new_val, make_pair(ptr->value->first, ptr->value->second));
+			_insert(new_val);
+			if (ptr->left && ptr->left->value)
+				_copy(ptr->left);
+			if (ptr->right && ptr->right->value)
+				_copy(ptr->right);
+		}
 
 		bool	_insert(pointer value)
 		{
@@ -333,8 +337,9 @@ namespace	ft
 			return _node_init(value, new_parent, is_left);
 		}
 
-		bool	_root_init(pointer	value)
+		bool	_root_init(pointer value)
 		{
+			std::cout << "root_init" << std::endl;
 			root = node_alloc.allocate(1);
 			node_alloc.construct(root, node_type(value));
 			root->parent = end_node;
@@ -379,8 +384,8 @@ namespace	ft
 
 			new_node = node_alloc.allocate(1);
 			node_alloc.construct(new_node, node_type(value));
-			new_node->left = NULL;
-			new_node->right = NULL;
+			new_node->left = end_node;
+			new_node->right = end_node;
 			new_node->parent = new_parent;
 			if (is_left)
 				new_parent->left = new_node;
@@ -457,7 +462,7 @@ namespace	ft
 			node_pointer	orphan(NULL);
 
 			if (!ptr->left && !ptr->right)
-				ptr == parent->left ? parent->left = NULL : parent->right = NULL;
+				ptr == parent->left ? parent->left = end_node : parent->right = end_node;
 			else
 			{
 				bool			is_left((ptr->right == end_node || _size(ptr->right) < _size(ptr->left))); // verify after implementing proper balance (size comp might have no impact at all)

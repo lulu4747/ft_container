@@ -20,14 +20,14 @@ void	output(const FT & ft_c, const STD & std_c)
 }
 
 template < class C >
-void	inside(C c)
+void	inside(const C& c)
 {
-	typename C::iterator it(c.begin());
-	typename C::iterator ite(c.end());
+	//	std::cout << "2" << std::endl;
+	typename C::const_iterator it(c.begin());
+	typename C::const_iterator ite(c.end());
 
 	while (it != ite)
 	{
-		std::cout << "shouldn't" << std::endl;
 		std::cout << " |" << (*(it++)).first;
 	}
 	std::cout << std::endl;
@@ -38,6 +38,7 @@ void	content(const FT & ft_c, const STD & std_c)
 {
 	std::cout << "____________________________________________" << std::endl << std::endl
 		<< "ft	:	" << std::endl;
+	//std::cout << "1" << std::endl;
 	inside(ft_c);
 	std::cout << "____________________________________________" << std::endl << std::endl
 		<< "std	:	" << std::endl;

@@ -1,6 +1,8 @@
 #ifndef BINARY_SEARCH_TREE_ITERATOR
 # define BINARY_SEARCH_TREE_ITERATOR
 
+#include <iostream>
+
 # include "../../ft_containers/Stack.hpp"
 # include "Iterator.hpp"
 
@@ -70,10 +72,10 @@ namespace	ft
 		{
 			if (!_ptr->value)
 				_ptr = _ptr->left;
-			if (_ptr->right)
+			if (_ptr->right->value)
 			{
 				_ptr = _ptr->right;
-				while (_ptr->left)
+				while (_ptr->left->value)
 					_ptr = _ptr->left;
 			}
 			else
@@ -101,10 +103,10 @@ namespace	ft
 		{
 			if (!_ptr->value)
 				_ptr = _ptr->right;
-			if (_ptr->left)
+			if (_ptr->left->value)
 			{
 				_ptr = _ptr->left;
-				while (_ptr->right)
+				while (_ptr->right->_value)
 					_ptr = _ptr->right;
 			}
 			else
