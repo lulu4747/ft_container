@@ -266,7 +266,7 @@ namespace	ft
 		{
 			size_type	size(1);
 
-			if (ptr == end_node)
+			if (!ptr->value)
 				return 0;
 			size += _size(ptr->left);
 			size += _size(ptr->right);

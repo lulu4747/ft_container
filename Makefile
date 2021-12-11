@@ -20,6 +20,7 @@ OBJ		= $(SRCS:.cpp=.o)
 
 CC		= clang++
 CFLAGS	= -std=c++98 -Wall -Werror -Wextra
+GDBFLAG	= -g3
 RM		= rm -f
 RM_DIR	= rm -rf
 
@@ -27,10 +28,14 @@ all:
 	$(MAKE) $(NAME) --no-print-directory
 
 %.o:%.cpp $(INC)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(GDBFLAG) $(CFLAGS) -c $< -o $@
 
 $(NAME):$(OBJ) $(INC)
 	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
+
+gdb:$(OBJ) $(INC)
+	$(CC) $(CFLAGS) $(OBJ) -o $(NAME).g
+	gdb $(NAME).g
 
 clean:
 	$(RM_DIR) $(OBJ)
@@ -38,6 +43,7 @@ clean:
 fclean:
 	$(RM_DIR) $(OBJ)
 	$(RM) $(NAME)
+	$(RM) $(NAME).g
 
 re:
 	$(MAKE) fclean --no-print-directory
