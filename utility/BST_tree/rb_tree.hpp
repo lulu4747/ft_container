@@ -459,7 +459,7 @@ namespace	ft
 		void	_node_erase(node_pointer ptr)
 		{
 			node_pointer	parent(ptr->parent);
-			node_pointer	orphan(NULL);
+			node_pointer	orphan(end_node);
 
 			if (!ptr->left && !ptr->right)
 				ptr == parent->left ? parent->left = end_node : parent->right = end_node;
