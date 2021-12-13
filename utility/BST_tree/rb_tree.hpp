@@ -12,6 +12,7 @@
 
 namespace	ft
 {
+
 	template< class T, class Compare = ft::less< T > , class T_Alloc = typename std::allocator< T >,
 					class key = typename T::first_type, typename N = ft::node< T >, class N_Alloc = typename std::allocator< N > >
 	class rb_tree
@@ -19,21 +20,21 @@ namespace	ft
 
 	public :
 
-		typedef				T												value_type;
-		typedef				value_type*										pointer;
-		typedef 			T_Alloc											value_allocator_type;
-		typedef				N												node_type;
-		typedef 			node_type*										node_pointer;
-		typedef 			N_Alloc											node_allocator_type;
+		typedef				T																					value_type;
+		typedef				value_type*																			pointer;
+		typedef 			T_Alloc																				value_allocator_type;
+		typedef				N																					node_type;
+		typedef 			node_type*																			node_pointer;
+		typedef 			N_Alloc																				node_allocator_type;
 
-		typedef 			Compare											key_compare;
-		typedef				key												key_type;
-		typedef				size_t											size_type;
+		typedef 			Compare																				key_compare;
+		typedef				key																					key_type;
+		typedef				size_t																				size_type;
 	
-		typedef				Binary_Search_Tree_Iterator<node_type>			iterator;
-		typedef				Binary_Search_Tree_Iterator<const node_type>	const_iterator;
+		typedef				Binary_Search_Tree_Iterator<node_type, Compare, T_Alloc, key, N, N_Alloc>			iterator;
+		typedef				Binary_Search_Tree_Iterator<const node_type,  Compare, T_Alloc, key, N, N_Alloc>	const_iterator;
 
-		typedef typename	value_type::second_type							mapped_type;
+		typedef typename	value_type::second_type																mapped_type;
 
 		node_pointer			end_node;
 		node_pointer			root;
@@ -232,7 +233,8 @@ namespace	ft
 
 		void	erase(iterator& to_remove)
 		{
-			node_pointer	ptr(&(*to_remove));
+			tmp<iterator, node_pointer>	tmp(to_remove);		//maybe I should just make the pointer public ...
+			node_pointer				ptr(tmp.get());
 
 			if (ptr == root)
 				return _root_erase();
@@ -284,20 +286,12 @@ namespace	ft
 
 			while (ptr != end_node)
 			{
-			//	std::cout << "is : " << ptr << std::endl;
 				if ((is_left = comp(k, ptr->value->first)) == comp(ptr->value->first, k))
 					return ptr;
-			//	std::cout << "is : " << ptr << std::endl;
 				if (is_left)
-				{
-			//		std::cout << "oui ?" << std::endl;
 					ptr = ptr->left;
-				}
 				else
-				{
-			//		std::cout << "non ?" << std::endl;
 					ptr = ptr->right;
-				}
 			}
 			return ptr;
 		}
@@ -318,11 +312,24 @@ namespace	ft
 				_copy(ptr->right);
 		}
 
+		bool	_root_init(pointer value)
+		{
+			std::cout << "root_init" << std::endl;
+			root = node_alloc.allocate(1);
+			node_alloc.construct(root, node_type(value));
+			root->parent = end_node;
+			root->right = end_node;
+			root->left = end_node;
+			end_node->left = root;
+			end_node->right = root;
+			return true;
+		}
+
 		bool	_insert(pointer value)
 		{
 			node_pointer	new_parent;
 			node_pointer	ptr(root);
-			bool	is_left;
+			bool			is_left;
 	
 			if (comp(value->first, end_node->left->value->first))
 				return _new_leftmost(value);
@@ -337,19 +344,6 @@ namespace	ft
 			return _node_init(value, new_parent, is_left);
 		}
 
-		bool	_root_init(pointer value)
-		{
-			std::cout << "root_init" << std::endl;
-			root = node_alloc.allocate(1);
-			node_alloc.construct(root, node_type(value));
-			root->parent = end_node;
-			root->right = end_node;
-			root->left = end_node;
-			end_node->left = root;
-			end_node->right = root;
-			return true;
-		}
-
 		bool	_new_leftmost(pointer value)
 		{
 			node_pointer	parent(end_node->left);
@@ -358,8 +352,9 @@ namespace	ft
 			new_node = node_alloc.allocate(1);
 			node_alloc.construct(new_node, node_type(value));
 			new_node->parent = parent;
-			new_node->left = end_node;
 			parent->left = new_node;
+			new_node->right = end_node;
+			new_node->left = end_node;
 			end_node->left = new_node;
 			return true;
 		}
@@ -372,8 +367,9 @@ namespace	ft
 			new_node = node_alloc.allocate(1);
 			node_alloc.construct(new_node, node_type(value));
 			new_node->parent = parent;
-			new_node->right = end_node;
 			parent->right = new_node;
+			new_node->right = end_node;
+			new_node->left = end_node;
 			end_node->right = new_node;
 			return true;
 		}
@@ -495,7 +491,7 @@ namespace	ft
 			while (ptr)
 			{
 				parent = ptr->parent;
-				is_left = comp(orphan->value.first, ptr->value.first);
+				is_left = comp(orphan->value->first, ptr->value->first);
 				ptr = is_left ? ptr->left : ptr->right;
 			}
 			orphan->parent = parent;

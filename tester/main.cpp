@@ -150,7 +150,11 @@ int main(void){
 	output(ft, std);
 	content(ft, std);
 
+	ft.erase('z');
+	std.erase('z');
 
+	output(ft, std);
+	content(ft, std);
 	//second=first;                // second now contains 3 ints
 	//first=ft::Map<char,int>();  // and first is now empty
 

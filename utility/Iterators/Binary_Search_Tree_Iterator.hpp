@@ -1,14 +1,29 @@
 #ifndef BINARY_SEARCH_TREE_ITERATOR
 # define BINARY_SEARCH_TREE_ITERATOR
-
+//
 #include <iostream>
-
-# include "../../ft_containers/Stack.hpp"
+//
 # include "Iterator.hpp"
+# include "../less.hpp"
+# include "../BST_tree/node.hpp"
+
+//# include "../BST_tree/rb_tree.hpp"
 
 namespace	ft
 {
-	template< typename T >
+	template< typename T, typename N >
+	struct	tmp
+	{
+		N	ptr;
+
+		tmp(T const & src):ptr(src._ptr){}
+
+		N	get()
+		{	return ptr;}
+	};
+
+	template< typename T, class Compare = ft::less< T > , class T_Alloc = typename std::allocator< T >,
+					class key = typename T::first_type, typename N = ft::node< T >, class N_Alloc = typename std::allocator< N > >
 	class	Binary_Search_Tree_Iterator : public iterator_traits< Iterator< Bidirectional_Iterator_tag, T > >
 	{
 
@@ -134,9 +149,13 @@ namespace	ft
 
 	protected :
 
-		typedef	T*		node_pointer;
+		typedef				Binary_Search_Tree_Iterator< T, Compare, T_Alloc, key, N, N_Alloc>	iterator;
+		typedef	typename	N_Alloc::pointer													node_pointer;
 
 		node_pointer	_ptr;
+
+		//friend	void	rb_tree< T, Compare, T_Alloc, key, N, N_Alloc >::erase(Binary_Search_Tree_Iterator< T, Compare, T_Alloc, key, N, N_Alloc >& to_remove);
+		friend	struct	tmp<iterator, node_pointer>;
 	};
 }
 
