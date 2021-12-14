@@ -5,6 +5,7 @@ SRCS	= tester/main.cpp
 INC		= ft_containers/Map.hpp
 INC		+= ft_containers/Stack.hpp
 INC		+= ft_containers/Vector.hpp
+INC		+= utility/BST_tree/node_accessor.hpp
 INC		+= utility/BST_tree/node.hpp
 INC		+= utility/BST_tree/rb_tree.hpp
 INC		+= utility/Iterators/Binary_Search_Tree_Iterator.hpp

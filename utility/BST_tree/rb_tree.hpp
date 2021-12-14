@@ -6,6 +6,7 @@
 //
 
 # include <memory>
+# include "node_accessor.hpp"
 # include "node.hpp"
 # include "../less.hpp"
 # include "../Iterators/Binary_Search_Tree_Iterator.hpp"
@@ -31,8 +32,8 @@ namespace	ft
 		typedef				key																					key_type;
 		typedef				size_t																				size_type;
 	
-		typedef				Binary_Search_Tree_Iterator<node_type, Compare, T_Alloc, key, N, N_Alloc>			iterator;
-		typedef				Binary_Search_Tree_Iterator<const node_type,  Compare, T_Alloc, key, N, N_Alloc>	const_iterator;
+		typedef				Binary_Search_Tree_Iterator<node_type>/*, Compare, T_Alloc, key, N, N_Alloc>*/		iterator;
+		typedef				Binary_Search_Tree_Iterator<const node_type>/*,  Compare, T_Alloc, key, N, N_Alloc>*/	const_iterator;
 
 		typedef typename	value_type::second_type																mapped_type;
 
@@ -233,8 +234,7 @@ namespace	ft
 
 		void	erase(iterator& to_remove)
 		{
-			tmp<iterator, node_pointer>	tmp(to_remove);		//maybe I should just make the pointer public ...
-			node_pointer				ptr(tmp.get());
+			node_pointer	ptr(node_accessor<node_type>(to_remove).get_node());
 
 			if (ptr == root)
 				return _root_erase();
@@ -499,7 +499,6 @@ namespace	ft
 		}
 
 	};
-
 }
 
 #endif
