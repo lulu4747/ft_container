@@ -457,7 +457,7 @@ namespace	ft
 			node_pointer	parent(ptr->parent);
 			node_pointer	orphan(end_node);
 
-			if (!ptr->left && !ptr->right)
+			if (ptr->left == end_node && ptr->right == end_node)
 				ptr == parent->left ? parent->left = end_node : parent->right = end_node;
 			else
 			{
@@ -486,9 +486,9 @@ namespace	ft
 			node_pointer	ptr(root);
 			bool			is_left = 0;
 
-			if (empty() || !orphan || orphan == end_node)
+			if (empty() || orphan == end_node)
 				return ;
-			while (ptr)
+			while (ptr != end_node)
 			{
 				parent = ptr->parent;
 				is_left = comp(orphan->value->first, ptr->value->first);

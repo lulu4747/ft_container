@@ -21,7 +21,7 @@ OBJ		= $(SRCS:.cpp=.o)
 
 CC		= clang++
 CFLAGS	= -std=c++98 -Wall -Werror -Wextra
-GDBFLAG	= #-g3
+GDBFLAG	= -g3
 RM		= rm -f
 RM_DIR	= rm -rf
 
