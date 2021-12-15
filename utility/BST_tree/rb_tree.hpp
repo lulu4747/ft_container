@@ -314,7 +314,6 @@ namespace	ft
 
 		bool	_root_init(pointer value)
 		{
-			std::cout << "root_init" << std::endl;
 			root = node_alloc.allocate(1);
 			node_alloc.construct(root, node_type(value));
 			root->parent = end_node;
@@ -411,6 +410,10 @@ namespace	ft
 				new_root = root->right;
 				orphan = root->left;
 			}
+			if (root == end_node->left)
+				end_node->left = root->right;
+			if (root == end_node->right)
+				end_node->right = root->left;
 			_node_remover(root);
 			root = new_root;
 			new_root->parent = end_node;
@@ -466,6 +469,7 @@ namespace	ft
 
 				ptr == parent->left ?
 					parent->left = tmp : parent->right = tmp;
+				tmp->parent = parent;
 				orphan = is_left ? ptr->right : ptr->left;
 			}
 			_node_remover(ptr);

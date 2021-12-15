@@ -150,8 +150,8 @@ int main(void){
 	output(ft, std);
 	content(ft, std);
 
-	ft.erase('y');
-	std.erase('y');
+	ft.erase('x');
+	std.erase('x');
 
 	output(ft, std);
 	content(ft, std);
