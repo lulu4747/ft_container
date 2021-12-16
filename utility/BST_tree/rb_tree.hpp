@@ -21,21 +21,21 @@ namespace	ft
 
 	public :
 
-		typedef				T																					value_type;
-		typedef				value_type*																			pointer;
-		typedef 			T_Alloc																				value_allocator_type;
-		typedef				N																					node_type;
-		typedef 			node_type*																			node_pointer;
-		typedef 			N_Alloc																				node_allocator_type;
+		typedef				T												value_type;
+		typedef				value_type*										pointer;
+		typedef 			T_Alloc											value_allocator_type;
+		typedef				N												node_type;
+		typedef 			node_type*										node_pointer;
+		typedef 			N_Alloc											node_allocator_type;
 
-		typedef 			Compare																				key_compare;
-		typedef				key																					key_type;
-		typedef				size_t																				size_type;
+		typedef 			Compare											key_compare;
+		typedef				key												key_type;
+		typedef				size_t											size_type;
 	
-		typedef				Binary_Search_Tree_Iterator<node_type>/*, Compare, T_Alloc, key, N, N_Alloc>*/		iterator;
-		typedef				Binary_Search_Tree_Iterator<const node_type>/*,  Compare, T_Alloc, key, N, N_Alloc>*/	const_iterator;
+		typedef				Binary_Search_Tree_Iterator<node_type>			iterator;
+		typedef				Binary_Search_Tree_Iterator<const node_type>	const_iterator;
 
-		typedef typename	value_type::second_type																mapped_type;
+		typedef typename	value_type::second_type							mapped_type;
 
 		node_pointer			end_node;
 		node_pointer			root;
@@ -58,6 +58,7 @@ namespace	ft
 			root = end_node;
 			end_node->right = end_node;
 			end_node->left = end_node;
+			end_node->parent = end_node;
 		}
 
 		rb_tree(rb_tree const& src)
@@ -113,6 +114,7 @@ namespace	ft
 			root = end_node;
 			end_node->right = end_node;
 			end_node->left = end_node;
+			end_node->parent = end_node;
 		}
 
 /*
@@ -232,7 +234,7 @@ namespace	ft
 			return _insert(value);
 		}
 
-		void	erase(iterator& to_remove)
+		void	erase(iterator to_remove)
 		{
 			node_pointer	ptr(node_accessor<node_type>(to_remove).get_node());
 
@@ -321,6 +323,7 @@ namespace	ft
 			root->left = end_node;
 			end_node->left = root;
 			end_node->right = root;
+			end_node->parent = root;
 			return true;
 		}
 
@@ -417,9 +420,11 @@ namespace	ft
 			_node_remover(root);
 			root = new_root;
 			new_root->parent = end_node;
-			if (!new_root->left)
+			end_node->parent = new_root;
+			orphan->parent = new_root;
+			if (new_root->left == end_node)
 				new_root->left = orphan;
-			else if (!new_root->right)
+			else if (new_root->right == end_node)
 				new_root->right = orphan;
 			else
 				_relink(orphan);
@@ -429,11 +434,9 @@ namespace	ft
 		{
 			node_pointer	ptr(end_node->left);
 
-			if (ptr->right)
-			{
-				ptr->parent->left = ptr->right;
+			ptr->parent->left = ptr->right;
+			if (ptr->right != end_node)
 				ptr->right->parent = ptr->parent;
-			}
 			_node_remover(ptr);
 			ptr = root->leftmost();
 			end_node->left = ptr;
@@ -443,12 +446,10 @@ namespace	ft
 		void	_rightmost_erase()
 		{
 			node_pointer	ptr(end_node->right);
-
-			if (ptr->left)
-			{
-				ptr->parent->right = ptr->left;
+	
+			ptr->parent->right = ptr->left;
+			if (ptr->left != end_node)
 				ptr->left->parent = ptr->parent;
-			}
 			_node_remover(ptr);
 			ptr = root->rightmost();
 			end_node->right = ptr;

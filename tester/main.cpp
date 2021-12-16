@@ -132,14 +132,14 @@ int main(void){
 	output(ft, std);
 	content(ft, std);
 
-	ft['x']=8;
-	std['x']=8;
+	ft['y']=8;
+	std['y']=8;
 
 	output(ft, std);
 	content(ft, std);
 
-	ft['y']=16;
-	std['y']=16;
+	ft['x']=16;
+	std['x']=16;
 
 	output(ft, std);
 	content(ft, std);
@@ -150,11 +150,26 @@ int main(void){
 	output(ft, std);
 	content(ft, std);
 
-	ft.erase('x');
-	std.erase('x');
+	ft.erase(ft.begin(), ft.end());
+	std.erase(std.begin(), std.end());
+
+/*	output(ft, std);
+	content(ft, std);
+
+	ft.erase('z');
+	std.erase('z');
 
 	output(ft, std);
 	content(ft, std);
+
+	ft.erase('x');
+	std.erase('x');*/
+
+	output(ft, std);
+	content(ft, std);
+
+	std::cout << std::boolalpha
+			<< ft.empty() << "	|	" << std.empty() << std::endl;
 
 //	ft['z']=32;
 //	std['z']=32;

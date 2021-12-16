@@ -188,10 +188,7 @@ namespace	ft
 		void	erase(iterator first, iterator last)
 		{
 			while (first != last)
-			{
-				erase(first);
-				first++;
-			}
+				_data.erase(first++);
 		}
 
 		size_type	erase(const key_type& k)
@@ -200,7 +197,7 @@ namespace	ft
 
 			if (position == end())
 				return 0;
-			erase(position);
+			_data.erase(position);
 			return 1;
 		}
 
