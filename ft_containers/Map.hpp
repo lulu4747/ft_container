@@ -11,7 +11,7 @@
 namespace	ft
 {
 	template < class Key, class T, class Compare = ft::less<Key>,
-			class Alloc = std::allocator< ft::pair<const Key,T> > >
+			class Alloc = std::allocator< ft::pair<const Key, T> > >
 	class Map
 	{
 
@@ -50,14 +50,15 @@ namespace	ft
 				typename enable_if<!is_integral<InputIt>::value, InputIt >::type* = NULL)
 			: Map< key_type, mapped_type, key_compare , allocator_type >(comp, alloc)
 		{
-			pointer	new_val;
 
 			if(!(is_input_iterator_tagged< typename iterator_traits<InputIt>::iterator_category >::value))
 				throw std::invalid_argument("In ft::Map(InputIt first, InputIt last), InputIt class is'nt at least ft::InputIterator tagged");
 
+			pointer	new_val;
+
 			while (first != last)
 			{
-				_alloc.construct(new_val, *first);
+				new_val = &(*first);
 				_data.insert(*new_val);
 				new_val = NULL;
 				first++;
@@ -80,7 +81,11 @@ namespace	ft
 		Map&	operator=(Map const & rhs)
 		{
 			if (this != &rhs)
+			{
+				_comp = rhs.key_comp();
+				_alloc = rhs.get_allocator();
 				_data = rhs._data;
+			}
 			return *this;
 		}
 
@@ -122,14 +127,14 @@ namespace	ft
 
 		reverse_iterator	rend()
 		{
-			reverse_iterator rit((_data.begin()));
+			reverse_iterator rit((_data.end()));
 
 			return rit;
 		}
 
 		const_reverse_iterator	rend() const
 		{
-			const_reverse_iterator rit((_data.begin()));
+			const_reverse_iterator rit((_data.end()));
 
 			return rit;
 		}
@@ -166,8 +171,9 @@ namespace	ft
 			bool		second(false);
 			pointer		new_val(NULL);
 
-			if (first == end())
+			if (first == _data.end())
 			{
+				new_val = _alloc.allocate(1);
 				_alloc.construct(new_val, val);
 				_data.insert(new_val);
 				first = find(val.first);
@@ -176,9 +182,36 @@ namespace	ft
 			return (make_pair(first, second));
 		}
 
-//		iterator insert (iterator position, const value_type& val);
-//		template <class InputIterator>
-//		void insert (InputIterator first, InputIterator last);
+		iterator insert (iterator position, const value_type& val)
+		{
+			iterator	it(_data.find(val.first));
+			pointer		new_val(NULL);
+
+			if (it == _data.end())
+			{
+				new_val = _alloc.allocate(1);
+				_alloc.construct(new_val, val);
+				_data.insert(new_val);
+				it = find(val.first);
+			}
+			static_cast<void>(position);
+			return it;
+		}
+
+		template <class InputIt>
+		void insert (InputIt first, InputIt last)
+		{
+
+			if(!(is_input_iterator_tagged< typename iterator_traits<InputIt>::iterator_category >::value))
+				throw std::invalid_argument("In ft::Map::insert(InputIt first, InputIt last), InputIt class is'nt at least ft::InputIterator tagged");
+
+			while (first != last)
+			{
+				_data[*first.first] = *first.second;
+				first++;
+			}
+			return ;
+		}
 
 		void	erase(iterator position)
 		{
