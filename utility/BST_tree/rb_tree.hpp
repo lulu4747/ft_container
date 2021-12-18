@@ -8,7 +8,7 @@
 # include <memory>
 # include "node_accessor.hpp"
 # include "node.hpp"
-# include "../less.hpp"
+# include "../functionnal.hpp"
 # include "../Iterators/Binary_Search_Tree_Iterator.hpp"
 
 namespace	ft
@@ -27,7 +27,9 @@ namespace	ft
 			typedef 			T_Alloc											value_allocator_type;
 			typedef 			N_Alloc											node_allocator_type;
 			typedef	typename	value_allocator_type::pointer					pointer;
+			typedef	typename	value_allocator_type::const_pointer				const_pointer;
 			typedef typename	node_allocator_type::pointer					node_pointer;
+			typedef typename	node_allocator_type::const_pointer				const_node_pointer;
 
 			typedef 			Compare											key_compare;
 			typedef				key												key_type;
