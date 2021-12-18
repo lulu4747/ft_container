@@ -3,13 +3,17 @@
 
 namespace	ft
 {
-	template < class T >
-	struct less
+	template< class Arg1, class Arg2, class Result >
+	struct binary_function
 	{
-		typedef	bool	result_type;
-		typedef	T		first_argument_type;
-		typedef	T		second_argument_type;
+		typedef	Arg1	first_argument_type;
+		typedef	Arg2	second_argument_type;
+		typedef	Result	result_type;
+	};
 
+	template < class T >
+	struct less : binary_function< T, T, bool >
+	{
 		bool operator()( T const & lhs, T const & rhs ) const
 		{
 			return lhs < rhs;

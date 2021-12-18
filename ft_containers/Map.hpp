@@ -35,6 +35,24 @@ namespace	ft
 		typedef				Reverse_Iterator<iterator>							reverse_iterator;
 		typedef				Reverse_Iterator<const_iterator>					const_reverse_iterator;
 
+		class value_compare : binary_function< value_type, value_type, bool >
+		{
+			friend class Map< key_type, value_type, key_compare, allocator_type >;
+
+			protected:
+
+				key_compare	comp;
+
+				value_compare(key_compare c): comp(c){}
+			
+			public:
+
+				bool	operator()(const value_type& x, const value_type& y) const
+				{
+					return comp(x.first, y.first);
+				}
+		};
+
 		//	Canon
 
 		explicit Map(const key_compare& comp = key_compare(),
@@ -153,7 +171,7 @@ namespace	ft
 
 		size_type max_size() const
 		{
-			return _alloc.max_size();	//	verify
+			return _data.max_size();
 		}
 
 		//	Element access
@@ -254,9 +272,12 @@ namespace	ft
 		{
 			return _comp;
 		}
-/*
-		value_compare value_comp() const;	// define value_compare
-*/
+
+		value_compare value_comp() const
+		{
+			return value_compare(key_compare());
+		}
+
 
 		//	Operation
 

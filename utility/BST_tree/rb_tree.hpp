@@ -6,7 +6,7 @@
 //
 
 # include <memory>
-# include "node_accessor.hpp"
+//# include "node_accessor.hpp"
 # include "node.hpp"
 # include "../functionnal.hpp"
 # include "../Iterators/Binary_Search_Tree_Iterator.hpp"
@@ -124,6 +124,11 @@ namespace	ft
 				return _size(_root);
 			}
 
+			size_type	max_size() const
+			{
+				return _node_alloc.max_size();
+			}
+
 			size_type	count(const key_type& k) const
 			{
 				if (_find(k) != _end_node)
@@ -229,7 +234,7 @@ namespace	ft
 
 			void	erase(iterator to_remove)
 			{
-				node_pointer	ptr(node_accessor<node_type>(to_remove).get_node());
+				node_pointer	ptr(node_accessor(to_remove).get_node());
 
 				if (ptr == _root)
 					return _root_erase();
@@ -276,6 +281,22 @@ namespace	ft
 			key_compare				_comp;
 			value_allocator_type	_value_alloc;
 			node_allocator_type		_node_alloc;
+
+			class node_accessor : Binary_Search_Tree_Iterator< node_type >
+			{
+				friend	class	rb_tree< value_type, key_compare, value_allocator_type, key_type, node_type, node_allocator_type >;
+
+				protected :
+
+					node_accessor(Binary_Search_Tree_Iterator< node_type > const & src)
+						:Binary_Search_Tree_Iterator< node_type >(src)
+					{}
+
+					node_pointer	get_node()
+					{
+						return Binary_Search_Tree_Iterator< node_type >::_ptr;
+					}
+			};
 
 	/*
 				**		clear() helper		**
