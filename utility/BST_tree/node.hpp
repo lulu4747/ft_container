@@ -23,6 +23,7 @@ namespace	ft
 			pointer			left;
 			pointer			right;
 			value_pointer	value;
+			bool			red;
 
 			explicit node(value_pointer src_value = NULL,
 				pointer const& src_parent = NULL, pointer const& src_left = NULL, pointer const& src_right = NULL)
@@ -30,7 +31,8 @@ namespace	ft
 				parent(src_parent),
 				left(src_left),
 				right(src_right),
-				value(src_value)
+				value(src_value),
+				red(true)
 			{}
 
 			node(node const & src)
@@ -46,6 +48,7 @@ namespace	ft
 					left = rhs.left;
 					right = rhs.right;
 					value = rhs.value;
+					red = rhs.red;
 				}
 				return *this;
 			}
@@ -107,6 +110,30 @@ namespace	ft
 				while (ptr->right->value)
 					ptr = ptr->right;
 				return ptr;
+			}
+
+			pointer	grandparent()
+			{
+				return parent->parent;
+			}
+
+			const_pointer	grandparent() const
+			{
+				return parent->parent;
+			}
+
+			pointer	uncle()
+			{
+				if (parent == grandparent()->left)
+					return grandparent()->right;
+				return grandparent()->left;
+			}
+
+			const_pointer	uncle() const
+			{
+				if (parent == grandparent()->left)
+					return grandparent()->right;
+				return grandparent()->left;
 			}
 
 			bool	operator==(node const & rhs) const
