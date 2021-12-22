@@ -271,6 +271,11 @@ namespace	ft
 				return	_node_alloc;
 			}
 
+			void	tmp() const																								//LA
+			{
+				std::cout << _size(_root->left) << "	|	" << _size(_root->right) << std::endl;
+			}
+
 		private:
 
 	/*
@@ -389,31 +394,35 @@ namespace	ft
 
 			bool	_balance(node_pointer ptr)
 			{
-				if (ptr == _root)
+				/*if (ptr == _root)
 					ptr->red = false;
 				else if (ptr->parent->red)
 				{
+					node_pointer	grandparent(ptr->grandparent());
+
 					if (ptr->uncle()->red)
 					{
 						ptr->uncle()->red = false;
 						ptr->parent->red = false;
-						ptr->grandparent()->red = true;
-						return	_balance(ptr->grandparent());
+						grandparent->red = true;
+						return	_balance(grandparent);
 					}
-					else if (ptr == ptr->grandparent()->left->left)
+					else if (grandparent->left != _end_node && ptr == grandparent->left->left)
 						return _ll_rotation(ptr);
-					else if (ptr == ptr->grandparent()->left->right)
+					else if (grandparent->left != _end_node && ptr == grandparent->left->right)
 						return _lr_rotation(ptr);
-					else if (ptr == ptr->grandparent()->right->right)
+					else if (grandparent->right != _end_node && ptr == grandparent->right->right)
 						return _rr_rotation(ptr);
 					return _rl_rotation(ptr);
-				}
+				}*/
+				if (ptr)
+					return true;
 				return true;
 			}
 
 			bool	_ll_rotation(node_pointer ptr)
 			{
-				node_pointer	g(ptr->grandparant());
+				node_pointer	g(ptr->grandparent());
 				bool			tmp(g->red);
 
 				_r_rotation(g);
@@ -430,7 +439,7 @@ namespace	ft
 
 			bool	_rr_rotation(node_pointer ptr)
 			{
-				node_pointer	g(ptr->grandparant());
+				node_pointer	g(ptr->grandparent());
 				bool			tmp(g->red);
 
 				_l_rotation(g);

@@ -53,6 +53,10 @@ namespace	ft
 				}
 		};
 
+		void	tmp() const
+		{
+			_data.tmp();
+		}
 		//	Canon
 
 		explicit Map(const key_compare& comp = key_compare(),

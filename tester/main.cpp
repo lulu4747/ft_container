@@ -132,23 +132,54 @@ int main(void){
 	output(ft, std);
 	content(ft, std);
 
+	ft['a']=8;
+	std['a']=8;
+
+	output(ft, std);
+	content(ft, std);
+	ft.tmp();
+
+	ft['c']=8;
+	std['c']=8;
+
+	output(ft, std);
+	content(ft, std);
+	ft.tmp();
+
+	ft['j']=8;
+	std['j']=8;
+
+	output(ft, std);
+	content(ft, std);
+	ft.tmp();
+
+	ft['b']=8;
+	std['b']=8;
+
+	output(ft, std);
+	content(ft, std);
+	ft.tmp();
+
 	ft['y']=8;
 	std['y']=8;
 
 	output(ft, std);
 	content(ft, std);
+	ft.tmp();
 
 	ft['x']=16;
 	std['x']=16;
 
 	output(ft, std);
 	content(ft, std);
+	ft.tmp();
 
 	ft['z']=32;
 	std['z']=32;
 
 	output(ft, std);
 	content(ft, std);
+	ft.tmp();
 
 	ft.erase(ft.begin(), ft.end());
 	std.erase(std.begin(), std.end());
