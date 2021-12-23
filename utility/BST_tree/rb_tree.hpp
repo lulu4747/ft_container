@@ -388,13 +388,13 @@ namespace	ft
 			}
 
 	/*
-				**		insert() helper		**
+				**		balancing functions		**
 	*/
 /**/
 
 			bool	_balance(node_pointer ptr)
 			{
-				/*if (ptr == _root)
+				if (ptr == _root)
 					ptr->red = false;
 				else if (ptr->parent->red)
 				{
@@ -414,19 +414,17 @@ namespace	ft
 					else if (grandparent->right != _end_node && ptr == grandparent->right->right)
 						return _rr_rotation(ptr);
 					return _rl_rotation(ptr);
-				}*/
-				if (ptr)
-					return true;
+				}
 				return true;
 			}
 
 			bool	_ll_rotation(node_pointer ptr)
 			{
-				node_pointer	g(ptr->grandparent());
-				bool			tmp(g->red);
+				node_pointer	grandparent(ptr->grandparent());
+				bool			tmp(grandparent->red);
 
-				_r_rotation(g);
-				g->red = ptr->parent->red;
+				_r_rotation(grandparent);
+				grandparent->red = ptr->parent->red;
 				ptr->parent->red = tmp;
 				return _balance(ptr);
 			}
@@ -439,11 +437,11 @@ namespace	ft
 
 			bool	_rr_rotation(node_pointer ptr)
 			{
-				node_pointer	g(ptr->grandparent());
-				bool			tmp(g->red);
+				node_pointer	grandparent(ptr->grandparent());
+				bool			tmp(grandparent->red);
 
-				_l_rotation(g);
-				g->red = ptr->parent->red;
+				_l_rotation(grandparent);
+				grandparent->red = ptr->parent->red;
 				ptr->parent->red = tmp;
 				return _balance(ptr);
 			}
@@ -455,33 +453,39 @@ namespace	ft
 
 			void	_l_rotation(node_pointer ptr)
 			{
-				node_pointer	t1(ptr->right->left);
-				node_pointer	t2(ptr->right->right);
-				node_pointer	t3(ptr->left);
+				node_pointer	right(ptr->right);
 
-				ptr->right->parent = ptr->parent;
-				ptr->parent = ptr->right;
-				ptr->parent->left = ptr;
-				ptr->left = t1;
-				ptr->right = t2;
-				ptr->parent->right = t3;
+				right->parent = ptr->parent;
+				if (ptr->parent != _end_node)
+					ptr == ptr->parent->left ?	ptr->parent->left = right :	ptr->parent->right = right;
+				else
+					_root = right;
+				right->left->parent = ptr;
+				ptr->right = right->left;
+				right->left = ptr;
+				ptr->parent = right;
 				return ;
 			}
 
 			void	_r_rotation(node_pointer ptr)
 			{
-				node_pointer	t1(ptr->left->left);
-				node_pointer	t2(ptr->left->right);
-				node_pointer	t3(ptr->right);
+				node_pointer	left(ptr->left);
 
-				ptr->left->parent = ptr->parent;
-				ptr->parent = ptr->left;
-				ptr->parent->right = ptr;
-				ptr->left = t1;
-				ptr->right = t2;
-				ptr->parent->left = t3;
+				left->parent = ptr->parent;
+				if (ptr->parent != _end_node)
+					ptr == ptr->parent->left ?	ptr->parent->left = left :	ptr->parent->right = left;
+				else
+					_root = left;
+				left->right->parent = ptr;
+				ptr->left = left->right;
+				left->right = ptr;
+				ptr->parent = left;
 				return ;
 			}
+
+	/*
+				**		insert() helper		**
+	*/
 
 			node_pointer	_root_init(pointer value)
 			{
@@ -506,7 +510,7 @@ namespace	ft
 					return _new_leftmost(value);
 				if (_comp(_end_node->right->key(), value->first))
 					return _new_rightmost(value);
-				while (ptr)
+				while (ptr != _end_node)
 				{
 					new_parent = ptr;
 					is_left = _comp(value->first, ptr->key());
