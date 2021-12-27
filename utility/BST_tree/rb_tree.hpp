@@ -413,7 +413,9 @@ namespace	ft
 						return _lr_rotation(ptr);
 					else if (grandparent->right != _end_node && ptr == grandparent->right->right)
 						return _rr_rotation(ptr);
-					return _rl_rotation(ptr);
+					else if (grandparent->right != _end_node && ptr == grandparent->right->left)
+						return _rl_rotation(ptr);
+					std::cout << "test" << std::endl;
 				}
 				return true;
 			}

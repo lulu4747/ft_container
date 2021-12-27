@@ -124,18 +124,20 @@ namespace	ft
 
 			pointer	uncle()
 			{
-				if (parent == grandparent()->left)
-					return grandparent()->right;
-				return grandparent()->left;
+				pointer	gp(grandparent());
+
+				if (parent == gp->left)
+					return gp->right;
+				return gp->left;
 			}
 
 			const_pointer	uncle() const
 			{
-				pointer	grandparent(grandparent());
+				pointer	gp(grandparent());
 
-				if (parent == grandparent->left)
-					return grandparent()->right;
-				return grandparent->left;
+				if (parent == gp->left)
+					return gp->right;
+				return gp->left;
 			}
 
 			bool	operator==(node const & rhs) const
