@@ -432,7 +432,7 @@ namespace	ft
 			bool	_lr_rotation(node_pointer ptr)
 			{
 				_l_rotation(ptr->parent);
-				return _ll_rotation(ptr);
+				return _ll_rotation(ptr->left);
 			}
 
 			bool	_rr_rotation(node_pointer ptr)
@@ -448,7 +448,7 @@ namespace	ft
 			bool	_rl_rotation(node_pointer ptr)
 			{
 				_r_rotation(ptr->parent);
-				return _rr_rotation(ptr);
+				return _rr_rotation(ptr->right);
 			}
 
 			void	_l_rotation(node_pointer ptr)
@@ -459,8 +459,12 @@ namespace	ft
 				if (ptr->parent != _end_node)
 					ptr == ptr->parent->left ?	ptr->parent->left = right :	ptr->parent->right = right;
 				else
+				{
 					_root = right;
-				right->left->parent = ptr;
+					right->parent = _end_node;
+				}
+				if (right->left != _end_node)
+					right->left->parent = ptr;
 				ptr->right = right->left;
 				right->left = ptr;
 				ptr->parent = right;
@@ -475,8 +479,12 @@ namespace	ft
 				if (ptr->parent != _end_node)
 					ptr == ptr->parent->left ?	ptr->parent->left = left :	ptr->parent->right = left;
 				else
+				{
 					_root = left;
-				left->right->parent = ptr;
+					left->parent= _end_node;
+				}
+				if (left->right != _end_node)
+					left->right->parent = ptr;
 				ptr->left = left->right;
 				left->right = ptr;
 				ptr->parent = left;
