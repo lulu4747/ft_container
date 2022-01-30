@@ -6,7 +6,6 @@
 //
 
 # include <memory>
-//# include "node_accessor.hpp"
 # include "node.hpp"
 # include "../functionnal.hpp"
 # include "../Iterators/Binary_Search_Tree_Iterator.hpp"
@@ -236,10 +235,13 @@ namespace	ft
 			void	erase(iterator to_remove)
 			{
 				node_pointer	ptr(node_accessor(to_remove).get_node());
+				node_pointer	to_check(_end_node);
 
 				if (ptr == _root)
-					return _root_erase();
-				return _node_erase(ptr);
+					to_check = _root_erase();
+				else
+					to_check = _node_erase(ptr);
+				_post_erase_balance(to_check);
 			}
 
 	/*
@@ -391,6 +393,7 @@ namespace	ft
 				**		balancing functions		**
 	*/
 /**/
+			void	_post_erase_balance(node_pointer to_check);
 
 			bool	_balance(node_pointer ptr)
 			{
@@ -574,38 +577,34 @@ namespace	ft
 				**		erase() helper		**
 	*/
 
-			void	_root_erase()
+			node_pointer	_root_erase()
 			{
-				node_pointer	new_root;
-				node_pointer	orphan;
+				node_pointer	new_root(_end_node);
 
-				if (_root == _end_node->left)
-					_end_node->left = _root->right;
-				if (_root == _end_node->right)
-					_end_node->right = _root->left;
-				if (_root->right == _end_node && _root->left == _end_node)
-					return clear();
-				if (_root->right == _end_node || _size(_root->right) < _size(_root->left))
+				if (_root->left != _end_node && _root->right != _end_node)
 				{
-					new_root = _root->left;
-					orphan = _root->right;
-				}
-				else
-				{
-					new_root = _root->right;
-					orphan = _root->left;
+					if (_root->left == _end_node)
+					{
+						new_root = _root->right;
+						new_root->parent = _end_node;
+					}
+					else if (_root->right == _end_node)
+					{
+						new_root = _root->left;
+						new_root->parent = _end_node;
+					}
+					else
+						_double_child_case(_end_node, _root);
 				}
 				_node_remover(_root);
 				_root = new_root;
-				_root->parent = _end_node;
-				_end_node->parent = _root;
-				_relink(orphan);
+				return _root;
 			}
 
-			void	_node_erase(node_pointer ptr)
+			node_pointer	_node_erase(node_pointer ptr)
 			{
 				node_pointer	parent(ptr->parent);
-				node_pointer	orphan(_end_node);
+				node_pointer	tmp(_end_node);
 
 				if (ptr == _end_node->left)
 					_end_node->left = parent;
@@ -613,7 +612,45 @@ namespace	ft
 					_end_node->right = parent;
 				if (ptr->left == _end_node && ptr->right == _end_node)
 					ptr == parent->left ? parent->left = _end_node : parent->right = _end_node;
+				else if (ptr->left != _end_node && ptr->right == _end_node)
+					ptr == parent->left ? parent->left = ptr->left : parent->right = ptr->left;
+				else if (ptr->right != _end_node && ptr->left == _end_node)
+					ptr == parent->left ? parent->left = ptr->right : parent->right = ptr->right;
 				else
+					_double_child_case(parent, ptr);
+				_node_remover(ptr);
+				return ;
+			}
+
+			void	_double_child_case(node_pointer parent, node_pointer ptr)
+			{
+				node_pointer	tmp(ptr);
+
+				if (tmp->right->left != _end_node)
+				{
+					tmp = tmp->right->left;
+					while (tmp->right != _end_node)
+						tmp = tmp->right;
+					if (parent != _end_node)
+						ptr == parent->left ? parent->left = tmp : parent->right = tmp;
+					tmp == tmp->parent->left ? tmp->parent->left = _end_node : tmp->parent->right = _end_node;
+					tmp->parent = parent;
+					tmp->left = ptr->left;
+					ptr->left->parent = tmp;
+					tmp->right = ptr->right;
+					ptr->right->parent = tmp;
+				}
+				else
+				{
+					tmp = tmp->right;
+					if (parent != _end_node)
+						ptr == parent->left ? parent->left = tmp : parent->right = tmp;
+					tmp->parent = parent;
+					tmp->left = ptr->left;
+					ptr->left->parent = tmp;
+				}
+			}
+				/*else
 					orphan = _unlink(ptr, (ptr->right == _end_node || _size(ptr->right) < _size(ptr->left)));
 				_node_remover(ptr);
 				_relink(orphan);
@@ -629,7 +666,7 @@ namespace	ft
 				if (is_left)
 					return ptr->right;
 				return ptr->left;
-			}
+			}*/
 
 			void	_node_remover(node_pointer ptr)
 			{
