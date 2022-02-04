@@ -235,13 +235,20 @@ namespace	ft
 			void	erase(iterator to_remove)
 			{
 				node_pointer	ptr(node_accessor(to_remove).get_node());
-				node_pointer	to_check(_end_node);
 
 				if (ptr == _root)
-					to_check = _root_erase();
+					_root_erase();
 				else
-					to_check = _node_erase(ptr);
-				_post_erase_balance(to_check);
+				{
+					if (to_remove == _end_node->left)
+						_end_node->left = to_remove->right != _end_node ? to_remove->parent : to_remove->parent->right;
+					if (to_remove == _end_node->right)
+						_end_node->right = to_remove->left != _end_node ? to_remove->parent : to_remove->left;
+					if (to_remove->left != _end_node && to_remove->right != _end_node)
+						_swap_places(to_remove, to_remove->inorder_successor());
+					_node_erase(to_remove);
+				}
+				return ;
 			}
 
 	/*
@@ -393,7 +400,10 @@ namespace	ft
 				**		balancing functions		**
 	*/
 /**/
-			void	_post_erase_balance(node_pointer to_check);
+			void	_balance(node_pointer ptr, node_pointer parent)
+			{
+
+			}
 
 			bool	_balance(node_pointer ptr)
 			{
@@ -577,96 +587,73 @@ namespace	ft
 				**		erase() helper		**
 	*/
 
-			node_pointer	_root_erase()
+			void	_root_erase()
 			{
-				node_pointer	new_root(_end_node);
+				node_pointer	tmp(_root);
 
-				if (_root->left != _end_node && _root->right != _end_node)
+				if (_root->left != _end_node || _root->right != _end_node)
 				{
-					if (_root->left == _end_node)
-					{
-						new_root = _root->right;
-						new_root->parent = _end_node;
-					}
-					else if (_root->right == _end_node)
-					{
-						new_root = _root->left;
-						new_root->parent = _end_node;
-					}
-					else
-						_double_child_case(_end_node, _root);
+					_swap_places(_root, _root->inorder_successor());
+					_root = _root->root();
+					_node_erase(tmp);
 				}
-				_node_remover(_root);
-				_root = new_root;
-				return _root;
+				else
+					clear();
+				return ;
 			}
 
-			node_pointer	_node_erase(node_pointer ptr)
+			void	_node_erase(node_pointer ptr)
 			{
 				node_pointer	parent(ptr->parent);
 				node_pointer	tmp(_end_node);
 
-				if (ptr == _end_node->left)
-					_end_node->left = parent;
-				if (ptr == _end_node->right)
-					_end_node->right = parent;
 				if (ptr->left == _end_node && ptr->right == _end_node)
+				{
 					ptr == parent->left ? parent->left = _end_node : parent->right = _end_node;
-				else if (ptr->left != _end_node && ptr->right == _end_node)
-					ptr == parent->left ? parent->left = ptr->left : parent->right = ptr->left;
-				else if (ptr->right != _end_node && ptr->left == _end_node)
-					ptr == parent->left ? parent->left = ptr->right : parent->right = ptr->right;
+					if (ptr->red == false)
+						tmp->double_back = true;
+				}
 				else
-					_double_child_case(parent, ptr);
+				{
+					tmp = ptr->left != _end_node ?
+						ptr->left : ptr->right;
+					ptr == parent->left ?
+						parent->left = tmp : parent->right = tmp;
+					tmp->parent = parent;
+					if (ptr->red == false && tmp->red == false)
+						tmp->double_back = true;
+					else
+						tmp->red = false;
+				}
 				_node_remover(ptr);
+				_balance(tmp, parent);
 				return ;
 			}
 
-			void	_double_child_case(node_pointer parent, node_pointer ptr)
+			void	_swap_places(node_pointer np1, node_pointer np2)
 			{
-				node_pointer	tmp(ptr);
+				node_pointer	np1_parent(np1->parent);
+				node_pointer	np1_left(np1->left);
+				node_pointer	np1_right(np1->right);
+				bool			np1_red(np1->red);
 
-				if (tmp->right->left != _end_node)
-				{
-					tmp = tmp->right->left;
-					while (tmp->right != _end_node)
-						tmp = tmp->right;
-					if (parent != _end_node)
-						ptr == parent->left ? parent->left = tmp : parent->right = tmp;
-					tmp == tmp->parent->left ? tmp->parent->left = _end_node : tmp->parent->right = _end_node;
-					tmp->parent = parent;
-					tmp->left = ptr->left;
-					ptr->left->parent = tmp;
-					tmp->right = ptr->right;
-					ptr->right->parent = tmp;
-				}
-				else
-				{
-					tmp = tmp->right;
-					if (parent != _end_node)
-						ptr == parent->left ? parent->left = tmp : parent->right = tmp;
-					tmp->parent = parent;
-					tmp->left = ptr->left;
-					ptr->left->parent = tmp;
-				}
+				if (np1->parent != _end_node)
+					np1 == np1->parent->left ? np1->parent->left = np2 : np1->parent->right = np2;
+				if (np2->parent != _end_node)
+					np2 == np2->parent->left ? np2->parent->left = np1 : np2->parent->right = np1;
+				np1->parent = np2->parent;
+				np1->left = np2->left;
+				np1->left->parent = np1;
+				np1->right = np2->right;
+				np1->right->parent = np1;
+				np1->red = np2->red;
+				np2->parent = np1_parent;
+				np2->left = np1_left;
+				np2->left->parent = np2;
+				np2->right = np1_right;
+				np2->right->parent = np2;
+				np2->red = np1_red;
 			}
-				/*else
-					orphan = _unlink(ptr, (ptr->right == _end_node || _size(ptr->right) < _size(ptr->left)));
-				_node_remover(ptr);
-				_relink(orphan);
-			}
-
-			node_pointer	_unlink(node_pointer ptr, bool is_left)
-			{
-				node_pointer	tmp(is_left ? ptr->left : ptr->right);
-
-				ptr == ptr->parent->left ?
-					ptr->parent->left = tmp : ptr->parent->right = tmp;
-				tmp->parent = ptr->parent;
-				if (is_left)
-					return ptr->right;
-				return ptr->left;
-			}*/
 
 			void	_node_remover(node_pointer ptr)
 			{
@@ -674,26 +661,6 @@ namespace	ft
 				_value_alloc.deallocate(ptr->value, 1);
 				_node_alloc.destroy(ptr);
 				_node_alloc.deallocate(ptr, 1);
-			}
-
-			void	_relink(node_pointer orphan)
-			{
-				if (!empty() && orphan != _end_node)
-				{
-					node_pointer	parent;
-					node_pointer	ptr(_root);
-					bool			is_left;
-
-					while (ptr != _end_node)
-					{
-						parent = ptr;
-						is_left = _comp(orphan->key(), ptr->key());
-						ptr = is_left ? ptr->left : ptr->right;
-					}
-					orphan->parent = parent;
-					is_left ? parent->left = orphan : parent->right = orphan;
-				}
-				return ;
 			}
 
 		};

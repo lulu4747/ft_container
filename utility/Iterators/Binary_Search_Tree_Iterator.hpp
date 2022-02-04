@@ -71,24 +71,7 @@ namespace	ft
 
 		Binary_Search_Tree_Iterator& operator++()
 		{
-			if (!_ptr->value)
-				_ptr = _ptr->left;
-			if (_ptr->right->value)
-			{
-				_ptr = _ptr->right;
-				while (_ptr->left->value)
-					_ptr = _ptr->left;
-			}
-			else
-			{
-				node_pointer	tmp(_ptr);
-
-				while (_ptr->value && tmp != _ptr->left)
-				{
-					tmp = _ptr;
-					_ptr = _ptr->parent;
-				}
-			}
+			_ptr = _ptr->inorder_successor();
 			return *this;
 		}
 
@@ -102,24 +85,7 @@ namespace	ft
 
 		Binary_Search_Tree_Iterator& operator--()
 		{
-			if (!_ptr->value)
-				_ptr = _ptr->right;
-			if (_ptr->left->value)
-			{
-				_ptr = _ptr->left;
-				while (_ptr->right->_value)
-					_ptr = _ptr->right;
-			}
-			else
-			{
-				node_pointer	tmp(_ptr);
-
-				while (_ptr->value && tmp != _ptr->right)
-				{
-					tmp = _ptr;
-					_ptr = _ptr->parent;
-				}
-			}
+			_ptr = _ptr->inorder_predecessor();
 			return *this;
 		}
 

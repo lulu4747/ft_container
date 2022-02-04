@@ -24,6 +24,7 @@ namespace	ft
 			pointer			right;
 			value_pointer	value;
 			bool			red;
+			bool			double_black;
 
 			explicit node(value_pointer src_value = NULL,
 				pointer const& src_parent = NULL, pointer const& src_left = NULL, pointer const& src_right = NULL)
@@ -32,7 +33,8 @@ namespace	ft
 				left(src_left),
 				right(src_right),
 				value(src_value),
-				red(true)
+				red(true),
+				double_black(false)
 			{}
 
 			node(node const & src)
@@ -49,6 +51,7 @@ namespace	ft
 					right = rhs.right;
 					value = rhs.value;
 					red = rhs.red;
+					double_black = rhs.double_black;
 				}
 				return *this;
 			}
@@ -149,6 +152,107 @@ namespace	ft
 			{
 				return !(*value == *(rhs.value));
 			}
+
+			pointer	inorder_successor()
+			{
+				pointer	ptr(this);
+
+				if (!ptr->value)
+					return ptr->left;
+				if (ptr->right->value)
+				{
+					ptr = ptr->right;
+					while (ptr->left->value)
+						ptr = ptr->left;
+				}
+				else
+				{
+					const_pointer	prev(ptr);
+
+					while (ptr->value && prev != ptr->left)
+					{
+						prev = ptr;
+						ptr = ptr->parent;
+					}
+				}
+				return ptr;
+			}
+
+			const_pointer	inorder_successor()	const
+			{
+				const_pointer	ptr(this);
+
+				if (!ptr->value)
+					return ptr->left;
+				if (ptr->right->value)
+				{
+					ptr = ptr->right;
+					while (ptr->left->value)
+						ptr = ptr->left;
+				}
+				else
+				{
+					const_pointer	prev(ptr);
+
+					while (ptr->value && prev != ptr->left)
+					{
+						prev = ptr;
+						ptr = ptr->parent;
+					}
+				}
+				return ptr;
+			}
+
+			pointer	inorder_predecessor()
+			{
+				pointer	ptr(this);
+
+				if (!ptr->value)
+					return ptr->right;
+				if (ptr->left->value)
+				{
+					ptr = ptr->left;
+					while (ptr->right->_value)
+						ptr = ptr->right;
+				}
+				else
+				{
+					const_pointer	prev(ptr);
+
+					while (ptr->value && prev != ptr->right)
+					{
+						prev = ptr;
+						ptr = ptr->parent;
+					}
+				}
+				return ptr;
+			}
+
+			const_pointer	inorder_predecessor() const
+			{
+				const_pointer	ptr(this);
+
+				if (!ptr->value)
+					return ptr->right;
+				if (ptr->left->value)
+				{
+					ptr = ptr->left;
+					while (ptr->right->_value)
+						ptr = ptr->right;
+				}
+				else
+				{
+					const_pointer	prev(ptr);
+
+					while (ptr->value && prev != ptr->right)
+					{
+						prev = ptr;
+						ptr = ptr->parent;
+					}
+				}
+				return ptr;
+			}
+
 		};
 	}
 }
