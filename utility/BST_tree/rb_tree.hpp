@@ -400,9 +400,129 @@ namespace	ft
 				**		balancing functions		**
 	*/
 /**/
-			void	_balance(node_pointer ptr, node_pointer parent)
+			void	_balance(node_pointer ptr, node_pointer parent, node_pointer sibling)
 			{
+				if (ptr != _root)
+				{
+					if (sibling == _end_node)
+					{
+						if (parent->red == false)
+						{
+							ptr->double_black = false;
+							parent->double_black = true;
+							if (parent != _root)
+								sibling = parent == parent->parent->left ? parent->parent->right : parent->parent->left;
+							return _balance(parent, parent->parent, sibling);
+						}
+						parent->red = false;
+					}
+					else if (sibling->red == false)
+					{
+						if (sibling->left->red || sibling->right->red)
+						{
+							if (sibling == parent->right)
+							{
+								if (sibling->right->red)
+									_rr_del(ptr, parent, sibling);
+								else
+									_rl_del(ptr, parent, sibling);
+							}
+							else
+							{
+								if (sibling->left->red)
+									_ll_del(ptr, parent, sibling);
+								else
+									_lr_del(ptr, parent, sibling);
+							}
+						}
+						else
+						{}
+					}
+					else
+					{}
+				}
+				ptr->double_black = false;
+				return ;
+			}
 
+			void	_rr_del(node_pointer ptr, node_pointer parent, node_pointer sibling)
+			{
+				sibling->right->red = false;
+				sibling->parent = parent->parent;
+				if (parent == _root)
+					_root = sibling;
+				else
+					parent == parent->parent->left ? parent->parent->right = sibling : parent->parent->left = sibling;
+				parent->right = sibling->left;
+				sibling->left->parent = parent;
+				sibling->left = parent;
+				parent->parent = sibling;
+			}
+
+			void	_rl_del(node_pointer ptr, node_pointer parent, node_pointer sibling)
+			{
+				node_pointer	red(sibling->left);
+
+				red->red = false;
+				if (red->right != _end_node)
+				{
+					red->right->parent = sibling;
+					sibling->left = red->right;
+				}
+				if (red->left != _end_node)
+				{
+					red->left->parent = parent;
+					parent->right = red->left;
+				}
+				red->parent = parent->parent;
+				if (parent == _root)
+					_root = red;
+				else
+					parent == parent->parent->left ? parent->parent->right = red : parent->parent->left = red;
+				red->left = parent;
+				parent->parent = red;
+				red->right = sibling;
+				sibling->parent = red;
+			}
+
+			void	_ll_del(node_pointer ptr, node_pointer parent, node_pointer sibling)
+			{
+				sibling->left->red = false;
+				sibling->parent = parent->parent;
+				if (parent == _root)
+					_root = sibling;
+				else
+					parent == parent->parent->left ? parent->parent->right = sibling : parent->parent->left = sibling;
+				parent->left = sibling->right;
+				sibling->right->parent = parent;
+				sibling->right = parent;
+				parent->parent = sibling;
+			}
+
+			void	_lr_del(node_pointer ptr, node_pointer parent, node_pointer sibling)
+			{
+				node_pointer	red(sibling->right);
+
+				red->red = false;
+				if (red->left != _end_node)
+				{
+					red->left->parent = sibling;
+					sibling->right = red->left;
+				}
+				if (red->right != _end_node)
+				{
+					red->right->parent = parent;
+					parent->left = red->right;
+				}
+				red->parent = parent->parent;
+				if (parent == _root)
+					_root = red;
+				else
+					parent == parent->parent->left ? parent->parent->right = red : parent->parent->left = red;
+				red->right = parent;
+				parent->parent = red;
+				red->left = sibling;
+				sibling->parent = red;
 			}
 
 			bool	_balance(node_pointer ptr)
@@ -605,28 +725,32 @@ namespace	ft
 			void	_node_erase(node_pointer ptr)
 			{
 				node_pointer	parent(ptr->parent);
-				node_pointer	tmp(_end_node);
+				node_pointer	sibling(_end_node);
+				node_pointer	balancer(_end_node);
 
 				if (ptr->left == _end_node && ptr->right == _end_node)
 				{
 					ptr == parent->left ? parent->left = _end_node : parent->right = _end_node;
 					if (ptr->red == false)
-						tmp->double_back = true;
+						balancer->double_back = true;
 				}
 				else
 				{
-					tmp = ptr->left != _end_node ?
+					balancer = ptr->left != _end_node ?
 						ptr->left : ptr->right;
 					ptr == parent->left ?
-						parent->left = tmp : parent->right = tmp;
-					tmp->parent = parent;
-					if (ptr->red == false && tmp->red == false)
-						tmp->double_back = true;
+						parent->left = balancer : parent->right = balancer;
+					balancer->parent = parent;
+					if (ptr->red == false && balancer->red == false)
+						balancer->double_back = true;
 					else
-						tmp->red = false;
+						balancer->red = false;
 				}
+				sibling = ptr == parent->left ?
+					parent->right : parent->left;
 				_node_remover(ptr);
-				_balance(tmp, parent);
+				if (balancer->double_black)
+					_balance(balancer, parent, sibling);
 				return ;
 			}
 
