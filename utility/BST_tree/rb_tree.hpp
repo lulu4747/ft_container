@@ -436,10 +436,46 @@ namespace	ft
 							}
 						}
 						else
-						{}
+						{
+							sibling->red = true;
+							if (parent->red == false)
+							{
+								ptr->double_black = false;
+								parent->double_black = true;
+								if (parent != _root)
+									sibling = parent == parent->parent->left ? parent->parent->right : parent->parent->left;
+								return _balance(parent, parent->parent, sibling);
+							}
+							else
+								parent->red = false;
+						}
 					}
 					else
-					{}
+					{
+						parent->red = true;
+						sibling->red = false;
+						if (sibling == parent->left)
+						{
+							sibling->right->parent = parent;
+							parent->left = sibling->right;
+							sibling->parent = parent->parent;
+							if (parent != _root)
+								parent == parent->parent->left ? parent->parent->left = sibling : parent->parent->right = sibling;
+							parent->parent = sibling;
+							sibling->right = parent;
+						}
+						else
+						{
+							sibling->left->parent = parent;
+							parent->right = sibling->left;
+							sibling->parent = parent->parent;
+							if (parent != _root)
+								parent == parent->parent->left ? parent->parent->left = sibling : parent->parent->right = sibling;
+							parent->parent = sibling;
+							sibling->left = parent;
+						}
+						return _balance(ptr, parent, sibling);
+					}
 				}
 				ptr->double_black = false;
 				return ;
