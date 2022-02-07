@@ -38,7 +38,6 @@ void	content(const FT & ft_c, const STD & std_c)
 {
 	std::cout << "____________________________________________" << std::endl << std::endl
 		<< "ft	:	" << std::endl;
-	//std::cout << "1" << std::endl;
 	inside(ft_c);
 	std::cout << "____________________________________________" << std::endl << std::endl
 		<< "std	:	" << std::endl;
@@ -181,8 +180,21 @@ int main(void){
 	content(ft, std);
 	ft.tmp();
 
-	ft.erase(ft.begin(), ft.end());
-	std.erase(std.begin(), std.end());
+//	ft.erase('j');
+//	std.erase('j');
+
+	ft::Map<char,int>::iterator ftit(ft.begin());
+	std::map<char,int>::iterator stdit(std.begin());
+
+	while (!ft.empty())
+	{
+		std::cout << (*(ftit)).first << "	|	" << (*(stdit)).first << std::endl;
+		ft.erase(ftit++);
+		std.erase(stdit++);
+		output(ft, std);
+		content(ft, std);
+		ft.tmp();
+	}
 
 /*	output(ft, std);
 	content(ft, std);
@@ -196,8 +208,9 @@ int main(void){
 	ft.erase('x');
 	std.erase('x');*/
 
-	output(ft, std);
-	content(ft, std);
+//	output(ft, std);
+//	content(ft, std);
+//	ft.tmp();
 
 	std::cout << std::boolalpha
 			<< ft.empty() << "	|	" << std.empty() << std::endl;

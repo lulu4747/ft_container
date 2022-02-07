@@ -241,9 +241,9 @@ namespace	ft
 				else
 				{
 					if (ptr == _end_node->left)
-						_end_node->left = ptr->right != _end_node ? ptr->parent : ptr->parent->right;
+						_end_node->left = _inorder_successor(ptr);
 					if (ptr == _end_node->right)
-						_end_node->right = ptr->left != _end_node ? ptr->parent : ptr->left;
+						_end_node->right = _inorder_predecessor(ptr);
 					if (ptr->left != _end_node && ptr->right != _end_node)
 						_swap_places(ptr, _inorder_successor(ptr));
 					_node_erase(ptr);
@@ -743,14 +743,14 @@ namespace	ft
 				**		erase() helper		**
 	*/
 
-			node_pointer	_inorder_successor(node_pointer	ptr)
+			node_pointer	_inorder_successor(node_pointer ptr)
 			{
 				if (ptr == _end_node)
 					return ptr->left;
-				if (ptr->right->value)
+				if (ptr->right != _end_node)
 				{
 					ptr = ptr->right;
-					while (ptr->left->value)
+					while (ptr->left != _end_node)
 						ptr = ptr->left;
 				}
 				else
@@ -758,6 +758,29 @@ namespace	ft
 					node<T>	*prev(ptr);
 
 					while (ptr != _end_node && prev != ptr->left)
+					{
+						prev = ptr;
+						ptr = ptr->parent;
+					}
+				}
+				return ptr;
+			}
+
+			node_pointer	_inorder_predecessor(node_pointer ptr)
+			{
+				if (ptr == _end_node)
+					ptr = ptr->right;
+				else if (ptr->left != _end_node)
+				{
+					ptr = ptr->left;
+					while (ptr->right != _end_node)
+						ptr = ptr->right;
+				}
+				else
+				{
+					node_pointer	prev(ptr);
+
+					while (ptr != _end_node && prev != ptr->right)
 					{
 						prev = ptr;
 						ptr = ptr->parent;
