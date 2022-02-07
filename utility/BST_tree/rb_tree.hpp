@@ -240,13 +240,13 @@ namespace	ft
 					_root_erase();
 				else
 				{
-					if (to_remove == _end_node->left)
-						_end_node->left = to_remove->right != _end_node ? to_remove->parent : to_remove->parent->right;
-					if (to_remove == _end_node->right)
-						_end_node->right = to_remove->left != _end_node ? to_remove->parent : to_remove->left;
-					if (to_remove->left != _end_node && to_remove->right != _end_node)
-						_swap_places(to_remove, to_remove->inorder_successor());
-					_node_erase(to_remove);
+					if (ptr == _end_node->left)
+						_end_node->left = ptr->right != _end_node ? ptr->parent : ptr->parent->right;
+					if (ptr == _end_node->right)
+						_end_node->right = ptr->left != _end_node ? ptr->parent : ptr->left;
+					if (ptr->left != _end_node && ptr->right != _end_node)
+						_swap_places(ptr, _inorder_successor(ptr));
+					_node_erase(ptr);
 				}
 				return ;
 			}
@@ -423,16 +423,16 @@ namespace	ft
 							if (sibling == parent->right)
 							{
 								if (sibling->right->red)
-									_rr_del(ptr, parent, sibling);
+									_rr_del(parent, sibling);
 								else
-									_rl_del(ptr, parent, sibling);
+									_rl_del(parent, sibling);
 							}
 							else
 							{
 								if (sibling->left->red)
-									_ll_del(ptr, parent, sibling);
+									_ll_del(parent, sibling);
 								else
-									_lr_del(ptr, parent, sibling);
+									_lr_del(parent, sibling);
 							}
 						}
 						else
@@ -481,7 +481,7 @@ namespace	ft
 				return ;
 			}
 
-			void	_rr_del(node_pointer ptr, node_pointer parent, node_pointer sibling)
+			void	_rr_del(node_pointer parent, node_pointer sibling)
 			{
 				sibling->right->red = false;
 				sibling->parent = parent->parent;
@@ -495,7 +495,7 @@ namespace	ft
 				parent->parent = sibling;
 			}
 
-			void	_rl_del(node_pointer ptr, node_pointer parent, node_pointer sibling)
+			void	_rl_del(node_pointer parent, node_pointer sibling)
 			{
 				node_pointer	red(sibling->left);
 
@@ -521,7 +521,7 @@ namespace	ft
 				sibling->parent = red;
 			}
 
-			void	_ll_del(node_pointer ptr, node_pointer parent, node_pointer sibling)
+			void	_ll_del(node_pointer parent, node_pointer sibling)
 			{
 				sibling->left->red = false;
 				sibling->parent = parent->parent;
@@ -535,7 +535,7 @@ namespace	ft
 				parent->parent = sibling;
 			}
 
-			void	_lr_del(node_pointer ptr, node_pointer parent, node_pointer sibling)
+			void	_lr_del(node_pointer parent, node_pointer sibling)
 			{
 				node_pointer	red(sibling->right);
 
@@ -743,13 +743,36 @@ namespace	ft
 				**		erase() helper		**
 	*/
 
+			node_pointer	_inorder_successor(node_pointer	ptr)
+			{
+				if (ptr == _end_node)
+					return ptr->left;
+				if (ptr->right->value)
+				{
+					ptr = ptr->right;
+					while (ptr->left->value)
+						ptr = ptr->left;
+				}
+				else
+				{
+					node<T>	*prev(ptr);
+
+					while (ptr != _end_node && prev != ptr->left)
+					{
+						prev = ptr;
+						ptr = ptr->parent;
+					}
+				}
+				return ptr;
+			}
+
 			void	_root_erase()
 			{
 				node_pointer	tmp(_root);
 
 				if (_root->left != _end_node || _root->right != _end_node)
 				{
-					_swap_places(_root, _root->inorder_successor());
+					_swap_places(_root, _inorder_successor(_root));
 					_root = _root->root();
 					_node_erase(tmp);
 				}
@@ -768,7 +791,7 @@ namespace	ft
 				{
 					ptr == parent->left ? parent->left = _end_node : parent->right = _end_node;
 					if (ptr->red == false)
-						balancer->double_back = true;
+						balancer->double_black = true;
 				}
 				else
 				{
@@ -778,7 +801,7 @@ namespace	ft
 						parent->left = balancer : parent->right = balancer;
 					balancer->parent = parent;
 					if (ptr->red == false && balancer->red == false)
-						balancer->double_back = true;
+						balancer->double_black = true;
 					else
 						balancer->red = false;
 				}
