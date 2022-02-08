@@ -236,14 +236,14 @@ namespace	ft
 			{
 				node_pointer	ptr(node_accessor(to_remove).get_node());
 
+				if (ptr == _end_node->left)
+					_end_node->left = _inorder_successor(ptr);
+				if (ptr == _end_node->right)
+					_end_node->right = _inorder_predecessor(ptr);
 				if (ptr == _root)
 					_root_erase();
 				else
 				{
-					if (ptr == _end_node->left)
-						_end_node->left = _inorder_successor(ptr);
-					if (ptr == _end_node->right)
-						_end_node->right = _inorder_predecessor(ptr);
 					if (ptr->left != _end_node && ptr->right != _end_node)
 						_swap_places(ptr, _inorder_successor(ptr));
 					_node_erase(ptr);
@@ -791,12 +791,14 @@ namespace	ft
 
 			void	_root_erase()
 			{
-				node_pointer	tmp(_root);
-
 				if (_root->left != _end_node || _root->right != _end_node)
 				{
-					_swap_places(_root, _inorder_successor(_root));
-					_root = _root->root();
+					node_pointer	tmp(_root);
+
+					if (_root->right != _end_node)
+						_swap_places(_root, _inorder_successor(_root));
+					else
+						_swap_places(_root, _inorder_predecessor(_root));
 					_node_erase(tmp);
 				}
 				else
@@ -810,10 +812,14 @@ namespace	ft
 				node_pointer	sibling(_end_node);
 				node_pointer	balancer(_end_node);
 
+				if (ptr == _root)
+					return _root_erase();
 				if (ptr->left == _end_node && ptr->right == _end_node)
 				{
 					ptr == parent->left ? parent->left = _end_node : parent->right = _end_node;
-					if (ptr->red == false)
+					if (parent->red == true)
+						parent->red = false;
+					else if (ptr->red == false)
 						balancer->double_black = true;
 				}
 				else
@@ -831,34 +837,43 @@ namespace	ft
 				sibling = ptr == parent->left ?
 					parent->right : parent->left;
 				_node_remover(ptr);
-				if (balancer->double_black)
+				if (balancer->double_black == true)
 					_balance(balancer, parent, sibling);
 				return ;
 			}
 
 			void	_swap_places(node_pointer np1, node_pointer np2)
 			{
-				node_pointer	np1_parent(np1->parent);
-				node_pointer	np1_left(np1->left);
-				node_pointer	np1_right(np1->right);
-				bool			np1_red(np1->red);
+				node_type	tmp(*np1);
 
+				if (np1 == np2)
+					return ;
 				if (np1->parent != _end_node)
 					np1 == np1->parent->left ? np1->parent->left = np2 : np1->parent->right = np2;
 				if (np2->parent != _end_node)
 					np2 == np2->parent->left ? np2->parent->left = np1 : np2->parent->right = np1;
-				np1->parent = np2->parent;
-				np1->left = np2->left;
-				np1->left->parent = np1;
-				np1->right = np2->right;
-				np1->right->parent = np1;
+				if (np1 != _end_node)
+					np1->parent = np2->parent;
+				np1->left = np2->left != np1 ? np2->left : np2;
+				if (np1->left != _end_node)
+					np1->left->parent = np1;
+				np1->right = np2->right != np1 ? np2->right : np2;
+				if (np1->right != _end_node)
+					np1->right->parent = np1;
 				np1->red = np2->red;
-				np2->parent = np1_parent;
-				np2->left = np1_left;
-				np2->left->parent = np2;
-				np2->right = np1_right;
-				np2->right->parent = np2;
-				np2->red = np1_red;
+				if (np2 != _end_node)
+					np2->parent = tmp.parent;
+				np2->left = tmp.left != np2 ? tmp.left : np1;
+				if (np2->left != _end_node)
+					np2->left->parent = np2;
+				np2->right = tmp.right != np2 ? tmp.right : np1;
+				if (np2->right != _end_node)
+					np2->right->parent = np2;
+				np2->red = tmp.red;
+				if (_root == np1)
+					_root = np2;
+				else if (_root == np2)
+					_root = np1;
 			}
 
 			void	_node_remover(node_pointer ptr)
