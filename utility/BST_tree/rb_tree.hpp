@@ -463,6 +463,7 @@ namespace	ft
 								parent == parent->parent->left ? parent->parent->left = sibling : parent->parent->right = sibling;
 							parent->parent = sibling;
 							sibling->right = parent;
+							sibling = parent->right;
 						}
 						else
 						{
@@ -473,6 +474,7 @@ namespace	ft
 								parent == parent->parent->left ? parent->parent->left = sibling : parent->parent->right = sibling;
 							parent->parent = sibling;
 							sibling->left = parent;
+							sibling = parent->left;
 						}
 						return _balance(ptr, parent, sibling);
 					}
@@ -809,11 +811,13 @@ namespace	ft
 			void	_node_erase(node_pointer ptr)
 			{
 				node_pointer	parent(ptr->parent);
-				node_pointer	sibling(_end_node);
 				node_pointer	balancer(_end_node);
+				node_pointer	sibling;
 
 				if (ptr == _root)
 					return _root_erase();
+				sibling = ptr == parent->left ?
+					parent->right : parent->left;
 				if (ptr->left == _end_node && ptr->right == _end_node)
 				{
 					ptr == parent->left ? parent->left = _end_node : parent->right = _end_node;
@@ -834,8 +838,6 @@ namespace	ft
 					else
 						balancer->red = false;
 				}
-				sibling = ptr == parent->left ?
-					parent->right : parent->left;
 				_node_remover(ptr);
 				if (balancer->double_black == true)
 					_balance(balancer, parent, sibling);

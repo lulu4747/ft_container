@@ -181,9 +181,9 @@ int main(void)
 	ft['z'] = 32;
 	std['z'] = 32;
 
-	//	output(ft, std);
-	//	content(ft, std);
-	//	ft.tmp();
+	output(ft, std);
+	content(ft, std);
+	ft.tmp();
 
 	//	ft.erase('j');
 	//	std.erase('j');
