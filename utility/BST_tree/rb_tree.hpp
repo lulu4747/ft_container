@@ -399,85 +399,105 @@ namespace	ft
 	/*
 				**		balancing functions		**
 	*/
-/**/
+
+			void	_no_sibling_case(node_pointer ptr, node_pointer parent, node_pointer sibling)
+			{
+				ptr->double_black = false;
+				if (parent->red == false)
+				{
+					if (parent != _root)
+					{
+						parent->double_black = true;
+						sibling = parent == parent->parent->left ? parent->parent->right : parent->parent->left;
+						return _balance(parent, parent->parent, sibling);
+					}
+					else
+					{
+						ptr->red = true;
+						return;
+					}
+				}
+				parent->red = false;
+				return;
+			}
+
+			void	_black_sibling_case(node_pointer ptr, node_pointer parent, node_pointer sibling)
+			{
+				if (sibling->left->red || sibling->right->red)
+				{
+					if (sibling == parent->right)
+					{
+						if (sibling->right->red)
+							_rr_del(parent, sibling);
+						else
+							_rl_del(parent, sibling);
+					}
+					else
+					{
+						if (sibling->left->red)
+							_ll_del(parent, sibling);
+						else
+							_lr_del(parent, sibling);
+					}
+				}
+				else
+				{
+					sibling->red = true;
+					if (parent->red == false)
+					{
+						ptr->double_black = false;
+						parent->double_black = true;
+						if (parent != _root)
+							sibling = parent == parent->parent->left ? parent->parent->right : parent->parent->left;
+						return _balance(parent, parent->parent, sibling);
+					}
+					else
+						parent->red = false;
+				}
+				return ;
+			}
+
+			void	_red_sibling_case(node_pointer ptr, node_pointer parent, node_pointer sibling)
+			{
+				if (parent == _root)
+					_root = sibling;
+				parent->red = true;
+				sibling->red = false;
+				if (sibling == parent->left)
+				{
+					sibling->right->parent = parent;
+					parent->left = sibling->right;
+					sibling->parent = parent->parent;
+					if (parent != _root)
+						parent == parent->parent->left ? parent->parent->left = sibling : parent->parent->right = sibling;
+					parent->parent = sibling;
+					sibling->right = parent;
+					sibling = parent->right;
+				}
+				else
+				{
+					sibling->left->parent = parent;
+					parent->right = sibling->left;
+					sibling->parent = parent->parent;
+					if (parent != _root)
+						parent == parent->parent->left ? parent->parent->left = sibling : parent->parent->right = sibling;
+					parent->parent = sibling;
+					sibling->left = parent;
+					sibling = parent->left;
+				}
+				return _balance(ptr, parent, sibling);
+			}
+
 			void	_balance(node_pointer ptr, node_pointer parent, node_pointer sibling)
 			{
 				if (ptr != _root)
 				{
 					if (sibling == _end_node)
-					{
-						if (parent->red == false)
-						{
-							ptr->double_black = false;
-							parent->double_black = true;
-							if (parent != _root)
-								sibling = parent == parent->parent->left ? parent->parent->right : parent->parent->left;
-							return _balance(parent, parent->parent, sibling);
-						}
-						parent->red = false;
-					}
+						return _no_sibling_case(ptr, parent, sibling);
 					else if (sibling->red == false)
-					{
-						if (sibling->left->red || sibling->right->red)
-						{
-							if (sibling == parent->right)
-							{
-								if (sibling->right->red)
-									_rr_del(parent, sibling);
-								else
-									_rl_del(parent, sibling);
-							}
-							else
-							{
-								if (sibling->left->red)
-									_ll_del(parent, sibling);
-								else
-									_lr_del(parent, sibling);
-							}
-						}
-						else
-						{
-							sibling->red = true;
-							if (parent->red == false)
-							{
-								ptr->double_black = false;
-								parent->double_black = true;
-								if (parent != _root)
-									sibling = parent == parent->parent->left ? parent->parent->right : parent->parent->left;
-								return _balance(parent, parent->parent, sibling);
-							}
-							else
-								parent->red = false;
-						}
-					}
+						_black_sibling_case(ptr, parent, sibling);
 					else
-					{
-						parent->red = true;
-						sibling->red = false;
-						if (sibling == parent->left)
-						{
-							sibling->right->parent = parent;
-							parent->left = sibling->right;
-							sibling->parent = parent->parent;
-							if (parent != _root)
-								parent == parent->parent->left ? parent->parent->left = sibling : parent->parent->right = sibling;
-							parent->parent = sibling;
-							sibling->right = parent;
-							sibling = parent->right;
-						}
-						else
-						{
-							sibling->left->parent = parent;
-							parent->right = sibling->left;
-							sibling->parent = parent->parent;
-							if (parent != _root)
-								parent == parent->parent->left ? parent->parent->left = sibling : parent->parent->right = sibling;
-							parent->parent = sibling;
-							sibling->left = parent;
-							sibling = parent->left;
-						}
-						return _balance(ptr, parent, sibling);
-					}
+						return _red_sibling_case(ptr, parent, sibling);
 				}
 				ptr->double_black = false;
 				return ;
