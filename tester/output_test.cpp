@@ -7,6 +7,8 @@
 #include "../ft_containers/Stack.hpp"
 #include "../ft_containers/Vector.hpp"
 
-int main(void)
+template < class T >
+std::string	map_content(T map)
 {
+	std::string	infos;
 }
