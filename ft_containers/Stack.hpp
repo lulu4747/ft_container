@@ -1,13 +1,13 @@
 #ifndef STACK_HPP
 # define STACK_HPP
 
-# include "Vector.hpp"
+# include "vector.hpp"
 
 namespace	ft
 {
 
-	template < class T, class Container = Vector<T> >
-	class Stack
+	template < class T, class Container = vector<T> >
+	class stack
 	{
 
 	public:
@@ -23,16 +23,16 @@ namespace	ft
 
 	//	Member Functions :
 
-		explicit Stack( const container_type& cont = container_type() )
+		explicit stack( const container_type& cont = container_type() )
 			:c(cont)
 		{}
 
-		~Stack()
+		~stack()
 		{
 			c.~container_type();
 		}
 
-		Stack &	operator=( Stack const & other)
+		stack &	operator=( stack const & other)
 		{
 			if (this != &other)
 				this->c = other.c;
@@ -84,37 +84,37 @@ namespace	ft
 	//	Non-member functions
 
 	template<class T, class Container>
-	bool operator==(Stack<T,Container> const & lhs, Stack<T,Container> const & rhs )
+	bool operator==(stack<T,Container> const & lhs, stack<T,Container> const & rhs )
 	{
 		return lhs.c == rhs.c;
 	}
 
 	template<class T, class Container>
-	bool operator!=(Stack<T,Container> const & lhs, Stack<T,Container> const & rhs )
+	bool operator!=(stack<T,Container> const & lhs, stack<T,Container> const & rhs )
 	{
 		return lhs.c != rhs.c;
 	}
 
 	template<class T, class Container>
-	bool operator<(Stack<T,Container> const & lhs, Stack<T,Container> const & rhs )
+	bool operator<(stack<T,Container> const & lhs, stack<T,Container> const & rhs )
 	{
 		return lhs.c < rhs.c;
 	}
 
 	template<class T, class Container>
-	bool operator<=(Stack<T,Container> const & lhs, Stack<T,Container> const & rhs )
+	bool operator<=(stack<T,Container> const & lhs, stack<T,Container> const & rhs )
 	{
 		return lhs.c <= rhs.c;
 	}
 
 	template<class T, class Container>
-	bool operator>(Stack<T,Container> const & lhs, Stack<T,Container> const & rhs )
+	bool operator>(stack<T,Container> const & lhs, stack<T,Container> const & rhs )
 	{
 		return lhs.c > rhs.c;
 	}
 
 	template<class T, class Container>
-	bool operator>=(Stack<T,Container> const & lhs, Stack<T,Container> const & rhs )
+	bool operator>=(stack<T,Container> const & lhs, stack<T,Container> const & rhs )
 	{
 		return lhs.c >= rhs.c;
 	}

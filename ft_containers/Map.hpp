@@ -12,7 +12,7 @@ namespace	ft
 {
 	template < class Key, class T, class Compare = ft::less<Key>,
 			class Alloc = std::allocator< ft::pair<const Key, T> > >
-	class Map
+	class map
 	{
 
 	public:
@@ -37,7 +37,7 @@ namespace	ft
 
 		class value_compare : binary_function< value_type, value_type, bool >
 		{
-			friend class Map< key_type, value_type, key_compare, allocator_type >;
+			friend class map< key_type, value_type, key_compare, allocator_type >;
 
 			protected:
 
@@ -59,7 +59,7 @@ namespace	ft
 		}
 		//	Canon
 
-		explicit Map(const key_compare& comp = key_compare(),
+		explicit map(const key_compare& comp = key_compare(),
 						const allocator_type& alloc = allocator_type())
 			:_data(comp, alloc),
 			_comp(comp),
@@ -67,10 +67,10 @@ namespace	ft
 		{}
 
 		template< class InputIt >
-		Map(InputIt first, InputIt last,
+		map(InputIt first, InputIt last,
 				const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type(),
 				typename enable_if<!is_integral<InputIt>::value, InputIt >::type* = NULL)
-			: Map< key_type, mapped_type, key_compare , allocator_type >(comp, alloc)
+			: map< key_type, mapped_type, key_compare , allocator_type >(comp, alloc)
 		{
 
 			if(!(is_input_iterator_tagged< typename iterator_traits<InputIt>::iterator_category >::value))
@@ -87,7 +87,7 @@ namespace	ft
 			}
 		}
 
-		Map( Map const & src)
+		map( map const & src)
 			:_data(src.key_comp(), src.get_allocator()),
 			_comp(src.key_comp()),
 			_alloc(src.get_allocator())
@@ -95,12 +95,12 @@ namespace	ft
 			*this = src;
 		}
 
-		~Map()
+		~map()
 		{
 			_data.clear();
 		}
 
-		Map&	operator=(Map const & rhs)
+		map&	operator=(map const & rhs)
 		{
 			if (this != &rhs)
 			{
@@ -256,13 +256,13 @@ namespace	ft
 			return 1;
 		}
 
-		void	swap(Map& x)
+		void	swap(map& x)
 		{
-			Map	tmp(x);
+			map	tmp(x);
 
 			x._data = this->_data;
 			this->_data = tmp._data;
-			tmp.~Map();
+			tmp.~map();
 		}
 
 		void	clear()

@@ -12,7 +12,7 @@ namespace	ft
 {
 
 	template < class T, class Alloc = std::allocator<T> >
-	class Vector
+	class vector
 	{
 
 	public:
@@ -40,17 +40,17 @@ namespace	ft
 
 
 		//	Canons
-		explicit Vector (const allocator_type& alloc = allocator_type())
+		explicit vector (const allocator_type& alloc = allocator_type())
 		:
 			_alloc(alloc), _data(NULL), _end(NULL), _capacity(NULL)
 		{}
 
-		explicit Vector (size_type n, const value_type& val = value_type(),
+		explicit vector (size_type n, const value_type& val = value_type(),
 				const allocator_type& alloc = allocator_type())
 		:_alloc(alloc), _data(NULL), _end(NULL), _capacity(NULL)
 		{
 			if (n > max_size())
-				throw (std::length_error("Vector::Vector(size_type n, const value_type& val, const allocator_type& alloc"));
+				throw (std::length_error("vector::vector(size_type n, const value_type& val, const allocator_type& alloc"));
 			_allocate(n);
 			for (size_type i = 0; i < n; i++)
 				_alloc.construct(_data + i, val);
@@ -58,35 +58,35 @@ namespace	ft
 		}
 
 		template <class InputIt>
-		Vector (InputIt first, InputIt last, const allocator_type& alloc = allocator_type(),
+		vector (InputIt first, InputIt last, const allocator_type& alloc = allocator_type(),
 			typename enable_if<!is_integral<InputIt>::value, InputIt >::type* = NULL)
 		:
 			_alloc(alloc), _data(NULL), _end(NULL), _capacity(NULL)
 		{
 			if(!(is_input_iterator_tagged< typename iterator_traits<InputIt>::iterator_category >::value))
-				throw std::invalid_argument("In ft::Vector(InputIt first, InputIt last), InputIt class is'nt at least ft::InputIterator tagged");					//Faire mieux
+				throw std::invalid_argument("In ft::vector(InputIt first, InputIt last), InputIt class is'nt at least ft::InputIterator tagged");					//Faire mieux
 
 			assign(first, last);
 		}
 
-		Vector (const Vector& x):
+		vector (const vector& x):
 			_alloc(x.get_allocator()), _data(NULL), _end(NULL), _capacity(NULL)
 		{
 			*this = x;
 		}
 
-		Vector &	operator=(const Vector& rhs)
+		vector &	operator=(const vector& rhs)
 		{
 			if (this != &rhs)
 			{
 				if (capacity())
-					this->~Vector();
+					this->~vector();
 				assign(rhs.begin(), rhs.end());
 			}
 			return *this;
 		}
 
-		virtual	~Vector()
+		virtual	~vector()
 		{
 			for (size_type i = 0; i < size(); i++)
 				_alloc.destroy(_data + i);
@@ -206,14 +206,14 @@ namespace	ft
 		reference	at( size_type n )
 		{
 			if ( n > size() )
-				throw	std::out_of_range("Vector");		//faire mieux
+				throw	std::out_of_range("vector");
 			return _data[n];
 		}
 
 		const_reference	at( size_type n ) const
 		{
 			if ( n > size() )
-				throw	std::out_of_range("Vector");		//faire mieux
+				throw	std::out_of_range("vector");
 			return _data[n];
 		}
 
@@ -263,7 +263,7 @@ namespace	ft
 		typename enable_if<!is_integral<InputIt>::value, InputIt >::type* = NULL)
 		{
 			if(!(is_input_iterator_tagged< typename iterator_traits<InputIt>::iterator_category >::value))
-				throw std::invalid_argument("In ft::Vector::assign(InputIt first, InputIt last), InputIt class is'nt at least ft::InputIterator tagged");					//Faire mieux
+				throw std::invalid_argument("In ft::vector::assign(InputIt first, InputIt last), InputIt class is'nt at least ft::InputIterator tagged");					//Faire mieux
 
 			size_type	count = last - first;
 
@@ -346,7 +346,7 @@ namespace	ft
 			typename enable_if<!is_integral<InputIt>::value, InputIt >::type* = NULL)
 		{
 			if(!(is_input_iterator_tagged< typename iterator_traits<InputIt>::iterator_category >::value))
-				throw std::invalid_argument("In ft::Vector::insert(iterator position, InputIt first, InputIt last), InputIt class is'nt at least ft::InputIterator tagged");					//Faire mieux
+				throw std::invalid_argument("In ft::vector::insert(iterator position, InputIt first, InputIt last), InputIt class is'nt at least ft::InputIterator tagged");					//Faire mieux
 
 			size_type	new_size(size() + (last - first));
 
@@ -421,13 +421,13 @@ namespace	ft
 			return first;
 		}
 
-		void swap(Vector& x)
+		void swap(vector& x)
 		{
-			Vector	tmp(*this);
+			vector	tmp(*this);
 
 			*this = x;
 			x = tmp;
-			tmp.~Vector();
+			tmp.~vector();
 		}
 
 		void	clear()
@@ -465,38 +465,38 @@ namespace	ft
 	};
 
 	template < class T, class Alloc >
-	bool operator== (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
+	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 	{
 		return ft::equal(lhs.begin(), iterator(lhs.back()), rhs.begin());
 	}
 
 	template < class T, class Alloc >
- 	bool operator!= (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
+ 	bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 	{
 		return !(lhs == rhs);
 	}
 
 	template < class T, class Alloc >
-	bool operator<  (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
+	bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 	{
 		return (ft::lexicographical_compare(lhs.begin(), iterator(lhs.back()),
 				rhs.begin(), iterator(rhs.back())));
 	}
 
 	template < class T, class Alloc >
-	bool operator<= (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
+	bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 	{
 		return !(rhs < lhs);
 	}
 
 	template < class T, class Alloc >
-	bool operator>  (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
+	bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 	{
 		return (rhs < lhs);
 	}
 
 	template < class T, class Alloc >
-	bool operator>= (const Vector<T,Alloc>& lhs, const Vector<T,Alloc>& rhs)
+	bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 	{
 		return !(lhs < rhs);
 	}
