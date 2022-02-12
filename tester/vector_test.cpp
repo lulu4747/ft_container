@@ -4,7 +4,7 @@
 #include "../ft_containers/vector.hpp"
 
 template < class FTV, class STDV >
-static bool	content_compare(FTV ft, STDV std)
+static bool	content_compare(FTV &ft, STDV &std)
 {
 	typename FTV::iterator	ftit(ft.begin());
 	typename STDV::iterator	stdit(std.begin());
@@ -55,26 +55,47 @@ bool	vector_test()
 		<< "vector.push_back(0) with empty vector :	" << std::endl;
 	ft.push_back(0);
 	std.push_back(0);
-	print_test_result(vector_compare(ft, std));
+	if (!(print_test_result(vector_compare(ft, std))))
+		return false;
 	std::cout << std::endl;
 
 	std::cout << "__________________________________________" << std::endl
 		<< "vector.pop_back() :	" << std::endl;
 	ft.pop_back();
 	std.pop_back();
-	print_test_result(vector_compare(ft, std));
+	if (!(print_test_result(vector_compare(ft, std))))
+		return false;
 	std::cout << std::endl;
 
-	for (int i = 0; i <= 50 ; i++)
+	for (int i = 0; i <= 5000 ; i++)
 	{
 		std::cout << "__________________________________________" << std::endl
 			<< "vector.push_back(" << i << ") :	" << std::endl;
 		ft.push_back(i);
 		std.push_back(i);
-		print_test_result(vector_compare(ft, std));
+		if (!(print_test_result(vector_compare(ft, std))))
+			return false;
 		std::cout << std::endl;
 	}
 
+	std::cout << "__________________________________________" << std::endl
+		<< "copy construction" << std::endl << std::endl;
+
+	ft::vector<int>		ft2(ft);
+	std::vector<int>	std2(std);
+
+	if (!(print_test_result(vector_compare(ft2, std2))))
+		return false;
+	std::cout << std::endl;
+
+	std::cout << "__________________________________________" << std::endl
+		<< "clear()" << std::endl << std::endl;
+	ft2.clear();
+	std2.clear();
+	if (!(print_test_result(vector_compare(ft2, std2))))
+		return false;
+	std::cout << std::endl;
+/*
 	while(!ft.empty())
 	{
 		std::cout << "__________________________________________" << std::endl
@@ -83,7 +104,7 @@ bool	vector_test()
 		std.pop_back();
 		print_test_result(vector_compare(ft, std));
 		std::cout << std::endl;
-	}
+	}*/
 
 	return true;
 }

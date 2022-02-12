@@ -8,7 +8,8 @@
 
 int main(void)
 {
-	vector_test();
+	if (!(vector_test()))
+		return 1;
 	//stack_test();
 	return 0;
 }
