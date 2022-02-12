@@ -20,10 +20,11 @@
 #define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
 #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
 
-void	bool_comp(bool ft, bool std);
+bool	print_test_result(bool bl);
 
 /*
 **	tests	**
 */
 
 bool	stack_test();
+bool	vector_test();

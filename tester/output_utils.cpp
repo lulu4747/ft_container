@@ -1,11 +1,12 @@
 #include <iostream>
 #include "tester.hpp"
 
-void	bool_comp(bool ft, bool std)
+bool	print_test_result(bool bl)
 {
-	if(ft == std)
+	if(bl == true)
 		std::cout << BOLDGREEN << "[OK]";
 	else
 		std::cout << BOLDRED <<  "[KO]";
-	std::cout << RESET << std::endl;	
+	std::cout << RESET;
+	return bl;
 }
