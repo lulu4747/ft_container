@@ -145,16 +145,19 @@ bool	vector_test()
 		return false;
 	std::cout << std::endl;
 
-	for (int i = 0; i <= 500 ; i++)
+	int i = 500;
+
+	std::cout << "_______________________________________________" << std::endl
+		<< "vector.push_back() " << i << " times :	" << std::endl;
+	while (i >= 0)
 	{
-		std::cout << "_______________________________________________" << std::endl
-			<< "vector.push_back(" << i << ") :	" << std::endl;
 		ft.push_back(i);
 		stl.push_back(i);
-		if (!(print_test_result(vector_compare(ft, stl))))
-			return false;
-		std::cout << std::endl;
+		i--;
 	}
+	if (!(print_test_result(vector_compare(ft, stl))))
+		return false;
+	std::cout << std::endl;
 
 	if (vector_copy_constructor_test(ft, stl) == false)
 		return false;
@@ -179,15 +182,23 @@ bool	vector_test()
 	std::cout << std::endl;
 
 	std::cout << "_______________________________________________" << std::endl
-		<< "resize(size - (size / 3))" << std::endl << std::endl;
+		<< "resize reduction :" << std::endl << "resize(size - (size / 3))" << std::endl << std::endl;
 	ft.resize(ft.size() - (ft.size() / 3));
 	stl.resize(stl.size() - (stl.size() / 3));
 	if (!(print_test_result(vector_compare(ft, stl))))
 		return false;
 	std::cout << std::endl;
 
+	std::cout << std::endl << "#######################################" << std::endl << std::endl
+		<< "resize extension :" << std::endl << "resize(size + 10)" << std::endl << std::endl;
+	ft.resize(ft.size() + 10);
+	stl.resize(stl.size() + 10);
+	if (!(print_test_result(vector_compare(ft, stl))))
+		return false;
+	std::cout << std::endl;
+
 	std::cout << "_______________________________________________" << std::endl
-		<< "Element access :" << std::endl << "	vector[size()/2] = 2" << std::endl << std::endl;
+		<< "Element access :" << std::endl << "	operator[] (size / 2) = 2" << std::endl << std::endl;
 
 	ft[ft.size() / 2] = 2;
 	stl[stl.size() / 2] = 2;
