@@ -1,5 +1,5 @@
 /*
-**	output_utils	**
+**		utils	**
 */
 
 #define RESET   "\033[0m"
@@ -20,10 +20,16 @@
 #define BOLDCYAN    "\033[1m\033[36m"      /* Bold Cyan */
 #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
 
+//	output
+
 bool	print_test_result(bool bl);
 
+//	time
+
+double	timeval_diff_to_ms(timeval &start, timeval &end);
+
 /*
-**	tests	**
+**		tests	**
 */
 
 bool	stack_test();

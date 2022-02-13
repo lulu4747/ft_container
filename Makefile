@@ -2,8 +2,8 @@ NAME	= ft_container_tester
 
 SRCS	= tester/main.cpp
 SRCS	+= tester/map_test.cpp
-SRCS	+= tester/output_utils.cpp
 SRCS	+= tester/stack_test.cpp
+SRCS	+= tester/test_utils.cpp
 SRCS	+= tester/vector_test.cpp
 
 INC		= ft_containers/map.hpp
