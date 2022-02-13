@@ -14,5 +14,9 @@ bool	print_test_result(bool bl)
 
 double	timeval_diff_to_ms(timeval &start, timeval &end)
 {
-	return ((((end.tv_sec - start.tv_sec) * 1e6) + (end.tv_usec - start.tv_usec)) * 1e-6);
+	double ret = ((((end.tv_sec - start.tv_sec) * 1e6) + (end.tv_usec - start.tv_usec)) * 1e-6);
+
+	if (ret == 0)
+		return 1e-06;
+	return ret;
 }
