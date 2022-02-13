@@ -47,7 +47,7 @@ static bool	vector_compare(FT &ft, STL &stl)
 static bool	vector_fill_constructor_test()
 {
 	int	n = 10, val = 8;
-	std::cout << "__________________________________________" << std::endl
+	std::cout << "_______________________________________________" << std::endl
 		<< "assignation construction with n = " << n << ", val = " << val << std::endl << std::endl;
 
 //
@@ -80,7 +80,7 @@ static bool	vector_fill_constructor_test()
 
 static bool	vector_range_constructor_test()
 {
-	std::cout << "__________________________________________" << std::endl
+	std::cout << "_______________________________________________" << std::endl
 		<< "range construction" << std::endl << std::endl;
 	std::vector<int> range(10, 10);
 
@@ -99,7 +99,7 @@ static bool	vector_range_constructor_test()
 template < class FT, class STl >
 static bool	vector_copy_constructor_test(FT &ft, STl &stl)
 {
-	std::cout << "__________________________________________" << std::endl
+	std::cout << "_______________________________________________" << std::endl
 		<< "copy construction" << std::endl << std::endl;
 
 	ft::vector<int>		ft2(ft);
@@ -113,7 +113,7 @@ static bool	vector_copy_constructor_test(FT &ft, STl &stl)
 
 bool	vector_test()
 {
-	std::cout << "__________________________________________" << std::endl
+	std::cout << "_______________________________________________" << std::endl
 		<< "	vector" << std::endl << std::endl
 		<< "default construction" << std::endl << std::endl;
 	ft::vector<int>		ft;
@@ -129,7 +129,7 @@ bool	vector_test()
 	if (vector_range_constructor_test() == false)
 		return false;
 
-	std::cout << "__________________________________________" << std::endl
+	std::cout << "_______________________________________________" << std::endl
 		<< "vector.push_back(0) with empty vector :	" << std::endl;
 	ft.push_back(0);
 	stl.push_back(0);
@@ -137,7 +137,7 @@ bool	vector_test()
 		return false;
 	std::cout << std::endl;
 
-	std::cout << "__________________________________________" << std::endl
+	std::cout << "_______________________________________________" << std::endl
 		<< "vector.pop_back() :	" << std::endl;
 	ft.pop_back();
 	stl.pop_back();
@@ -147,7 +147,7 @@ bool	vector_test()
 
 	for (int i = 0; i <= 500 ; i++)
 	{
-		std::cout << "__________________________________________" << std::endl
+		std::cout << "_______________________________________________" << std::endl
 			<< "vector.push_back(" << i << ") :	" << std::endl;
 		ft.push_back(i);
 		stl.push_back(i);
@@ -159,7 +159,7 @@ bool	vector_test()
 	if (vector_copy_constructor_test(ft, stl) == false)
 		return false;
 
-	std::cout << "__________________________________________" << std::endl
+	std::cout << "_______________________________________________" << std::endl
 		<< "clear()" << std::endl << std::endl;
 	ft.clear();
 	stl.clear();
@@ -170,7 +170,7 @@ bool	vector_test()
 	size_t	n = 80;
 	int		val = 9;
 
-	std::cout << "__________________________________________" << std::endl
+	std::cout << "_______________________________________________" << std::endl
 		<< "assign(" << n << ", " << val << ")" << std::endl << std::endl;
 	ft.assign(80, 9);
 	stl.assign(80, 9);
@@ -178,12 +178,31 @@ bool	vector_test()
 		return false;
 	std::cout << std::endl;
 
-	std::cout << "__________________________________________" << std::endl
+	std::cout << "_______________________________________________" << std::endl
 		<< "resize(size - (size / 3))" << std::endl << std::endl;
 	ft.resize(ft.size() - (ft.size() / 3));
 	stl.resize(stl.size() - (stl.size() / 3));
 	if (!(print_test_result(vector_compare(ft, stl))))
 		return false;
 	std::cout << std::endl;
+
+	std::cout << "_______________________________________________" << std::endl
+		<< "Element access :" << std::endl << "	vector[size()/2] = 2" << std::endl << std::endl;
+
+	ft[ft.size() / 2] = 2;
+	stl[stl.size() / 2] = 2;
+	if (!(print_test_result(vector_compare(ft, stl))))
+		return false;
+	std::cout << std::endl;
+
+	std::cout << std::endl << "#######################################" << std::endl
+		<< std::endl << "	vector.at(size()/4) = 4" << std::endl << std::endl;
+
+	ft.at(ft.size() / 4) = 4;
+	stl.at(stl.size() / 4) = 4;
+	if (!(print_test_result(vector_compare(ft, stl))))
+		return false;
+	std::cout << std::endl;
+
 	return true;
 }
