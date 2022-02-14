@@ -168,8 +168,7 @@ static bool	range_constructor_test(bool time_check, int n)
 
 static bool	begin_test(bool time_check)
 {
-	std::cout << "_______________________________________________" << std::endl
-		<< "begin() on empty vector" << std::endl << std::endl << "compared with end() :	";
+	std::cout << "begin() on empty vector" << std::endl << std::endl << "compared with end() :	";
 
 	ft::vector<int>		ft;
 	std::vector<int>	stl;
@@ -189,6 +188,173 @@ static bool	begin_test(bool time_check)
 	if (!(print_test_result((ft_cit == ft.end()) == (stl_cit == stl.end()))))
 		return false;
 
+	std::cout << "begin() on large (" << LARGE << ") vector" << std::endl << std::endl << "while(it != end())"
+		<< std::endl << "it++; (*it == *stl_it)? :			";
+
+	get_identical_random_filled_vectors(LARGE, &ft, &stl);
+	ft_it = ft.begin();
+	stl_it = stl.begin();
+
+	while (ft_it != ft.end())
+	{
+		if (*ft_it != *stl_it)
+			return false;
+		ft_it++;
+		stl_it++;
+	}
+	if (stl_it != stl.end())
+		return false;
+	print_test_result(true);
+
+	if (time_check && iterator_time_check(&begin_to_end, &begin_to_end, ft, stl) == false)
+		return false;
+
+	std::cout << "const begin() on same vector" << std::endl << std::endl << "while(cit != end())"
+		<< std::endl << "cit++; (*cit == *stl_cit)? :			";
+
+	ft_cit = ft.begin();
+	stl_cit = stl.begin();
+
+	while (ft_cit != ft.end())
+	{
+		if (*ft_cit != *stl_cit)
+			return false;
+		ft_cit++;
+		stl_cit++;
+	}
+	if (stl_cit != stl.end())
+		return false;
+	print_test_result(true);
+
+	std::cout << "General :					";
+	return true;
+}
+
+static bool	end_test(bool time_check)
+{
+
+	ft::vector<int>				ft;
+	std::vector<int>			stl;
+
+	std::cout << "end() - 1 on large (" << LARGE << ") vector" << std::endl << std::endl << "while(it != begin())"
+		<< std::endl << "it--; (*it == *stl_it)? :			";
+
+	get_identical_random_filled_vectors(LARGE, &ft, &stl);
+	ft::vector<int>::iterator	ft_it = ft.end() - 1;
+	std::vector<int>::iterator	stl_it = stl.end() - 1;
+
+	while (ft_it != ft.begin())
+	{
+		if (*ft_it != *stl_it)
+			return false;
+		ft_it--;
+		stl_it--;
+	}
+	if (stl_it != stl.begin())
+		return false;
+	print_test_result(true);
+
+	if (time_check && iterator_time_check(&end_to_begin, &end_to_begin, ft, stl) == false)
+		return false;
+
+	std::cout << "const end() - 1 on same vector" << std::endl << std::endl << "while(cit != begin())"
+		<< std::endl << "cit--; (*cit == *stl_cit)? :			";
+
+	ft::vector<int>::const_iterator		ft_cit = ft.end() - 1;
+	std::vector<int>::const_iterator	stl_cit = stl.end() - 1;
+
+	while (ft_cit != ft.begin())
+	{
+		if (*ft_cit != *stl_cit)
+			return false;
+		ft_cit--;
+		stl_cit--;
+	}
+	if (stl_cit != stl.begin())
+		return false;
+	print_test_result(true);
+
+	std::cout << "General :					";
+	return true;
+}
+
+static bool	rbegin_test(bool time_check)
+{
+	std::cout << "rbegin() on empty vector" << std::endl << std::endl << "compared with rend() :	";
+
+	ft::vector<int>		ft;
+	std::vector<int>	stl;
+	ft::vector<int>::iterator	ft_rit = ft.rbegin();
+	std::vector<int>::iterator	stl_rit = stl.bregin();
+
+	if (!(print_test_result((ft_rit == ft.rend()) == (stl_rit == stl.rend()))))
+		return false;
+
+	if (time_check && iterator_time_check(&rbegin, &rbegin, ft, stl) == false)
+		return false;
+
+	std::cout << "const rbegin() on empty vector" << std::endl << std::endl << "compared with rend() :	";
+	ft::vector<int>::const_iterator		ft_crit = ft.rbegin();
+	std::vector<int>::const_iterator	stl_crit = stl.rbegin();
+
+	if (!(print_test_result((ft_crit == ft.rend()) == (stl_crit == stl.rend()))))
+		return false;
+
+	std::cout << "rbegin() on large (" << LARGE << ") vector" << std::endl << std::endl << "while(rit != rend())"
+		<< std::endl << "rit++; (*rit == *stl_rit)? :			";
+
+	get_identical_random_filled_vectors(LARGE, &ft, &stl);
+	ft_rit = ft.rbegin();
+	stl_rit = stl.rbegin();
+
+	while (ft_rit != ft.rend())
+	{
+		if (*ft_rit != *stl_rit)
+			return false;
+		ft_rit++;
+		stl_rit++;
+	}
+	if (stl_rit != stl.rend())
+		return false;
+	print_test_result(true);
+
+	if (time_check && iterator_time_check(&rbegin_to_rend, &rbegin_to_rend, ft, stl) == false)
+		return false;
+
+	std::cout << "const rbegin() on same vector" << std::endl << std::endl << "while(crit != rend())"
+		<< std::endl << "crit++; (*crit == *stl_crit)? :			";
+
+	ft_crit = ft.rbegin();
+	stl_crit = stl.rbegin();
+
+	while (ft_crit != ft.rend())
+	{
+		if (*ft_crit != *stl_crit)
+			return false;
+		ft_crit++;
+		stl_crit++;
+	}
+	if (stl_crit != stl.rend())
+		return false;
+	print_test_result(true);
+
+	std::cout << "General :					";
+	return true;
+}
+
+static bool	iterator_tests(bool time_check)
+{
+	std::cout << "_______________________________________________" << std::endl
+		<< "iterators tests" << std::endl;
+
+	if (!print_test_result(begin_test(time_check)))
+		return false;
+	if (!print_test_result(end_test(time_check)))
+		return false;
+	/*if (!print_test_result(rbegin_test(time_check)))
+		return false;
+	if (!rend_test(time_check))
+		return false;*/
 	return true;
 }
 
@@ -206,7 +372,7 @@ bool	vector_test(bool time_check)
 	if (range_constructor_test(time_check, EMPTY) == false)
 		return false;
 	
-	if (begin_test(time_check) == false)
+	if (iterator_tests(time_check) == false)
 		return false;
 /*
 	std::cout << "_______________________________________________" << std::endl

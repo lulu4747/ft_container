@@ -34,7 +34,7 @@ namespace	ft
 			return Random_Access_Iterator<const value_type>(this->_ptr);
 		}
 
-		pointer	get_ptr() const
+		pointer	base() const
 		{
 			return _ptr;
 		}
@@ -114,84 +114,84 @@ namespace	ft
 	typename ft::Random_Access_Iterator<T>::difference_type
 	operator==(const ft::Random_Access_Iterator<T> lhs, const ft::Random_Access_Iterator<T> rhs)
 	{
-		return (lhs.get_ptr() == rhs.get_ptr());
+		return (lhs.base() == rhs.base());
 	}
 
 	template<typename T_L, typename T_R>
 	typename ft::Random_Access_Iterator<T_L>::difference_type
 	operator==(const ft::Random_Access_Iterator<T_L> lhs, const ft::Random_Access_Iterator<T_R> rhs)
 	{
-		return (lhs.get_ptr() == rhs.get_ptr());
+		return (lhs.base() == rhs.base());
 	}
 
 	template <typename T>
 	typename ft::Random_Access_Iterator<T>::difference_type
 	operator!=(const ft::Random_Access_Iterator<T> lhs, const ft::Random_Access_Iterator<T> rhs)
 	{
-		return (lhs.get_ptr() != rhs.get_ptr());
+		return (lhs.base() != rhs.base());
 	}
 
 	template<typename T_L, typename T_R>
 	typename ft::Random_Access_Iterator<T_L>::difference_type
 	operator!=(const ft::Random_Access_Iterator<T_L> lhs, const ft::Random_Access_Iterator<T_R> rhs)
 	{
-		return (lhs.get_ptr() != rhs.get_ptr());
+		return (lhs.base() != rhs.base());
 	}
 
 	template <typename T>
 	typename ft::Random_Access_Iterator<T>::difference_type
 	operator<(const ft::Random_Access_Iterator<T> lhs, const ft::Random_Access_Iterator<T> rhs)
 	{
-		return (lhs.get_ptr() < rhs.get_ptr());
+		return (lhs.base() < rhs.base());
 	}
 
 	template<typename T_L, typename T_R>
 	typename ft::Random_Access_Iterator<T_L>::difference_type
 	operator<(const ft::Random_Access_Iterator<T_L> lhs, const ft::Random_Access_Iterator<T_R> rhs)
 	{
-		return (lhs.get_ptr() < rhs.get_ptr());
+		return (lhs.base() < rhs.base());
 	}
 
 	template <typename T>
 	typename ft::Random_Access_Iterator<T>::difference_type
 	operator>(const ft::Random_Access_Iterator<T> lhs, const ft::Random_Access_Iterator<T> rhs)
 	{
-		return (lhs.get_ptr() > rhs.get_ptr());
+		return (lhs.base() > rhs.base());
 	}
 
 	template<typename T_L, typename T_R>
 	typename ft::Random_Access_Iterator<T_L>::difference_type
 	operator>(const ft::Random_Access_Iterator<T_L> lhs, const ft::Random_Access_Iterator<T_R> rhs)
 	{
-		return (lhs.get_ptr() > rhs.get_ptr());
+		return (lhs.base() > rhs.base());
 	}
 
 	template <typename T>
 	typename ft::Random_Access_Iterator<T>::difference_type
 	operator<=(const ft::Random_Access_Iterator<T> lhs, const ft::Random_Access_Iterator<T> rhs)
 	{
-		return (lhs.get_ptr() <= rhs.get_ptr());
+		return (lhs.base() <= rhs.base());
 	}
 
 	template<typename T_L, typename T_R>
 	typename ft::Random_Access_Iterator<T_L>::difference_type
 	operator<=(const ft::Random_Access_Iterator<T_L> lhs, const ft::Random_Access_Iterator<T_R> rhs)
 	{
-		return (lhs.get_ptr() <= rhs.get_ptr());
+		return (lhs.base() <= rhs.base());
 	}
 
 	template <typename T>
 	typename ft::Random_Access_Iterator<T>::difference_type
 	operator>=(const ft::Random_Access_Iterator<T> lhs, const ft::Random_Access_Iterator<T> rhs)
 	{
-		return (lhs.get_ptr() >= rhs.get_ptr());
+		return (lhs.base() >= rhs.base());
 	}
 
 	template<typename T_L, typename T_R>
 	typename ft::Random_Access_Iterator<T_L>::difference_type
 	operator>=(const ft::Random_Access_Iterator<T_L> lhs, const ft::Random_Access_Iterator<T_R> rhs)
 	{
-		return (lhs.get_ptr() >= rhs.get_ptr());
+		return (lhs.base() >= rhs.base());
 	}
 
 	template<typename T>
@@ -205,14 +205,14 @@ namespace	ft
 	typename ft::Random_Access_Iterator<T>::difference_type
 	operator-(const ft::Random_Access_Iterator<T> lhs, const ft::Random_Access_Iterator<T> rhs)
 	{
-		return (lhs.get_ptr() - rhs.get_ptr());
+		return (lhs.base() - rhs.base());
 	}
 
 	template<typename T_L, typename T_R>
 	typename ft::Random_Access_Iterator<T_L>::difference_type
 	operator-(const ft::Random_Access_Iterator<T_L> lhs, const ft::Random_Access_Iterator<T_R> rhs)
 	{
-		return (lhs.get_ptr() - rhs.get_ptr());
+		return (lhs.base() - rhs.base());
 	}
 }
 

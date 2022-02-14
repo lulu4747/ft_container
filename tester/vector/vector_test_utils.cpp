@@ -34,6 +34,64 @@ void	begin(std::vector<int> &vec)
 	vec.begin();
 }
 
+void	begin_to_end(ft::vector<int> &vec)
+{
+	ft::vector<int>::iterator	it = vec.begin();
+
+	while (it != vec.end())
+		it++;
+}
+
+void	begin_to_end(std::vector<int> &vec)
+{
+	std::vector<int>::iterator	it = vec.begin();
+
+	while (it != vec.end())
+		it++;
+}
+
+void	end_to_begin(ft::vector<int> &vec)
+{
+	ft::vector<int>::iterator	it = vec.end() - 1;
+
+	while (it != vec.begin())
+		it--;
+}
+
+void	end_to_begin(std::vector<int> &vec)
+{
+	std::vector<int>::iterator	it = vec.end() - 1;
+
+	while (it != vec.begin())
+		it--;
+}
+
+void	rbegin(ft::vector<int> &vec)
+{
+	vec.rbegin();
+}
+
+void	rbegin(std::vector<int> &vec)
+{
+	vec.rbegin();
+}
+
+void	rbegin_to_rend(ft::vector<int> &vec)
+{
+	ft::vector<int>::reverse_iterator	rit = vec.rbegin();
+
+	while (rit != vec.rend())
+		rit++;
+}
+
+void	rbegin_to_rend(std::vector<int> &vec)
+{
+	std::vector<int>::reverse_iterator	rit = vec.rbegin();
+
+	while (rit != vec.rend())
+		rit++;
+}
+
 bool	iterator_time_check(void (*ft_func)(ft::vector<int>&), void (*stl_func)(std::vector<int>&),
 			ft::vector<int> &ft, std::vector<int> &stl)
 {
