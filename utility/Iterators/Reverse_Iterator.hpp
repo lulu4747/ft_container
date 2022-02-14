@@ -5,19 +5,19 @@
 
 namespace	ft
 {
-	template < class Iter >
-	class	Reverse_Iterator : public Iter
+	template < class Iterator >
+	class	Reverse_Iterator
 	{
 
 	public:
 
-		typedef	Iter	iterator_type;
+		typedef	Iterator	iterator_type;
 
-		typedef typename	iterator_tritts<Iter>::difference_type		difference_type;
-		typedef typename	iterator_tritts<Iter>::value_type			value_type;
-		typedef typename	iterator_tritts<Iter>::pointer				pointer;
-		typedef typename	iterator_tritts<Iter>::reference			reference;
-		typedef typename	iterator_tritts<Iter>::iterator_category	iterator_category;
+		typedef typename	iterator_traits<iterator_type>::difference_type		difference_type;
+		typedef typename	iterator_traits<iterator_type>::value_type			value_type;
+		typedef typename	iterator_traits<iterator_type>::pointer				pointer;
+		typedef typename	iterator_traits<iterator_type>::reference			reference;
+		typedef typename	iterator_traits<iterator_type>::iterator_category	iterator_category;
 
 		Reverse_Iterator()
 			:it()

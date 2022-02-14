@@ -351,7 +351,8 @@ static bool	iterator_tests(bool time_check)
 		return false;
 	if (!print_test_result(end_test(time_check)))
 		return false;
-	/*if (!print_test_result(rbegin_test(time_check)))
+	/*
+	if (!print_test_result(rbegin_test(time_check)))
 		return false;
 	if (!rend_test(time_check))
 		return false;*/
