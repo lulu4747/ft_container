@@ -49,12 +49,15 @@ namespace	ft
 				const allocator_type& alloc = allocator_type())
 		:_alloc(alloc), _data(NULL), _end(NULL), _capacity(NULL)
 		{
-			if (n > max_size())
-				throw (std::length_error("vector::vector(size_type n, const value_type& val, const allocator_type& alloc"));
-			_allocate(n);
-			for (size_type i = 0; i < n; i++)
-				_alloc.construct(_data + i, val);
-			_end += n;
+			if (n != 0)
+			{
+				if (n > max_size())
+					throw (std::length_error("vector::vector(size_type n, const value_type& val, const allocator_type& alloc"));
+				_allocate(n);
+				for (size_type i = 0; i < n; i++)
+					_alloc.construct(_data + i, val);
+				_end += n;
+			}
 		}
 
 		template <class InputIt>
@@ -453,7 +456,8 @@ namespace	ft
 		void	_allocate(size_type n)
 		{
 			_data = _alloc.allocate(n);
-			_end = _data;	_capacity = _data + n;
+			_end = _data;
+			_capacity = _data + n;
 		}
 
 		void	_deallocate()

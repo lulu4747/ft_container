@@ -1,7 +1,8 @@
 #include <iostream>
 #include <stack>
-#include "tester.hpp"
-#include "../ft_containers/stack.hpp"
+#include "stack_test.hpp"
+#include "../tester.hpp"
+#include "../../ft_containers/stack.hpp"
 
 template < class FT, class STD >
 static bool	content_compare(FT ft, STD std)

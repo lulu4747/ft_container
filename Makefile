@@ -1,14 +1,20 @@
 NAME	= ft_container_tester
 
-SRCS	= tester/main.cpp
-SRCS	+= tester/map_test.cpp
-SRCS	+= tester/stack_test.cpp
+SRCS	= tester/map/map_test_utils.cpp
+SRCS	+= tester/map/map_test.cpp
+SRCS	+= tester/stack/stack_test_utils.cpp
+SRCS	+= tester/stack/stack_test.cpp
+SRCS	+= tester/vector/vector_test_utils.cpp
+SRCS	+= tester/vector/vector_test.cpp
+SRCS	+= tester/main.cpp
 SRCS	+= tester/test_utils.cpp
-SRCS	+= tester/vector_test.cpp
 
 INC		= ft_containers/map.hpp
 INC		+= ft_containers/stack.hpp
 INC		+= ft_containers/vector.hpp
+INC		+= tester/map/map_test.hpp
+INC		+= tester/stack/stack_test.hpp
+INC		+= tester/vector/vector_test.hpp
 INC		+= tester/tester.hpp
 INC		+= utility/BST_tree/node.hpp
 INC		+= utility/BST_tree/rb_tree.hpp

@@ -5,9 +5,9 @@
 bool	print_test_result(bool bl)
 {
 	if(bl == true)
-		std::cout << BOLDGREEN << "[OK]";
+		std::cout << BOLDGREEN << "[OK]" << std::endl;
 	else
-		std::cout << BOLDRED <<  "[KO]";
+		std::cout << BOLDRED <<  "[KO]" << std::endl;
 	std::cout << RESET;
 	return bl;
 }
@@ -20,3 +20,11 @@ double	timeval_diff_to_ms(timeval &start, timeval &end)
 		return 1e-06;
 	return ret;
 }
+
+void	print_time_start(timeval *start)
+{
+	std::cout << std::endl << "time test (" << NB_REPEAT << " repetitions)" << std::endl
+		<< "					";
+	gettimeofday(start, nullptr);
+}
+

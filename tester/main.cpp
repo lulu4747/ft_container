@@ -1,14 +1,16 @@
-#include <list>
-#include <vector>
-#include <map>
+#include <cstring>
+#include <cstdlib>
+#include <ctime>
 #include "tester.hpp"
-#include "../ft_containers/map.hpp"
-#include "../ft_containers/stack.hpp"
-#include "../ft_containers/vector.hpp"
 
-int main(void)
+int main(int argc, char **argv)
 {
-	if (!(vector_test()))
+	bool	time_check = false;
+
+	srand(time(NULL));
+	if (argc == 2 && !strcmp(argv[1], "time_check"))
+		time_check = true;
+	if (!(vector_test(time_check)))
 		return 1;
 	//stack_test();
 	return 0;
