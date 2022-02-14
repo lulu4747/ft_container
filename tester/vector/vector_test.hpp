@@ -10,6 +10,13 @@ void	get_identical_random_filled_vectors(size_t n, ft::vector<int> *ft, std::vec
 
 bool	recursive_call(bool (*f)(bool, int), bool time_check, int n);
 
+void	begin(ft::vector<int> &vec);
+
+void	begin(std::vector<int> &vec);
+
+bool	iterator_time_check(void (*ft_func)(ft::vector<int> &), void (*stl_func)(std::vector<int> &),
+			ft::vector<int> &ft, std::vector<int> &stl);
+
 template < class FTV, class STLV >
 bool	content_compare(FTV &ft, STLV &stl)
 {

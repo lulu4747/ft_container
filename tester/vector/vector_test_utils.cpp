@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sys/time.h>
 #include <vector>
 #include "../tester.hpp"
 #include "../../ft_containers/vector.hpp"
@@ -21,6 +22,37 @@ void	get_identical_random_filled_vectors(size_t n, ft::vector<int> *ft, std::vec
 		ft->push_back(*it);
 		stl->push_back(*it);
 	}
+}
+
+void	begin(ft::vector<int> &vec)
+{
+	vec.begin();
+}
+
+void	begin(std::vector<int> &vec)
+{
+	vec.begin();
+}
+
+bool	iterator_time_check(void (*ft_func)(ft::vector<int>&), void (*stl_func)(std::vector<int>&),
+			ft::vector<int> &ft, std::vector<int> &stl)
+{
+	timeval	start, end;
+	double	ft_time, stl_time;
+
+	print_time_start(&start);
+	for (int i = 0; i <= NB_REPEAT; i++)
+		ft_func(ft);
+	gettimeofday(&end, nullptr);
+	ft_time = timeval_diff_to_ms(start, end);
+	gettimeofday(&start, nullptr);
+	for (int i = 0; i <= NB_REPEAT; i++)
+		stl_func(stl);
+	gettimeofday(&end, nullptr);
+	stl_time = timeval_diff_to_ms(start, end);
+	if (print_test_result(ft_time <= (stl_time * 20)) == false)
+		return false;
+	return true;
 }
 
 bool	recursive_call(bool (*f)(bool, int), bool time_check, int n)

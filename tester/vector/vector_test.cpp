@@ -166,6 +166,32 @@ static bool	range_constructor_test(bool time_check, int n)
 	return recursive_call(&range_constructor_test, time_check, n);
 }
 
+static bool	begin_test(bool time_check)
+{
+	std::cout << "_______________________________________________" << std::endl
+		<< "begin() on empty vector" << std::endl << std::endl << "compared with end() :	";
+
+	ft::vector<int>		ft;
+	std::vector<int>	stl;
+	ft::vector<int>::iterator	ft_it = ft.begin();
+	std::vector<int>::iterator	stl_it = stl.begin();
+
+	if (!(print_test_result((ft_it == ft.end()) == (stl_it == stl.end()))))
+		return false;
+
+	if (time_check && iterator_time_check(&begin, &begin, ft, stl) == false)
+		return false;
+
+	std::cout << "const begin() on empty vector" << std::endl << std::endl << "compared with end() :	";
+	ft::vector<int>::const_iterator		ft_cit = ft.begin();
+	std::vector<int>::const_iterator	stl_cit = stl.begin();
+
+	if (!(print_test_result((ft_cit == ft.end()) == (stl_cit == stl.end()))))
+		return false;
+
+	return true;
+}
+
 bool	vector_test(bool time_check)
 {
 	if (default_constructor_test(time_check) == false)
@@ -178,6 +204,9 @@ bool	vector_test(bool time_check)
 		return false;
 
 	if (range_constructor_test(time_check, EMPTY) == false)
+		return false;
+	
+	if (begin_test(time_check) == false)
 		return false;
 /*
 	std::cout << "_______________________________________________" << std::endl
