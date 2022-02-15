@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include <sys/time.h>
 #include <vector>
 #include <cstdlib>
@@ -346,13 +347,12 @@ static bool	rbegin_test(bool time_check)
 
 static bool	rend_test(bool time_check)
 {
-
-	ft::vector<int>				ft;
-	std::vector<int>			stl;
-
 	std::cout << std::endl << "#######################################" << std::endl
 		<< "rend() - 1 on large (" << LARGE << ") vector" << std::endl << std::endl << "while(rit != rbegin())"
 		<< std::endl << "rit--; (*rit == *stl_rit)? :			";
+
+	ft::vector<int>				ft;
+	std::vector<int>			stl;
 
 	get_identical_random_filled_vectors(LARGE, &ft, &stl);
 	ft::vector<int>::reverse_iterator	ft_rit = ft.rend() - 1;
@@ -393,7 +393,171 @@ static bool	rend_test(bool time_check)
 	return true;
 }
 
-static bool	iterator_tests(bool time_check)
+template <typename FT_iterator, typename STL_iterator, 
+			typename FT_begin, typename STL_begin>
+static bool	op_tests(std::string it, FT_iterator &ft_it, STL_iterator &stl_it,
+			FT_begin ft_begin, STL_begin stl_begin)
+{
+	std::string	begin(it.find('r') == it.npos ? "begin" : "rbegin");
+
+
+	std::cout << "----------Arithmetic operators----------" << std::endl
+		<< "Mostly using \"operator*()\" to compare ft::vector with std::vector" << std::endl
+		<< std::endl << it << " += " << MEDIUM / 2 << " :			";
+
+	if (!print_test_result(*(ft_it += MEDIUM / 2) == *(stl_it += MEDIUM / 2)))
+		return false;
+
+	std::cout << it << " + " << MEDIUM / 5 << " :			";
+
+	if (!print_test_result(*(ft_it + MEDIUM / 5) == *(stl_it + MEDIUM / 5)))
+		return false;
+
+	std::cout << it << " - " << MEDIUM / 3 << " :			";
+
+	if (!print_test_result(*(ft_it - MEDIUM / 3) == *(stl_it - MEDIUM / 3)))
+		return false;
+
+	std::cout << it << " - vector." << begin << "() :		";
+
+	if (!print_test_result((ft_it - ft_begin) == (stl_it - stl_begin)))
+		return false;
+
+	std::cout << it << " -= " << MEDIUM / 4 << " :			";
+
+	if (!print_test_result(*(ft_it -= MEDIUM / 4) == *(stl_it -= MEDIUM / 4)))
+		return false;
+
+	std::cout << it << " = vector." << begin << "() :	";
+
+	if (!print_test_result(*(ft_it = ft_begin) == *(stl_it = stl_begin)))
+		return false;
+
+	std::cout << std::endl << "----------Comparison operators----------" << std::endl << std::endl
+		<< it << " == vector." << begin << "() ? :	";
+
+	if (!print_test_result((ft_it == ft_begin) == (stl_it == stl_begin)))
+		return false;
+
+	std::cout << it << " != vector." << begin << "() ? :	";
+
+	if (!print_test_result((ft_it != ft_begin) == (stl_it != stl_begin)))
+		return false;
+
+	std::cout << it << " <= vector." << begin << "() ? :	";
+
+	if (!print_test_result((ft_it <= ft_begin) == (stl_it <= stl_begin)))
+		return false;
+
+	std::cout << it << " >= vector." << begin << "() ? :	";
+
+	if (!print_test_result((ft_it >= ft_begin) == (stl_it >= stl_begin)))
+		return false;
+
+	std::cout << it << " < vector." << begin << "() ? :		";
+
+	if (!print_test_result((ft_it < ft_begin) == (stl_it < stl_begin)))
+		return false;
+
+	std::cout << it << " > vector." << begin << "() ? :		";
+
+	if (!print_test_result((ft_it > ft_begin) == (stl_it > stl_begin)))
+		return false;
+
+	std::cout << it << "++ == vector." << begin << "() ? :	";
+
+	if (!print_test_result((ft_it++ == ft_begin) == (stl_it++ == stl_begin)))
+		return false;
+
+	std::cout << it << " != vector." << begin << "() ? :	";
+
+	if (!print_test_result((ft_it != ft_begin) == (stl_it != stl_begin)))
+		return false;
+
+	std::cout << it << " <= vector." << begin << "() ? :	";
+
+	if (!print_test_result((ft_it <= ft_begin) == (stl_it <= stl_begin)))
+		return false;
+
+	std::cout << it << " >= vector." << begin << "() ? :	";
+
+	if (!print_test_result((ft_it >= ft_begin) == (stl_it >= stl_begin)))
+		return false;
+
+	std::cout << it << " < vector." << begin << "() ? :		";
+
+	if (!print_test_result((ft_it < ft_begin) == (stl_it < stl_begin)))
+		return false;
+
+	std::cout << it << " > vector." << begin << "() ? :		";
+
+	if (!print_test_result((ft_it > ft_begin) == (stl_it > stl_begin)))
+		return false;
+
+	std::cout << "--" << it << " == vector." << begin << "() ? :	";
+
+	if (!print_test_result((--ft_it == ft_begin) == (--stl_it == stl_begin)))
+		return false;
+
+	std::cout << std::endl << "----------Access operators----------" << std::endl << std::endl
+		<< it << "[" << MEDIUM / 5 << "] :			";
+
+	if (!print_test_result((ft_it[MEDIUM / 5]) == (stl_it[MEDIUM / 5])))
+		return false;
+	
+	return true;
+}
+
+static bool	operators_test()
+{
+	std::cout << std::endl << "#######################################" << std::endl
+		<< "iterators operators tests" << std::endl
+		<< "Crescent values filled vector from 0 to " << MEDIUM << std::endl << std::endl
+		<< "	Comparison operator	" << std::endl << std::endl
+		<< "normal iterator :" << std::endl
+		<< "it(vector.begin());" << std::endl << std::endl;
+
+	ft::vector<int>							ft;
+	std::vector<int>						stl;
+	get_crescent_filled_vectors(MEDIUM, &ft, &stl);
+
+	ft::vector<int>::iterator				ft_it(ft.begin());
+	std::vector<int>::iterator				stl_it(stl.begin());
+
+	if (op_tests("it", ft_it, stl_it, ft.begin(), stl.begin()) == false)
+		return false;
+	
+	std::cout << std::endl << "constant iterator :" << std::endl
+		<< "cit(vector.begin());" << std::endl << std::endl;
+
+	ft::vector<int>::const_iterator			ft_cit(ft.begin());
+	std::vector<int>::const_iterator		stl_cit(stl.begin());
+
+	if (op_tests("cit", ft_cit, stl_cit, ft.begin(), stl.begin()) == false)
+		return false;
+	
+	std::cout << std::endl << "reverse iterator :" << std::endl
+		<< "rit(vector.rbegin());" << std::endl << std::endl;
+
+	ft::vector<int>::reverse_iterator		ft_rit(ft.rbegin());
+	std::vector<int>::reverse_iterator		stl_rit(stl.rbegin());
+
+	if (op_tests("rit", ft_rit, stl_rit, ft.rbegin(), stl.rbegin()) == false)
+		return false;
+	
+	std::cout << std::endl << "const reverse iterator :" << std::endl
+		<< "crit(vector.rbegin());" << std::endl << std::endl;
+
+	ft::vector<int>::const_reverse_iterator			ft_crit(ft.rbegin());
+	std::vector<int>::const_reverse_iterator		stl_crit(stl.rbegin());
+
+	if (op_tests("crit", ft_crit, stl_crit, ft.rbegin(), stl.rbegin()) == false)
+		return false;
+
+	return true;
+}
+
+static bool	iterators_tests(bool time_check)
 {
 	std::cout << "_______________________________________________" << std::endl
 		<< "iterators tests" << std::endl;
@@ -405,6 +569,8 @@ static bool	iterator_tests(bool time_check)
 	if (!print_test_result(rbegin_test(time_check)))
 		return false;
 	if (!print_test_result(rend_test(time_check)))
+		return false;
+	if (!print_test_result(operators_test()))
 		return false;
 	return true;
 }
@@ -423,7 +589,7 @@ bool	vector_test(bool time_check)
 	if (range_constructor_test(time_check, EMPTY) == false)
 		return false;
 	
-	if (iterator_tests(time_check) == false)
+	if (iterators_tests(time_check) == false)
 		return false;
 /*
 	std::cout << "_______________________________________________" << std::endl
