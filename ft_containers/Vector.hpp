@@ -33,8 +33,8 @@ namespace	ft
 
 		typedef				Random_Access_Iterator<value_type>			iterator;
 		typedef				Random_Access_Iterator<const value_type>	const_iterator;
-		typedef				Reverse_Iterator<value_type>				reverse_iterator;
-		typedef				Reverse_Iterator<const value_type>			const_reverse_iterator;
+		typedef				Reverse_Iterator<iterator>					reverse_iterator;
+		typedef				Reverse_Iterator<const_iterator>			const_reverse_iterator;
 
 	//	Member Functions :
 

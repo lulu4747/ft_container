@@ -6,16 +6,16 @@
 namespace	ft
 {
 	template< typename T >
-	class Random_Access_Iterator : public iterator_traits< Iterator< Random_Access_Iterator_tag, T > >
+	class Random_Access_Iterator : Iterator< Random_Access_Iterator_tag, T >
 	{
 
 	public:
 
-		typedef T							value_type;
-    	typedef value_type*					pointer;
-    	typedef value_type&					reference;
-    	typedef std::ptrdiff_t				difference_type;
-		typedef Random_Access_Iterator_tag	iterator_category;
+		typedef typename Iterator< Random_Access_Iterator_tag, T >::value_type			value_type;
+    	typedef typename Iterator< Random_Access_Iterator_tag, T >::difference_type		difference_type;
+		typedef typename Iterator< Random_Access_Iterator_tag, T >::iterator_category	iterator_category;
+    	typedef value_type*																pointer;
+    	typedef value_type&																reference;
 
 		Random_Access_Iterator():_ptr(NULL)	{}
 		Random_Access_Iterator(pointer ptr):_ptr(ptr) {}

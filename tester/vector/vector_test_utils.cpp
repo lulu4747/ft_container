@@ -24,6 +24,15 @@ void	get_identical_random_filled_vectors(size_t n, ft::vector<int> *ft, std::vec
 	}
 }
 
+void	get_crescent_filled_vectors(size_t n, ft::vector<int> *ft, std::vector<int> *stl)
+{
+	for (size_t i = 0; i < n; i++)
+	{
+		ft->push_back(i);
+		stl->push_back(i);
+	}
+}
+
 void	begin(ft::vector<int> &vec)
 {
 	vec.begin();
@@ -90,6 +99,22 @@ void	rbegin_to_rend(std::vector<int> &vec)
 
 	while (rit != vec.rend())
 		rit++;
+}
+
+void	rend_to_rbegin(ft::vector<int> &vec)
+{
+	ft::vector<int>::reverse_iterator	rit = vec.rend() - 1;
+
+	while (rit != vec.rbegin())
+		rit--;
+}
+
+void	rend_to_rbegin(std::vector<int> &vec)
+{
+	std::vector<int>::reverse_iterator	rit = vec.rend() - 1;
+
+	while (rit != vec.rbegin())
+		rit--;
 }
 
 bool	iterator_time_check(void (*ft_func)(ft::vector<int>&), void (*stl_func)(std::vector<int>&),
