@@ -635,8 +635,7 @@ static bool	resize_tests(bool time_check)
 		timeval				start, end;
 		double				ft_time, stl_time;
 
-		get_crescent_filled_vectors(MEDIUM, &ft, &stl);
-
+		get_crescent_filled_vectors(MEDIUM, &ft_tmp, &stl_tmp);
 		print_time_start(&start);
 		for (int i = 0; i <= NB_REPEAT; i++)
 			ft_tmp.resize(MEDIUM);
@@ -1055,6 +1054,431 @@ static bool elements_access_tests(bool time_check)
 	return true;
 }
 
+static bool	push_back_tests(bool time_check)
+{
+	int val(std::rand());
+
+	std::cout << "_______________________________________________" << std::endl
+		<< "push_back tests" << std::endl << std::endl
+		<< "vector.push_back(" << val << ") on empty vector" << std::endl << std::endl;
+
+	ft::vector<int>		ft;
+	std::vector<int>	stl;
+
+	ft.push_back(val);
+	stl.push_back(val);
+
+	if (!(print_test_result(attributes_compare(ft, stl))))
+		return false;
+
+	if (time_check)
+	{
+		timeval				start, end;
+		double				ft_time, stl_time;
+
+		print_time_start(&start);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			ft::vector<int>		*ft_tmp = new ft::vector<int>;
+
+			ft_tmp->push_back(val);
+			delete	ft_tmp;
+		}
+		gettimeofday(&end, nullptr);
+		ft_time = timeval_diff_to_ms(start, end);
+		gettimeofday(&start, nullptr);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			std::vector<int>	*stl_tmp = new std::vector<int>;
+
+			stl_tmp->push_back(val);
+			delete	stl_tmp;
+		}
+		gettimeofday(&end, nullptr);
+		stl_time = timeval_diff_to_ms(start, end);
+		if (print_test_result(ft_time <= (stl_time * 20)) == false)
+			return false;
+	}
+
+	val = std::rand();
+
+	std::cout << "#######################################" << std::endl << std::endl
+		<< "vector.push_back(" << val << ") on same vector" << std::endl << std::endl;
+
+	ft.push_back(val);
+	stl.push_back(val);
+
+	if (!(print_test_result(attributes_compare(ft, stl))))
+		return false;
+
+	if (time_check)
+	{
+		timeval				start, end;
+		double				ft_time, stl_time;
+
+		print_time_start(&start);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			ft::vector<int>		*ft_tmp = new ft::vector<int>(ft);
+			std::vector<int>	*stl_tmp = new std::vector<int>(stl);
+
+			ft_tmp->push_back(val);
+			delete	ft_tmp;
+			delete	stl_tmp;
+		}
+		gettimeofday(&end, nullptr);
+		ft_time = timeval_diff_to_ms(start, end);
+		gettimeofday(&start, nullptr);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			ft::vector<int>		*ft_tmp = new ft::vector<int>(ft);
+			std::vector<int>	*stl_tmp = new std::vector<int>(stl);
+
+			stl_tmp->push_back(val);
+			delete	ft_tmp;
+			delete	stl_tmp;
+		}
+		gettimeofday(&end, nullptr);
+		stl_time = timeval_diff_to_ms(start, end);
+		if (print_test_result(ft_time <= (stl_time * 20)) == false)
+			return false;
+	}
+
+	return true;
+}
+
+static bool	pop_back_tests()
+{
+	/*
+	std::vector<int>	vec;													//Uncomment shows segfault on stl vector
+	vec.pop_back();																//when using pop_back() on empty then iterating
+	for (std::vector<int>::iterator	it = vec.begin(); it != vec.end(); it++)	//so i removed empty protection from my pop_back()
+		std::cout << *it << std::endl;											//method and my vector crashs too now, yay
+	*/
+
+
+	std::cout << "_______________________________________________" << std::endl
+		<< "pop_back tests" << std::endl << std::endl
+		<< "vector.pop_back() on vector with size = " << SHORT << std::endl << std::endl;
+
+	ft::vector<int>		ft(SHORT);
+	std::vector<int>	stl(SHORT);
+
+	ft.pop_back();
+	stl.pop_back();
+
+	if (!(print_test_result(attributes_compare(ft, stl))))
+		return false;
+
+	return true;
+}
+
+static bool	insert_tests(bool time_check)
+{
+	std::cout << "_______________________________________________" << std::endl
+		<< "insert tests" << std::endl << std::endl
+		<< "#######################################" << std::endl << std::endl
+		<< "vector.insert() on empty vector at vector.begin()" << std::endl << std::endl
+		<< "single value (5)" << std::endl << std::endl;
+
+	ft::vector<int>		ft;
+	std::vector<int>	stl;
+	ft::vector<int>		*ft_tmp;
+	std::vector<int>	*stl_tmp;
+
+	ft.insert(ft.begin(), 5);
+	stl.insert(stl.begin(), 5);
+
+	if (!(print_test_result(attributes_compare(ft, stl))))
+		return false;
+
+	ft.clear();
+	stl.clear();
+
+	if (time_check)
+	{
+		timeval				start, end;
+		double				ft_time, stl_time;
+
+		print_time_start(&start);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			ft_tmp = new ft::vector<int>;
+			stl_tmp = new std::vector<int>;
+
+			ft_tmp->insert(ft_tmp->begin(), 5);
+
+			delete ft_tmp;
+			delete stl_tmp;
+		}
+		gettimeofday(&end, nullptr);
+		ft_time = timeval_diff_to_ms(start, end);
+		gettimeofday(&start, nullptr);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			ft_tmp = new ft::vector<int>;
+			stl_tmp = new std::vector<int>;
+
+			stl_tmp->insert(stl_tmp->begin(), 5);
+
+			delete ft_tmp;
+			delete stl_tmp;
+		}
+		gettimeofday(&end, nullptr);
+		stl_time = timeval_diff_to_ms(start, end);
+		if (print_test_result(ft_time <= (stl_time * 20)) == false)
+			return false;
+	}
+
+	std::cout << std::endl << SHORT << " value (5)" << std::endl << std::endl;
+
+	ft.insert(ft.begin(), SHORT, 5);
+	stl.insert(stl.begin(), SHORT, 5);
+
+	if (!(print_test_result(attributes_compare(ft, stl))))
+		return false;
+
+	ft.clear();
+	stl.clear();
+
+	if (time_check)
+	{
+		timeval				start, end;
+		double				ft_time, stl_time;
+
+		print_time_start(&start);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			ft_tmp = new ft::vector<int>;
+			stl_tmp = new std::vector<int>;
+
+			ft_tmp->insert(ft_tmp->begin(), SHORT, 5);
+
+			delete ft_tmp;
+			delete stl_tmp;
+		}
+		gettimeofday(&end, nullptr);
+		ft_time = timeval_diff_to_ms(start, end);
+		gettimeofday(&start, nullptr);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			ft_tmp = new ft::vector<int>;
+			stl_tmp = new std::vector<int>;
+
+			stl_tmp->insert(stl_tmp->begin(), SHORT, 5);
+
+			delete ft_tmp;
+			delete stl_tmp;
+		}
+		gettimeofday(&end, nullptr);
+		stl_time = timeval_diff_to_ms(start, end);
+		if (print_test_result(ft_time <= (stl_time * 20)) == false)
+			return false;
+	}
+
+	std::cout << std::endl << "Random range with size = " << SHORT << std::endl << std::endl;
+
+	ft::vector<int>		ft_src;
+	std::vector<int>	stl_src;
+
+	get_identical_random_filled_vectors(SHORT, &ft_src, &stl_src);
+
+	ft.insert(ft.begin(), ft_src.begin(), ft_src.end());
+	stl.insert(stl.begin(), stl_src.begin(), stl_src.end());
+
+	if (!(print_test_result(attributes_compare(ft, stl))))
+		return false;
+
+	if (time_check)
+	{
+		timeval				start, end;
+		double				ft_time, stl_time;
+
+		print_time_start(&start);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			ft_tmp = new ft::vector<int>;
+			stl_tmp = new std::vector<int>;
+
+			ft_tmp->insert(ft_tmp->begin(), ft_src.begin(), ft_src.end());
+
+			delete ft_tmp;
+			delete stl_tmp;
+		}
+		gettimeofday(&end, nullptr);
+		ft_time = timeval_diff_to_ms(start, end);
+		gettimeofday(&start, nullptr);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			ft_tmp = new ft::vector<int>;
+			stl_tmp = new std::vector<int>;
+
+			stl_tmp->insert(stl_tmp->begin(), stl_src.begin(), stl_src.end());
+
+			delete ft_tmp;
+			delete stl_tmp;
+		}
+		gettimeofday(&end, nullptr);
+		stl_time = timeval_diff_to_ms(start, end);
+		if (print_test_result(ft_time <= (stl_time * 20)) == false)
+			return false;
+	}
+
+	std::cout << std::endl << std::endl
+		<< "#######################################" << std::endl << std::endl
+		<< "vector.insert() on same vector" << std::endl << std::endl
+		<< "single value (5) at vector.begin() + (vector.size() / 2)" << std::endl << std::endl;
+
+	ft.insert(ft.begin() + (ft.size() / 2), 5);
+	stl.insert(stl.begin() + (stl.size() / 2), 5);
+
+	if (!(print_test_result(attributes_compare(ft, stl))))
+		return false;
+
+	if (time_check)
+	{
+		timeval				start, end;
+		double				ft_time, stl_time;
+
+		print_time_start(&start);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			ft_tmp = new ft::vector<int>(ft);
+			stl_tmp = new std::vector<int>(stl);
+
+			ft_tmp->insert(ft_tmp->begin(), 5);
+
+			delete ft_tmp;
+			delete stl_tmp;
+		}
+		gettimeofday(&end, nullptr);
+		ft_time = timeval_diff_to_ms(start, end);
+		gettimeofday(&start, nullptr);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			ft_tmp = new ft::vector<int>(ft);
+			stl_tmp = new std::vector<int>(stl);
+
+			stl_tmp->insert(stl_tmp->begin(), 5);
+
+			delete ft_tmp;
+			delete stl_tmp;
+		}
+		gettimeofday(&end, nullptr);
+		stl_time = timeval_diff_to_ms(start, end);
+		if (print_test_result(ft_time <= (stl_time * 20)) == false)
+			return false;
+	}
+
+	std::cout << std::endl << SHORT
+		<< " value (5) at vector.begin() + (vector.size() / 2)" << std::endl << std::endl;
+
+	ft.insert(ft.begin() + (ft.size() / 2), SHORT, 5);
+	stl.insert(stl.begin() + (stl.size() / 2), SHORT, 5);
+
+	if (!(print_test_result(attributes_compare(ft, stl))))
+		return false;
+
+	if (time_check)
+	{
+		timeval				start, end;
+		double				ft_time, stl_time;
+
+		print_time_start(&start);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			ft_tmp = new ft::vector<int>(ft);
+			stl_tmp = new std::vector<int>(stl);
+
+			ft_tmp->insert(ft_tmp->begin(), SHORT, 5);
+
+			delete ft_tmp;
+			delete stl_tmp;
+		}
+		gettimeofday(&end, nullptr);
+		ft_time = timeval_diff_to_ms(start, end);
+		gettimeofday(&start, nullptr);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			ft_tmp = new ft::vector<int>(ft);
+			stl_tmp = new std::vector<int>(stl);
+
+			stl_tmp->insert(stl_tmp->begin(), SHORT, 5);
+
+			delete ft_tmp;
+			delete stl_tmp;
+		}
+		gettimeofday(&end, nullptr);
+		stl_time = timeval_diff_to_ms(start, end);
+		if (print_test_result(ft_time <= (stl_time * 20)) == false)
+			return false;
+	}
+
+	std::cout << std::endl <<
+		"Random range previously used at vector.begin() + (vector.size() / 2)" << std::endl << std::endl;
+
+	ft.insert(ft.begin() + (ft.size() / 2), ft_src.begin(), ft_src.end());
+	stl.insert(stl.begin() + (stl.size() / 2), stl_src.begin(), stl_src.end());
+
+	if (!(print_test_result(attributes_compare(ft, stl))))
+		return false;
+
+	if (time_check)
+	{
+		timeval				start, end;
+		double				ft_time, stl_time;
+
+		print_time_start(&start);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			ft_tmp = new ft::vector<int>(ft);
+			stl_tmp = new std::vector<int>(stl);
+
+			ft_tmp->insert(ft_tmp->begin() + (ft_tmp->size() / 2), ft_src.begin(), ft_src.end());
+
+			delete ft_tmp;
+			delete stl_tmp;
+		}
+		gettimeofday(&end, nullptr);
+		ft_time = timeval_diff_to_ms(start, end);
+		gettimeofday(&start, nullptr);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			ft_tmp = new ft::vector<int>(ft);
+			stl_tmp = new std::vector<int>(stl);
+
+			stl_tmp->insert(stl_tmp->begin() + (stl_tmp->size() / 2), stl_src.begin(), stl_src.end());
+
+			delete ft_tmp;
+			delete stl_tmp;
+		}
+		gettimeofday(&end, nullptr);
+		stl_time = timeval_diff_to_ms(start, end);
+		if (print_test_result(ft_time <= (stl_time * 20)) == false)
+			return false;
+	}
+
+	return true;
+}
+
+static bool	erase_tests(bool time_check)
+{
+	time_check = false;
+	return true;
+}
+
+static bool	swap_tests(bool time_check)
+{
+	time_check = false;
+	return true;
+}
+
+static bool	clear_tests(bool time_check)
+{
+	time_check = false;
+	return true;
+}
+
 bool	vector_test(bool time_check)
 {
 	if (default_constructor_test(time_check) == false)
@@ -1080,82 +1504,24 @@ bool	vector_test(bool time_check)
 
 	if (elements_access_tests(time_check) == false)
 		return false;
-/*
-	std::cout << "_______________________________________________" << std::endl
-		<< "vector.push_back(0) with empty vector :	" << std::endl;
-	ft.push_back(0);
-	stl.push_back(0);
-	if (!(print_test_result(attributes_compare(ft, stl))))
+
+	if (push_back_tests(time_check) == false)
 		return false;
 
-	std::cout << "_______________________________________________" << std::endl
-		<< "vector.pop_back() :	" << std::endl;
-	ft.pop_back();
-	stl.pop_back();
-	if (!(print_test_result(attributes_compare(ft, stl))))
+	if (pop_back_tests() == false)
 		return false;
 
-	int i = 500;
-
-	std::cout << "_______________________________________________" << std::endl
-		<< "vector.push_back() " << i << " times :	" << std::endl;
-	while (i >= 0)
-	{
-		ft.push_back(i);
-		stl.push_back(i);
-		i--;
-	}
-	if (!(print_test_result(attributes_compare(ft, stl))))
+	if (insert_tests(time_check) == false)
 		return false;
 
-	std::cout << "_______________________________________________" << std::endl
-		<< "clear()" << std::endl << std::endl;
-	ft.clear();
-	stl.clear();
-	if (!(print_test_result(attributes_compare(ft, stl))))
+	if (erase_tests(time_check) == false)
 		return false;
 
-	size_t	n = 80;
-	int		val = 9;
-
-	std::cout << "_______________________________________________" << std::endl
-		<< "assign(" << n << ", " << val << ")" << std::endl << std::endl;
-	ft.assign(80, 9);
-	stl.assign(80, 9);
-	if (!(print_test_result(attributes_compare(ft, stl))))
+	if (swap_tests(time_check) == false)
 		return false;
 
-	std::cout << "_______________________________________________" << std::endl
-		<< "resize reduction :" << std::endl << "resize(size - (size / 3))" << std::endl << std::endl;
-	ft.resize(ft.size() - (ft.size() / 3));
-	stl.resize(stl.size() - (stl.size() / 3));
-	if (!(print_test_result(attributes_compare(ft, stl))))
-		return false;
-	std::cout << std::endl;
-
-	std::cout << std::endl << "#######################################" << std::endl << std::endl
-		<< "resize extension :" << std::endl << "resize(size + 10)" << std::endl << std::endl;
-	ft.resize(ft.size() + 10);
-	stl.resize(stl.size() + 10);
-	if (!(print_test_result(attributes_compare(ft, stl))))
-		return false;
-	std::cout << std::endl;
-
-	std::cout << "_______________________________________________" << std::endl
-		<< "Element access :" << std::endl << "	operator[] (size / 2) = 2" << std::endl << std::endl;
-
-	ft[ft.size() / 2] = 2;
-	stl[stl.size() / 2] = 2;
-	if (!(print_test_result(attributes_compare(ft, stl))))
+	if (clear_tests(time_check) == false)
 		return false;
 
-	std::cout << std::endl << "#######################################" << std::endl
-		<< std::endl << "	vector.at(size()/4) = 4" << std::endl << std::endl;
-
-	ft.at(ft.size() / 4) = 4;
-	stl.at(stl.size() / 4) = 4;
-	if (!(print_test_result(attributes_compare(ft, stl))))
-		return false;
-*/
 	return true;
 }

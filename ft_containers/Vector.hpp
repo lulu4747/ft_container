@@ -285,8 +285,6 @@ namespace	ft
 
 		void	pop_back()
 		{
-			if (empty())
-				return;
 			_alloc.destroy(_end);
 			_end--;
 		}
@@ -367,8 +365,7 @@ namespace	ft
 			_end = _data + new_size;
 			for (iterator it(end() - difference_type(1)); (it - range) != position - difference_type(1); it--)
 			{
-				if (&(*it))
-					_alloc.destroy(&(*it));
+				_alloc.destroy(&(*it));
 				_alloc.construct(&(*it), *(it - range));
 			}
 			while (first != last)
