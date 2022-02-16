@@ -504,7 +504,40 @@ static bool	op_tests(std::string it, FT_iterator &ft_it, STL_iterator &stl_it,
 
 	if (!print_test_result((ft_it[MEDIUM / 5]) == (stl_it[MEDIUM / 5])))
 		return false;
+
+	std::cout << std::endl << "----------Increment/Decrement operators----------" << std::endl << std::endl
+		<< "iterator		tmp(" << it << ");" << std::endl << std::endl << it << "++ == tmp ? :	";
 	
+	FT_iterator		ft_tmp(ft_it);
+	STL_iterator	stl_tmp(stl_it);
+
+	if (!print_test_result((ft_it++ == ft_tmp) == (stl_it++ == stl_tmp)))
+		return false;
+
+	std::cout << std::endl << "tmp = " << it << ";" << std::endl << it << "-- == tmp ? :	";
+
+	ft_tmp = ft_it;
+	stl_tmp = stl_it;
+
+	if (!print_test_result((ft_it-- == ft_tmp) == (stl_it-- == stl_tmp)))
+		return false;
+
+	std::cout << std::endl << "tmp = " << it << ";" << std::endl << "++" << it << " == tmp ? :	";
+
+	ft_tmp = ft_it;
+	stl_tmp = stl_it;
+
+	if (!print_test_result((++ft_it == ft_tmp) == (++stl_it == stl_tmp)))
+		return false;
+
+	std::cout << std::endl << "tmp = " << it << ";" << std::endl << "--" << it << " == tmp ? :	";
+
+	ft_tmp = ft_it;
+	stl_tmp = stl_it;
+
+	if (!print_test_result((--ft_it == ft_tmp) == (--stl_it == stl_tmp)))
+		return false;
+
 	return true;
 }
 
@@ -554,6 +587,8 @@ static bool	operators_test()
 	if (op_tests("crit", ft_crit, stl_crit, ft.rbegin(), stl.rbegin()) == false)
 		return false;
 
+	std::cout << "General :			";
+
 	return true;
 }
 
@@ -575,6 +610,160 @@ static bool	iterators_tests(bool time_check)
 	return true;
 }
 
+static bool	resize_test(bool time_check)
+{
+	std::cout << "_______________________________________________" << std::endl
+		<< "Resize tests" << std::endl
+		<< std::endl << "#######################################" << std::endl << std::endl
+		<< "Resize equal (" << MEDIUM << " to " << MEDIUM << ")" << std::endl << std::endl;
+
+	ft::vector<int>		ft;
+	std::vector<int>	stl;
+
+	get_crescent_filled_vectors(MEDIUM, &ft, &stl);
+
+	ft.resize(MEDIUM);
+	stl.resize(MEDIUM);
+
+	if (!(print_test_result(attributes_compare(ft, stl))))
+		return false;
+
+	if (time_check)
+	{
+		ft::vector<int>		ft_tmp;
+		std::vector<int>	stl_tmp;
+		timeval				start, end;
+		double				ft_time, stl_time;
+
+		get_crescent_filled_vectors(MEDIUM, &ft, &stl);
+
+		print_time_start(&start);
+		for (int i = 0; i <= NB_REPEAT; i++)
+			ft_tmp.resize(MEDIUM);
+		gettimeofday(&end, nullptr);
+		ft_time = timeval_diff_to_ms(start, end);
+		gettimeofday(&start, nullptr);
+		for (int i = 0; i <= NB_REPEAT; i++)
+			stl_tmp.resize(MEDIUM);
+		gettimeofday(&end, nullptr);
+		stl_time = timeval_diff_to_ms(start, end);
+		if (print_test_result(ft_time <= (stl_time * 20)) == false)
+			return false;
+	}
+
+	std::cout << std::endl << "#######################################" << std::endl << std::endl
+		<< "Resize expansion (" << MEDIUM << " to " << LARGE << ") with no val" << std::endl << std::endl;
+
+	ft.resize(LARGE);
+	stl.resize(LARGE);
+
+	if (!(print_test_result(attributes_compare(ft, stl))))
+		return false;
+
+	if (time_check)
+	{
+		ft::vector<int>		ft_tmp;
+		std::vector<int>	stl_tmp;
+		timeval				start, end;
+		double				ft_time, stl_time;
+
+		print_time_start(&start);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			get_crescent_filled_vectors(MEDIUM, &ft_tmp, &stl_tmp);
+			ft_tmp.resize(LARGE);
+		}
+		gettimeofday(&end, nullptr);
+		ft_time = timeval_diff_to_ms(start, end);
+		gettimeofday(&start, nullptr);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			get_crescent_filled_vectors(MEDIUM, &ft_tmp, &stl_tmp);
+			stl_tmp.resize(LARGE);
+		}
+		gettimeofday(&end, nullptr);
+		stl_time = timeval_diff_to_ms(start, end);
+		if (print_test_result(ft_time <= (stl_time * 20)) == false)
+			return false;
+	}
+
+	std::cout << std::endl << "#######################################" << std::endl << std::endl
+		<< "Resize reduction (" << LARGE << " to " << SHORT << ")" << std::endl << std::endl;
+
+	ft.resize(SHORT);
+	stl.resize(SHORT);
+
+	if (!(print_test_result(attributes_compare(ft, stl))))
+		return false;
+
+	if (time_check)
+	{
+		ft::vector<int>		ft_tmp;
+		std::vector<int>	stl_tmp;
+		timeval				start, end;
+		double				ft_time, stl_time;
+
+		print_time_start(&start);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			get_crescent_filled_vectors(LARGE, &ft_tmp, &stl_tmp);
+			ft_tmp.resize(SHORT);
+		}
+		gettimeofday(&end, nullptr);
+		ft_time = timeval_diff_to_ms(start, end);
+		gettimeofday(&start, nullptr);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			get_crescent_filled_vectors(LARGE, &ft_tmp, &stl_tmp);
+			stl_tmp.resize(SHORT);
+		}
+		gettimeofday(&end, nullptr);
+		stl_time = timeval_diff_to_ms(start, end);
+		if (print_test_result(ft_time <= (stl_time * 20)) == false)
+			return false;
+	}
+
+	int	val(std::rand());
+
+	std::cout << std::endl << "#######################################" << std::endl << std::endl
+		<< "Resize expansion (" << SHORT << " to " << MEDIUM << ") with val = " << val << std::endl << std::endl;
+
+	ft.resize(LARGE, val);
+	stl.resize(LARGE, val);
+
+	if (!(print_test_result(attributes_compare(ft, stl))))
+		return false;
+
+	if (time_check)
+	{
+		ft::vector<int>		ft_tmp;
+		std::vector<int>	stl_tmp;
+		timeval				start, end;
+		double				ft_time, stl_time;
+
+		print_time_start(&start);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			get_crescent_filled_vectors(MEDIUM, &ft_tmp, &stl_tmp);
+			ft_tmp.resize(LARGE, val);
+		}
+		gettimeofday(&end, nullptr);
+		ft_time = timeval_diff_to_ms(start, end);
+		gettimeofday(&start, nullptr);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			get_crescent_filled_vectors(MEDIUM, &ft_tmp, &stl_tmp);
+			stl_tmp.resize(LARGE, val);
+		}
+		gettimeofday(&end, nullptr);
+		stl_time = timeval_diff_to_ms(start, end);
+		if (print_test_result(ft_time <= (stl_time * 20)) == false)
+			return false;
+	}
+
+	return true;
+}
+
 bool	vector_test(bool time_check)
 {
 	if (default_constructor_test(time_check) == false)
@@ -590,6 +779,9 @@ bool	vector_test(bool time_check)
 		return false;
 	
 	if (iterators_tests(time_check) == false)
+		return false;
+	
+	if (resize_test(time_check) == false)
 		return false;
 /*
 	std::cout << "_______________________________________________" << std::endl

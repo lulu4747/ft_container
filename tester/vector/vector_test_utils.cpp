@@ -26,6 +26,10 @@ void	get_identical_random_filled_vectors(size_t n, ft::vector<int> *ft, std::vec
 
 void	get_crescent_filled_vectors(size_t n, ft::vector<int> *ft, std::vector<int> *stl)
 {
+	if (!ft->empty())
+		ft->clear();
+	if (!stl->empty())
+		stl->clear();
 	for (size_t i = 0; i < n; i++)
 	{
 		ft->push_back(i);

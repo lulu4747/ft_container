@@ -29,7 +29,10 @@ bool	content_compare(FTV &ft, STLV &stl)
 	while (ftit != ft.end() && stlit != stl.end())
 	{
 		if (*ftit != *stlit)
+		{
+			std::cout << std::endl << *ftit << " | " << *stlit << "		";
 			return false;
+		}
 		ftit++;
 		stlit++;
 	}

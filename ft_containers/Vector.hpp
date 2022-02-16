@@ -154,10 +154,13 @@ namespace	ft
 		{
 			if (n > this->max_size())
 				throw (std::length_error("vector::resize"));
-			while (!empty() && size() > n)
-				pop_back();
-			while (size() < n)
-				push_back(val);
+			else if (size() > n)
+			{
+				while (!empty() && size() > n)
+					pop_back();
+			}
+			else
+				insert(end(), n - size(), val);
 		}
 
 		size_type	capacity( void ) const
@@ -332,14 +335,14 @@ namespace	ft
 			_end = _data + new_size;
 			for (iterator it(end() - difference_type(1)); (it - range) != position - difference_type(1); it--)
 			{
-				if (&(*it))
-					_alloc.destroy(&(*it));
+				_alloc.destroy(&(*it));
 				_alloc.construct(&(*it), *(it - range));
 			}
 			while (n--)
 			{
 				_alloc.destroy(&(*(position)));
 				_alloc.construct(&(*position), val);
+				position++;
 			}
 			return;
 		}
