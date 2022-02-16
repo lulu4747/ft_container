@@ -610,7 +610,7 @@ static bool	iterators_tests(bool time_check)
 	return true;
 }
 
-static bool	resize_test(bool time_check)
+static bool	resize_tests(bool time_check)
 {
 	std::cout << "_______________________________________________" << std::endl
 		<< "Resize tests" << std::endl
@@ -764,6 +764,113 @@ static bool	resize_test(bool time_check)
 	return true;
 }
 
+static bool	reserve_tests(bool time_check)
+{
+	std::cout << "_______________________________________________" << std::endl
+		<< "Reserve tests" << std::endl
+		<< std::endl << "#######################################" << std::endl << std::endl
+		<< "reserve(" << MEDIUM << ") on empty vector" << std::endl << std::endl;
+
+	ft::vector<int>		ft;
+	std::vector<int>	stl;
+
+	ft.reserve(MEDIUM);
+	stl.reserve(MEDIUM);
+
+	if (!(print_test_result(attributes_compare(ft, stl))))
+		return false;
+
+	if (time_check)
+	{
+		timeval				start, end;
+		double				ft_time, stl_time;
+
+		print_time_start(&start);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			ft::vector<int>		*ft_tmp = new ft::vector<int>;
+
+			ft_tmp->reserve(MEDIUM);
+			delete	ft_tmp;
+		}
+		gettimeofday(&end, nullptr);
+		ft_time = timeval_diff_to_ms(start, end);
+		gettimeofday(&start, nullptr);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			std::vector<int>	*stl_tmp = new std::vector<int>;
+
+			stl_tmp->reserve(MEDIUM);
+			delete	stl_tmp;
+		}
+		gettimeofday(&end, nullptr);
+		stl_time = timeval_diff_to_ms(start, end);
+		if (print_test_result(ft_time <= (stl_time * 20)) == false)
+			return false;
+	}
+
+	int	val(std::rand());
+
+	std::cout << std::endl << "#######################################" << std::endl << std::endl
+		<< "push_back(" << val << ") on same vector" << std::endl << std::endl;
+
+	ft.push_back(val);
+	stl.push_back(val);
+
+	if (!(print_test_result(attributes_compare(ft, stl))))
+		return false;
+
+	std::cout << std::endl << "#######################################" << std::endl << std::endl
+		<< "Reserve (" << MEDIUM + SHORT << ") on same vector" << std::endl << std::endl;
+
+	ft.resize(MEDIUM + SHORT);
+	stl.resize(MEDIUM + SHORT);
+
+	if (!(print_test_result(attributes_compare(ft, stl))))
+		return false;
+
+	if (time_check)
+	{
+		timeval				start, end;
+		double				ft_time, stl_time;
+
+		print_time_start(&start);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			ft::vector<int>		*ft_tmp = new ft::vector<int>(MEDIUM);
+			std::vector<int>	*stl_tmp = new std::vector<int>(MEDIUM);
+
+			ft_tmp->push_back(val);
+			stl_tmp->push_back(val);
+
+			ft_tmp->reserve(MEDIUM + SHORT);
+			delete	ft_tmp;
+			delete	stl_tmp;
+		}
+		gettimeofday(&end, nullptr);
+		ft_time = timeval_diff_to_ms(start, end);
+		gettimeofday(&start, nullptr);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			ft::vector<int>		*ft_tmp = new ft::vector<int>(MEDIUM);
+			std::vector<int>	*stl_tmp = new std::vector<int>(MEDIUM);
+
+			ft_tmp->push_back(val);
+			stl_tmp->push_back(val);
+
+			stl_tmp->reserve(MEDIUM + SHORT);
+			delete	ft_tmp;
+			delete	stl_tmp;
+		}
+		gettimeofday(&end, nullptr);
+		stl_time = timeval_diff_to_ms(start, end);
+		if (print_test_result(ft_time <= (stl_time * 20)) == false)
+			return false;
+	}
+
+	return true;
+}
+
 bool	vector_test(bool time_check)
 {
 	if (default_constructor_test(time_check) == false)
@@ -777,11 +884,14 @@ bool	vector_test(bool time_check)
 
 	if (range_constructor_test(time_check, EMPTY) == false)
 		return false;
-	
+
 	if (iterators_tests(time_check) == false)
 		return false;
-	
-	if (resize_test(time_check) == false)
+
+	if (resize_tests(time_check) == false)
+		return false;
+
+	if (reserve_tests(time_check) == false)
 		return false;
 /*
 	std::cout << "_______________________________________________" << std::endl
