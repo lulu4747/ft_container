@@ -52,8 +52,12 @@ bool	attributes_compare(FT &ft, STL &stl)
 	max_size = print_test_result(ft.max_size() == stl.max_size());
 	std::cout << "size() comparison :	";
 	size = print_test_result(ft.size() == stl.size());
+	if (!size)
+		std::cout << ft.size() << "	|	" << stl.size() << "	" << std::endl;
 	std::cout << "capacity() comparison :	";
 	capacity = print_test_result(ft.capacity() == stl.capacity());
+	if (!capacity)
+		std::cout << ft.capacity() << "	|	" << stl.capacity() << "	" << std::endl;
 	std::cout << "content comparison : 	";
 	content = print_test_result(content_compare(ft, stl));
 	std::cout << "General comparison : 			";

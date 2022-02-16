@@ -1577,7 +1577,67 @@ static bool	erase_tests(bool time_check)
 
 static bool	swap_tests(bool time_check)
 {
-	time_check = false;
+	std::cout << "_______________________________________________" << std::endl
+		<< "swap tests" << std::endl << std::endl
+		<< "using randomly generated vector with size = " << SHORT << std::endl;
+
+	ft::vector<int>		ft1;
+	std::vector<int>	stl1;
+	ft::vector<int>		ft2;
+	std::vector<int>	stl2;
+
+	get_identical_random_filled_vectors(SHORT, &ft1, &stl1);
+	get_identical_random_filled_vectors(SHORT, &ft2, &stl2);
+
+	ft1.swap(ft2);
+	stl1.swap(stl2);
+
+	std::cout << std::endl << "first vector :	" << std::endl << std::endl;
+	if (!(print_test_result(attributes_compare(ft1, stl1))))
+		return false;
+
+	std::cout << std::endl << "second vector :	" << std::endl << std::endl;
+	if (!(print_test_result(attributes_compare(ft2, stl2))))
+		return false;
+
+	if(time_check)
+	{
+		timeval				start, end;
+		double				ft_time, stl_time;
+
+		print_time_start(&start);
+		for (int i = 0; i <= NB_REPEAT; i++)
+			ft1.swap(ft2);
+		gettimeofday(&end, nullptr);
+		ft_time = timeval_diff_to_ms(start, end);
+		gettimeofday(&start, nullptr);
+		for (int i = 0; i <= NB_REPEAT; i++)
+			stl1.swap(stl2);
+		gettimeofday(&end, nullptr);
+		stl_time = timeval_diff_to_ms(start, end);
+		if (print_test_result(ft_time <= (stl_time * 20)) == false)
+			return false;
+	}
+
+	std::cout << std::endl << std::endl
+		<< "first vector size = " << SHORT <<" and secon size = " << MEDIUM << std::endl;
+
+	ft2.clear();
+	stl2.clear();
+
+	get_identical_random_filled_vectors(MEDIUM, &ft2, &stl2);
+
+	ft1.swap(ft2);
+	stl1.swap(stl2);
+
+	std::cout << std::endl << "first vector :	" << std::endl << std::endl;
+	if (!(print_test_result(attributes_compare(ft1, stl1))))
+		return false;
+
+	std::cout << std::endl << "second vector :	" << std::endl << std::endl;
+	if (!(print_test_result(attributes_compare(ft2, stl2))))
+		return false;
+
 	return true;
 }
 

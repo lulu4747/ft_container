@@ -75,24 +75,22 @@ namespace	ft
 		vector (const vector& x):
 			_alloc(x.get_allocator()), _data(NULL), _end(NULL), _capacity(NULL)
 		{
-			*this = x;
+			insert(begin(), x.begin(), x.end());
 		}
 
 		vector &	operator=(const vector& rhs)
 		{
 			if (this != &rhs)
 			{
-				if (capacity())
-					this->~vector();
-				assign(rhs.begin(), rhs.end());
+				clear();
+				insert(begin(), rhs.begin(), rhs.end());
 			}
 			return *this;
 		}
 
 		virtual	~vector()
 		{
-			for (size_type i = 0; i < size(); i++)
-				_alloc.destroy(_data + i);
+			clear();
 			_deallocate();
 		}
 
@@ -412,11 +410,24 @@ namespace	ft
 
 		void swap(vector& x)
 		{
-			vector	tmp(*this);
+			if (*this != x)
+			{
+				allocator_type	tmp_alloc = x._alloc;
+				pointer			tmp_data = x._data;
+				pointer			tmp_end = x._end;
+				pointer			tmp_capacity = x._capacity;
 
-			*this = x;
-			x = tmp;
-			tmp.~vector();
+				x._alloc = _alloc;
+				x._data = _data;
+				x._end = _end;
+				x._capacity = _capacity;
+
+				_alloc = tmp_alloc;
+				_data = tmp_data;
+				_end = tmp_end;
+				_capacity = tmp_capacity;
+			}
+			return ;
 		}
 
 		void	clear()
@@ -457,7 +468,7 @@ namespace	ft
 	template < class T, class Alloc >
 	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 	{
-		return ft::equal(lhs.begin(), iterator(lhs.back()), rhs.begin());
+		return ft::equal(lhs.begin(), lhs.end(), rhs.begin());
 	}
 
 	template < class T, class Alloc >
@@ -469,8 +480,7 @@ namespace	ft
 	template < class T, class Alloc >
 	bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 	{
-		return (ft::lexicographical_compare(lhs.begin(), iterator(lhs.back()),
-				rhs.begin(), iterator(rhs.back())));
+		return (ft::lexicographical_compare(lhs.begin(), lhs.end()), rhs.begin(), rhs.end());
 	}
 
 	template < class T, class Alloc >
