@@ -875,10 +875,10 @@ static bool elements_access_tests(bool time_check)
 {
 	std::cout << "_______________________________________________" << std::endl
 		<< "Elements Access tests" << std::endl
+		<< "Using a randomly filled vector of size " << MEDIUM << std::endl
 		<< std::endl << "#######################################" << std::endl << std::endl
 		<< "operator[]" << std::endl << std::endl
-		<< "accessing vector[" << MEDIUM / 4 << "] in randomly filled vector of size "
-		<< MEDIUM << " :	" << std::endl << std::endl;
+		<< "accessing vector[" << MEDIUM / 4 << "] :		";
 
 	ft::vector<int>		ft;
 	std::vector<int>	stl;
@@ -907,8 +907,7 @@ static bool elements_access_tests(bool time_check)
 			return false;
 	}
 
-	std::cout << std::endl << "#######################################" << std::endl << std::endl
-		<< " vector[" << MEDIUM / 4 << "] = 1 on same vector :	" << std::endl << std::endl;
+	std::cout << "vector[" << MEDIUM / 4 << "] = 1 on same vector :	";
 
 	ft[MEDIUM / 4] = 1;
 	stl[MEDIUM / 4] = 1;
@@ -916,8 +915,7 @@ static bool elements_access_tests(bool time_check)
 	if (!(print_test_result(ft[MEDIUM / 4] == stl[MEDIUM / 4])))
 		return false;
 
-	std::cout << std::endl << "#######################################" << std::endl << std::endl
-		<< "const vector[" << MEDIUM / 4 << "] on same vector :	" << std::endl << std::endl;
+	std::cout << "const vector[" << MEDIUM / 4 << "] :		";
 
 	const int	ft_const = ft[MEDIUM / 4];
 	const int	stl_const = stl[MEDIUM / 4];
@@ -926,7 +924,8 @@ static bool elements_access_tests(bool time_check)
 		return false;
 
 	std::cout << std::endl << "#######################################" << std::endl << std::endl
-		<< "accessing vector.at(" << MEDIUM / 4 << ") on same vector :	" << std::endl << std::endl;
+		<< "function at()" << std::endl << std::endl
+		<< "accessing vector.at(" << MEDIUM / 4 << ") :	";
 
 	if (!(print_test_result(ft.at(MEDIUM / 4) == stl.at(MEDIUM / 4))))
 		return false;
@@ -950,8 +949,7 @@ static bool elements_access_tests(bool time_check)
 			return false;
 	}
 
-	std::cout << std::endl << "#######################################" << std::endl << std::endl
-		<< " vector.at(" << MEDIUM / 4 << ") = 2 on same vector :	" << std::endl << std::endl;
+	std::cout << "vector.at(" << MEDIUM / 4 << ") = 2 :		";
 
 	ft.at(MEDIUM / 4) = 2;
 	stl.at(MEDIUM / 4) = 2;
@@ -959,8 +957,7 @@ static bool elements_access_tests(bool time_check)
 	if (!(print_test_result(ft.at(MEDIUM / 4) == stl.at(MEDIUM / 4))))
 		return false;
 
-	std::cout << std::endl << "#######################################" << std::endl << std::endl
-		<< "const vector.at(" << MEDIUM / 4 << ") on same vector :	" << std::endl << std::endl;
+	std::cout << "const vector.at(" << MEDIUM / 4 << ") :		";
 
 	const int	ft_const2 = ft.at(MEDIUM / 4);
 	const int	stl_const2 = stl.at(MEDIUM / 4);
@@ -971,8 +968,9 @@ static bool elements_access_tests(bool time_check)
 	if (!at_try_catch(ft, stl))
 		return false;
 
-	std::cout << std::endl << "#######################################" << std::endl << std::endl
-		<< "accessing vector.front() on same vector :	" << std::endl << std::endl;
+	std::cout << std::endl<< "#######################################" << std::endl << std::endl
+		<< "function front()" << std::endl << std::endl
+		<< "accessing vector.front() :	";
 
 	if (!(print_test_result(ft.front() == stl.front())))
 		return false;
@@ -996,8 +994,7 @@ static bool elements_access_tests(bool time_check)
 			return false;
 	}
 
-	std::cout << std::endl << "#######################################" << std::endl << std::endl
-		<< " vector.front() = 2 on same vector :	" << std::endl << std::endl;
+	std::cout << "vector.front() = 2 :		";
 
 	ft.front() = 2;
 	stl.front() = 2;
@@ -1005,8 +1002,7 @@ static bool elements_access_tests(bool time_check)
 	if (!(print_test_result(ft.front() == stl.front())))
 		return false;
 
-	std::cout << std::endl << "#######################################" << std::endl << std::endl
-		<< "const vector.front() on same vector :	" << std::endl << std::endl;
+	std::cout << "const vector.front() :		";
 
 	const int	ft_const3 = ft.front();
 	const int	stl_const3 = stl.front();
@@ -1015,7 +1011,8 @@ static bool elements_access_tests(bool time_check)
 		return false;
 
 	std::cout << std::endl << "#######################################" << std::endl << std::endl
-		<< "accessing vector.back() on same vector :	" << std::endl << std::endl;
+		<< "function back()" << std::endl << std::endl
+		<< "accessing vector.back() :	";
 
 	if (!(print_test_result(ft.back() == stl.back())))
 		return false;
@@ -1039,8 +1036,7 @@ static bool elements_access_tests(bool time_check)
 			return false;
 	}
 
-	std::cout << std::endl << "#######################################" << std::endl << std::endl
-		<< " vector.back() = 6 on same vector :	" << std::endl << std::endl;
+	std::cout << "vector.back() = 6 :		";
 
 	ft.back() = 6;
 	stl.back() = 6;
@@ -1048,8 +1044,7 @@ static bool elements_access_tests(bool time_check)
 	if (!(print_test_result(ft.back() == stl.back())))
 		return false;
 
-	std::cout << std::endl << "#######################################" << std::endl << std::endl
-		<< "const vector.back() on same vector :	" << std::endl << std::endl;
+	std::cout << "const vector.back() :		";
 
 	const int	ft_const4 = ft.back();
 	const int	stl_const4 = stl.back();

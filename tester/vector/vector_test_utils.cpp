@@ -161,7 +161,7 @@ bool	at_try_catch(ft::vector<int> &ft, std::vector<int> &stl)
 	bool	stl_catch;
 
 	std::cout << std::endl << "#######################################" << std::endl << std::endl
-		<< "try/catch with vector.at(" << MEDIUM - 1 << ") on same vector :	" << std::endl;
+		<< "try/catch with vector.at(" << MEDIUM - 1 << ") :	";
 
 	try
 	{
@@ -184,7 +184,7 @@ bool	at_try_catch(ft::vector<int> &ft, std::vector<int> &stl)
 	if (!(print_test_result(ft_catch == stl_catch)))
 		return false;
 
-	std::cout << "try/catch with vector.at(" << MEDIUM << ") on same vector :	" << std::endl;
+	std::cout << "try/catch with vector.at(" << MEDIUM << ") :	";
 
 	try
 	{
@@ -207,7 +207,7 @@ bool	at_try_catch(ft::vector<int> &ft, std::vector<int> &stl)
 	if (!(print_test_result(ft_catch == stl_catch)))
 		return false;
 
-	std::cout << "try/catch with vector.at(" << MEDIUM + 1<< ") on same vector :	" << std::endl;
+	std::cout << "try/catch with vector.at(" << MEDIUM + 1<< ") :	";
 
 	try
 	{
