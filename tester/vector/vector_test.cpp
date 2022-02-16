@@ -1764,6 +1764,11 @@ static bool	clear_tests(bool time_check)
 	return true;
 }
 
+static bool	relationnal_operators_test()
+{
+	return true;
+}
+
 bool	vector_test(bool time_check)
 {
 	if (default_constructor_test(time_check) == false)
@@ -1806,6 +1811,9 @@ bool	vector_test(bool time_check)
 		return false;
 
 	if (clear_tests(time_check) == false)
+		return false;
+
+	if (relationnal_operators_test() == false)
 		return false;
 
 	std::cout << std::endl << "*****************************************************" << std::endl << std::endl
