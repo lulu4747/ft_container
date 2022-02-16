@@ -871,6 +871,195 @@ static bool	reserve_tests(bool time_check)
 	return true;
 }
 
+static bool elements_access_tests(bool time_check)
+{
+	std::cout << "_______________________________________________" << std::endl
+		<< "Elements Access tests" << std::endl
+		<< std::endl << "#######################################" << std::endl << std::endl
+		<< "operator[]" << std::endl << std::endl
+		<< "accessing vector[" << MEDIUM / 4 << "] in randomly filled vector of size "
+		<< MEDIUM << " :	" << std::endl << std::endl;
+
+	ft::vector<int>		ft;
+	std::vector<int>	stl;
+
+	get_identical_random_filled_vectors(MEDIUM, &ft, &stl);
+
+	if (!(print_test_result(ft[MEDIUM / 4] == stl[MEDIUM / 4])))
+		return false;
+
+	if (time_check)
+	{
+		timeval				start, end;
+		double				ft_time, stl_time;
+
+		print_time_start(&start);
+		for (int i = 0; i <= NB_REPEAT; i++)
+			ft[MEDIUM / 4];
+		gettimeofday(&end, nullptr);
+		ft_time = timeval_diff_to_ms(start, end);
+		gettimeofday(&start, nullptr);
+		for (int i = 0; i <= NB_REPEAT; i++)
+			stl[MEDIUM / 4];
+		gettimeofday(&end, nullptr);
+		stl_time = timeval_diff_to_ms(start, end);
+		if (print_test_result(ft_time <= (stl_time * 20)) == false)
+			return false;
+	}
+
+	std::cout << std::endl << "#######################################" << std::endl << std::endl
+		<< " vector[" << MEDIUM / 4 << "] = 1 on same vector :	" << std::endl << std::endl;
+
+	ft[MEDIUM / 4] = 1;
+	stl[MEDIUM / 4] = 1;
+
+	if (!(print_test_result(ft[MEDIUM / 4] == stl[MEDIUM / 4])))
+		return false;
+
+	std::cout << std::endl << "#######################################" << std::endl << std::endl
+		<< "const vector[" << MEDIUM / 4 << "] on same vector :	" << std::endl << std::endl;
+
+	const int	ft_const = ft[MEDIUM / 4];
+	const int	stl_const = stl[MEDIUM / 4];
+
+	if (!(print_test_result(ft_const == stl_const)))
+		return false;
+
+	std::cout << std::endl << "#######################################" << std::endl << std::endl
+		<< "accessing vector.at(" << MEDIUM / 4 << ") on same vector :	" << std::endl << std::endl;
+
+	if (!(print_test_result(ft.at(MEDIUM / 4) == stl.at(MEDIUM / 4))))
+		return false;
+
+	if (time_check)
+	{
+		timeval				start, end;
+		double				ft_time, stl_time;
+
+		print_time_start(&start);
+		for (int i = 0; i <= NB_REPEAT; i++)
+			ft.at(MEDIUM / 4);
+		gettimeofday(&end, nullptr);
+		ft_time = timeval_diff_to_ms(start, end);
+		gettimeofday(&start, nullptr);
+		for (int i = 0; i <= NB_REPEAT; i++)
+			stl.at(MEDIUM / 4);
+		gettimeofday(&end, nullptr);
+		stl_time = timeval_diff_to_ms(start, end);
+		if (print_test_result(ft_time <= (stl_time * 20)) == false)
+			return false;
+	}
+
+	std::cout << std::endl << "#######################################" << std::endl << std::endl
+		<< " vector.at(" << MEDIUM / 4 << ") = 2 on same vector :	" << std::endl << std::endl;
+
+	ft.at(MEDIUM / 4) = 2;
+	stl.at(MEDIUM / 4) = 2;
+
+	if (!(print_test_result(ft.at(MEDIUM / 4) == stl.at(MEDIUM / 4))))
+		return false;
+
+	std::cout << std::endl << "#######################################" << std::endl << std::endl
+		<< "const vector.at(" << MEDIUM / 4 << ") on same vector :	" << std::endl << std::endl;
+
+	const int	ft_const2 = ft.at(MEDIUM / 4);
+	const int	stl_const2 = stl.at(MEDIUM / 4);
+
+	if (!(print_test_result(ft_const2 == stl_const2)))
+		return false;
+
+	if (!at_try_catch(ft, stl))
+		return false;
+
+	std::cout << std::endl << "#######################################" << std::endl << std::endl
+		<< "accessing vector.front() on same vector :	" << std::endl << std::endl;
+
+	if (!(print_test_result(ft.front() == stl.front())))
+		return false;
+
+	if (time_check)
+	{
+		timeval				start, end;
+		double				ft_time, stl_time;
+
+		print_time_start(&start);
+		for (int i = 0; i <= NB_REPEAT; i++)
+			ft.front();
+		gettimeofday(&end, nullptr);
+		ft_time = timeval_diff_to_ms(start, end);
+		gettimeofday(&start, nullptr);
+		for (int i = 0; i <= NB_REPEAT; i++)
+			stl.front();
+		gettimeofday(&end, nullptr);
+		stl_time = timeval_diff_to_ms(start, end);
+		if (print_test_result(ft_time <= (stl_time * 20)) == false)
+			return false;
+	}
+
+	std::cout << std::endl << "#######################################" << std::endl << std::endl
+		<< " vector.front() = 2 on same vector :	" << std::endl << std::endl;
+
+	ft.front() = 2;
+	stl.front() = 2;
+
+	if (!(print_test_result(ft.front() == stl.front())))
+		return false;
+
+	std::cout << std::endl << "#######################################" << std::endl << std::endl
+		<< "const vector.front() on same vector :	" << std::endl << std::endl;
+
+	const int	ft_const3 = ft.front();
+	const int	stl_const3 = stl.front();
+
+	if (!(print_test_result(ft_const3 == stl_const3)))
+		return false;
+
+	std::cout << std::endl << "#######################################" << std::endl << std::endl
+		<< "accessing vector.back() on same vector :	" << std::endl << std::endl;
+
+	if (!(print_test_result(ft.back() == stl.back())))
+		return false;
+
+	if (time_check)
+	{
+		timeval				start, end;
+		double				ft_time, stl_time;
+
+		print_time_start(&start);
+		for (int i = 0; i <= NB_REPEAT; i++)
+			ft.back();
+		gettimeofday(&end, nullptr);
+		ft_time = timeval_diff_to_ms(start, end);
+		gettimeofday(&start, nullptr);
+		for (int i = 0; i <= NB_REPEAT; i++)
+			stl.back();
+		gettimeofday(&end, nullptr);
+		stl_time = timeval_diff_to_ms(start, end);
+		if (print_test_result(ft_time <= (stl_time * 20)) == false)
+			return false;
+	}
+
+	std::cout << std::endl << "#######################################" << std::endl << std::endl
+		<< " vector.back() = 6 on same vector :	" << std::endl << std::endl;
+
+	ft.back() = 6;
+	stl.back() = 6;
+
+	if (!(print_test_result(ft.back() == stl.back())))
+		return false;
+
+	std::cout << std::endl << "#######################################" << std::endl << std::endl
+		<< "const vector.back() on same vector :	" << std::endl << std::endl;
+
+	const int	ft_const4 = ft.back();
+	const int	stl_const4 = stl.back();
+
+	if (!(print_test_result(ft_const4 == stl_const4)))
+		return false;
+
+	return true;
+}
+
 bool	vector_test(bool time_check)
 {
 	if (default_constructor_test(time_check) == false)
@@ -892,6 +1081,9 @@ bool	vector_test(bool time_check)
 		return false;
 
 	if (reserve_tests(time_check) == false)
+		return false;
+
+	if (elements_access_tests(time_check) == false)
 		return false;
 /*
 	std::cout << "_______________________________________________" << std::endl

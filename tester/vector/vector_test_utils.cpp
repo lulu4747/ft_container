@@ -154,3 +154,81 @@ bool	recursive_call(bool (*f)(bool, int), bool time_check, int n)
 		return f(time_check, EXTRA_LARGE);
 	return true;
 }
+
+bool	at_try_catch(ft::vector<int> &ft, std::vector<int> &stl)
+{
+	bool	ft_catch;
+	bool	stl_catch;
+
+	std::cout << std::endl << "#######################################" << std::endl << std::endl
+		<< "try/catch with vector.at(" << MEDIUM - 1 << ") on same vector :	" << std::endl;
+
+	try
+	{
+		ft.at(MEDIUM - 1);
+		ft_catch = false;
+	}
+	catch(std::exception &e)
+	{
+		ft_catch = true;
+	}
+	try
+	{
+		stl.at(MEDIUM - 1);
+		stl_catch = false;
+	}
+	catch(std::exception &e)
+	{
+		stl_catch = true;
+	}
+	if (!(print_test_result(ft_catch == stl_catch)))
+		return false;
+
+	std::cout << "try/catch with vector.at(" << MEDIUM << ") on same vector :	" << std::endl;
+
+	try
+	{
+		ft.at(MEDIUM);
+		ft_catch = false;
+	}
+	catch(std::exception &e)
+	{
+		ft_catch = true;
+	}
+	try
+	{
+		stl.at(MEDIUM);
+		stl_catch = false;
+	}
+	catch(std::exception &e)
+	{
+		stl_catch = true;
+	}
+	if (!(print_test_result(ft_catch == stl_catch)))
+		return false;
+
+	std::cout << "try/catch with vector.at(" << MEDIUM + 1<< ") on same vector :	" << std::endl;
+
+	try
+	{
+		ft.at(MEDIUM + 1);
+		ft_catch = false;
+	}
+	catch(std::exception &e)
+	{
+		ft_catch = true;
+	}
+	try
+	{
+		stl.at(MEDIUM + 1);
+		stl_catch = false;
+	}
+	catch(std::exception &e)
+	{
+		stl_catch = true;
+	}
+	if (!(print_test_result(ft_catch == stl_catch)))
+		return false;
+	return true;
+}
+

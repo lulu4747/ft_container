@@ -211,14 +211,14 @@ namespace	ft
 
 		reference	at( size_type n )
 		{
-			if ( n > size() )
+			if ( n >= size() )
 				throw	std::out_of_range("vector");
 			return _data[n];
 		}
 
 		const_reference	at( size_type n ) const
 		{
-			if ( n > size() )
+			if ( n >= size() )
 				throw	std::out_of_range("vector");
 			return _data[n];
 		}
@@ -235,22 +235,12 @@ namespace	ft
 
 		reference	back( void )
 		{
-			return	*(_data + size());
+			return	*(_end - 1);
 		}
 
 		const_reference	back( void ) const
 		{
-			return	const_reference(*(_data + size()));
-		}
-
-		pointer	data( void )
-		{
-			return _data;
-		}
-
-		const_pointer	data( void ) const
-		{
-			return const_pointer(_data);
+			return	const_reference(*(_end - 1));
 		}
 
 		//	Modifier
