@@ -1463,7 +1463,115 @@ static bool	insert_tests(bool time_check)
 
 static bool	erase_tests(bool time_check)
 {
-	time_check = false;
+	std::cout << "_______________________________________________" << std::endl
+		<< "erase tests" << std::endl << std::endl
+		<< "using randomly generated vector with size = " << MEDIUM << std::endl << std::endl
+		<< "#######################################" << std::endl << std::endl
+		<< "erase single value (begin() + size() / 4)" << std::endl << std::endl;
+
+	ft::vector<int>		ft;
+	std::vector<int>	stl;
+	ft::vector<int>		*ft_tmp;
+	std::vector<int>	*stl_tmp;
+
+	get_identical_random_filled_vectors(MEDIUM, &ft, &stl);
+
+	ft.erase(ft.begin() + (ft.size() / 4));
+	stl.erase(stl.begin() + (stl.size() / 4));
+
+	if (!(print_test_result(attributes_compare(ft, stl))))
+		return false;
+
+	if(time_check)
+	{
+		timeval				start, end;
+		double				ft_time, stl_time;
+
+		print_time_start(&start);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			ft_tmp = new ft::vector<int>(ft);
+			stl_tmp = new std::vector<int>(stl);
+
+			ft_tmp->erase(ft_tmp->begin() + (ft_tmp->size() / 4));
+
+			delete ft_tmp;
+			delete stl_tmp;
+		}
+		gettimeofday(&end, nullptr);
+		ft_time = timeval_diff_to_ms(start, end);
+		gettimeofday(&start, nullptr);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			ft_tmp = new ft::vector<int>(ft);
+			stl_tmp = new std::vector<int>(stl);
+
+			stl_tmp->erase(stl_tmp->begin() + (stl_tmp->size() / 4));
+
+			delete ft_tmp;
+			delete stl_tmp;
+		}
+		gettimeofday(&end, nullptr);
+		stl_time = timeval_diff_to_ms(start, end);
+		if (print_test_result(ft_time <= (stl_time * 20)) == false)
+			return false;
+	}
+
+	std::cout << std::endl << std::endl
+		<< "#######################################" << std::endl << std::endl
+		<< "erase range from (begin() + size() / 8) to (begin() + size() / 2)" << std::endl << std::endl;
+
+	ft.erase(ft.begin() + (ft.size() / 8), ft.begin() + (ft.size() / 2));
+	stl.erase(stl.begin() + (stl.size() / 8), stl.begin() + (stl.size() / 2));
+
+	if (!(print_test_result(attributes_compare(ft, stl))))
+		return false;
+
+	if(time_check)
+	{
+		timeval				start, end;
+		double				ft_time, stl_time;
+
+		print_time_start(&start);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			ft_tmp = new ft::vector<int>(ft);
+			stl_tmp = new std::vector<int>(stl);
+
+			ft_tmp->erase(ft_tmp->begin() + (ft_tmp->size() / 8), ft_tmp->begin() + (ft_tmp->size() / 2));
+
+			delete ft_tmp;
+			delete stl_tmp;
+		}
+		gettimeofday(&end, nullptr);
+		ft_time = timeval_diff_to_ms(start, end);
+		gettimeofday(&start, nullptr);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			ft_tmp = new ft::vector<int>(ft);
+			stl_tmp = new std::vector<int>(stl);
+
+			stl_tmp->erase(stl_tmp->begin() + (stl_tmp->size() / 8), stl_tmp->begin() + (stl_tmp->size() / 2));
+
+			delete ft_tmp;
+			delete stl_tmp;
+		}
+		gettimeofday(&end, nullptr);
+		stl_time = timeval_diff_to_ms(start, end);
+		if (print_test_result(ft_time <= (stl_time * 20)) == false)
+			return false;
+	}
+
+	std::cout << std::endl << std::endl
+		<< "#######################################" << std::endl << std::endl
+		<< "erase range from begin() to end()" << std::endl << std::endl;
+
+	ft.erase(ft.begin(), ft.end());
+	stl.erase(stl.begin(), stl.end());
+
+	if (!(print_test_result(attributes_compare(ft, stl))))
+		return false;
+
 	return true;
 }
 

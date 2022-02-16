@@ -396,22 +396,18 @@ namespace	ft
 
 		iterator erase (iterator first, iterator last)
 		{
-			size_type	range = 0;
+			difference_type	diff(last - first);
+			pointer			ptr(&(*first));
 
-			for (iterator it = first; it != last; it++)
+			for (int i = 0; i < diff ; i++, first++)
+				_alloc.destroy(&(*first));
+			for (int i = 0; ptr + i < _end - diff; i++)
 			{
-				if (*it)
-					_alloc.destroy(&(*(it)));
-				range++;
+				_alloc.construct(ptr + i, *(ptr + diff + i));
+				_alloc.destroy(ptr + diff + i);
 			}
-			while (first != last)
-			{
-				_alloc.construct(&(*first), *(first + range));
-				first++;
-			}
-			while (range--)
-				pop_back();
-			return first;
+			_end -= diff;
+			return iterator(ptr);
 		}
 
 		void swap(vector& x)
