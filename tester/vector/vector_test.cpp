@@ -1600,7 +1600,7 @@ static bool	swap_tests(bool time_check)
 	if (!(print_test_result(attributes_compare(ft2, stl2))))
 		return false;
 
-	if(time_check)
+	if (time_check)
 	{
 		timeval				start, end;
 		double				ft_time, stl_time;
@@ -1638,12 +1638,129 @@ static bool	swap_tests(bool time_check)
 	if (!(print_test_result(attributes_compare(ft2, stl2))))
 		return false;
 
+	if(time_check)
+	{
+		timeval				start, end;
+		double				ft_time, stl_time;
+
+		print_time_start(&start);
+		for (int i = 0; i <= NB_REPEAT; i++)
+			ft1.swap(ft2);
+		gettimeofday(&end, nullptr);
+		ft_time = timeval_diff_to_ms(start, end);
+		gettimeofday(&start, nullptr);
+		for (int i = 0; i <= NB_REPEAT; i++)
+			stl1.swap(stl2);
+		gettimeofday(&end, nullptr);
+		stl_time = timeval_diff_to_ms(start, end);
+		if (print_test_result(ft_time <= (stl_time * 20)) == false)
+			return false;
+	}
+
 	return true;
 }
 
 static bool	clear_tests(bool time_check)
 {
-	time_check = false;
+	std::cout << "_______________________________________________" << std::endl
+		<< "clear tests" << std::endl << std::endl
+		<< "Empty :			" << std::endl;
+
+	ft::vector<int>		ft;
+	std::vector<int>	stl;
+
+	ft.clear();
+	stl.clear();
+
+	if (!(print_test_result(attributes_compare(ft, stl))))
+		return false;
+
+	std::cout << std::endl << std::endl
+		<< "#######################################" << std::endl << std::endl
+		<< "random vector with size = " << SHORT << std::endl << std::endl;
+
+	get_identical_random_filled_vectors(SHORT, &ft, &stl);
+
+	ft.clear();
+	stl.clear();
+
+	if (!(print_test_result(attributes_compare(ft, stl))))
+		return false;
+
+	std::cout << std::endl << std::endl
+		<< "#######################################" << std::endl << std::endl
+		<< "random vector with size = " << MEDIUM << std::endl << std::endl;
+
+	get_identical_random_filled_vectors(MEDIUM, &ft, &stl);
+
+	ft.clear();
+	stl.clear();
+
+	if (!(print_test_result(attributes_compare(ft, stl))))
+		return false;
+
+	std::cout << std::endl << std::endl
+		<< "#######################################" << std::endl << std::endl
+		<< "random vector with size = " << LARGE << std::endl << std::endl;
+
+	get_identical_random_filled_vectors(LARGE, &ft, &stl);
+
+	ft.clear();
+	stl.clear();
+
+	if (!(print_test_result(attributes_compare(ft, stl))))
+		return false;
+
+	std::cout << std::endl << std::endl
+		<< "#######################################" << std::endl << std::endl
+		<< "random vector with size = " << EXTRA_LARGE << std::endl << std::endl;
+
+	get_identical_random_filled_vectors(EXTRA_LARGE, &ft, &stl);
+
+	ft.clear();
+	stl.clear();
+
+	if (!(print_test_result(attributes_compare(ft, stl))))
+		return false;
+
+	if (time_check)
+	{
+		ft::vector<int>		*ft_tmp;
+		std::vector<int>	*stl_tmp;
+		timeval				start, end;
+		double				ft_time, stl_time;
+
+		get_identical_random_filled_vectors(EXTRA_LARGE, &ft, &stl);
+		print_time_start(&start);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			ft_tmp = new ft::vector<int>(ft);
+			stl_tmp = new std::vector<int>(stl);
+
+			ft_tmp->clear();
+
+			delete ft_tmp;
+			delete stl_tmp;
+		}
+		gettimeofday(&end, nullptr);
+		ft_time = timeval_diff_to_ms(start, end);
+		gettimeofday(&start, nullptr);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			ft_tmp = new ft::vector<int>(ft);
+			stl_tmp = new std::vector<int>(stl);
+
+			stl_tmp->clear();
+
+			delete ft_tmp;
+			delete stl_tmp;
+		}
+		gettimeofday(&end, nullptr);
+		stl_time = timeval_diff_to_ms(start, end);
+		if (print_test_result(ft_time <= (stl_time * 20)) == false)
+			return false;
+	}
+
 	return true;
 }
 
@@ -1690,6 +1807,11 @@ bool	vector_test(bool time_check)
 
 	if (clear_tests(time_check) == false)
 		return false;
+
+	std::cout << std::endl << "*****************************************************" << std::endl << std::endl
+		<< "Vector :				";
+	print_test_result(true);
+	std::cout << std::endl << "*****************************************************" << std::endl;
 
 	return true;
 }
