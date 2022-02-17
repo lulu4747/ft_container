@@ -56,6 +56,7 @@ namespace	ft
 				_end_node->left = _end_node;
 				_end_node->parent = _end_node;
 				_end_node->red = false;
+				_end_node->nill = true;
 			}
 
 			rb_tree(rb_tree const& src):rb_tree()
@@ -72,8 +73,6 @@ namespace	ft
 
 			void	copy(rb_tree const& src)
 			{
-				pointer	new_val;
-
 				if (!(empty()))
 					clear();
 				_comp = src.get_comp();
@@ -265,17 +264,17 @@ namespace	ft
 				return	_root;
 			}
 
-			node_pointer	get_comp()	const
+			key_compare	get_comp()	const
 			{
 				return	_comp;
 			}
 
-			node_pointer	get_value_allocator()	const
+			value_allocator_type	get_value_allocator()	const
 			{
 				return	_value_alloc;
 			}
 
-			node_pointer	get_node_allocator()	const
+			node_allocator_type	get_node_allocator()	const
 			{
 				return	_node_alloc;
 			}
@@ -329,7 +328,7 @@ namespace	ft
 			{
 				size_type	size(1);
 
-				if (!ptr->value)
+				if (ptr == _end_node)
 					return 0;
 				size += _size(ptr->left);
 				size += _size(ptr->right);
@@ -361,15 +360,15 @@ namespace	ft
 				**		copy() helper		**
 	*/
 
-			void	_copy(node_pointer	src)
+			void	_copy(node_pointer src)
 			{
 				pointer	new_val(_value_alloc.allocate(1));
 
 				_value_alloc.construct(new_val, make_pair(src->key(), src->value->second));
 				_root_init(new_val);
-				if (src->left != src.get_end_node())
+				if (!src->left->nill)
 					_root->left = _copy(_root, src->left);
-				if (src->right != src.get_end_node())
+				if (!src->right->nill)
 					_root->right = _copy(_root, src->right);
 				_end_node->left = _root->leftmost();
 				_end_node->right = _root->rightmost();

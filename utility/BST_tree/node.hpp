@@ -23,6 +23,7 @@ namespace	ft
 			pointer			left;
 			pointer			right;
 			value_pointer	value;
+			bool			nill;
 			bool			red;
 			bool			double_black;
 
@@ -33,6 +34,7 @@ namespace	ft
 				left(src_left),
 				right(src_right),
 				value(src_value),
+				nill(false),
 				red(true),
 				double_black(false)
 			{}
@@ -50,6 +52,7 @@ namespace	ft
 					left = rhs.left;
 					right = rhs.right;
 					value = rhs.value;
+					nill = rhs.nill;
 					red = rhs.red;
 					double_black = rhs.double_black;
 				}
