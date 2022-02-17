@@ -1,10 +1,6 @@
 #ifndef RB_TREE_HPP
 # define RB_TREE_HPP
 
-//
-# include <iostream>
-//
-
 # include <memory>
 # include "node.hpp"
 # include "../functionnal.hpp"

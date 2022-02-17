@@ -1,8 +1,6 @@
 #ifndef BINARY_SEARCH_TREE_ITERATOR
 # define BINARY_SEARCH_TREE_ITERATOR
-//
-#include <iostream>
-//
+
 # include "Iterator.hpp"
 # include "../functionnal.hpp"
 # include "../BST_tree/node.hpp"
@@ -10,7 +8,7 @@
 namespace	ft
 {
 	template< typename T >
-	class	Binary_Search_Tree_Iterator : public iterator_traits< Iterator< Bidirectional_Iterator_tag, T > >
+	class	Binary_Search_Tree_Iterator : Iterator< Bidirectional_Iterator_tag, T >
 	{
 
 	public :

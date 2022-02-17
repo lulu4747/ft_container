@@ -90,9 +90,48 @@ static bool	copy_constructor_test(bool time_check, int n)
 
 static bool	range_constructor_test(bool time_check, int n)
 {
-	n++;
-	time_check = false;
-	return true;
+	if (n == EMPTY)
+	{
+		std::cout << "_______________________________________________" << std::endl
+			<< "range construction" << std::endl << "empty range :" << std::endl;
+	}
+	else
+	{
+		std::cout << std::endl << "#######################################" << std::endl
+			<< n << " range :" << std::endl;
+	}
+
+	ft::map< int, char >	ft_src;
+	std::map< int, char >	stl_src;
+
+	get_identical_random_filled_maps(n, &ft_src, &stl_src);
+
+	ft::map< int, char>		ft(ft_src.begin(), ft_src.end());
+	std::map< int, char>	stl(stl_src.begin(), stl_src.end());
+
+	if (!(print_test_result(map_compare(ft, stl))))
+		return false;
+
+	if (time_check && n != EXTRA_LARGE)
+	{
+		timeval	start, end;
+		double	ft_time, stl_time;
+
+		print_time_start(&start);
+		for (int i = 0; i <= NB_REPEAT; i++)
+			range_construction< ft::map< int, char> >(ft_src.begin(), ft_src.end());
+		gettimeofday(&end, nullptr);
+		ft_time = timeval_diff_to_ms(start, end);
+		gettimeofday(&start, nullptr);
+		for (int i = 0; i <= NB_REPEAT; i++)
+			range_construction< std::map< int, char> >(stl_src.begin(), stl_src.end());
+		gettimeofday(&end, nullptr);
+		stl_time = timeval_diff_to_ms(start, end);
+		if (print_test_result(ft_time <= (stl_time * 20)) == false)
+			return false;
+	}
+	//time_check = false;
+	return recursive_call(&range_constructor_test, time_check, n);
 }
 
 static bool	iterators_test(bool time_check)

@@ -65,21 +65,13 @@ namespace	ft
 		map(InputIt first, InputIt last,
 				const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type(),
 				typename enable_if<!is_integral<InputIt>::value, InputIt >::type* = NULL)
-			: map< key_type, mapped_type, key_compare , allocator_type >(comp, alloc)
+			: _data(comp, alloc), _comp(comp), _alloc(alloc)
 		{
 
 			if(!(is_input_iterator_tagged< typename iterator_traits<InputIt>::iterator_category >::value))
 				throw std::invalid_argument("In ft::Map(InputIt first, InputIt last), InputIt class is'nt at least ft::InputIterator tagged");
 
-			pointer	new_val;
-
-			while (first != last)
-			{
-				new_val = &(*first);
-				_data.insert(*new_val);
-				new_val = NULL;
-				first++;
-			}
+			insert(first, last);
 		}
 
 		map( map const & src)
@@ -224,7 +216,7 @@ namespace	ft
 
 			while (first != last)
 			{
-				_data[*first.first] = *first.second;
+				insert(*first);
 				first++;
 			}
 			return ;

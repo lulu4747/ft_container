@@ -44,8 +44,8 @@ void	fill_construction(typename CONTAINER::size_type n, typename CONTAINER::valu
 {	CONTAINER	container(n, val);		}
 
 template < class CONTAINER , class ITERATOR >
-void	range_construction(ITERATOR start, ITERATOR end)
-{	CONTAINER	container(start, end);	}
+void	range_construction(ITERATOR first, ITERATOR last)
+{	CONTAINER	container(first, last);	}
 
 /*
 **		tests	**
