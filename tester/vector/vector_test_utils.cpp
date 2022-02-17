@@ -186,19 +186,6 @@ bool	iterator_time_check(void (*ft_func)(ft::vector<int>&), void (*stl_func)(std
 	return true;
 }
 
-bool	recursive_call(bool (*f)(bool, int), bool time_check, int n)
-{
-	if (n == EMPTY)
-		return f(time_check, SHORT);
-	if (n == SHORT)
-		return f(time_check, MEDIUM);
-	if (n == MEDIUM)
-		return f(time_check, LARGE);
-	if (n == LARGE)
-		return f(time_check, EXTRA_LARGE);
-	return true;
-}
-
 bool	at_try_catch(ft::vector<int> &ft, std::vector<int> &stl)
 {
 	bool	ft_catch;

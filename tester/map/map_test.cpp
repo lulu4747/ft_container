@@ -1,5 +1,7 @@
 #include <iostream>
+#include <string>
 #include <map>
+#include <sys/time.h>
 #include "map_test.hpp"
 #include "../tester.hpp"
 #include "../../ft_containers/map.hpp"
@@ -13,24 +15,53 @@
 
 static bool	default_constructor_test(bool time_check)
 {
-	time_check = false;
+	std::cout << "_______________________________________________" << std::endl
+		<< "	map" << std::endl << std::endl
+		<< "default construction" << std::endl << std::endl;
+	ft::map<int, char>		ft;
+	std::map<int, char>	stl;
+
+	if (!(print_test_result(map_compare(ft, stl))))
+		return false;
+
+	if (time_check)
+	{
+		timeval	start, end;
+		double	ft_time, stl_time;
+
+		print_time_start(&start);
+		for (int i = 0; i <= NB_REPEAT; i++)
+			default_construction< ft::map<int, char> >();
+		gettimeofday(&end, nullptr);
+		ft_time = timeval_diff_to_ms(start, end);
+		gettimeofday(&start, nullptr);
+		for (int i = 0; i <= NB_REPEAT; i++)
+			default_construction< std::map<int, char> >();
+		gettimeofday(&end, nullptr);
+		stl_time = timeval_diff_to_ms(start, end);
+		if (print_test_result(ft_time <= (stl_time * 20)) == false)
+			return false;
+	}
 	return true;
 }
 
 static bool	copy_constructor_test(bool time_check, int size)
 {
+	size++;
 	time_check = false;
 	return true;
 }
 
 static bool	fill_constructor_test(bool time_check, int size)
 {
+	size++;
 	time_check = false;
 	return true;
 }
 
 static bool	range_constructor_test(bool time_check, int size)
 {
+	size++;
 	time_check = false;
 	return true;
 }
@@ -131,7 +162,7 @@ bool	map_test(bool time_check)
 		return false;
 
 	std::cout << std::endl << "*****************************************************" << std::endl << std::endl
-		<< "Vector :				";
+		<< "Map :				";
 	print_test_result(true);
 	std::cout << std::endl << "*****************************************************" << std::endl;
 

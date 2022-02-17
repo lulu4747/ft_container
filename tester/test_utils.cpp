@@ -28,3 +28,16 @@ void	print_time_start(timeval *start)
 	gettimeofday(start, nullptr);
 }
 
+
+bool	recursive_call(bool (*f)(bool, int), bool time_check, int n)
+{
+	if (n == EMPTY)
+		return f(time_check, SHORT);
+	if (n == SHORT)
+		return f(time_check, MEDIUM);
+	if (n == MEDIUM)
+		return f(time_check, LARGE);
+	if (n == LARGE)
+		return f(time_check, EXTRA_LARGE);
+	return true;
+}

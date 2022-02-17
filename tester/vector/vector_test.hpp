@@ -47,7 +47,6 @@ bool	iterator_time_check(void (*ft_func)(ft::vector<int> &), void (*stl_func)(st
 **			Utils										**
 */
 
-bool	recursive_call(bool (*f)(bool, int), bool time_check, int n);
 bool	at_try_catch(ft::vector<int> &ft, std::vector<int> &stl);
 
 #endif

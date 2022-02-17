@@ -2,6 +2,7 @@
 # define MAP_HPP
 
 # include <memory>
+# include "../utility/algorithm.hpp"
 # include "../utility/functionnal.hpp"
 # include "../utility/pair.hpp"
 # include "../utility/type_trait.hpp"

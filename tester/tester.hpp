@@ -55,4 +55,10 @@ bool	vector_test(bool time);
 bool	stack_test();
 bool	map_test(bool time_check);
 
+/*
+**		Util	**
+*/
+
+bool	recursive_call(bool (*f)(bool, int), bool time_check, int n);
+
 #endif

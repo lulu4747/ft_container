@@ -2,7 +2,6 @@
 #include <string>
 #include <sys/time.h>
 #include <vector>
-#include <cstdlib>
 #include "vector_test.hpp"
 #include "../tester.hpp"
 #include "../../ft_containers/vector.hpp"
