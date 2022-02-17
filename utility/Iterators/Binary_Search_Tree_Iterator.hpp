@@ -39,6 +39,11 @@ namespace	ft
 			return *this;
 		}
 
+		operator Binary_Search_Tree_Iterator< const T > () const
+		{
+			return Binary_Search_Tree_Iterator< const T >(this->_ptr);
+		}
+
 		reference	operator*()
 		{
 			return *(_ptr->value);

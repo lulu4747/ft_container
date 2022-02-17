@@ -92,16 +92,12 @@ namespace	ft
 
 		Reverse_Iterator operator+( difference_type n ) const
 		{
-			Reverse_Iterator	tmp(it - n);
-
-			return tmp;
+			return Reverse_Iterator(it - n);
 		}
 
 		Reverse_Iterator operator-( difference_type n ) const
 		{
-			Reverse_Iterator	tmp(it + n);
-
-			return tmp;
+			return Reverse_Iterator(it + n);
 		}
 
 		Reverse_Iterator& operator+=( difference_type n )

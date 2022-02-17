@@ -133,7 +133,7 @@ static bool	range_constructor_test(bool time_check, int n)
 
 	std::vector<int>	range(get_random_vector(n));
 
-	std::vector<int>::iterator	stl_it = range.begin();			// <-- Could not use same iterator constructor because it is private in STL
+	std::vector<int>::iterator	stl_it(range.begin());			// <-- Could not use same iterator constructor because it is private in STL
 	ft::vector<int>::iterator	ft_it = &(*(range.begin()));
 
 	if (&(*stl_it) != &(*ft_it))
@@ -1793,7 +1793,7 @@ static bool	swap_test(bool time_check)
 	}
 
 	std::cout << std::endl << std::endl
-		<< "first vector size = " << SHORT <<" and secon size = " << MEDIUM << std::endl;
+		<< "first vector size = " << SHORT <<" and second size = " << MEDIUM << std::endl;
 
 	ft2.clear();
 	stl2.clear();

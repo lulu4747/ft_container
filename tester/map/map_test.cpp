@@ -137,8 +137,8 @@ static bool	begin_test(bool time_check)
 {
 	std::cout << "begin() on empty map" << std::endl << std::endl << "compared with end() :	";
 
-	ft::map< int, char >		ft;
-	std::map< int, char >	stl;
+	ft::map< int, char >			ft;
+	std::map< int, char >			stl;
 	ft::map< int, char >::iterator	ft_it = ft.begin();
 	std::map< int, char >::iterator	stl_it = stl.begin();
 
@@ -164,7 +164,7 @@ static bool	begin_test(bool time_check)
 
 	while (ft_it != ft.end())
 	{
-		if (*ft_it != *stl_it)
+		if (ft_it->first != stl_it->first && ft_it->second != stl_it->second)
 			return false;
 		ft_it++;
 		stl_it++;
@@ -184,7 +184,7 @@ static bool	begin_test(bool time_check)
 
 	while (ft_cit != ft.end())
 	{
-		if (*ft_cit != *stl_cit)
+		if (ft_cit->first != stl_cit->first && ft_cit->second != stl_cit->second)
 			return false;
 		ft_cit++;
 		stl_cit++;
@@ -204,16 +204,16 @@ static bool	end_test(bool time_check)
 	std::map< int, char >			stl;
 
 	std::cout << std::endl << "#######################################" << std::endl
-		<< "end() - 1 on large (" << LARGE << ") map" << std::endl << std::endl << "while(it != begin())"
+		<< "--end() on large (" << LARGE << ") map" << std::endl << std::endl << "while(it != begin())"
 		<< std::endl << "it--; (*it == *stl_it)? :			";
 
 	get_identical_random_filled_maps(LARGE, &ft, &stl);
-	ft::map< int, char >::iterator	ft_it = ft.end() - 1;
-	std::map< int, char >::iterator	stl_it = stl.end() - 1;
+	ft::map< int, char >::iterator	ft_it = --ft.end();
+	std::map< int, char >::iterator	stl_it = --stl.end();
 
 	while (ft_it != ft.begin())
 	{
-		if (*ft_it != *stl_it)
+		if (ft_it->first != stl_it->first && ft_it->second != stl_it->second)
 			return false;
 		ft_it--;
 		stl_it--;
@@ -225,15 +225,15 @@ static bool	end_test(bool time_check)
 	if (time_check && iterator_time_check(&end_to_begin, &end_to_begin, ft, stl) == false)
 		return false;
 
-	std::cout << std::endl << "const end() - 1 on same map" << std::endl << std::endl << "while(cit != begin())"
+	std::cout << std::endl << "const end()-- on same map" << std::endl << std::endl << "while(cit != begin())"
 		<< std::endl << "cit--; (*cit == *stl_cit)? :			";
 
-	ft::map< int, char >::const_iterator		ft_cit = ft.end() - 1;
-	std::map< int, char >::const_iterator	stl_cit = stl.end() - 1;
+	ft::map< int, char >::const_iterator		ft_cit = --ft.end();
+	std::map< int, char >::const_iterator	stl_cit = --stl.end();
 
 	while (ft_cit != ft.begin())
 	{
-		if (*ft_cit != *stl_cit)
+		if (ft_cit->first != stl_cit->first && ft_cit->second != stl_cit->second)
 			return false;
 		ft_cit--;
 		stl_cit--;
@@ -278,7 +278,7 @@ static bool	rbegin_test(bool time_check)
 
 	while (ft_rit != ft.rend())
 	{
-		if (*ft_rit != *stl_rit)
+		if (ft_rit->first != stl_rit->first && ft_rit->second != stl_rit->second)
 			return false;
 		ft_rit++;
 		stl_rit++;
@@ -298,7 +298,7 @@ static bool	rbegin_test(bool time_check)
 
 	while (ft_crit != ft.rend())
 	{
-		if (*ft_crit != *stl_crit)
+		if (ft_crit->first != stl_crit->first && ft_crit->second != stl_crit->second)
 			return false;
 		ft_crit++;
 		stl_crit++;
@@ -314,19 +314,19 @@ static bool	rbegin_test(bool time_check)
 static bool	rend_test(bool time_check)
 {
 	std::cout << std::endl << "#######################################" << std::endl
-		<< "rend() - 1 on large (" << LARGE << ") map" << std::endl << std::endl << "while(rit != rbegin())"
+		<< "rend()-- on large (" << LARGE << ") map" << std::endl << std::endl << "while(rit != rbegin())"
 		<< std::endl << "rit--; (*rit == *stl_rit)? :			";
 
 	ft::map< int, char >				ft;
 	std::map< int, char >				stl;
 
 	get_identical_random_filled_maps(LARGE, &ft, &stl);
-	ft::map< int, char >::reverse_iterator	ft_rit = ft.rend() - 1;
-	std::map< int, char >::reverse_iterator	stl_rit = stl.rend() - 1;
+	ft::map< int, char >::reverse_iterator	ft_rit = --ft.rend();
+	std::map< int, char >::reverse_iterator	stl_rit = --stl.rend();
 
 	while (ft_rit != ft.rbegin())
 	{
-		if (*ft_rit != *stl_rit)
+		if (ft_rit->first != stl_rit->first && ft_rit->second != stl_rit->second)
 			return false;
 		ft_rit--;
 		stl_rit--;
@@ -341,12 +341,12 @@ static bool	rend_test(bool time_check)
 	std::cout << std::endl << "const rend() - 1 on same map" << std::endl << std::endl << "while(crit != rbegin())"
 		<< std::endl << "crit--; (*crit == *stl_crit)? :			";
 
-	ft::map< int, char >::const_reverse_iterator		ft_crit = ft.rend() - 1;
-	std::map< int, char >::const_reverse_iterator	stl_crit = stl.rend() - 1;
+	ft::map< int, char >::const_reverse_iterator		ft_crit = --ft.rend();
+	std::map< int, char >::const_reverse_iterator	stl_crit = --stl.rend();
 
 	while (ft_crit != ft.rbegin())
 	{
-		if (*ft_crit != *stl_crit)
+		if (ft_crit->first != stl_crit->first && ft_crit->second != stl_crit->second)
 			return false;
 		ft_crit--;
 		stl_crit--;
@@ -399,6 +399,32 @@ static bool	op_test(std::string it, FT_iterator &ft_it, STL_iterator &stl_it,
 	if (!print_test_result((--ft_it == ft_tmp) == (--stl_it == stl_tmp)))
 		return false;
 
+	std::cout << std::endl << "----------Comparison operators----------" << std::endl << std::endl
+		<< it << " == vector." << begin << "() ? :	";
+
+	if (!print_test_result((ft_it == ft_begin) == (stl_it == stl_begin)))
+		return false;
+
+	std::cout << it << " != vector." << begin << "() ? :	";
+
+	if (!print_test_result((ft_it != ft_begin) == (stl_it != stl_begin)))
+		return false;
+
+	std::cout << it << "++ == vector." << begin << "() ? :	";
+
+	if (!print_test_result((ft_it++ == ft_begin) == (stl_it++ == stl_begin)))
+		return false;
+
+	std::cout << it << " != vector." << begin << "() ? :	";
+
+	if (!print_test_result((ft_it != ft_begin) == (stl_it != stl_begin)))
+		return false;
+
+	std::cout << "--" << it << " == vector." << begin << "() ? :	";
+
+	if (!print_test_result((--ft_it == ft_begin) == (--stl_it == stl_begin)))
+		return false;
+
 	return true;
 }
 
@@ -413,7 +439,7 @@ static bool	operators_test()
 
 	ft::map< int, char >						ft;
 	std::map< int, char >						stl;
-	get_crescent_filled_maps(MEDIUM, &ft, &stl);
+	get_crescent_key_filled_maps(MEDIUM, &ft, &stl);
 
 	ft::map< int, char >::iterator				ft_it(ft.begin());
 	std::map< int, char >::iterator				stl_it(stl.begin());

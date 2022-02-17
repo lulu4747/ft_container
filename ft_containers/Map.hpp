@@ -102,22 +102,22 @@ namespace	ft
 
 		iterator	begin()
 		{
-			return _data.begin();
+			return iterator(_data.begin());
 		}
 
 		const_iterator	begin() const
 		{
-			return _data.begin();
+			return const_iterator(_data.begin());
 		}
 
 		iterator	end()
 		{
-			return _data.end();
+			return iterator(_data.end());
 		}
 
 		const_iterator	end() const
 		{
-			return _data.end();
+			return const_iterator(_data.end());
 		}
 
 		reverse_iterator	rbegin()
