@@ -17,11 +17,15 @@
 
 # define NB_REPEAT		10000
 
-//	output
+/*
+**		output	**
+*/
 
 bool	print_test_result(bool bl);
 
-//	time
+/*
+**		time	**
+*/
 
 void	print_time_start(timeval *start);
 
@@ -47,7 +51,8 @@ void	range_construction(ITERATOR start, ITERATOR end)
 **		tests	**
 */
 
-bool	stack_test();
 bool	vector_test(bool time);
+bool	stack_test();
+bool	map_test(bool time_check);
 
 #endif

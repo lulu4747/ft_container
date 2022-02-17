@@ -280,11 +280,6 @@ namespace	ft
 				return	_node_alloc;
 			}
 
-			void	tmp() const																								//LA
-			{
-				std::cout << _size(_root->left) << "	|	" << _size(_root->right) << std::endl;
-			}
-
 		private:
 
 	/*

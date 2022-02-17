@@ -48,5 +48,10 @@ int main(int argc, char **argv)
 		if (!(stack_test()))
 			return 1;
 	}
+	if (map)
+	{
+		if (!(map_test(time_check)))
+			return 1;
+	}
 	return 0;
 }
