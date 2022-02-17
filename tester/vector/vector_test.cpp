@@ -1054,6 +1054,150 @@ static bool elements_access_tests(bool time_check)
 	return true;
 }
 
+static bool	assign_test(bool time_check)
+{
+	int	val(std::rand());
+
+	std::cout << "_______________________________________________" << std::endl
+		<< "Assign" << std::endl << std::endl
+		<< std::endl << "#######################################" << std::endl << std::endl
+		<< "fill assign" << std::endl << std::endl
+		<< "vector.assign(" << MEDIUM << ", " << val << ") on empty vector" << std::endl;
+	
+	ft::vector<int>		*ft = new ft::vector<int>;
+	std::vector<int>	*stl = new std::vector<int>;
+
+	ft->assign(MEDIUM, val);
+	stl->assign(MEDIUM, val);
+
+	if (!(print_test_result(attributes_compare(*ft, *stl))))
+		return false;
+
+	if (time_check)
+	{
+		ft::vector<int>		*ft_tmp;
+		std::vector<int>	*stl_tmp;
+		timeval				start, end;
+		double				ft_time, stl_time;
+
+		print_time_start(&start);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			ft_tmp = new ft::vector<int>;
+			stl_tmp = new std::vector<int>;
+
+			ft_tmp->assign(MEDIUM, val);
+
+			delete ft_tmp;
+			delete stl_tmp;
+		}
+		gettimeofday(&end, nullptr);
+		ft_time = timeval_diff_to_ms(start, end);
+		gettimeofday(&start, nullptr);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			ft_tmp = new ft::vector<int>;
+			stl_tmp = new std::vector<int>;
+
+			stl_tmp->assign(MEDIUM, val);
+
+			delete ft_tmp;
+			delete stl_tmp;
+		}
+		gettimeofday(&end, nullptr);
+		stl_time = timeval_diff_to_ms(start, end);
+		if (print_test_result(ft_time <= (stl_time * 20)) == false)
+			return false;
+	}
+
+	val = std::rand();
+
+	std::cout << std::endl << std::endl
+		<< "vector.assign(" << LARGE << ", " << val
+		<< ") on previously assigned vector" << std::endl;
+
+	ft->assign(LARGE, val);
+	stl->assign(LARGE, val);
+
+	if (!(print_test_result(attributes_compare(*ft, *stl))))
+		return false;
+
+	delete	ft;
+	delete	stl;
+
+	std::cout << std::endl << "#######################################" << std::endl << std::endl
+		<< "range assign" << std::endl << std::endl
+		<< "Using a randomly filled source of size " << MEDIUM << " on empty vector" << std::endl;
+
+	ft::vector<int>		ft_src;
+	std::vector<int>	stl_src;
+	
+	ft = new ft::vector<int>;
+	stl = new std::vector<int>;
+
+	get_identical_random_filled_vectors(MEDIUM, &ft_src, &stl_src);
+	ft->assign(ft_src.begin(), ft_src.end());
+	stl->assign(stl_src.begin(), stl_src.end());
+
+	if (!(print_test_result(attributes_compare(*ft, *stl))))
+		return false;
+
+	if (time_check)
+	{
+		ft::vector<int>		*ft_tmp;
+		std::vector<int>	*stl_tmp;
+		timeval				start, end;
+		double				ft_time, stl_time;
+
+		print_time_start(&start);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			ft_tmp = new ft::vector<int>;
+			stl_tmp = new std::vector<int>;
+
+			ft_tmp->assign(ft_src.begin(), ft_src.end());
+
+			delete ft_tmp;
+			delete stl_tmp;
+		}
+		gettimeofday(&end, nullptr);
+		ft_time = timeval_diff_to_ms(start, end);
+		gettimeofday(&start, nullptr);
+		for (int i = 0; i <= NB_REPEAT; i++)
+		{
+			ft_tmp = new ft::vector<int>;
+			stl_tmp = new std::vector<int>;
+
+			stl_tmp->assign(stl_src.begin(), stl_src.end());
+
+			delete ft_tmp;
+			delete stl_tmp;
+		}
+		gettimeofday(&end, nullptr);
+		stl_time = timeval_diff_to_ms(start, end);
+		if (print_test_result(ft_time <= (stl_time * 20)) == false)
+			return false;
+	}
+
+	std::cout << std::endl << std::endl
+		<< "Using a new randomly filled source of size " << LARGE
+		<< " on previously assigned vector" << std::endl;
+
+	ft_src.clear();
+	stl_src.clear();
+	get_identical_random_filled_vectors(LARGE, &ft_src, &stl_src);
+	ft->assign(ft_src.begin(), ft_src.end());
+	stl->assign(stl_src.begin(), stl_src.end());
+
+	if (!(print_test_result(attributes_compare(*ft, *stl))))
+		return false;
+
+	delete	ft;
+	delete	stl;
+
+	return true;
+}
+
 static bool	push_back_tests(bool time_check)
 {
 	int val(std::rand());
@@ -1793,6 +1937,9 @@ bool	vector_test(bool time_check)
 		return false;
 
 	if (elements_access_tests(time_check) == false)
+		return false;
+
+	if (assign_test(time_check) == false)
 		return false;
 
 	if (push_back_tests(time_check) == false)
