@@ -1330,8 +1330,16 @@ static bool	insert_tests(bool time_check)
 	ft::vector<int>		*ft_tmp;
 	std::vector<int>	*stl_tmp;
 
-	ft.insert(ft.begin(), 5);
-	stl.insert(stl.begin(), 5);
+	ft::vector<int>::const_iterator		ftit;
+	std::vector<int>::const_iterator	stlit;
+
+	ftit = ft.insert(ft.begin(), 5);
+	stlit = stl.insert(stl.begin(), 5);
+
+	std::cout << "Return :		";
+
+	if (!(print_test_result(*ftit == *stlit)))
+		return false;
 
 	if (!(print_test_result(attributes_compare(ft, stl))))
 		return false;
@@ -1473,8 +1481,13 @@ static bool	insert_tests(bool time_check)
 		<< "vector.insert() on same vector" << std::endl << std::endl
 		<< "single value (5) at vector.begin() + (vector.size() / 2)" << std::endl << std::endl;
 
-	ft.insert(ft.begin() + (ft.size() / 2), 5);
-	stl.insert(stl.begin() + (stl.size() / 2), 5);
+	ftit = ft.insert(ft.begin() + (ft.size() / 2), 5);
+	stlit = stl.insert(stl.begin() + (stl.size() / 2), 5);
+
+	std::cout << "Return :		";
+
+	if (!(print_test_result(*ftit == *stlit)))
+		return false;
 
 	if (!(print_test_result(attributes_compare(ft, stl))))
 		return false;
@@ -1613,15 +1626,22 @@ static bool	erase_tests(bool time_check)
 		<< "#######################################" << std::endl << std::endl
 		<< "erase single value (begin() + size() / 4)" << std::endl << std::endl;
 
-	ft::vector<int>		ft;
-	std::vector<int>	stl;
-	ft::vector<int>		*ft_tmp;
-	std::vector<int>	*stl_tmp;
+	ft::vector<int>						ft;
+	std::vector<int>					stl;
+	ft::vector<int>						*ft_tmp;
+	std::vector<int>					*stl_tmp;
+	ft::vector<int>::const_iterator		ftit;
+	std::vector<int>::const_iterator	stlit;
 
 	get_identical_random_filled_vectors(MEDIUM, &ft, &stl);
 
-	ft.erase(ft.begin() + (ft.size() / 4));
-	stl.erase(stl.begin() + (stl.size() / 4));
+	ftit = ft.erase(ft.begin() + (ft.size() / 4));
+	stlit = stl.erase(stl.begin() + (stl.size() / 4));
+
+	std::cout << "Return :		";
+
+	if (!(print_test_result(*ftit == *stlit)))
+		return false;
 
 	if (!(print_test_result(attributes_compare(ft, stl))))
 		return false;
@@ -1665,8 +1685,13 @@ static bool	erase_tests(bool time_check)
 		<< "#######################################" << std::endl << std::endl
 		<< "erase range from (begin() + size() / 8) to (begin() + size() / 2)" << std::endl << std::endl;
 
-	ft.erase(ft.begin() + (ft.size() / 8), ft.begin() + (ft.size() / 2));
-	stl.erase(stl.begin() + (stl.size() / 8), stl.begin() + (stl.size() / 2));
+	ftit = ft.erase(ft.begin() + (ft.size() / 8), ft.begin() + (ft.size() / 2));
+	stlit = stl.erase(stl.begin() + (stl.size() / 8), stl.begin() + (stl.size() / 2));
+
+	std::cout << "Return :		";
+
+	if (!(print_test_result(*ftit == *stlit)))
+		return false;
 
 	if (!(print_test_result(attributes_compare(ft, stl))))
 		return false;
@@ -1710,8 +1735,13 @@ static bool	erase_tests(bool time_check)
 		<< "#######################################" << std::endl << std::endl
 		<< "erase range from begin() to end()" << std::endl << std::endl;
 
-	ft.erase(ft.begin(), ft.end());
-	stl.erase(stl.begin(), stl.end());
+	ftit = ft.erase(ft.begin(), ft.end());
+	stlit = stl.erase(stl.begin(), stl.end());
+
+	std::cout << "Return :		";
+
+	if (!(print_test_result(*ftit == *stlit)))
+		return false;
 
 	if (!(print_test_result(attributes_compare(ft, stl))))
 		return false;
