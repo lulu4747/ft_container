@@ -1910,6 +1910,172 @@ static bool	clear_tests(bool time_check)
 
 static bool	relationnal_operators_test()
 {
+	std::cout << "_______________________________________________" << std::endl
+		<< "Relational operator tests" << std::endl << std::endl
+		<< "vec1 = randomly filled vector of size " << MEDIUM << ";" << std::endl
+		<< "vec2 = vec1 copy;" << std::endl
+		<< "vec3 = other random vec of size " << MEDIUM << ";" << std::endl
+		<< "vec4 = other random vec of size " << LARGE << ";" << std::endl
+		<< "vec5 = other random vec of size " << SHORT << ";" << std::endl << std::endl;
+
+	ft::vector<int>		ft1;
+	ft::vector<int>		ft2;
+	ft::vector<int>		ft3;
+	ft::vector<int>		ft4;
+	ft::vector<int>		ft5;
+	std::vector<int>	stl1;
+	std::vector<int>	stl2;
+	std::vector<int>	stl3;
+	std::vector<int>	stl4;
+	std::vector<int>	stl5;
+
+	get_identical_random_filled_vectors(MEDIUM, &ft1, &stl1);
+
+	ft2.assign(ft1.begin(), ft1.end());
+	stl2.assign(stl1.begin(), stl1.end());
+
+	get_identical_random_filled_vectors(MEDIUM, &ft3, &stl3);
+	get_identical_random_filled_vectors(LARGE, &ft4, &stl4);
+	get_identical_random_filled_vectors(SHORT, &ft4, &stl4);
+
+	std::cout << std::endl << std::endl
+		<< "#######################################" << std::endl << std::endl
+		<< " \"==\" " << std::endl << std::endl
+		<< "vec1 == vec2 ? :		";
+
+	if (!print_test_result((ft1 == ft2) == (stl1 == stl2)))
+		return false;
+
+	std::cout << "vec1 == vec3 ? :		";
+
+	if (!print_test_result((ft1 == ft3) == (stl1 == stl3)))
+		return false;
+
+	std::cout << "vec1 == vec4 ? :		";
+
+	if (!print_test_result((ft1 == ft4) == (stl1 == stl4)))
+		return false;
+
+	std::cout << "vec1 == vec5 ? :		";
+
+	if (!print_test_result((ft1 == ft5) == (stl1 == stl5)))
+		return false;
+
+	std::cout << std::endl << std::endl
+		<< "#######################################" << std::endl << std::endl
+		<< " \"!=\" " << std::endl << std::endl
+		<< "vec1 != vec2 ? :		";
+
+	if (!print_test_result((ft1 != ft2) == (stl1 != stl2)))
+		return false;
+
+	std::cout << "vec1 != vec3 ? :		";
+
+	if (!print_test_result((ft1 != ft3) == (stl1 != stl3)))
+		return false;
+
+	std::cout << "vec1 != vec4 ? :		";
+
+	if (!print_test_result((ft1 != ft4) == (stl1 != stl4)))
+		return false;
+
+	std::cout << "vec1 != vec5 ? :		";
+
+	if (!print_test_result((ft1 != ft5) == (stl1 != stl5)))
+		return false;
+
+	std::cout << std::endl << std::endl
+		<< "#######################################" << std::endl << std::endl
+		<< " \"<\" " << std::endl << std::endl
+		<< "vec1 < vec2 ? :			";
+
+	if (!print_test_result((ft1 < ft2) == (stl1 < stl2)))
+		return false;
+
+	std::cout << "vec1 < vec3 ? :			";
+
+	if (!print_test_result((ft1 < ft3) == (stl1 < stl3)))
+		return false;
+
+	std::cout << "vec1 < vec4 ? :			";
+
+	if (!print_test_result((ft1 < ft4) == (stl1 < stl4)))
+		return false;
+
+	std::cout << "vec1 < vec5 ? :			";
+
+	if (!print_test_result((ft1 < ft5) == (stl1 < stl5)))
+		return false;
+
+	std::cout << std::endl << std::endl
+		<< "#######################################" << std::endl << std::endl
+		<< " \"<=\" " << std::endl << std::endl
+		<< "vec1 <= vec2 ? :		";
+
+	if (!print_test_result((ft1 <= ft2) == (stl1 <= stl2)))
+		return false;
+
+	std::cout << "vec1 <= vec3 ? :		";
+
+	if (!print_test_result((ft1 <= ft3) == (stl1 <= stl3)))
+		return false;
+
+	std::cout << "vec1 <= vec4 ? :		";
+
+	if (!print_test_result((ft1 <= ft4) == (stl1 <= stl4)))
+		return false;
+
+	std::cout << "vec1 <= vec5 ? :		";
+
+	if (!print_test_result((ft1 <= ft5) == (stl1 <= stl5)))
+		return false;
+
+	std::cout << std::endl << std::endl
+		<< "#######################################" << std::endl << std::endl
+		<< " \">\" " << std::endl << std::endl
+		<< "vec1 > vec2 ? :			";
+
+	if (!print_test_result((ft1 > ft2) == (stl1 > stl2)))
+		return false;
+
+	std::cout << "vec1 > vec3 ? :			";
+
+	if (!print_test_result((ft1 > ft3) == (stl1 > stl3)))
+		return false;
+
+	std::cout << "vec1 > vec4 ? :			";
+
+	if (!print_test_result((ft1 > ft4) == (stl1 > stl4)))
+		return false;
+
+	std::cout << "vec1 > vec5 ? :			";
+
+	if (!print_test_result((ft1 > ft5) == (stl1 > stl5)))
+		return false;
+
+	std::cout << std::endl << std::endl
+		<< "#######################################" << std::endl << std::endl
+		<< " \">=\" " << std::endl << std::endl
+		<< "vec1 >= vec2 ? :		";
+
+	if (!print_test_result((ft1 >= ft2) == (stl1 >= stl2)))
+		return false;
+
+	std::cout << "vec1 >= vec3 ? :		";
+
+	if (!print_test_result((ft1 >= ft3) == (stl1 >= stl3)))
+		return false;
+
+	std::cout << "vec1 >= vec4 ? :		";
+
+	if (!print_test_result((ft1 >= ft4) == (stl1 >= stl4)))
+		return false;
+
+	std::cout << "vec1 >= vec5 ? :		";
+
+	if (!print_test_result((ft1 >= ft5) == (stl1 >= stl5)))
+		return false;
+
 	return true;
 }
 
