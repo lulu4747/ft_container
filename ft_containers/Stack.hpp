@@ -75,6 +75,24 @@ namespace	ft
 			c.pop_back();
 		}
 
+		template < class T_, class Container_ >
+			friend bool operator== (const ft::stack<T_, Container_>& lhs, const ft::stack<T_, Container_>& rhs);
+
+		template < class T_, class Container_ >
+			friend bool operator!= (const ft::stack<T_, Container_>& lhs, const ft::stack<T_, Container_>& rhs);
+			
+		template < class T_, class Container_ >
+			friend bool operator< (const ft::stack<T_, Container_>& lhs, const ft::stack<T_, Container_>& rhs);
+
+		template < class T_, class Container_ >
+			friend bool operator<= (const ft::stack<T_, Container_>& lhs, const ft::stack<T_, Container_>& rhs);
+
+		template < class T_, class Container_ >
+			friend bool operator> (const ft::stack<T_, Container_>& lhs, const ft::stack<T_, Container_>& rhs);
+
+		template < class T_, class Container_ >
+			friend bool operator>= (const ft::stack<T_, Container_>& lhs, const ft::stack<T_, Container_>& rhs);
+
 	protected:
 	
 		container_type	c;

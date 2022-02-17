@@ -47,7 +47,7 @@ void	range_construction(ITERATOR start, ITERATOR end)
 **		tests	**
 */
 
-bool	stack_test(bool time);
+bool	stack_test();
 bool	vector_test(bool time);
 
 #endif

@@ -15,7 +15,7 @@ static bool	default_constructor_test(bool time_check)
 	ft::vector<int>		ft;
 	std::vector<int>	stl;
 
-	if (!(print_test_result(attributes_compare(ft, stl))))
+	if (!(print_test_result(vector_compare(ft, stl))))
 		return false;
 
 	if (time_check)
@@ -58,7 +58,7 @@ static bool	copy_constructor_test(bool time_check, int n)
 	ft::vector<int>		ft(ft_src);
 	std::vector<int>	stl(stl_src);
 
-	if (!(print_test_result(attributes_compare(ft, stl))))
+	if (!(print_test_result(vector_compare(ft, stl))))
 		return false;
 
 	if (time_check)
@@ -95,7 +95,7 @@ static bool	fill_constructor_test(bool time_check, int n)
 	ft::vector<int>		ft(n, val);
 	std::vector<int>	stl(n, val);
 
-	if (!(print_test_result(attributes_compare(ft, stl))))
+	if (!(print_test_result(vector_compare(ft, stl))))
 		return false;
 
 	if (time_check)
@@ -143,7 +143,7 @@ static bool	range_constructor_test(bool time_check, int n)
 	ft::vector<int>		ft(ft_it, ft_it + n);
 	std::vector<int>	stl(stl_it, stl_it + n);
 
-	if (!(print_test_result(attributes_compare(ft, stl))))
+	if (!(print_test_result(vector_compare(ft, stl))))
 		return false;
 
 	if (time_check)
@@ -395,7 +395,7 @@ static bool	rend_test(bool time_check)
 
 template <typename FT_iterator, typename STL_iterator, 
 			typename FT_begin, typename STL_begin>
-static bool	op_tests(std::string it, FT_iterator &ft_it, STL_iterator &stl_it,
+static bool	op_test(std::string it, FT_iterator &ft_it, STL_iterator &stl_it,
 			FT_begin ft_begin, STL_begin stl_begin)
 {
 	std::string	begin(it.find('r') == it.npos ? "begin" : "rbegin");
@@ -544,7 +544,7 @@ static bool	op_tests(std::string it, FT_iterator &ft_it, STL_iterator &stl_it,
 static bool	operators_test()
 {
 	std::cout << std::endl << "#######################################" << std::endl
-		<< "iterators operators tests" << std::endl
+		<< "iterators operators test" << std::endl
 		<< "Crescent values filled vector from 0 to " << MEDIUM << std::endl << std::endl
 		<< "	Comparison operator	" << std::endl << std::endl
 		<< "normal iterator :" << std::endl
@@ -557,7 +557,7 @@ static bool	operators_test()
 	ft::vector<int>::iterator				ft_it(ft.begin());
 	std::vector<int>::iterator				stl_it(stl.begin());
 
-	if (op_tests("it", ft_it, stl_it, ft.begin(), stl.begin()) == false)
+	if (op_test("it", ft_it, stl_it, ft.begin(), stl.begin()) == false)
 		return false;
 	
 	std::cout << std::endl << "constant iterator :" << std::endl
@@ -566,7 +566,7 @@ static bool	operators_test()
 	ft::vector<int>::const_iterator			ft_cit(ft.begin());
 	std::vector<int>::const_iterator		stl_cit(stl.begin());
 
-	if (op_tests("cit", ft_cit, stl_cit, ft.begin(), stl.begin()) == false)
+	if (op_test("cit", ft_cit, stl_cit, ft.begin(), stl.begin()) == false)
 		return false;
 	
 	std::cout << std::endl << "reverse iterator :" << std::endl
@@ -575,7 +575,7 @@ static bool	operators_test()
 	ft::vector<int>::reverse_iterator		ft_rit(ft.rbegin());
 	std::vector<int>::reverse_iterator		stl_rit(stl.rbegin());
 
-	if (op_tests("rit", ft_rit, stl_rit, ft.rbegin(), stl.rbegin()) == false)
+	if (op_test("rit", ft_rit, stl_rit, ft.rbegin(), stl.rbegin()) == false)
 		return false;
 	
 	std::cout << std::endl << "const reverse iterator :" << std::endl
@@ -584,7 +584,7 @@ static bool	operators_test()
 	ft::vector<int>::const_reverse_iterator			ft_crit(ft.rbegin());
 	std::vector<int>::const_reverse_iterator		stl_crit(stl.rbegin());
 
-	if (op_tests("crit", ft_crit, stl_crit, ft.rbegin(), stl.rbegin()) == false)
+	if (op_test("crit", ft_crit, stl_crit, ft.rbegin(), stl.rbegin()) == false)
 		return false;
 
 	std::cout << "General :			";
@@ -592,10 +592,10 @@ static bool	operators_test()
 	return true;
 }
 
-static bool	iterators_tests(bool time_check)
+static bool	iterators_test(bool time_check)
 {
 	std::cout << "_______________________________________________" << std::endl
-		<< "iterators tests" << std::endl;
+		<< "iterators test" << std::endl;
 
 	if (!print_test_result(begin_test(time_check)))
 		return false;
@@ -610,10 +610,10 @@ static bool	iterators_tests(bool time_check)
 	return true;
 }
 
-static bool	resize_tests(bool time_check)
+static bool	resize_test(bool time_check)
 {
 	std::cout << "_______________________________________________" << std::endl
-		<< "Resize tests" << std::endl
+		<< "Resize test" << std::endl
 		<< std::endl << "#######################################" << std::endl << std::endl
 		<< "Resize equal (" << MEDIUM << " to " << MEDIUM << ")" << std::endl << std::endl;
 
@@ -625,7 +625,7 @@ static bool	resize_tests(bool time_check)
 	ft.resize(MEDIUM);
 	stl.resize(MEDIUM);
 
-	if (!(print_test_result(attributes_compare(ft, stl))))
+	if (!(print_test_result(vector_compare(ft, stl))))
 		return false;
 
 	if (time_check)
@@ -656,7 +656,7 @@ static bool	resize_tests(bool time_check)
 	ft.resize(LARGE);
 	stl.resize(LARGE);
 
-	if (!(print_test_result(attributes_compare(ft, stl))))
+	if (!(print_test_result(vector_compare(ft, stl))))
 		return false;
 
 	if (time_check)
@@ -692,7 +692,7 @@ static bool	resize_tests(bool time_check)
 	ft.resize(SHORT);
 	stl.resize(SHORT);
 
-	if (!(print_test_result(attributes_compare(ft, stl))))
+	if (!(print_test_result(vector_compare(ft, stl))))
 		return false;
 
 	if (time_check)
@@ -730,7 +730,7 @@ static bool	resize_tests(bool time_check)
 	ft.resize(LARGE, val);
 	stl.resize(LARGE, val);
 
-	if (!(print_test_result(attributes_compare(ft, stl))))
+	if (!(print_test_result(vector_compare(ft, stl))))
 		return false;
 
 	if (time_check)
@@ -763,10 +763,10 @@ static bool	resize_tests(bool time_check)
 	return true;
 }
 
-static bool	reserve_tests(bool time_check)
+static bool	reserve_test(bool time_check)
 {
 	std::cout << "_______________________________________________" << std::endl
-		<< "Reserve tests" << std::endl
+		<< "Reserve test" << std::endl
 		<< std::endl << "#######################################" << std::endl << std::endl
 		<< "reserve(" << MEDIUM << ") on empty vector" << std::endl << std::endl;
 
@@ -776,7 +776,7 @@ static bool	reserve_tests(bool time_check)
 	ft.reserve(MEDIUM);
 	stl.reserve(MEDIUM);
 
-	if (!(print_test_result(attributes_compare(ft, stl))))
+	if (!(print_test_result(vector_compare(ft, stl))))
 		return false;
 
 	if (time_check)
@@ -816,7 +816,7 @@ static bool	reserve_tests(bool time_check)
 	ft.push_back(val);
 	stl.push_back(val);
 
-	if (!(print_test_result(attributes_compare(ft, stl))))
+	if (!(print_test_result(vector_compare(ft, stl))))
 		return false;
 
 	std::cout << std::endl << "#######################################" << std::endl << std::endl
@@ -825,7 +825,7 @@ static bool	reserve_tests(bool time_check)
 	ft.resize(MEDIUM + SHORT);
 	stl.resize(MEDIUM + SHORT);
 
-	if (!(print_test_result(attributes_compare(ft, stl))))
+	if (!(print_test_result(vector_compare(ft, stl))))
 		return false;
 
 	if (time_check)
@@ -870,10 +870,10 @@ static bool	reserve_tests(bool time_check)
 	return true;
 }
 
-static bool elements_access_tests(bool time_check)
+static bool elements_access_test(bool time_check)
 {
 	std::cout << "_______________________________________________" << std::endl
-		<< "Elements Access tests" << std::endl
+		<< "Elements Access test" << std::endl
 		<< "Using a randomly filled vector of size " << MEDIUM << std::endl
 		<< std::endl << "#######################################" << std::endl << std::endl
 		<< "operator[]" << std::endl << std::endl
@@ -1070,7 +1070,7 @@ static bool	assign_test(bool time_check)
 	ft->assign(MEDIUM, val);
 	stl->assign(MEDIUM, val);
 
-	if (!(print_test_result(attributes_compare(*ft, *stl))))
+	if (!(print_test_result(vector_compare(*ft, *stl))))
 		return false;
 
 	if (time_check)
@@ -1119,7 +1119,7 @@ static bool	assign_test(bool time_check)
 	ft->assign(LARGE, val);
 	stl->assign(LARGE, val);
 
-	if (!(print_test_result(attributes_compare(*ft, *stl))))
+	if (!(print_test_result(vector_compare(*ft, *stl))))
 		return false;
 
 	delete	ft;
@@ -1139,7 +1139,7 @@ static bool	assign_test(bool time_check)
 	ft->assign(ft_src.begin(), ft_src.end());
 	stl->assign(stl_src.begin(), stl_src.end());
 
-	if (!(print_test_result(attributes_compare(*ft, *stl))))
+	if (!(print_test_result(vector_compare(*ft, *stl))))
 		return false;
 
 	if (time_check)
@@ -1189,7 +1189,7 @@ static bool	assign_test(bool time_check)
 	ft->assign(ft_src.begin(), ft_src.end());
 	stl->assign(stl_src.begin(), stl_src.end());
 
-	if (!(print_test_result(attributes_compare(*ft, *stl))))
+	if (!(print_test_result(vector_compare(*ft, *stl))))
 		return false;
 
 	delete	ft;
@@ -1198,12 +1198,12 @@ static bool	assign_test(bool time_check)
 	return true;
 }
 
-static bool	push_back_tests(bool time_check)
+static bool	push_back_test(bool time_check)
 {
 	int val(std::rand());
 
 	std::cout << "_______________________________________________" << std::endl
-		<< "push_back tests" << std::endl << std::endl
+		<< "push_back test" << std::endl << std::endl
 		<< "vector.push_back(" << val << ") on empty vector" << std::endl << std::endl;
 
 	ft::vector<int>		ft;
@@ -1212,7 +1212,7 @@ static bool	push_back_tests(bool time_check)
 	ft.push_back(val);
 	stl.push_back(val);
 
-	if (!(print_test_result(attributes_compare(ft, stl))))
+	if (!(print_test_result(vector_compare(ft, stl))))
 		return false;
 
 	if (time_check)
@@ -1252,7 +1252,7 @@ static bool	push_back_tests(bool time_check)
 	ft.push_back(val);
 	stl.push_back(val);
 
-	if (!(print_test_result(attributes_compare(ft, stl))))
+	if (!(print_test_result(vector_compare(ft, stl))))
 		return false;
 
 	if (time_check)
@@ -1291,7 +1291,7 @@ static bool	push_back_tests(bool time_check)
 	return true;
 }
 
-static bool	pop_back_tests()
+static bool	pop_back_test()
 {
 	/*
 	std::vector<int>	vec;													//Uncomment shows segfault on stl vector
@@ -1302,7 +1302,7 @@ static bool	pop_back_tests()
 
 
 	std::cout << "_______________________________________________" << std::endl
-		<< "pop_back tests" << std::endl << std::endl
+		<< "pop_back test" << std::endl << std::endl
 		<< "vector.pop_back() on vector with size = " << SHORT << std::endl << std::endl;
 
 	ft::vector<int>		ft(SHORT);
@@ -1311,16 +1311,16 @@ static bool	pop_back_tests()
 	ft.pop_back();
 	stl.pop_back();
 
-	if (!(print_test_result(attributes_compare(ft, stl))))
+	if (!(print_test_result(vector_compare(ft, stl))))
 		return false;
 
 	return true;
 }
 
-static bool	insert_tests(bool time_check)
+static bool	insert_test(bool time_check)
 {
 	std::cout << "_______________________________________________" << std::endl
-		<< "insert tests" << std::endl << std::endl
+		<< "insert test" << std::endl << std::endl
 		<< "#######################################" << std::endl << std::endl
 		<< "vector.insert() on empty vector at vector.begin()" << std::endl << std::endl
 		<< "single value (5)" << std::endl << std::endl;
@@ -1341,7 +1341,7 @@ static bool	insert_tests(bool time_check)
 	if (!(print_test_result(*ftit == *stlit)))
 		return false;
 
-	if (!(print_test_result(attributes_compare(ft, stl))))
+	if (!(print_test_result(vector_compare(ft, stl))))
 		return false;
 
 	ft.clear();
@@ -1387,7 +1387,7 @@ static bool	insert_tests(bool time_check)
 	ft.insert(ft.begin(), SHORT, 5);
 	stl.insert(stl.begin(), SHORT, 5);
 
-	if (!(print_test_result(attributes_compare(ft, stl))))
+	if (!(print_test_result(vector_compare(ft, stl))))
 		return false;
 
 	ft.clear();
@@ -1438,7 +1438,7 @@ static bool	insert_tests(bool time_check)
 	ft.insert(ft.begin(), ft_src.begin(), ft_src.end());
 	stl.insert(stl.begin(), stl_src.begin(), stl_src.end());
 
-	if (!(print_test_result(attributes_compare(ft, stl))))
+	if (!(print_test_result(vector_compare(ft, stl))))
 		return false;
 
 	if (time_check)
@@ -1489,7 +1489,7 @@ static bool	insert_tests(bool time_check)
 	if (!(print_test_result(*ftit == *stlit)))
 		return false;
 
-	if (!(print_test_result(attributes_compare(ft, stl))))
+	if (!(print_test_result(vector_compare(ft, stl))))
 		return false;
 
 	if (time_check)
@@ -1533,7 +1533,7 @@ static bool	insert_tests(bool time_check)
 	ft.insert(ft.begin() + (ft.size() / 2), SHORT, 5);
 	stl.insert(stl.begin() + (stl.size() / 2), SHORT, 5);
 
-	if (!(print_test_result(attributes_compare(ft, stl))))
+	if (!(print_test_result(vector_compare(ft, stl))))
 		return false;
 
 	if (time_check)
@@ -1577,7 +1577,7 @@ static bool	insert_tests(bool time_check)
 	ft.insert(ft.begin() + (ft.size() / 2), ft_src.begin(), ft_src.end());
 	stl.insert(stl.begin() + (stl.size() / 2), stl_src.begin(), stl_src.end());
 
-	if (!(print_test_result(attributes_compare(ft, stl))))
+	if (!(print_test_result(vector_compare(ft, stl))))
 		return false;
 
 	if (time_check)
@@ -1618,10 +1618,10 @@ static bool	insert_tests(bool time_check)
 	return true;
 }
 
-static bool	erase_tests(bool time_check)
+static bool	erase_test(bool time_check)
 {
 	std::cout << "_______________________________________________" << std::endl
-		<< "erase tests" << std::endl << std::endl
+		<< "erase test" << std::endl << std::endl
 		<< "using randomly generated vector with size = " << MEDIUM << std::endl << std::endl
 		<< "#######################################" << std::endl << std::endl
 		<< "erase single value (begin() + size() / 4)" << std::endl << std::endl;
@@ -1643,7 +1643,7 @@ static bool	erase_tests(bool time_check)
 	if (!(print_test_result(*ftit == *stlit)))
 		return false;
 
-	if (!(print_test_result(attributes_compare(ft, stl))))
+	if (!(print_test_result(vector_compare(ft, stl))))
 		return false;
 
 	if(time_check)
@@ -1693,7 +1693,7 @@ static bool	erase_tests(bool time_check)
 	if (!(print_test_result(*ftit == *stlit)))
 		return false;
 
-	if (!(print_test_result(attributes_compare(ft, stl))))
+	if (!(print_test_result(vector_compare(ft, stl))))
 		return false;
 
 	if(time_check)
@@ -1743,16 +1743,16 @@ static bool	erase_tests(bool time_check)
 	if (!(print_test_result(*ftit == *stlit)))
 		return false;
 
-	if (!(print_test_result(attributes_compare(ft, stl))))
+	if (!(print_test_result(vector_compare(ft, stl))))
 		return false;
 
 	return true;
 }
 
-static bool	swap_tests(bool time_check)
+static bool	swap_test(bool time_check)
 {
 	std::cout << "_______________________________________________" << std::endl
-		<< "swap tests" << std::endl << std::endl
+		<< "swap test" << std::endl << std::endl
 		<< "using randomly generated vector with size = " << SHORT << std::endl;
 
 	ft::vector<int>		ft1;
@@ -1767,11 +1767,11 @@ static bool	swap_tests(bool time_check)
 	stl1.swap(stl2);
 
 	std::cout << std::endl << "first vector :	" << std::endl << std::endl;
-	if (!(print_test_result(attributes_compare(ft1, stl1))))
+	if (!(print_test_result(vector_compare(ft1, stl1))))
 		return false;
 
 	std::cout << std::endl << "second vector :	" << std::endl << std::endl;
-	if (!(print_test_result(attributes_compare(ft2, stl2))))
+	if (!(print_test_result(vector_compare(ft2, stl2))))
 		return false;
 
 	if (time_check)
@@ -1805,11 +1805,11 @@ static bool	swap_tests(bool time_check)
 	stl1.swap(stl2);
 
 	std::cout << std::endl << "first vector :	" << std::endl << std::endl;
-	if (!(print_test_result(attributes_compare(ft1, stl1))))
+	if (!(print_test_result(vector_compare(ft1, stl1))))
 		return false;
 
 	std::cout << std::endl << "second vector :	" << std::endl << std::endl;
-	if (!(print_test_result(attributes_compare(ft2, stl2))))
+	if (!(print_test_result(vector_compare(ft2, stl2))))
 		return false;
 
 	if(time_check)
@@ -1834,10 +1834,10 @@ static bool	swap_tests(bool time_check)
 	return true;
 }
 
-static bool	clear_tests(bool time_check)
+static bool	clear_test(bool time_check)
 {
 	std::cout << "_______________________________________________" << std::endl
-		<< "clear tests" << std::endl << std::endl
+		<< "clear test" << std::endl << std::endl
 		<< "Empty :			" << std::endl;
 
 	ft::vector<int>		ft;
@@ -1846,7 +1846,7 @@ static bool	clear_tests(bool time_check)
 	ft.clear();
 	stl.clear();
 
-	if (!(print_test_result(attributes_compare(ft, stl))))
+	if (!(print_test_result(vector_compare(ft, stl))))
 		return false;
 
 	std::cout << std::endl << std::endl
@@ -1858,7 +1858,7 @@ static bool	clear_tests(bool time_check)
 	ft.clear();
 	stl.clear();
 
-	if (!(print_test_result(attributes_compare(ft, stl))))
+	if (!(print_test_result(vector_compare(ft, stl))))
 		return false;
 
 	std::cout << std::endl << std::endl
@@ -1870,7 +1870,7 @@ static bool	clear_tests(bool time_check)
 	ft.clear();
 	stl.clear();
 
-	if (!(print_test_result(attributes_compare(ft, stl))))
+	if (!(print_test_result(vector_compare(ft, stl))))
 		return false;
 
 	std::cout << std::endl << std::endl
@@ -1882,7 +1882,7 @@ static bool	clear_tests(bool time_check)
 	ft.clear();
 	stl.clear();
 
-	if (!(print_test_result(attributes_compare(ft, stl))))
+	if (!(print_test_result(vector_compare(ft, stl))))
 		return false;
 
 	std::cout << std::endl << std::endl
@@ -1894,7 +1894,7 @@ static bool	clear_tests(bool time_check)
 	ft.clear();
 	stl.clear();
 
-	if (!(print_test_result(attributes_compare(ft, stl))))
+	if (!(print_test_result(vector_compare(ft, stl))))
 		return false;
 
 	if (time_check)
@@ -1941,7 +1941,7 @@ static bool	clear_tests(bool time_check)
 static bool	relationnal_operators_test()
 {
 	std::cout << "_______________________________________________" << std::endl
-		<< "Relational operator tests" << std::endl << std::endl
+		<< "Relational operator test" << std::endl << std::endl
 		<< "vec1 = randomly filled vector of size " << MEDIUM << ";" << std::endl
 		<< "vec2 = vec1 copy;" << std::endl
 		<< "vec3 = other random vec of size " << MEDIUM << ";" << std::endl
@@ -2123,37 +2123,37 @@ bool	vector_test(bool time_check)
 	if (range_constructor_test(time_check, EMPTY) == false)
 		return false;
 
-	if (iterators_tests(time_check) == false)
+	if (iterators_test(time_check) == false)
 		return false;
 
-	if (resize_tests(time_check) == false)
+	if (resize_test(time_check) == false)
 		return false;
 
-	if (reserve_tests(time_check) == false)
+	if (reserve_test(time_check) == false)
 		return false;
 
-	if (elements_access_tests(time_check) == false)
+	if (elements_access_test(time_check) == false)
 		return false;
 
 	if (assign_test(time_check) == false)
 		return false;
 
-	if (push_back_tests(time_check) == false)
+	if (push_back_test(time_check) == false)
 		return false;
 
-	if (pop_back_tests() == false)
+	if (pop_back_test() == false)
 		return false;
 
-	if (insert_tests(time_check) == false)
+	if (insert_test(time_check) == false)
 		return false;
 
-	if (erase_tests(time_check) == false)
+	if (erase_test(time_check) == false)
 		return false;
 
-	if (swap_tests(time_check) == false)
+	if (swap_test(time_check) == false)
 		return false;
 
-	if (clear_tests(time_check) == false)
+	if (clear_test(time_check) == false)
 		return false;
 
 	if (relationnal_operators_test() == false)

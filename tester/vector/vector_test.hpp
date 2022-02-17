@@ -17,54 +17,11 @@ void	get_crescent_filled_vectors(size_t n,
 			ft::vector<int> *ft, std::vector<int> *stl);
 
 /*
-**			State Verifications Functions				**
+**			Compare Functions				**
 */
 
-template < class FTV, class STLV >
-bool	content_compare(FTV &ft, STLV &stl)
-{
-	typename FTV::iterator	ftit(ft.begin());
-	typename STLV::iterator	stlit(stl.begin());
-
-	while (ftit != ft.end() && stlit != stl.end())
-	{
-		if (*ftit != *stlit)
-		{
-			std::cout << std::endl << *ftit << " | " << *stlit << "		";
-			return false;
-		}
-		ftit++;
-		stlit++;
-	}
-	if (ftit != ft.end() || stlit != stl.end())
-		return false;
-	return true;
-}
-
-template < class FT, class STL >
-bool	attributes_compare(FT &ft, STL &stl)
-{
-	bool	empty, max_size, size, capacity, content;
-
-	std::cout << "empty() comparison :	";
-	empty = print_test_result(ft.empty() == stl.empty());
-	std::cout << "max_size() comparison :	";
-	max_size = print_test_result(ft.max_size() == stl.max_size());
-	std::cout << "size() comparison :	";
-	size = print_test_result(ft.size() == stl.size());
-	if (!size)
-		std::cout << ft.size() << "	|	" << stl.size() << "	" << std::endl;
-	std::cout << "capacity() comparison :	";
-	capacity = print_test_result(ft.capacity() == stl.capacity());
-	if (!capacity)
-		std::cout << ft.capacity() << "	|	" << stl.capacity() << "	" << std::endl;
-	std::cout << "content comparison : 	";
-	content = print_test_result(content_compare(ft, stl));
-	std::cout << "General comparison : 			";
-	if (!empty || !max_size || !size || !capacity || !content)
-		return false;
-	return true;
-}
+bool	content_compare(ft::vector<int> &ft, std::vector<int> &stl);
+bool	vector_compare(ft::vector<int> &ft, std::vector<int> &stl);
 
 /*
 **			Execution Time Functions					**
