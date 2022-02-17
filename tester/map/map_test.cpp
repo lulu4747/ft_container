@@ -130,13 +130,344 @@ static bool	range_constructor_test(bool time_check, int n)
 		if (print_test_result(ft_time <= (stl_time * 20)) == false)
 			return false;
 	}
-	//time_check = false;
 	return recursive_call(&range_constructor_test, time_check, n);
+}
+
+static bool	begin_test(bool time_check)
+{
+	std::cout << "begin() on empty map" << std::endl << std::endl << "compared with end() :	";
+
+	ft::map< int, char >		ft;
+	std::map< int, char >	stl;
+	ft::map< int, char >::iterator	ft_it = ft.begin();
+	std::map< int, char >::iterator	stl_it = stl.begin();
+
+	if (!(print_test_result((ft_it == ft.end()) == (stl_it == stl.end()))))
+		return false;
+
+	if (time_check && iterator_time_check(&begin, &begin, ft, stl) == false)
+		return false;
+
+	std::cout << std::endl << "const begin() on empty map" << std::endl << std::endl << "compared with end() :	";
+	ft::map< int, char >::const_iterator		ft_cit = ft.begin();
+	std::map< int, char >::const_iterator	stl_cit = stl.begin();
+
+	if (!(print_test_result((ft_cit == ft.end()) == (stl_cit == stl.end()))))
+		return false;
+
+	std::cout << std::endl << "begin() on large (" << LARGE << ") map" << std::endl << std::endl << "while(it != end())"
+		<< std::endl << "it++; (*it == *stl_it)? :			";
+
+	get_identical_random_filled_maps(LARGE, &ft, &stl);
+	ft_it = ft.begin();
+	stl_it = stl.begin();
+
+	while (ft_it != ft.end())
+	{
+		if (*ft_it != *stl_it)
+			return false;
+		ft_it++;
+		stl_it++;
+	}
+	if (stl_it != stl.end())
+		return false;
+	print_test_result(true);
+
+	if (time_check && iterator_time_check(&begin_to_end, &begin_to_end, ft, stl) == false)
+		return false;
+
+	std::cout << std::endl << "const begin() on same map" << std::endl << std::endl << "while(cit != end())"
+		<< std::endl << "cit++; (*cit == *stl_cit)? :			";
+
+	ft_cit = ft.begin();
+	stl_cit = stl.begin();
+
+	while (ft_cit != ft.end())
+	{
+		if (*ft_cit != *stl_cit)
+			return false;
+		ft_cit++;
+		stl_cit++;
+	}
+	if (stl_cit != stl.end())
+		return false;
+	print_test_result(true);
+
+	std::cout << "General :					";
+	return true;
+}
+
+static bool	end_test(bool time_check)
+{
+
+	ft::map< int, char >				ft;
+	std::map< int, char >			stl;
+
+	std::cout << std::endl << "#######################################" << std::endl
+		<< "end() - 1 on large (" << LARGE << ") map" << std::endl << std::endl << "while(it != begin())"
+		<< std::endl << "it--; (*it == *stl_it)? :			";
+
+	get_identical_random_filled_maps(LARGE, &ft, &stl);
+	ft::map< int, char >::iterator	ft_it = ft.end() - 1;
+	std::map< int, char >::iterator	stl_it = stl.end() - 1;
+
+	while (ft_it != ft.begin())
+	{
+		if (*ft_it != *stl_it)
+			return false;
+		ft_it--;
+		stl_it--;
+	}
+	if (stl_it != stl.begin())
+		return false;
+	print_test_result(true);
+
+	if (time_check && iterator_time_check(&end_to_begin, &end_to_begin, ft, stl) == false)
+		return false;
+
+	std::cout << std::endl << "const end() - 1 on same map" << std::endl << std::endl << "while(cit != begin())"
+		<< std::endl << "cit--; (*cit == *stl_cit)? :			";
+
+	ft::map< int, char >::const_iterator		ft_cit = ft.end() - 1;
+	std::map< int, char >::const_iterator	stl_cit = stl.end() - 1;
+
+	while (ft_cit != ft.begin())
+	{
+		if (*ft_cit != *stl_cit)
+			return false;
+		ft_cit--;
+		stl_cit--;
+	}
+	if (stl_cit != stl.begin())
+		return false;
+	print_test_result(true);
+
+	std::cout << "General :					";
+	return true;
+}
+
+static bool	rbegin_test(bool time_check)
+{
+	std::cout << std::endl << "#######################################" << std::endl
+		<< "rbegin() on empty map" << std::endl << std::endl << "compared with rend() :	";
+
+	ft::map< int, char >						ft;
+	std::map< int, char >					stl;
+	ft::map< int, char >::reverse_iterator	ft_rit = ft.rbegin();
+	std::map< int, char >::reverse_iterator	stl_rit = stl.rbegin();
+
+	if (!(print_test_result((ft_rit == ft.rend()) == (stl_rit == stl.rend()))))
+		return false;
+
+	if (time_check && iterator_time_check(&rbegin, &rbegin, ft, stl) == false)
+		return false;
+
+	std::cout << std::endl << "const rbegin() on empty map" << std::endl << std::endl << "compared with rend() :	";
+	ft::map< int, char >::const_reverse_iterator		ft_crit = ft.rbegin();
+	std::map< int, char >::const_reverse_iterator	stl_crit = stl.rbegin();
+
+	if (!(print_test_result((ft_crit == ft.rend()) == (stl_crit == stl.rend()))))
+		return false;
+
+	std::cout << std::endl << "rbegin() on large (" << LARGE << ") map" << std::endl << std::endl << "while(rit != rend())"
+		<< std::endl << "rit++; (*rit == *stl_rit)? :			";
+
+	get_identical_random_filled_maps(LARGE, &ft, &stl);
+	ft_rit = ft.rbegin();
+	stl_rit = stl.rbegin();
+
+	while (ft_rit != ft.rend())
+	{
+		if (*ft_rit != *stl_rit)
+			return false;
+		ft_rit++;
+		stl_rit++;
+	}
+	if (stl_rit != stl.rend())
+		return false;
+	print_test_result(true);
+
+	if (time_check && iterator_time_check(&rbegin_to_rend, &rbegin_to_rend, ft, stl) == false)
+		return false;
+
+	std::cout << std::endl << "const rbegin() on same map" << std::endl << std::endl << "while(crit != rend())"
+		<< std::endl << "crit++; (*crit == *stl_crit)? :			";
+
+	ft_crit = ft.rbegin();
+	stl_crit = stl.rbegin();
+
+	while (ft_crit != ft.rend())
+	{
+		if (*ft_crit != *stl_crit)
+			return false;
+		ft_crit++;
+		stl_crit++;
+	}
+	if (stl_crit != stl.rend())
+		return false;
+	print_test_result(true);
+
+	std::cout << "General :					";
+	return true;
+}
+
+static bool	rend_test(bool time_check)
+{
+	std::cout << std::endl << "#######################################" << std::endl
+		<< "rend() - 1 on large (" << LARGE << ") map" << std::endl << std::endl << "while(rit != rbegin())"
+		<< std::endl << "rit--; (*rit == *stl_rit)? :			";
+
+	ft::map< int, char >				ft;
+	std::map< int, char >				stl;
+
+	get_identical_random_filled_maps(LARGE, &ft, &stl);
+	ft::map< int, char >::reverse_iterator	ft_rit = ft.rend() - 1;
+	std::map< int, char >::reverse_iterator	stl_rit = stl.rend() - 1;
+
+	while (ft_rit != ft.rbegin())
+	{
+		if (*ft_rit != *stl_rit)
+			return false;
+		ft_rit--;
+		stl_rit--;
+	}
+	if (stl_rit != stl.rbegin())
+		return false;
+	print_test_result(true);
+
+	if (time_check && iterator_time_check(&rend_to_rbegin, &rend_to_rbegin, ft, stl) == false)
+		return false;
+
+	std::cout << std::endl << "const rend() - 1 on same map" << std::endl << std::endl << "while(crit != rbegin())"
+		<< std::endl << "crit--; (*crit == *stl_crit)? :			";
+
+	ft::map< int, char >::const_reverse_iterator		ft_crit = ft.rend() - 1;
+	std::map< int, char >::const_reverse_iterator	stl_crit = stl.rend() - 1;
+
+	while (ft_crit != ft.rbegin())
+	{
+		if (*ft_crit != *stl_crit)
+			return false;
+		ft_crit--;
+		stl_crit--;
+	}
+	if (stl_crit != stl.rbegin())
+		return false;
+	print_test_result(true);
+
+	std::cout << "General :					";
+	return true;
+}
+
+template <typename FT_iterator, typename STL_iterator, 
+			typename FT_begin, typename STL_begin>
+static bool	op_test(std::string it, FT_iterator &ft_it, STL_iterator &stl_it,
+			FT_begin ft_begin, STL_begin stl_begin)
+{
+	std::string	begin(it.find('r') == it.npos ? "begin" : "rbegin");
+
+	std::cout << std::endl << "----------Increment/Decrement operators----------" << std::endl << std::endl
+		<< "iterator		tmp(" << it << ");" << std::endl << std::endl << it << "++ == tmp ? :	";
+
+	FT_iterator		ft_tmp(ft_it);
+	STL_iterator	stl_tmp(stl_it);
+
+	if (!print_test_result((ft_it++ == ft_tmp) == (stl_it++ == stl_tmp)))
+		return false;
+
+	std::cout << std::endl << "tmp = " << it << ";" << std::endl << it << "-- == tmp ? :	";
+
+	ft_tmp = ft_it;
+	stl_tmp = stl_it;
+
+	if (!print_test_result((ft_it-- == ft_tmp) == (stl_it-- == stl_tmp)))
+		return false;
+
+	std::cout << std::endl << "tmp = " << it << ";" << std::endl << "++" << it << " == tmp ? :	";
+
+	ft_tmp = ft_it;
+	stl_tmp = stl_it;
+
+	if (!print_test_result((++ft_it == ft_tmp) == (++stl_it == stl_tmp)))
+		return false;
+
+	std::cout << std::endl << "tmp = " << it << ";" << std::endl << "--" << it << " == tmp ? :	";
+
+	ft_tmp = ft_it;
+	stl_tmp = stl_it;
+
+	if (!print_test_result((--ft_it == ft_tmp) == (--stl_it == stl_tmp)))
+		return false;
+
+	return true;
+}
+
+static bool	operators_test()
+{
+	std::cout << std::endl << "#######################################" << std::endl
+		<< "iterators operators test" << std::endl
+		<< "Crescent values filled map from 0 to " << MEDIUM << std::endl << std::endl
+		<< "	Comparison operator	" << std::endl << std::endl
+		<< "normal iterator :" << std::endl
+		<< "it(map.begin());" << std::endl << std::endl;
+
+	ft::map< int, char >						ft;
+	std::map< int, char >						stl;
+	get_crescent_filled_maps(MEDIUM, &ft, &stl);
+
+	ft::map< int, char >::iterator				ft_it(ft.begin());
+	std::map< int, char >::iterator				stl_it(stl.begin());
+
+	if (op_test("it", ft_it, stl_it, ft.begin(), stl.begin()) == false)
+		return false;
+	
+	std::cout << std::endl << "constant iterator :" << std::endl
+		<< "cit(map.begin());" << std::endl << std::endl;
+
+	ft::map< int, char >::const_iterator			ft_cit(ft.begin());
+	std::map< int, char >::const_iterator		stl_cit(stl.begin());
+
+	if (op_test("cit", ft_cit, stl_cit, ft.begin(), stl.begin()) == false)
+		return false;
+	
+	std::cout << std::endl << "reverse iterator :" << std::endl
+		<< "rit(map.rbegin());" << std::endl << std::endl;
+
+	ft::map< int, char >::reverse_iterator		ft_rit(ft.rbegin());
+	std::map< int, char >::reverse_iterator		stl_rit(stl.rbegin());
+
+	if (op_test("rit", ft_rit, stl_rit, ft.rbegin(), stl.rbegin()) == false)
+		return false;
+	
+	std::cout << std::endl << "const reverse iterator :" << std::endl
+		<< "crit(map.rbegin());" << std::endl << std::endl;
+
+	ft::map< int, char >::const_reverse_iterator			ft_crit(ft.rbegin());
+	std::map< int, char >::const_reverse_iterator		stl_crit(stl.rbegin());
+
+	if (op_test("crit", ft_crit, stl_crit, ft.rbegin(), stl.rbegin()) == false)
+		return false;
+
+	std::cout << "General :			";
+
+	return true;
 }
 
 static bool	iterators_test(bool time_check)
 {
-	time_check = false;
+	std::cout << "_______________________________________________" << std::endl
+		<< "iterators test" << std::endl;
+
+	if (!print_test_result(begin_test(time_check)))
+		return false;
+	if (!print_test_result(end_test(time_check)))
+		return false;
+	if (!print_test_result(rbegin_test(time_check)))
+		return false;
+	if (!print_test_result(rend_test(time_check)))
+		return false;
+	if (!print_test_result(operators_test()))
+		return false;
 	return true;
 }
 
