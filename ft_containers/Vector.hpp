@@ -304,7 +304,6 @@ namespace	ft
 			if (new_size > max_size())
 				throw (std::length_error("vector::insert(iterator position, size_type n, const value_type& val)"));
 
-			
 			if (new_size > capacity())
 			{
 				difference_type	new_pos(position - begin());
@@ -317,16 +316,19 @@ namespace	ft
 			}
 
 			difference_type	range(new_size - size());
+			const_iterator	old_end(end());
 
 			_end = _data + new_size;
 			for (iterator it(end() - difference_type(1)); (it - range) != position - difference_type(1); it--)
 			{
-				_alloc.destroy(&(*it));
+				if (it < old_end)
+					_alloc.destroy(&(*it));
 				_alloc.construct(&(*it), *(it - range));
 			}
 			while (n--)
 			{
-				_alloc.destroy(&(*(position)));
+				if (position < old_end)
+					_alloc.destroy(&(*(position)));
 				_alloc.construct(&(*position), val);
 				position++;
 			}
@@ -359,16 +361,19 @@ namespace	ft
 			}
 
 			difference_type	range(new_size - size());
+			const_iterator	old_end(end());
 
 			_end = _data + new_size;
 			for (iterator it(end() - difference_type(1)); (it - range) != position - difference_type(1); it--)
 			{
-				_alloc.destroy(&(*it));
+				if (it < old_end)
+					_alloc.destroy(&(*it));
 				_alloc.construct(&(*it), *(it - range));
 			}
 			while (first != last)
 			{
-				_alloc.destroy(&(*(position)));
+				if (position < old_end)
+					_alloc.destroy(&(*(position)));
 				_alloc.construct(&(*position), *(first++));
 				position++;
 			}

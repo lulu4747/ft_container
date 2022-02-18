@@ -92,6 +92,11 @@ namespace	ft
 		{
 			return _ptr + value;
 		}
+		
+		friend Random_Access_Iterator	operator+(const difference_type n, const Random_Access_Iterator& rai)
+		{
+			return Random_Access_Iterator(rai._ptr + n);
+		}
 
 		Random_Access_Iterator& operator-=(difference_type value)
 		{
@@ -192,13 +197,6 @@ namespace	ft
 	operator>=(const ft::Random_Access_Iterator<T_L> lhs, const ft::Random_Access_Iterator<T_R> rhs)
 	{
 		return (lhs.base() >= rhs.base());
-	}
-
-	template<typename T>
-	ft::Random_Access_Iterator<T>
-	operator+(typename ft::Random_Access_Iterator<T>::difference_type n, typename ft::Random_Access_Iterator<T>& rai)
-	{
-		return (&(*rai) + n);
 	}
 
 	template <typename T>

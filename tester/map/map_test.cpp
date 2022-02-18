@@ -276,12 +276,15 @@ static bool	rbegin_test(bool time_check)
 	ft_rit = ft.rbegin();
 	stl_rit = stl.rbegin();
 
+	int i = 0;
 	while (ft_rit != ft.rend())
 	{
+		std::cout << i << std::endl;
 		if (ft_rit->first != stl_rit->first && ft_rit->second != stl_rit->second)
 			return false;
 		ft_rit++;
 		stl_rit++;
+		i++;
 	}
 	if (stl_rit != stl.rend())
 		return false;
@@ -339,7 +342,7 @@ static bool	rend_test(bool time_check)
 		return false;
 
 	std::cout << std::endl << "const rend() - 1 on same map" << std::endl << std::endl << "while(crit != rbegin())"
-		<< std::endl << "crit--; (*crit == *stl_crit)? :			";
+		<< std::endl << "--crit; (*crit == *stl_crit)? :			";
 
 	ft::map< int, char >::const_reverse_iterator		ft_crit = --ft.rend();
 	std::map< int, char >::const_reverse_iterator	stl_crit = --stl.rend();

@@ -122,30 +122,22 @@ namespace	ft
 
 		reverse_iterator	rbegin()
 		{
-			reverse_iterator rit(--(_data.end()));
-
-			return rit;
+			return reverse_iterator(_data.end());
 		}
 
 		const_reverse_iterator	rbegin() const
 		{
-			const_reverse_iterator rit(--(_data.end()));
-
-			return rit;
+			return const_reverse_iterator(_data.end());
 		}
 
 		reverse_iterator	rend()
 		{
-			reverse_iterator rit((_data.end()));
-
-			return rit;
+			return reverse_iterator(_data.begin());;
 		}
 
 		const_reverse_iterator	rend() const
 		{
-			const_reverse_iterator rit((_data.end()));
-
-			return rit;
+			return const_reverse_iterator(_data.begin());;
 		}
 
 		//	Capacity
