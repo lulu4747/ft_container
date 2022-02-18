@@ -55,6 +55,10 @@ namespace	ft
 	template <> struct is_input_iterator_tagged<Forward_Iterator_tag> { static const bool value = true; };
 	template <> struct is_input_iterator_tagged<Bidirectional_Iterator_tag> { static const bool value = true; };
 	template <> struct is_input_iterator_tagged<Random_Access_Iterator_tag> { static const bool value = true; };
+	template <> struct is_input_iterator_tagged<std::input_iterator_tag> { static const bool value = true; };
+	template <> struct is_input_iterator_tagged<std::forward_iterator_tag> { static const bool value = true; };
+	template <> struct is_input_iterator_tagged<std::bidirectional_iterator_tag> { static const bool value = true; };
+	template <> struct is_input_iterator_tagged<std::random_access_iterator_tag> { static const bool value = true; };
 }
 
 #endif

@@ -69,7 +69,7 @@ namespace	ft
 		{
 
 			if(!(is_input_iterator_tagged< typename iterator_traits<InputIt>::iterator_category >::value))
-				throw std::invalid_argument("In ft::Map(InputIt first, InputIt last), InputIt class is'nt at least ft::InputIterator tagged");
+				throw std::invalid_argument("In ft::Map(InputIt first, InputIt last), InputIt class is'nt at least InputIterator tagged");
 
 			insert(first, last);
 		}
@@ -189,7 +189,7 @@ namespace	ft
 		{
 
 			if(!(is_input_iterator_tagged< typename iterator_traits<InputIt>::iterator_category >::value))
-				throw std::invalid_argument("In ft::map::insert(InputIt first, InputIt last), InputIt class is'nt at least ft::InputIterator tagged");
+				throw std::invalid_argument("In ft::map::insert(InputIt first, InputIt last), InputIt class is'nt at least InputIterator tagged");
 
 			while (first != last)
 				insert(*(first++));
