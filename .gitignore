@@ -34,12 +34,8 @@
 ft_container_tester
 ft_container_tester.g
 
-main_coco*
-Foo*
-std.output.dSYM/*
-std.output*
-ft.output.dSYM/*
-ft.output*
 ft
 std
 ret
+map_test.*
+vector_test.*
