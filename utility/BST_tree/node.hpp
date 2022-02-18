@@ -146,6 +146,13 @@ namespace	ft
 				return gp->left;
 			}
 
+			bool	is_left_child()
+			{
+				if (!parent->nill && this == parent->left)
+					return true;
+				return false;
+			}
+
 			bool	operator==(node const & rhs) const
 			{
 				return (*value == *(rhs.value));

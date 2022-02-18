@@ -34,7 +34,7 @@
 ft_container_tester
 ft_container_tester.g
 
-main_coco.*
+main_coco*
 Foo*
 std.output.dSYM/*
 std.output*

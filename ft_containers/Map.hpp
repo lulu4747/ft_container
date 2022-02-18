@@ -82,18 +82,14 @@ namespace	ft
 			*this = src;
 		}
 
-		~map()
-		{
-			_data.clear();
-		}
+		~map(){}
 
 		map&	operator=(map const & rhs)
 		{
 			if (this != &rhs)
 			{
-				_comp = rhs.key_comp();
-				_alloc = rhs.get_allocator();
-				_data = rhs._data;
+				clear();
+				insert(rhs.begin(), rhs.end());
 			}
 			return *this;
 		}
@@ -175,28 +171,17 @@ namespace	ft
 			if (first == _data.end())
 			{
 				new_val = _alloc.allocate(1);
-				_alloc.construct(new_val, val);
-				_data.insert(new_val);
+				_alloc.construct(new_val, make_pair(val.first, val.second));
+				second = _data.insert(new_val);
 				first = find(val.first);
-				second = true;
 			}
 			return (make_pair(first, second));
 		}
 
-		iterator insert (iterator position, const value_type& val)
+		iterator insert(iterator position, const value_type& val)
 		{
-			iterator	it(_data.find(val.first));
-			pointer		new_val(NULL);
-
-			if (it == _data.end())
-			{
-				new_val = _alloc.allocate(1);
-				_alloc.construct(new_val, val);
-				_data.insert(new_val);
-				it = find(val.first);
-			}
-			static_cast<void>(position);
-			return it;
+			(void)position;
+			return insert(*val).first;
 		}
 
 		template <class InputIt>
@@ -204,13 +189,11 @@ namespace	ft
 		{
 
 			if(!(is_input_iterator_tagged< typename iterator_traits<InputIt>::iterator_category >::value))
-				throw std::invalid_argument("In ft::Map::insert(InputIt first, InputIt last), InputIt class is'nt at least ft::InputIterator tagged");
+				throw std::invalid_argument("In ft::map::insert(InputIt first, InputIt last), InputIt class is'nt at least ft::InputIterator tagged");
 
 			while (first != last)
-			{
-				insert(*first);
-				first++;
-			}
+				insert(*(first++));
+
 			return ;
 		}
 
@@ -237,11 +220,7 @@ namespace	ft
 
 		void	swap(map& x)
 		{
-			map	tmp(x);
-
-			x._data = this->_data;
-			this->_data = tmp._data;
-			tmp.~map();
+			_data.swap(x._data);
 		}
 
 		void	clear()
@@ -284,14 +263,30 @@ namespace	ft
 			return _data.lower_bound(k);
 		}
 
-		const_iterator	lower_bound(const key_type& k) const;
+		const_iterator	lower_bound(const key_type& k) const
+		{
+			return _data.lower_bound(k);
+		}
 
-		iterator	upper_bound(const key_type& k);
+		iterator	upper_bound(const key_type& k)
+		{
+			return _data.upper_bound(k);
+		}
 
-		const_iterator	upper_bound(const key_type& k) const;
+		const_iterator	upper_bound(const key_type& k) const
+		{
+			return _data.upper_bound(k);
+		}
 
-		pair< iterator, iterator >	equal_range(const key_type& k);
-		pair< const_iterator, const_iterator >	equal_range(const key_type& k) const;
+		pair< iterator, iterator >	equal_range(const key_type& k)
+		{
+			return _data.equal_range(k);
+		}
+
+		pair< const_iterator, const_iterator >	equal_range(const key_type& k) const
+		{
+			return _data.equal_range(k);
+		}
 
 		// Allocator
 

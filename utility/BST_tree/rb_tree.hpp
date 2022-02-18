@@ -55,30 +55,6 @@ namespace	ft
 				_end_node->nill = true;
 			}
 
-			rb_tree(rb_tree const& src):rb_tree()
-			{
-				*this = src;
-			}
-
-			rb_tree&	operator=(rb_tree const& rhs)
-			{
-				if (this != &rhs)
-					this->copy(rhs);
-				return *this;
-			}
-
-			void	copy(rb_tree const& src)
-			{
-				if (!(empty()))
-					clear();
-				_comp = src.get_comp();
-				_value_alloc = src.get_value_allocator();
-				_node_alloc = src.get_node_allocator();
-				if (!(src.empty()))
-					_copy(src.get_root());
-				return ;
-			}
-
 	/*
 				**		destruction		**
 	*/
@@ -137,64 +113,74 @@ namespace	ft
 
 			iterator	begin()
 			{
-				iterator	it(_end_node->left);
-
-				return it;
+				return iterator(_root->leftmost());
 			}
 
 			const_iterator	begin() const
 			{
-				const_iterator	it(_end_node->left);
-
-				return it;
+				return const_iterator(_root->leftmost());
 			}
 
 			iterator	end()
 			{
-				iterator	it(_end_node);
-
-				return it;
+				return iterator(_end_node);
 			}
 
 			const_iterator	end() const
 			{
-				const_iterator	it(_end_node);
-
-				return it;
+				return const_iterator(_end_node);
 			}
 
 			iterator	find(const key_type& k)
 			{
-				iterator	pos(_find(k));
-
-				return pos;
+				return iterator(_find(k));
 			}
 
 			const_iterator	find(const key_type& k) const
 			{
-				const_iterator	pos(_find(k));
-
-				return pos;
+				return const_iterator(_find(k));
 			}
 
-			iterator	lower_bound(const key_type& k)	const
+			iterator	lower_bound(const key_type& k)
 			{
 				iterator		it(begin());
 				iterator		ite(end());
 
-				while (it != ite && _comp(k, (*it).first))
+				while (it != ite && !(_comp((*it).first, k)))
 					it++;
 				return it;
 			}
 
-			iterator	upper_bound(const key_type& k)	const
+			const_iterator	lower_bound(const key_type& k)	const
+			{
+				return const_iterator(this->lower_bound(k));
+			}
+
+			iterator	upper_bound(const key_type& k)
 			{
 				iterator		it(begin());
 				iterator		ite(end());
 
-				while (it != ite && !_comp((*it).first), k)
+				while (it != ite && (_comp(k, (*it).first)))
 					it++;
 				return it;
+			}
+
+			const_iterator	upper_bound(const key_type& k)	const
+			{
+				return const_iterator(this->upper_bound(k));
+			}
+
+			ft::pair< iterator, iterator >
+			equal_range(const key_type& k)
+			{
+				return (ft::make_pair(this->lower_bound(k), this->upper_bound(k)));
+			}
+
+			ft::pair< const_iterator, const_iterator >
+			equal_range(const key_type& k) const
+			{
+				return (ft::make_pair(this->lower_bound(k), this->upper_bound(k)));
 			}
 
 	/*
@@ -220,8 +206,6 @@ namespace	ft
 
 			bool	insert(pointer value)
 			{
-				if (_find(value->first) != _end_node)
-					return false;
 				if (empty())
 					return _balance(_root_init(value));
 				return _balance(_insert(value));
@@ -229,7 +213,7 @@ namespace	ft
 
 			void	erase(iterator to_remove)
 			{
-				node_pointer	ptr(node_accessor(to_remove).get_node());
+				node_pointer	ptr(_find(to_remove->first));
 
 				if (ptr == _end_node->left)
 					_end_node->left = _inorder_successor(ptr);
@@ -244,6 +228,27 @@ namespace	ft
 					_node_erase(ptr);
 				}
 				return ;
+			}
+
+			void	swap(rb_tree &x)
+			{
+				node_pointer			tmp_root(_root);
+				node_pointer			tmp_end_node(_end_node);
+				key_compare				tmp_comp(_comp);
+				value_allocator_type	tmp_value_alloc(_value_alloc);
+				node_allocator_type		tmp_node_alloc(_node_alloc);
+
+				_root =			x.get_root();
+				_end_node =		x.get_end_node();
+				_comp =			x.get_comp();
+				_value_alloc =	x.get_value_allocator();
+				_node_alloc =	x.get_node_allocator();
+
+				x._root =			tmp_root;
+				x._end_node =		tmp_end_node;
+				x._comp =			tmp_comp;
+				x._value_alloc =	tmp_value_alloc;
+				x._node_alloc =		tmp_node_alloc;
 			}
 
 	/*
@@ -287,22 +292,6 @@ namespace	ft
 			value_allocator_type	_value_alloc;
 			node_allocator_type		_node_alloc;
 
-			class node_accessor : Binary_Search_Tree_Iterator< node_type >
-			{
-				friend	class	rb_tree< value_type, key_compare, value_allocator_type, key_type, node_type, node_allocator_type >;
-
-				protected :
-
-					node_accessor(Binary_Search_Tree_Iterator< node_type > const & src)
-						:Binary_Search_Tree_Iterator< node_type >(src)
-					{}
-
-					node_pointer	get_node()
-					{
-						return Binary_Search_Tree_Iterator< node_type >::_ptr;
-					}
-			};
-
 	/*
 				**		clear() helper		**
 	*/
@@ -338,13 +327,13 @@ namespace	ft
 			node_pointer	_find(const key_type& k)	const
 			{
 				node_pointer	ptr(_root);
-				bool			is_left;
+				bool			is_less;
 
 				while (ptr != _end_node)
 				{
-					if ((is_left = _comp(k, ptr->key())) == _comp(ptr->key(), k))
+					if ((is_less = _comp(k, ptr->key())) == _comp(ptr->key(), k))
 						return ptr;
-					if (is_left)
+					if (is_less == true)
 						ptr = ptr->left;
 					else
 						ptr = ptr->right;
@@ -353,42 +342,97 @@ namespace	ft
 			}
 
 	/*
-				**		copy() helper		**
-	*/
-
-			void	_copy(node_pointer src)
-			{
-				pointer	new_val(_value_alloc.allocate(1));
-
-				_value_alloc.construct(new_val, make_pair(src->key(), src->value->second));
-				_root_init(new_val);
-				if (!src->left->nill)
-					_root->left = _copy(_root, src->left);
-				if (!src->right->nill)
-					_root->right = _copy(_root, src->right);
-				_end_node->left = _root->leftmost();
-				_end_node->right = _root->rightmost();
-				return ;
-			}
-
-			node_pointer	_copy(node_pointer parent, node_pointer src)
-			{
-				node_pointer	new_node(_node_alloc.allocate(1));
-				pointer			new_val(_value_alloc.allocate(1));
-
-				_value_alloc.construct(new_val, make_pair(src->key(), src->value->second));
-				_node_alloc.construct(new_node, node_type(new_val));
-				new_node->parent = parent;
-				new_node->left = src->left->value ?
-					_copy(new_node, src->left) : _end_node;
-				new_node->right = src->right->value ?
-					_copy(new_node, src->right) : _end_node;
-				return new_node;
-			}
-
-	/*
 				**		balancing functions		**
 	*/
+
+			void	_left_rotate(node_pointer ptr)
+			{
+				node_pointer	new_parent(ptr->right);
+
+				if (ptr->red != new_parent->red)
+				{
+					ptr->red = !ptr->red;
+					new_parent->red = !new_parent->red;
+				}
+				new_parent->parent = ptr->parent;
+				if (ptr->parent == _end_node)
+					_root = new_parent;
+				else
+					ptr->is_left_child() ? ptr->parent->left = new_parent : ptr->parent->right = new_parent;
+				ptr->right = new_parent->left;
+				ptr->right->parent = ptr;
+				ptr->parent = new_parent;
+				new_parent->left = ptr;
+			}
+
+			void	_right_rotate(node_pointer ptr)
+			{
+				node_pointer	new_parent(ptr->left);
+
+				if (ptr->red != new_parent->red)
+				{
+					ptr->red = !ptr->red;
+					new_parent->red = !new_parent->red;
+				}
+				new_parent->parent = ptr->parent;
+				if (ptr->parent == _end_node)
+					_root = new_parent;
+				else
+					ptr->is_left_child() ? ptr->parent->left = new_parent : ptr->parent->right = new_parent;
+				ptr->left = new_parent->right;
+				ptr->left->parent = ptr;
+				ptr->parent = new_parent;
+				new_parent->right = ptr;
+			}
+
+			void	_rr_del(node_pointer parent, node_pointer sibling)
+			{
+				sibling->right->red = false;
+				_left_rotate(parent);
+			}
+
+			void	_rl_del(node_pointer parent, node_pointer sibling)
+			{
+				_right_rotate(sibling);
+				_left_rotate(parent);
+			}
+
+			void	_ll_del(node_pointer parent, node_pointer sibling)
+			{
+				sibling->left->red = false;
+				_right_rotate(parent);
+			}
+
+			void	_lr_del(node_pointer parent, node_pointer sibling)
+			{
+				_left_rotate(sibling);
+				_right_rotate(parent);
+			}
+
+			bool	_ll_insert(node_pointer ptr)
+			{
+				_right_rotate(ptr->grandparent());
+
+				return true;
+			}
+
+			bool	_lr_insert(node_pointer ptr)
+			{
+				_left_rotate(ptr->parent);
+				return _ll_insert(ptr->left);
+			}
+
+			bool	_rr_insert(node_pointer ptr)
+			{
+				_left_rotate(ptr->grandparent());
+				return true;
+			}
+
+			bool	_rl_insert(node_pointer ptr)
+			{
+				_right_rotate(ptr->parent);
+				return _rr_insert(ptr->right);
+			}
 
 			void	_no_sibling_case(node_pointer ptr, node_pointer parent, node_pointer sibling)
 			{
@@ -415,19 +459,19 @@ namespace	ft
 			{
 				if (sibling->left->red || sibling->right->red)
 				{
-					if (sibling == parent->right)
-					{
-						if (sibling->right->red)
-							_rr_del(parent, sibling);
-						else
-							_rl_del(parent, sibling);
-					}
-					else
+					if (sibling->is_left_child())
 					{
 						if (sibling->left->red)
 							_ll_del(parent, sibling);
 						else
 							_lr_del(parent, sibling);
+					}
+					else
+					{
+						if (sibling->right->red)
+							_rr_del(parent, sibling);
+						else
+							_rl_del(parent, sibling);
 					}
 				}
 				else
@@ -438,7 +482,7 @@ namespace	ft
 						ptr->double_black = false;
 						parent->double_black = true;
 						if (parent != _root)
-							sibling = parent == parent->parent->left ? parent->parent->right : parent->parent->left;
+							sibling = parent->is_left_child() ? parent->parent->right : parent->parent->left;
 						return _balance(parent, parent->parent, sibling);
 					}
 					else
@@ -453,27 +497,15 @@ namespace	ft
 					_root = sibling;
 				parent->red = true;
 				sibling->red = false;
-				if (sibling == parent->left)
+				if (sibling->is_left_child())
 				{
-					sibling->right->parent = parent;
-					parent->left = sibling->right;
-					sibling->parent = parent->parent;
-					if (parent != _root)
-						parent == parent->parent->left ? parent->parent->left = sibling : parent->parent->right = sibling;
-					parent->parent = sibling;
-					sibling->right = parent;
-					sibling = parent->right;
+					_right_rotate(parent);
+					sibling = parent->left;
 				}
 				else
 				{
-					sibling->left->parent = parent;
-					parent->right = sibling->left;
-					sibling->parent = parent->parent;
-					if (parent != _root)
-						parent == parent->parent->left ? parent->parent->left = sibling : parent->parent->right = sibling;
-					parent->parent = sibling;
-					sibling->left = parent;
-					sibling = parent->left;
+					_left_rotate(parent);
+					sibling = parent->right;
 				}
 				return _balance(ptr, parent, sibling);
 			}
@@ -493,86 +525,6 @@ namespace	ft
 				return ;
 			}
 
-			void	_rr_del(node_pointer parent, node_pointer sibling)
-			{
-				sibling->right->red = false;
-				sibling->parent = parent->parent;
-				if (parent == _root)
-					_root = sibling;
-				else
-					parent == parent->parent->left ? parent->parent->right = sibling : parent->parent->left = sibling;
-				parent->right = sibling->left;
-				sibling->left->parent = parent;
-				sibling->left = parent;
-				parent->parent = sibling;
-			}
-
-			void	_rl_del(node_pointer parent, node_pointer sibling)
-			{
-				node_pointer	red(sibling->left);
-
-				red->red = false;
-				if (red->right != _end_node)
-				{
-					red->right->parent = sibling;
-					sibling->left = red->right;
-				}
-				if (red->left != _end_node)
-				{
-					red->left->parent = parent;
-					parent->right = red->left;
-				}
-				red->parent = parent->parent;
-				if (parent == _root)
-					_root = red;
-				else
-					parent == parent->parent->left ? parent->parent->right = red : parent->parent->left = red;
-				red->left = parent;
-				parent->parent = red;
-				red->right = sibling;
-				sibling->parent = red;
-			}
-
-			void	_ll_del(node_pointer parent, node_pointer sibling)
-			{
-				sibling->left->red = false;
-				sibling->parent = parent->parent;
-				if (parent == _root)
-					_root = sibling;
-				else
-					parent == parent->parent->left ? parent->parent->right = sibling : parent->parent->left = sibling;
-				parent->left = sibling->right;
-				sibling->right->parent = parent;
-				sibling->right = parent;
-				parent->parent = sibling;
-			}
-
-			void	_lr_del(node_pointer parent, node_pointer sibling)
-			{
-				node_pointer	red(sibling->right);
-
-				red->red = false;
-				if (red->left != _end_node)
-				{
-					red->left->parent = sibling;
-					sibling->right = red->left;
-				}
-				if (red->right != _end_node)
-				{
-					red->right->parent = parent;
-					parent->left = red->right;
-				}
-				red->parent = parent->parent;
-				if (parent == _root)
-					_root = red;
-				else
-					parent == parent->parent->left ? parent->parent->right = red : parent->parent->left = red;
-				red->right = parent;
-				parent->parent = red;
-				red->left = sibling;
-				sibling->parent = red;
-			}
-
 			bool	_balance(node_pointer ptr)
 			{
 				if (ptr == _root)
@@ -589,87 +541,14 @@ namespace	ft
 						return	_balance(grandparent);
 					}
 					else if (grandparent->left != _end_node && ptr == grandparent->left->left)
-						return _ll_rotation(ptr);
+						return _ll_insert(ptr);
 					else if (grandparent->left != _end_node && ptr == grandparent->left->right)
-						return _lr_rotation(ptr);
+						return _lr_insert(ptr);
 					else if (grandparent->right != _end_node && ptr == grandparent->right->right)
-						return _rr_rotation(ptr);
-					return _rl_rotation(ptr);
+						return _rr_insert(ptr);
+					return _rl_insert(ptr);
 				}
 				return true;
-			}
-
-			bool	_ll_rotation(node_pointer ptr)
-			{
-				node_pointer	grandparent(ptr->grandparent());
-				bool			tmp(grandparent->red);
-
-				_r_rotation(grandparent);
-				grandparent->red = ptr->parent->red;
-				ptr->parent->red = tmp;
-				return _balance(ptr);
-			}
-
-			bool	_lr_rotation(node_pointer ptr)
-			{
-				_l_rotation(ptr->parent);
-				return _ll_rotation(ptr->left);
-			}
-
-			bool	_rr_rotation(node_pointer ptr)
-			{
-				node_pointer	grandparent(ptr->grandparent());
-				bool			tmp(grandparent->red);
-
-				_l_rotation(grandparent);
-				grandparent->red = ptr->parent->red;
-				ptr->parent->red = tmp;
-				return _balance(ptr);
-			}
-			bool	_rl_rotation(node_pointer ptr)
-			{
-				_r_rotation(ptr->parent);
-				return _rr_rotation(ptr->right);
-			}
-
-			void	_l_rotation(node_pointer ptr)
-			{
-				node_pointer	right(ptr->right);
-
-				right->parent = ptr->parent;
-				if (ptr->parent != _end_node)
-					ptr == ptr->parent->left ?	ptr->parent->left = right :	ptr->parent->right = right;
-				else
-				{
-					_root = right;
-					right->parent = _end_node;
-				}
-				if (right->left != _end_node)
-					right->left->parent = ptr;
-				ptr->right = right->left;
-				right->left = ptr;
-				ptr->parent = right;
-				return ;
-			}
-
-			void	_r_rotation(node_pointer ptr)
-			{
-				node_pointer	left(ptr->left);
-
-				left->parent = ptr->parent;
-				if (ptr->parent != _end_node)
-					ptr == ptr->parent->left ?	ptr->parent->left = left :	ptr->parent->right = left;
-				else
-				{
-					_root = left;
-					left->parent= _end_node;
-				}
-				if (left->right != _end_node)
-					left->right->parent = ptr;
-				ptr->left = left->right;
-				left->right = ptr;
-				ptr->parent = left;
-				return ;
 			}
 
 	/*
@@ -679,10 +558,7 @@ namespace	ft
 			node_pointer	_root_init(pointer value)
 			{
 				_root = _node_alloc.allocate(1);
-				_node_alloc.construct(_root, node_type(value));
-				_root->parent = _end_node;
-				_root->right = _end_node;
-				_root->left = _end_node;
+				_node_alloc.construct(_root, node_type(value, _end_node, _end_node, _end_node));
 				_end_node->left = _root;
 				_end_node->right = _root;
 				_end_node->parent = _root;
@@ -713,11 +589,8 @@ namespace	ft
 				node_pointer	parent(_end_node->left);
 				node_pointer	new_node(_node_alloc.allocate(1));
 
-				_node_alloc.construct(new_node, node_type(value));
-				new_node->parent = parent;
+				_node_alloc.construct(new_node, node_type(value, _end_node->left, _end_node, _end_node));
 				parent->left = new_node;
-				new_node->right = _end_node;
-				new_node->left = _end_node;
 				_end_node->left = new_node;
 				return new_node;
 			}
@@ -727,11 +600,8 @@ namespace	ft
 				node_pointer	parent(_end_node->right);
 				node_pointer	new_node(_node_alloc.allocate(1));
 
-				_node_alloc.construct(new_node, node_type(value));
-				new_node->parent = parent;
+				_node_alloc.construct(new_node, node_type(value, _end_node->right, _end_node, _end_node));
 				parent->right = new_node;
-				new_node->right = _end_node;
-				new_node->left = _end_node;
 				_end_node->right = new_node;
 				return new_node;
 			}
@@ -740,10 +610,7 @@ namespace	ft
 			{
 				node_pointer	new_node(_node_alloc.allocate(1));
 
-				_node_alloc.construct(new_node, node_type(value));
-				new_node->left = _end_node;
-				new_node->right = _end_node;
-				new_node->parent = new_parent;
+				_node_alloc.construct(new_node, node_type(value, new_parent, _end_node, _end_node));
 				if (is_left)
 					new_parent->left = new_node;
 				else
