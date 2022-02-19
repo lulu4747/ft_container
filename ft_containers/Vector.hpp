@@ -383,9 +383,7 @@ namespace	ft
 		{
 			pointer p_pos = &(*position);
 			_alloc.destroy(&(*position));
-			if (&(*position) + 1 == _end)
-				_alloc.destroy(&(*position));
-			else
+			if (!(&(*position) + 1 == _end))
 			{
 				for (int i = 0; i < _end - &(*position) - 1; i++)
 				{

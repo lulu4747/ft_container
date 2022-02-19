@@ -4,14 +4,25 @@
 #include "map_test.hpp"
 #include "../Foo.hpp"
 
-int main(void)
+int main(int argc, char **argv)
 {
-	srand(SEED);
+	int		seed;
+	size_t	len;
+
+	if (argc != 3)
+	{
+		std::cout << "Provide seed and len" << std::endl;
+		return 1;
+	}
+
+	seed = atoi(argv[1]);
+	len = atoi(argv[2]);
+
+	srand(seed);
 
 	{
 		ft::map<int, int> mymap;
 		ft::map<int, int> mymap2;
-		size_t len = LEN;
 		for( size_t i = 0; i < len; i++)
 		{
 			mymap.insert(ft::pair<int, int>(rand(), (int)rand()));
@@ -51,7 +62,6 @@ int main(void)
 	{
 		ft::map<Foo, int> mymap;
 		ft::map<Foo, int> mymap2;
-		size_t len = LEN;
 		for( size_t i = 0; i < len; i++)
 		{
 			mymap.insert(ft::pair<int, int>(rand(), (int)rand()));
@@ -294,8 +304,8 @@ int main(void)
 
 		
 		std::string str = "A";
-		size_t len = rand() % 250;
-		for (size_t i = 0; i < len; i++)
+		size_t n = rand() % 250;
+		for (size_t i = 0; i < n; i++)
 		{
 			str += static_cast<char>(rand() % 127 + 'A');
 			mp1.insert(ft::make_pair(str, int()));

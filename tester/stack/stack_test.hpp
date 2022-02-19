@@ -14,14 +14,6 @@
 
 # include <iostream>
 
-#ifndef SEED
-	# define SEED 10
-#endif
-
-/*
-**		Compare Functions	**
-*/
-
 template < class STACK >
 void	print_content(const STACK &src)
 {

@@ -3,22 +3,34 @@
 #include "vector_test.hpp"
 #include "../Foo.hpp"
 
-int main()
+int main(int argc, char **argv)
 {
-	srand(SEED);
+	int		seed;
+	size_t	len;
 
-/*	std::cout << "---------------------VECTOR---------------------" << std::endl << std::endl
+	if (argc != 3)
+	{
+		std::cout << "Provide seed and len" << std::endl;
+		return 1;
+	}
+
+	seed = atoi(argv[1]);
+	len = atoi(argv[2]);
+
+	srand(seed);
+
+	std::cout << "---------------------VECTOR---------------------" << std::endl << std::endl
 		<< "default constructor :" << std::endl << std::endl;
 	{	
 		ft::vector<int> vec; //default const
 		print_attributes(vec);
 
-		std::cout << "try/catch vector.at(rand() %" << LEN << ") 1000 times on empty vector :" << std::endl << std::endl;
+		std::cout << "try/catch vector.at(rand() %" << len << ") 1000 times on empty vector :" << std::endl << std::endl;
 		try
 		{
 			for (int i = 0; i < 1000; i++)
 			{
-				const int idx = rand() % LEN;
+				const int idx = rand() % len;
 				vec.at(idx);
 				std::cerr << "Error: THIS VECTOR SHOULD BE EMPTY!!" << std::endl;
 			}
@@ -28,9 +40,9 @@ int main()
 			std::cout << "OK" << std::endl << std::endl;
 		}
 
-		std::cout << "vector.insert(vector.end(), rand()) " << LEN << " times :" << std::endl << std::endl;
+		std::cout << "vector.insert(vector.end(), rand()) " << len << " times :" << std::endl << std::endl;
 
-		for(int i = 0; i < LEN; i++)
+		for(size_t i = 0; i < len; i++)
 		{
 			vec.insert(vec.end(), rand());
 		}
@@ -157,12 +169,12 @@ int main()
 
 	{
 		std::cout << "default construct :" << std::endl << std::endl
-			<< "for(int i = 0; i < " << LEN << "; i++)" << std::endl
+			<< "for(int i = 0; i < " << len << "; i++)" << std::endl
 			<< "	vec1.insert(vec1.end(), rand()); :" << std::endl << std::endl;
 
 		ft::vector<int> vec1;
 
-		for(int i =0; i < LEN; i++)
+		for(size_t i =0; i < len; i++)
 		{
 			vec1.insert(vec1.end(), rand());
 		}
@@ -249,12 +261,12 @@ int main()
 
 	{
 		std::cout << "default construct with class <FOO> :" << std::endl << std::endl
-			<< "for(int i = 0; i < " << LEN << "; i++)" << std::endl
+			<< "for(int i = 0; i < " << len << "; i++)" << std::endl
 			<< "	vec1.insert(vec1.end(), rand()); :" << std::endl << std::endl;
 
 		ft::vector<Foo> vec1;
 
-		for(int i =0; i < LEN; i++)
+		for(size_t i =0; i < len; i++)
 		{
 			vec1.insert(vec1.end(), rand());
 		}
@@ -332,8 +344,8 @@ int main()
 
 		
 		std::string str = "A";
-		size_t len = rand() % 250;
-		for (size_t i = 0; i < len; i++)
+		size_t n = rand() % 250;
+		for (size_t i = 0; i < n; i++)
 		{
 			str += static_cast<char>(rand() % 127 + 'A');
 			vec1.push_back(str);
@@ -353,7 +365,7 @@ int main()
 
 		std::cout << "push_back random elements from vec2;" << std::endl << std::endl;
 
-		for (size_t i = 0; i < len; i++)
+		for (size_t i = 0; i < n; i++)
 		{
 			size_t index = rand() % vec2.size();
 
@@ -378,7 +390,7 @@ int main()
 		cmp(vec1, vec3);
 		cmp(vec3, vec2);
 
-	}*/
+	}
 
 	std::cout << "______________________________________" << std::endl << std::endl;
 

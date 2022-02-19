@@ -1,9 +1,21 @@
 #include <iostream>
 #include "stack_test.hpp"
 
-int	main()
+int	main(int argc, char **argv)
 {
-	srand(SEED);
+	int		seed;
+	size_t	len;
+
+	if (argc != 3)
+	{
+		std::cout << "Provide seed and len" << std::endl;
+		return 1;
+	}
+
+	seed = atoi(argv[1]);
+	len = atoi(argv[2]);
+
+	srand(seed);
 
 {
 	std::cout << "_______________________________________________" << std::endl
@@ -41,9 +53,9 @@ int	main()
 
 	std::cout << std::endl << std::endl
 		<< "#######################################" << std::endl << std::endl
-		<< "stack.push(std::rand()) " << 20000 << " times" << std::endl;
+		<< "stack.push(std::rand()) " << len << " times" << std::endl;
 
-	for (int i = 0; i < 20000; i++)
+	for (size_t i = 0; i < len; i++)
 	{
 		val = std::rand();
 		stk.push(val);

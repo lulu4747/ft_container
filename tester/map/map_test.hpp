@@ -18,15 +18,6 @@
 # include <iostream>
 # include <stdlib.h>
 
-#ifndef SEED
-	# define SEED 10
-#endif
-
-#ifndef LEN
-	# define LEN rand() % 1000000
-#endif
-
-
 template<typename Iter>
 std::string	printPair(Iter &it)
 {

@@ -43,20 +43,26 @@ all:
 map:$(SRC_MAP) $(INC)
 	$(MAKE) $(FT_MAP) --no-print-directory
 	$(MAKE) $(STD_MAP) --no-print-directory
-	./test.sh map
 
 stack:$(SRC_STACK) $(INC)
 	$(MAKE) $(FT_STACK) --no-print-directory
 	$(MAKE) $(STD_STACK) --no-print-directory
-	./test.sh stack
 
 vector:$(SRC_VECTOR) $(INC)
 	$(MAKE) $(FT_VECTOR) --no-print-directory
 	$(MAKE) $(STD_VECTOR) --no-print-directory
-	./test.sh vector
 
 test:all
 	./test.sh
+
+map_test:map
+	./test.sh map
+
+stack_test:stack
+	./test.sh stack
+
+vector_test:vector
+	./test.sh vector
 
 $(FT_MAP):$(SRC_MAP) $(INC)
 	$(CC) $(CFLAGS) $(SRC_MAP) $(NS) $(IFLAG) -o $(FT_MAP)
@@ -98,4 +104,4 @@ re:
 	$(MAKE) fclean --no-print-directory
 	$(MAKE) all --no-print-directory
 
-.PHONY:all map stack vector test clean fclean re
+.PHONY:all map stack vector test map_test stack_test vector_test clean fclean re

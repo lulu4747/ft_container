@@ -15,15 +15,6 @@
 #include <iostream>
 #include <string>
 
-
-#ifndef SEED
-	# define SEED 10
-#endif
-
-#ifndef LEN
-	# define LEN rand() % 1000000
-#endif
-
 template <class V>
 size_t rand_size(const V& v)
 {
