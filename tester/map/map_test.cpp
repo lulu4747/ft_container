@@ -167,9 +167,9 @@ int main(void)
 		ft::map<int, int> mp; //default const
 		print_attributes(mp);
 
-		std::cout << "map.insert(map.end(), ft::make_pair(rand(), rand())) " << LEN << " times :" << std::endl << std::endl;
+		std::cout << "map.insert(map.end(), ft::make_pair(rand(), rand())) " << 2000 << " times :" << std::endl << std::endl;
 
-		for(int i = 0; i < LEN; i++)
+		for(int i = 0; i < 2000; i++)
 		{
 			mp.insert(mp.end(), ft::make_pair(rand(), rand()));
 		}
@@ -228,12 +228,12 @@ int main(void)
 
 	{
 		std::cout << "default construct :" << std::endl << std::endl
-			<< "for(int i = 0; i < " << LEN << "; i++)" << std::endl
+			<< "for(int i = 0; i < " << 2000 << "; i++)" << std::endl
 			<< "	mp1.insert(mp1.end(), ft::make_pair(rand(), rand())); :" << std::endl << std::endl;
 
 		ft::map<int, int> mp1;
 
-		for(int i =0; i < LEN; i++)
+		for(int i =0; i < 2000; i++)
 		{
 			mp1.insert(mp1.end(), ft::make_pair(rand(), rand()));
 		}
