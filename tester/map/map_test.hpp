@@ -38,7 +38,6 @@ template <typename T_MAP>
 void	printSize(T_MAP const &mp, bool print_content = 0)
 {
 	std::cout << "size: " << mp.size() << std::endl;
-	//std::cout << "max_size: " << mp.max_size() << std::endl;
 	if (print_content)
 	{
 		typename T_MAP::const_iterator it = mp.begin(), ite = mp.end();
@@ -161,7 +160,6 @@ void	test_range_insert(MAP &mp, ite begin, ite end)
 
 }
 
-//ersase n rand key
 template <class MAP>
 void	erase_key(MAP &mp, size_t len = 10000)
 {
@@ -213,12 +211,12 @@ void	cmp(const MAP &lhs, const MAP &rhs)
 	
 	while (left_it != left_end && right_it != right_end)
 	{
-		std::cout << "left_it->first == right_it->first	: " << (left_it->first == right_it->first) << std::endl
-			<< "left_it->first != right_it->first	: " << (left_it->first != right_it->first) << std::endl
-			<< "left_it->first <= right_it->first	: " << (left_it->first <= right_it->first) << std::endl
-			<< "left_it->first < right_it->first	: " << (left_it->first < right_it->first) << std::endl
-			<< "left_it->first >= right_it->first	: " << (left_it->first >= right_it->first) << std::endl
-			<< "left_it->first > right_it->first	: " << (left_it->first > right_it->first) << std::endl << std::endl;
+		std::cout << "left_it->first == right_it->first	: " << (left_it->first == right_it->first)
+			<< "left_it->first != right_it->first	: " << (left_it->first != right_it->first)
+			<< "left_it->first <= right_it->first	: " << (left_it->first <= right_it->first)
+			<< "left_it->first < right_it->first	: " << (left_it->first < right_it->first)
+			<< "left_it->first >= right_it->first	: " << (left_it->first >= right_it->first)
+			<< "left_it->first > right_it->first	: " << (left_it->first > right_it->first);
 		left_it++;
 		right_it++;
 	}
@@ -245,12 +243,12 @@ void	cmp(const L_MAP &lhs, const R_MAP &rhs)
 	
 	while (left_it != left_end && right_it != right_end)
 	{
-		std::cout << "left_it->first == right_it->first	: " << (left_it->first == right_it->first) << std::endl
-			<< "left_it->first != right_it->first	: " << (left_it->first != right_it->first) << std::endl
-			<< "left_it->first <= right_it->first	: " << (left_it->first <= right_it->first) << std::endl
-			<< "left_it->first < right_it->first	: " << (left_it->first < right_it->first) << std::endl
-			<< "left_it->first >= right_it->first	: " << (left_it->first >= right_it->first) << std::endl
-			<< "left_it->first > right_it->first	: " << (left_it->first > right_it->first) << std::endl << std::endl;
+		std::cout << "left_it->first == right_it->first	: " << (left_it->first == right_it->first)
+			<< "left_it->first != right_it->first	: " << (left_it->first != right_it->first)
+			<< "left_it->first <= right_it->first	: " << (left_it->first <= right_it->first)
+			<< "left_it->first < right_it->first	: " << (left_it->first < right_it->first)
+			<< "left_it->first >= right_it->first	: " << (left_it->first >= right_it->first)
+			<< "left_it->first > right_it->first	: " << (left_it->first > right_it->first);
 		left_it++;
 		right_it++;
 	}

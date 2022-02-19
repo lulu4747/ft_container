@@ -150,7 +150,6 @@ int main(void)
 
 		b->second = rand();
 		std::cout << b->first << " => " << (*b).second << std::endl;
-		//*b = ft::make_pair<const int, int>(rand(), rand()); error
 
 
 		ft::map<int, int>::const_iterator ca;

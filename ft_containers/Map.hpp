@@ -303,28 +303,12 @@ namespace	ft
 
 	};
 
-		
 	template< class Key, class T, class Compare, class Alloc >
 	bool operator==(const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs)
 	{
 		if (lhs.size() != rhs.size())
 			return false;
 		return ft::equal(lhs.begin(), lhs.end(), rhs.begin());
-		/*
-		if (lhs.size() != rhs.size())
-			return false;
-
-		typename map<Key,T,Compare,Alloc>::const_iterator	first1 = lhs.begin();
-		typename map<Key,T,Compare,Alloc>::const_iterator	first2 = rhs.begin();
-
-		while (first1 != lhs.end())
-		{
-			if (first2 == rhs.end() || *first1 != *first2)
-				return false;
-			first1++;
-			first2++;
-		}
-		return true;*/
 	}
 
 	template< class Key, class T, class Compare, class Alloc >
