@@ -22,7 +22,7 @@
 	# define SEED 10
 #endif
 
-#define LEN 1000000
+#define LEN 100
 
 
 template<typename Iter>
@@ -128,15 +128,6 @@ void test_const_bound(MAP &mp ,const typename MAP::key_type &k)
 	std::cout << "###############################################" << std::endl;
 }
 
-template <class MAP>
-void	cmp(const MAP &lhs, const MAP &rhs)
-{
-	std::cout << "eq: " << (lhs == rhs) << " | ne: " << (lhs != rhs) << std::endl;
-	std::cout << "lt: " << (lhs <  rhs) << " | le: " << (lhs <= rhs) << std::endl;
-	std::cout << "gt: " << (lhs >  rhs) << " | ge: " << (lhs >= rhs) << std::endl;
-	std::cout << "###############################################" << std::endl;
-}
-
 template <class MAP, class value_type>
 void	test_simple_insert(MAP &mp, value_type add)
 {
@@ -177,6 +168,120 @@ void	erase_key(MAP &mp, size_t len = 10000)
 		ret += mp.erase(rand() % 10000);
 	std::cout << "erased key :" << ret << std::endl;
 	std::cout << "###############################################" << std::endl;
+}
+template <class V>
+size_t rand_size(const V& v)
+{
+	if (v.size() == 0)
+		return 0;
+	size_t ret = rand() % (v.size());
+
+	if ( ret > v.size() )
+		return 0;
+	return ret;
+}
+
+
+template<class IT>
+void	print_it(IT first, IT last)
+{
+	for (; first != last; first++)
+	{
+		std::cout << first->first << std::endl;
+	}
+	std::cout << "###############################################]" << std::endl;
+}
+
+/*
+**			Compare Functions				**
+*/
+
+template< class MAP >
+void	cmp(const MAP &lhs, const MAP &rhs)
+{
+	typedef	typename	MAP::const_iterator	iterator;
+
+	iterator	left_it = lhs.begin();
+	iterator	left_end = lhs.end();
+	iterator	right_it = rhs.begin();
+	iterator	right_end = rhs.end();
+
+	std::cout << std::boolalpha << "left.empty() == right.empty()	: " << (lhs.empty() == rhs.empty()) << std::endl
+		<< "left.size() == right.size()	: " << (lhs.size() == rhs.size()) << std::endl;
+	
+	while (left_it != left_end && right_it != right_end)
+	{
+		std::cout << std::boolalpha << "left_it->first == right_it->first	: " << (left_it->first == right_it->first) << std::endl
+			<< "left_it->first != right_it->first	: " << (left_it->first != right_it->first) << std::endl
+			<< "left_it->first <= right_it->first	: " << (left_it->first <= right_it->first) << std::endl
+			<< "left_it->first < right_it->first	: " << (left_it->first < right_it->first) << std::endl
+			<< "left_it->first >= right_it->first	: " << (left_it->first >= right_it->first) << std::endl
+			<< "left_it->first > right_it->first	: " << (left_it->first > right_it->first) << std::endl << std::endl;
+		std::cout << "1		" << left_it->first << "	|	" << right_it->first << std::endl;
+		left_it++;
+		right_it++;
+	}
+	if (left_it != left_end || right_it != right_end)
+		std::cout << " left.end() != right.end() " << std::endl;
+	else
+		std::cout << " left.end() == right.end() " << std::endl;
+	return;
+}
+
+template< class L_MAP, class R_MAP >
+void	cmp(const L_MAP &lhs, const R_MAP &rhs)
+{
+	typedef	typename	L_MAP::iterator	l_iterator;
+	typedef	typename	R_MAP::iterator	r_iterator;
+
+	l_iterator	left_it = lhs.begin();
+	l_iterator	left_end = lhs.end();
+	r_iterator	right_it = rhs.begin();
+	r_iterator	right_end = rhs.end();
+
+	std::cout << std::boolalpha << "left.empty() == right.empty()	: " << (lhs.empty() == rhs.empty()) << std::endl
+		<< "left.size() == right.size()	: " << (lhs.size() == rhs.size()) << std::endl;
+	
+	while (left_it != left_end && right_it != right_end)
+	{
+		std::cout << std::boolalpha << "left_it->first == right_it->first	: " << (left_it->first == right_it->first) << std::endl
+			<< "left_it->first != right_it->first	: " << (left_it->first != right_it->first) << std::endl
+			<< "left_it->first <= right_it->first	: " << (left_it->first <= right_it->first) << std::endl
+			<< "left_it->first < right_it->first	: " << (left_it->first < right_it->first) << std::endl
+			<< "left_it->first >= right_it->first	: " << (left_it->first >= right_it->first) << std::endl
+			<< "left_it->first > right_it->first	: " << (left_it->first > right_it->first) << std::endl << std::endl;
+		std::cout << "2		" << left_it->first << "	|	" << right_it->first << std::endl;
+		left_it++;
+		right_it++;
+	}
+	if (left_it != left_end || right_it != right_end)
+		std::cout << " left.end() != right.end() " << std::endl;
+	else
+		std::cout << " left.end() == right.end() " << std::endl;
+	return;
+}
+
+template < class MAP >
+void	print_content(const MAP &mp)
+{
+	typename	MAP::const_iterator	it(mp.begin());
+	typename	MAP::const_iterator	end(mp.end());
+
+	for (;it != end; it++)
+	{
+		std::cout << "	|" << it->first << "|";
+	}
+	std::cout << std::endl;
+}
+
+template < class MAP >
+void	print_attributes(const MAP &mp)
+{
+	std::cout << std::boolalpha << "mp.empty() =	" << mp.empty() << std::endl
+		<< "mp.size() =	" << mp.size() << std::endl
+		<< "content :" << std::endl;
+		print_content(mp);
+		std::cout << std::endl;
 }
 
 #endif

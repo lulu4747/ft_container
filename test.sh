@@ -27,18 +27,18 @@ then
 	if [[ $1 == "stack" ]]
 	then
 		echo -e "\n\nft::stack"
-		time $ft_stack >> ft.out
+		time $ft_stack > ft.out
 		echo -e "\nstd::stack"
-		time $std_stack >> std.out
+		time $std_stack > std.out
 
 		diff ft.out std.out > result.out
 	fi
 	if [[ $1 == "map" ]]
 	then
 		echo -e "\n\nft::map"
-		time $ft_map >> ft.out
+		time $ft_map > ft.out
 		echo -e "\nstd::map"
-		time $std_map >> std.out
+		time $std_map > std.out
 
 		diff ft.out std.out > result.out
 	fi
