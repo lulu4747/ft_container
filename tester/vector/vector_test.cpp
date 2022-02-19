@@ -6,8 +6,8 @@
 int main()
 {
 	srand(SEED);
-	/* ********* */ // reserve() cmp() ope=() insert(rand_len) at() exception
-	std::cout << "---------------------VECTOR---------------------" << std::endl << std::endl
+
+/*	std::cout << "---------------------VECTOR---------------------" << std::endl << std::endl
 		<< "default constructor :" << std::endl << std::endl;
 	{	
 		ft::vector<int> vec; //default const
@@ -55,7 +55,6 @@ int main()
 	}
 
 	std::cout << "______________________________________" << std::endl << std::endl;
-	/* ******** */ // at() swap() empty() capacity() pop_back()...
 
 	{
 		std::cout << "default construct 2 vectors :" << std::endl << std::endl;
@@ -117,8 +116,6 @@ int main()
 
 	std::cout << "______________________________________" << std::endl << std::endl;
 
-	/* ******** */  //fill_constructor pop_back() push_back() resize() cmp()
-
 	{
 		std::cout << "range construct (10, rand) 2 vectors :" << std::endl << std::endl;
 
@@ -157,8 +154,6 @@ int main()
 	}
 
 	std::cout << "______________________________________" << std::endl << std::endl;
-	
-	/* ******** */ //range_constructor front() back()
 
 	{
 		std::cout << "default construct :" << std::endl << std::endl
@@ -383,7 +378,7 @@ int main()
 		cmp(vec1, vec3);
 		cmp(vec3, vec2);
 
-	}
+	}*/
 
 	std::cout << "______________________________________" << std::endl << std::endl;
 
@@ -420,18 +415,7 @@ int main()
 			<< "it3 = vec3.begin()" << std::endl;
 
 		ft::vector<int>::iterator	it3(vec3.begin());
-		std::cout << "*it3 = " << *it3 << std::endl
-			<< "compare (range from it to it + vec1.size() / 2) to (range from it2 to it2 + vec2.size() / 2)" << std::endl;
-
-		cmp_it_range(it, it + vec1.size() / 2, it2, it2 + vec2.size() / 2);
-		
-		std::cout << "compare (range from it to it + vec1.size() / 2) to (range from it3 to it3 + vec3.size() / 2)" << std::endl;
-
-		cmp_it_range(it, it + vec1.size() / 2, it3, it3 + vec3.size() / 2);
-		
-		std::cout << "compare (range from it to it + vec1.size() / 2) to (range it + vec1.size() / 2 to vec1.end())" << std::endl;
-
-		cmp_it_range(it, it + vec1.size() / 2, it + vec1.size() / 2, vec1.end());
+		std::cout << "*it3 = " << *it3 << std::endl;
 
 
 		std::cout << "----------Arithmetic operators----------" << std::endl
@@ -519,7 +503,6 @@ int main()
 
 		std::cout << (--it == tmp) << std::endl;
 
-
 		str_it = "cit";
 
 		std::cout << "//////////////////////////Const iterator//////////////////////////" << std::endl << std::endl
@@ -536,18 +519,7 @@ int main()
 			<< "cit3 = vec3.begin()" << std::endl;
 
 		ft::vector<int>::const_iterator	cit3(vec3.begin());
-		std::cout << "*cit3 = " << *cit3 << std::endl
-			<< "compare (range from cit to cit + vec1.size() / 2) to (range from cit2 to cit2 + vec2.size() / 2)" << std::endl;
-
-		cmp_it_range(cit, cit + vec1.size() / 2, cit2, cit2 + vec2.size() / 2);
-		
-		std::cout << "compare (range from cit to cit + vec1.size() / 2) to (range from cit3 to cit3 + vec3.size() / 2)" << std::endl;
-
-		cmp_it_range(cit, cit + vec1.size() / 2, cit3, cit3 + vec3.size() / 2);
-		
-		std::cout << "compare (range from cit to cit + vec1.size() / 2) to (range cit + vec1.size() / 2 to vec1.end())" << std::endl;
-
-		cmp_it_range(cit, cit + vec1.size() / 2, cit + vec1.size() / 2, vec1.end());
+		std::cout << "*cit3 = " << *cit3 << std::endl;
 
 
 		std::cout << "----------Arcithmetic operators----------" << std::endl
@@ -634,7 +606,7 @@ int main()
 		tmp2 = cit;
 
 		std::cout << (--cit == tmp2) << std::endl;
-		
+
 		str_it = "rit";
 		begin = "rbegin";
 
@@ -652,18 +624,7 @@ int main()
 			<< "rit3 = vec3.rbegin()" << std::endl;
 
 		ft::vector<int>::reverse_iterator	rit3(vec3.rbegin());
-		std::cout << "*rit3 = " << *rit3 << std::endl
-			<< "compare (range from rit to rit + vec1.size() / 2) to (range from rit2 to rit2 + vec2.size() / 2)" << std::endl;
-
-		cmp_it_range(rit, rit + vec1.size() / 2, rit2, rit2 + vec2.size() / 2);
-		
-		std::cout << "compare (range from rit to rit + vec1.size() / 2) to (range from rit3 to rit3 + vec3.size() / 2)" << std::endl;
-
-		cmp_it_range(rit, rit + vec1.size() / 2, rit3, rit3 + vec3.size() / 2);
-		
-		std::cout << "compare (range from rit to rit + vec1.size() / 2) to (range rit + vec1.size() / 2 to vec1.rend())" << std::endl;
-
-		cmp_it_range(rit, rit + vec1.size() / 2, rit + vec1.size() / 2, vec1.rend());
+		std::cout << "*rit3 = " << *rit3 << std::endl;
 
 
 		std::cout << "----------Arrithmetic operators----------" << std::endl
@@ -767,18 +728,7 @@ int main()
 			<< "crit3 = vec3.rbegin()" << std::endl;
 
 		ft::vector<int>::const_reverse_iterator	crit3(vec3.rbegin());
-		std::cout << "*crit3 = " << *crit3 << std::endl
-			<< "compare (range from crit to crit + vec1.size() / 2) to (range from crit2 to crit2 + vec2.size() / 2)" << std::endl;
-
-		cmp_it_range(crit, crit + vec1.size() / 2, crit2, crit2 + vec2.size() / 2);
-		
-		std::cout << "compare (range from crit to crit + vec1.size() / 2) to (range from crit3 to crit3 + vec3.size() / 2)" << std::endl;
-
-		cmp_it_range(crit, crit + vec1.size() / 2, crit3, crit3 + vec3.size() / 2);
-		
-		std::cout << "compare (range from crit to crit + vec1.size() / 2) to (range crit + vec1.size() / 2 to vec1.rend())" << std::endl;
-
-		cmp_it_range(crit, crit + vec1.size() / 2, crit + vec1.size() / 2, vec1.rend());
+		std::cout << "*crit3 = " << *crit3 << std::endl;
 
 
 		std::cout << "----------Arcrithmetic operators----------" << std::endl
@@ -910,22 +860,22 @@ int main()
 		<< " \"==\" " << std::endl << std::endl
 		<< "vector1 == vector2 ? :		";
 
-	std::cout << std::boolalpha << (vct1 == vct2) << std::endl;
+	std::cout << (vct1 == vct2) << std::endl;
 	
 
 	std::cout << "vector1 == vector3 ? :		";
 
-	std::cout << std::boolalpha << (vct1 == vct3) << std::endl;
+	std::cout << (vct1 == vct3) << std::endl;
 	
 
 	std::cout << "vector1 == vector4 ? :		";
 
-	std::cout << std::boolalpha << (vct1 == vct4) << std::endl;
+	std::cout << (vct1 == vct4) << std::endl;
 	
 
 	std::cout << "vector1 == vector5 ? :		";
 
-	std::cout << std::boolalpha << (vct1 == vct5) << std::endl;
+	std::cout << (vct1 == vct5) << std::endl;
 	
 
 	std::cout << std::endl << std::endl
@@ -933,22 +883,22 @@ int main()
 		<< " \"!=\" " << std::endl << std::endl
 		<< "vector1 != vector2 ? :		";
 
-	std::cout << std::boolalpha << (vct1 != vct2) << std::endl;
+	std::cout << (vct1 != vct2) << std::endl;
 
 
 	std::cout << "vector1 != vector3 ? :		";
 
-	std::cout << std::boolalpha << (vct1 != vct3) << std::endl;
+	std::cout << (vct1 != vct3) << std::endl;
 
 
 	std::cout << "vector1 != vector4 ? :		";
 
-	std::cout << std::boolalpha << (vct1 != vct4) << std::endl;
+	std::cout << (vct1 != vct4) << std::endl;
 
 
 	std::cout << "vector1 != vector5 ? :		";
 
-	std::cout << std::boolalpha << (vct1 != vct5) << std::endl;
+	std::cout << (vct1 != vct5) << std::endl;
 
 
 	std::cout << std::endl << std::endl
@@ -956,41 +906,41 @@ int main()
 		<< " \"<\" " << std::endl << std::endl
 		<< "vector1 < vector2 ? :			";
 
-	std::cout << std::boolalpha << (vct1 < vct2)  << std::endl;
+	std::cout << (vct1 < vct2)  << std::endl;
 
 	std::cout << "vector1 < vector3 ? :			";
 
-	std::cout << std::boolalpha << (vct1 < vct3)  << std::endl;
+	std::cout << (vct1 < vct3)  << std::endl;
 
 	std::cout << "vector1 < vector4 ? :			";
 
-	std::cout << std::boolalpha << (vct1 < vct4)  << std::endl;
+	std::cout << (vct1 < vct4)  << std::endl;
 
 	std::cout << "vector1 < vector5 ? :			";
 
-	std::cout << std::boolalpha << (vct1 < vct5)  << std::endl;
+	std::cout << (vct1 < vct5)  << std::endl;
 
 	std::cout << std::endl << std::endl
 		<< "#######################################" << std::endl << std::endl
 		<< " \"<=\" " << std::endl << std::endl
 		<< "vector1 <= vector2 ? :		";
 
-	std::cout << std::boolalpha << (vct1 <= vct2) << std::endl;
+	std::cout << (vct1 <= vct2) << std::endl;
 
 
 	std::cout << "vector1 <= vector3 ? :		";
 
-	std::cout << std::boolalpha << (vct1 <= vct3) << std::endl;
+	std::cout << (vct1 <= vct3) << std::endl;
 
 
 	std::cout << "vector1 <= vector4 ? :		";
 
-	std::cout << std::boolalpha << (vct1 <= vct4) << std::endl;
+	std::cout << (vct1 <= vct4) << std::endl;
 
 
 	std::cout << "vector1 <= vector5 ? :		";
 
-	std::cout << std::boolalpha << (vct1 <= vct5) << std::endl;
+	std::cout << (vct1 <= vct5) << std::endl;
 
 
 	std::cout << std::endl << std::endl
@@ -998,41 +948,41 @@ int main()
 		<< " \">\" " << std::endl << std::endl
 		<< "vector1 > vector2 ? :			";
 
-	std::cout << std::boolalpha << (vct1 > vct2)  << std::endl;
+	std::cout << (vct1 > vct2)  << std::endl;
 
 	std::cout << "vector1 > vector3 ? :			";
 
-	std::cout << std::boolalpha << (vct1 > vct3)  << std::endl;
+	std::cout << (vct1 > vct3)  << std::endl;
 
 	std::cout << "vector1 > vector4 ? :			";
 
-	std::cout << std::boolalpha << (vct1 > vct4)  << std::endl;
+	std::cout << (vct1 > vct4)  << std::endl;
 
 	std::cout << "vector1 > vector5 ? :			";
 
-	std::cout << std::boolalpha << (vct1 > vct5)  << std::endl;
+	std::cout << (vct1 > vct5)  << std::endl;
 
 	std::cout << std::endl << std::endl
 		<< "#######################################" << std::endl << std::endl
 		<< " \">=\" " << std::endl << std::endl
 		<< "vector1 >= vector2 ? :		";
 
-	std::cout << std::boolalpha << (vct1 >= vct2) << std::endl;
+	std::cout << (vct1 >= vct2) << std::endl;
 
 
 	std::cout << "vector1 >= vector3 ? :		";
 
-	std::cout << std::boolalpha << (vct1 >= vct3) << std::endl;
+	std::cout << (vct1 >= vct3) << std::endl;
 
 
 	std::cout << "vector1 >= vector4 ? :		";
 
-	std::cout << std::boolalpha << (vct1 >= vct4) << std::endl;
+	std::cout << (vct1 >= vct4) << std::endl;
 
 
 	std::cout << "vector1 >= vector5 ? :		";
 
-	std::cout << std::boolalpha << (vct1 >= vct5) << std::endl;
+	std::cout << (vct1 >= vct5) << std::endl;
 
 	}
 

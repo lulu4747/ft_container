@@ -174,22 +174,22 @@ int	main()
 			<< " \"==\" " << std::endl << std::endl
 			<< "stack1 == stack2 ? :		";
 
-		std::cout << std::boolalpha << (stk1 == stk2) << std::endl;
+		std::cout << (stk1 == stk2) << std::endl;
 		
 
 		std::cout << "stack1 == stack3 ? :		";
 
-		std::cout << std::boolalpha << (stk1 == stk3) << std::endl;
+		std::cout << (stk1 == stk3) << std::endl;
 		
 
 		std::cout << "stack1 == stack4 ? :		";
 
-		std::cout << std::boolalpha << (stk1 == stk4) << std::endl;
+		std::cout << (stk1 == stk4) << std::endl;
 		
 
 		std::cout << "stack1 == stack5 ? :		";
 
-		std::cout << std::boolalpha << (stk1 == stk5) << std::endl;
+		std::cout << (stk1 == stk5) << std::endl;
 		
 
 		std::cout << std::endl << std::endl
@@ -197,22 +197,22 @@ int	main()
 			<< " \"!=\" " << std::endl << std::endl
 			<< "stack1 != stack2 ? :		";
 
-		std::cout << std::boolalpha << (stk1 != stk2) << std::endl;
+		std::cout << (stk1 != stk2) << std::endl;
 
 
 		std::cout << "stack1 != stack3 ? :		";
 
-		std::cout << std::boolalpha << (stk1 != stk3) << std::endl;
+		std::cout << (stk1 != stk3) << std::endl;
 
 
 		std::cout << "stack1 != stack4 ? :		";
 
-		std::cout << std::boolalpha << (stk1 != stk4) << std::endl;
+		std::cout << (stk1 != stk4) << std::endl;
 
 
 		std::cout << "stack1 != stack5 ? :		";
 
-		std::cout << std::boolalpha << (stk1 != stk5) << std::endl;
+		std::cout << (stk1 != stk5) << std::endl;
 
 
 		std::cout << std::endl << std::endl
@@ -220,41 +220,41 @@ int	main()
 			<< " \"<\" " << std::endl << std::endl
 			<< "stack1 < stack2 ? :			";
 
-		std::cout << std::boolalpha << (stk1 < stk2)  << std::endl;
+		std::cout << (stk1 < stk2)  << std::endl;
 
 		std::cout << "stack1 < stack3 ? :			";
 
-		std::cout << std::boolalpha << (stk1 < stk3)  << std::endl;
+		std::cout << (stk1 < stk3)  << std::endl;
 
 		std::cout << "stack1 < stack4 ? :			";
 
-		std::cout << std::boolalpha << (stk1 < stk4)  << std::endl;
+		std::cout << (stk1 < stk4)  << std::endl;
 
 		std::cout << "stack1 < stack5 ? :			";
 
-		std::cout << std::boolalpha << (stk1 < stk5)  << std::endl;
+		std::cout << (stk1 < stk5)  << std::endl;
 
 		std::cout << std::endl << std::endl
 			<< "#######################################" << std::endl << std::endl
 			<< " \"<=\" " << std::endl << std::endl
 			<< "stack1 <= stack2 ? :		";
 
-		std::cout << std::boolalpha << (stk1 <= stk2) << std::endl;
+		std::cout << (stk1 <= stk2) << std::endl;
 
 
 		std::cout << "stack1 <= stack3 ? :		";
 
-		std::cout << std::boolalpha << (stk1 <= stk3) << std::endl;
+		std::cout << (stk1 <= stk3) << std::endl;
 
 
 		std::cout << "stack1 <= stack4 ? :		";
 
-		std::cout << std::boolalpha << (stk1 <= stk4) << std::endl;
+		std::cout << (stk1 <= stk4) << std::endl;
 
 
 		std::cout << "stack1 <= stack5 ? :		";
 
-		std::cout << std::boolalpha << (stk1 <= stk5) << std::endl;
+		std::cout << (stk1 <= stk5) << std::endl;
 
 
 		std::cout << std::endl << std::endl
@@ -262,41 +262,41 @@ int	main()
 			<< " \">\" " << std::endl << std::endl
 			<< "stack1 > stack2 ? :			";
 
-		std::cout << std::boolalpha << (stk1 > stk2)  << std::endl;
+		std::cout << (stk1 > stk2)  << std::endl;
 
 		std::cout << "stack1 > stack3 ? :			";
 
-		std::cout << std::boolalpha << (stk1 > stk3)  << std::endl;
+		std::cout << (stk1 > stk3)  << std::endl;
 
 		std::cout << "stack1 > stack4 ? :			";
 
-		std::cout << std::boolalpha << (stk1 > stk4)  << std::endl;
+		std::cout << (stk1 > stk4)  << std::endl;
 
 		std::cout << "stack1 > stack5 ? :			";
 
-		std::cout << std::boolalpha << (stk1 > stk5)  << std::endl;
+		std::cout << (stk1 > stk5)  << std::endl;
 
 		std::cout << std::endl << std::endl
 			<< "#######################################" << std::endl << std::endl
 			<< " \">=\" " << std::endl << std::endl
 			<< "stack1 >= stack2 ? :		";
 
-		std::cout << std::boolalpha << (stk1 >= stk2) << std::endl;
+		std::cout << (stk1 >= stk2) << std::endl;
 
 
 		std::cout << "stack1 >= stack3 ? :		";
 
-		std::cout << std::boolalpha << (stk1 >= stk3) << std::endl;
+		std::cout << (stk1 >= stk3) << std::endl;
 
 
 		std::cout << "stack1 >= stack4 ? :		";
 
-		std::cout << std::boolalpha << (stk1 >= stk4) << std::endl;
+		std::cout << (stk1 >= stk4) << std::endl;
 
 
 		std::cout << "stack1 >= stack5 ? :		";
 
-		std::cout << std::boolalpha << (stk1 >= stk5) << std::endl;
+		std::cout << (stk1 >= stk5) << std::endl;
 
 	}
 	return 0;

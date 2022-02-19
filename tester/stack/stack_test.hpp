@@ -39,7 +39,7 @@ void	print_content(const STACK &src)
 template < class STACK >
 void	print_attributes(const STACK &stk)
 {
-	std::cout << std::boolalpha << "stk.empty() =	" << stk.empty() << std::endl
+	std::cout << "stk.empty() =	" << stk.empty() << std::endl
 		<< "stk.size() =	" << stk.size() << std::endl
 		<< "content :" << std::endl;
 		print_content(stk);

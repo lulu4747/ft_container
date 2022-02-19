@@ -206,12 +206,12 @@ void	cmp(const MAP &lhs, const MAP &rhs)
 	iterator	right_it = rhs.begin();
 	iterator	right_end = rhs.end();
 
-	std::cout << std::boolalpha << "left.empty() == right.empty()	: " << (lhs.empty() == rhs.empty()) << std::endl
+	std::cout << "left.empty() == right.empty()	: " << (lhs.empty() == rhs.empty()) << std::endl
 		<< "left.size() == right.size()	: " << (lhs.size() == rhs.size()) << std::endl;
 	
 	while (left_it != left_end && right_it != right_end)
 	{
-		std::cout << std::boolalpha << "left_it->first == right_it->first	: " << (left_it->first == right_it->first) << std::endl
+		std::cout << "left_it->first == right_it->first	: " << (left_it->first == right_it->first) << std::endl
 			<< "left_it->first != right_it->first	: " << (left_it->first != right_it->first) << std::endl
 			<< "left_it->first <= right_it->first	: " << (left_it->first <= right_it->first) << std::endl
 			<< "left_it->first < right_it->first	: " << (left_it->first < right_it->first) << std::endl
@@ -238,12 +238,12 @@ void	cmp(const L_MAP &lhs, const R_MAP &rhs)
 	r_iterator	right_it = rhs.begin();
 	r_iterator	right_end = rhs.end();
 
-	std::cout << std::boolalpha << "left.empty() == right.empty()	: " << (lhs.empty() == rhs.empty()) << std::endl
+	std::cout << "left.empty() == right.empty()	: " << (lhs.empty() == rhs.empty()) << std::endl
 		<< "left.size() == right.size()	: " << (lhs.size() == rhs.size()) << std::endl;
 	
 	while (left_it != left_end && right_it != right_end)
 	{
-		std::cout << std::boolalpha << "left_it->first == right_it->first	: " << (left_it->first == right_it->first) << std::endl
+		std::cout << "left_it->first == right_it->first	: " << (left_it->first == right_it->first) << std::endl
 			<< "left_it->first != right_it->first	: " << (left_it->first != right_it->first) << std::endl
 			<< "left_it->first <= right_it->first	: " << (left_it->first <= right_it->first) << std::endl
 			<< "left_it->first < right_it->first	: " << (left_it->first < right_it->first) << std::endl
@@ -275,7 +275,7 @@ void	print_content(const MAP &mp)
 template < class MAP >
 void	print_attributes(const MAP &mp)
 {
-	std::cout << std::boolalpha << "mp.empty() =	" << mp.empty() << std::endl
+	std::cout << "mp.empty() =	" << mp.empty() << std::endl
 		<< "mp.size() =	" << mp.size() << std::endl
 		<< "content :" << std::endl;
 		print_content(mp);

@@ -447,7 +447,7 @@ int main(void)
 		tmp2 = cit;
 
 		std::cout << (--cit == tmp2) << std::endl;
-		
+
 		str_it = "rit";
 		begin = "rbegin";
 
@@ -467,9 +467,9 @@ int main(void)
 		ft::map<int, int>::reverse_iterator	rit3(mp3.rbegin());
 		std::cout << "rit3->first = " << rit3->first << std::endl;
 		std::cout << std::endl << "----------Comparison operators----------" << std::endl << std::endl
-			<< str_it << " == map." << begin << "() ? :	";
+			 << str_it << " == map." << begin << "() ? :	";
 
-		std::cout << (rit == mp1.rbegin())
+		std::cout << (rit == mp1.rbegin()) << std::endl
 			<< str_it << " != map." << begin << "() ? :	"
 				<< (rit != mp1.rbegin()) << std::endl
 				<< str_it << "++ == map." << begin << "() ? :	"
@@ -503,7 +503,7 @@ int main(void)
 		tmp3 = rit;
 
 		std::cout << (--rit == tmp3) << std::endl;
-		
+/*
 		str_it = "crit";
 
 		std::cout << "//////////////////////////const reverse iterator//////////////////////////" << std::endl << std::endl
@@ -525,8 +525,8 @@ int main(void)
 		std::cout << std::endl << "----------Comparison operators----------" << std::endl << std::endl
 			<< str_it << " == map." << begin << "() ? :	";
 
-		std::cout << (crit == mp1.rbegin())
-			<< str_it << " != map." << begin << "() ? :	"
+		std::cout << (crit == mp1.rbegin()) << std::endl
+				<< str_it << " != map." << begin << "() ? :	" << std::endl
 				<< (crit != mp1.rbegin()) << std::endl
 				<< str_it << "++ == map." << begin << "() ? :	"
 				<< (crit++ == mp1.rbegin()) << std::endl
@@ -558,7 +558,7 @@ int main(void)
 
 		tmp4 = crit;
 
-		std::cout << (--crit == tmp4) << std::endl;
+		std::cout << (--crit == tmp4) << std::endl;*/
 
 	}
 
@@ -604,22 +604,22 @@ int main(void)
 		<< " \"==\" " << std::endl << std::endl
 		<< "map1 == map2 ? :		";
 
-	std::cout << std::boolalpha << (vct1 == vct2) << std::endl;
+	std::cout << (vct1 == vct2) << std::endl;
 	
 
 	std::cout << "map1 == map3 ? :		";
 
-	std::cout << std::boolalpha << (vct1 == vct3) << std::endl;
+	std::cout << (vct1 == vct3) << std::endl;
 	
 
 	std::cout << "map1 == map4 ? :		";
 
-	std::cout << std::boolalpha << (vct1 == vct4) << std::endl;
+	std::cout << (vct1 == vct4) << std::endl;
 	
 
 	std::cout << "map1 == map5 ? :		";
 
-	std::cout << std::boolalpha << (vct1 == vct5) << std::endl;
+	std::cout << (vct1 == vct5) << std::endl;
 	
 
 	std::cout << std::endl << std::endl
@@ -627,22 +627,22 @@ int main(void)
 		<< " \"!=\" " << std::endl << std::endl
 		<< "map1 != map2 ? :		";
 
-	std::cout << std::boolalpha << (vct1 != vct2) << std::endl;
+	std::cout << (vct1 != vct2) << std::endl;
 
 
 	std::cout << "map1 != map3 ? :		";
 
-	std::cout << std::boolalpha << (vct1 != vct3) << std::endl;
+	std::cout << (vct1 != vct3) << std::endl;
 
 
 	std::cout << "map1 != map4 ? :		";
 
-	std::cout << std::boolalpha << (vct1 != vct4) << std::endl;
+	std::cout << (vct1 != vct4) << std::endl;
 
 
 	std::cout << "map1 != map5 ? :		";
 
-	std::cout << std::boolalpha << (vct1 != vct5) << std::endl;
+	std::cout << (vct1 != vct5) << std::endl;
 
 
 	std::cout << std::endl << std::endl
@@ -650,41 +650,41 @@ int main(void)
 		<< " \"<\" " << std::endl << std::endl
 		<< "map1 < map2 ? :			";
 
-	std::cout << std::boolalpha << (vct1 < vct2)  << std::endl;
+	std::cout << (vct1 < vct2)  << std::endl;
 
 	std::cout << "map1 < map3 ? :			";
 
-	std::cout << std::boolalpha << (vct1 < vct3)  << std::endl;
+	std::cout << (vct1 < vct3)  << std::endl;
 
 	std::cout << "map1 < map4 ? :			";
 
-	std::cout << std::boolalpha << (vct1 < vct4)  << std::endl;
+	std::cout << (vct1 < vct4)  << std::endl;
 
 	std::cout << "map1 < map5 ? :			";
 
-	std::cout << std::boolalpha << (vct1 < vct5)  << std::endl;
+	std::cout << (vct1 < vct5)  << std::endl;
 
 	std::cout << std::endl << std::endl
 		<< "#######################################" << std::endl << std::endl
 		<< " \"<=\" " << std::endl << std::endl
 		<< "map1 <= map2 ? :		";
 
-	std::cout << std::boolalpha << (vct1 <= vct2) << std::endl;
+	std::cout << (vct1 <= vct2) << std::endl;
 
 
 	std::cout << "map1 <= map3 ? :		";
 
-	std::cout << std::boolalpha << (vct1 <= vct3) << std::endl;
+	std::cout << (vct1 <= vct3) << std::endl;
 
 
 	std::cout << "map1 <= map4 ? :		";
 
-	std::cout << std::boolalpha << (vct1 <= vct4) << std::endl;
+	std::cout << (vct1 <= vct4) << std::endl;
 
 
 	std::cout << "map1 <= map5 ? :		";
 
-	std::cout << std::boolalpha << (vct1 <= vct5) << std::endl;
+	std::cout << (vct1 <= vct5) << std::endl;
 
 
 	std::cout << std::endl << std::endl
@@ -692,41 +692,41 @@ int main(void)
 		<< " \">\" " << std::endl << std::endl
 		<< "map1 > map2 ? :			";
 
-	std::cout << std::boolalpha << (vct1 > vct2)  << std::endl;
+	std::cout << (vct1 > vct2)  << std::endl;
 
 	std::cout << "map1 > map3 ? :			";
 
-	std::cout << std::boolalpha << (vct1 > vct3)  << std::endl;
+	std::cout << (vct1 > vct3)  << std::endl;
 
 	std::cout << "map1 > map4 ? :			";
 
-	std::cout << std::boolalpha << (vct1 > vct4)  << std::endl;
+	std::cout << (vct1 > vct4)  << std::endl;
 
 	std::cout << "map1 > map5 ? :			";
 
-	std::cout << std::boolalpha << (vct1 > vct5)  << std::endl;
+	std::cout << (vct1 > vct5)  << std::endl;
 
 	std::cout << std::endl << std::endl
 		<< "#######################################" << std::endl << std::endl
 		<< " \">=\" " << std::endl << std::endl
 		<< "map1 >= map2 ? :		";
 
-	std::cout << std::boolalpha << (vct1 >= vct2) << std::endl;
+	std::cout << (vct1 >= vct2) << std::endl;
 
 
 	std::cout << "map1 >= map3 ? :		";
 
-	std::cout << std::boolalpha << (vct1 >= vct3) << std::endl;
+	std::cout << (vct1 >= vct3) << std::endl;
 
 
 	std::cout << "map1 >= map4 ? :		";
 
-	std::cout << std::boolalpha << (vct1 >= vct4) << std::endl;
+	std::cout << (vct1 >= vct4) << std::endl;
 
 
 	std::cout << "map1 >= map5 ? :		";
 
-	std::cout << std::boolalpha << (vct1 >= vct5) << std::endl;
+	std::cout << (vct1 >= vct5) << std::endl;
 
 	}
 
