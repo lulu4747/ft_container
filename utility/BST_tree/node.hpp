@@ -44,6 +44,9 @@ namespace	ft
 				*this = src;
 			}
 
+			virtual ~node()
+			{}
+
 			reference	operator=(node const & rhs)
 			{
 				if (this != &rhs)

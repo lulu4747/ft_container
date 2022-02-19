@@ -27,7 +27,7 @@ namespace	ft
 			:c(cont)
 		{}
 
-		~stack()
+		virtual ~stack()
 		{}
 
 		stack &	operator=( stack const & other)

@@ -67,39 +67,41 @@ namespace	ft
 				*		Lexicograpphical comparison operators
 */
 
-	template < class T1, class T2>
-	bool	operator==(pair<T1, T2> const & lhs, pair<T1, T2> const & rhs)
+	template <class T1, class T2>
+	bool operator==(const ft::pair<T1, T2>& lhs, const ft::pair<T1, T2>& rhs)
 	{
-		return (lhs.first == rhs.first && lhs.second == rhs.second);
+		return lhs.first == rhs.first && lhs.second == rhs.second;
 	}
 
-	template < class T1, class T2>
-	bool	operator!=(pair<T1, T2> const & lhs, pair<T1, T2> const & rhs)
+	template <class T1, class T2>
+	bool operator!=(const ft::pair<T1, T2>& lhs, const ft::pair<T1, T2>& rhs)
 	{
 		return !(lhs == rhs);
 	}
 
-	template < class T1, class T2>
-	bool	operator<(pair<T1, T2> const & lhs, pair<T1, T2> const & rhs)
+	template <class T1, class T2>
+	bool operator<(const ft::pair<T1, T2>& lhs, const ft::pair<T1, T2>& rhs)
 	{
-		return ((lhs.first < rhs.first || (!(rhs.first < lhs.first)))
-				&& (lhs.second < rhs.second || (!(rhs.second < lhs.second))));
+		if (lhs.first < rhs.first) return true;
+		if (rhs.first < lhs.first) return false;
+		if (lhs.second < rhs.second) return true;
+		return false;
 	}
 
-	template < class T1, class T2>
-	bool	operator<=(pair<T1, T2> const & lhs, pair<T1, T2> const & rhs)
+	template <class T1, class T2>
+	bool operator<=(const ft::pair<T1, T2>& lhs, const ft::pair<T1, T2>& rhs)
 	{
 		return !(rhs < lhs);
 	}
 
-	template < class T1, class T2>
-	bool	operator>(pair<T1, T2> const & lhs, pair<T1, T2> const & rhs)
+	template <class T1, class T2>
+	bool operator>(const ft::pair<T1, T2>& lhs, const ft::pair<T1, T2>& rhs)
 	{
 		return rhs < lhs;
 	}
 
-	template < class T1, class T2>
-	bool	operator>=(pair<T1, T2> const & lhs, pair<T1, T2> const & rhs)
+	template <class T1, class T2>
+	bool operator>=(const ft::pair<T1, T2>& lhs, const ft::pair<T1, T2>& rhs)
 	{
 		return !(lhs < rhs);
 	}
