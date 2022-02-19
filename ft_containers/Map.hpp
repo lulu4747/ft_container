@@ -3,6 +3,7 @@
 
 # include <memory>
 # include "../utility/algorithm.hpp"
+# include "../utility/functionnal.hpp"
 # include "../utility/pair.hpp"
 # include "../utility/type_trait.hpp"
 # include "../utility/BST_tree/rb_tree.hpp"
@@ -10,7 +11,7 @@
 
 namespace	ft
 {
-	template < class Key, class T, class Compare = std::less<Key>,
+	template < class Key, class T, class Compare = ft::less<Key>,
 			class Alloc = std::allocator< ft::pair<const Key, T> > >
 	class map
 	{
@@ -35,7 +36,23 @@ namespace	ft
 		typedef				Reverse_Iterator<iterator>							reverse_iterator;
 		typedef				Reverse_Iterator<const_iterator>					const_reverse_iterator;
 
-		class value_compare;
+		class value_compare : std::binary_function< value_type, value_type, bool >
+		{
+			friend class map< key_type, value_type, key_compare, allocator_type >;
+
+			protected:
+
+				key_compare	comp;
+
+				value_compare(key_compare c): comp(c){}
+			
+			public:
+
+				bool	operator()(const value_type& x, const value_type& y) const
+				{
+					return comp(x.first, y.first);
+				}
+		};
 
 		explicit map(const key_compare& comp = key_compare(),
 						const allocator_type& alloc = allocator_type())
@@ -292,6 +309,10 @@ namespace	ft
 	{
 		if (lhs.size() != rhs.size())
 			return false;
+		return ft::equal(lhs.begin(), lhs.end(), rhs.begin());
+		/*
+		if (lhs.size() != rhs.size())
+			return false;
 
 		typename map<Key,T,Compare,Alloc>::const_iterator	first1 = lhs.begin();
 		typename map<Key,T,Compare,Alloc>::const_iterator	first2 = rhs.begin();
@@ -303,7 +324,7 @@ namespace	ft
 			first1++;
 			first2++;
 		}
-		return true;
+		return true;*/
 	}
 
 	template< class Key, class T, class Compare, class Alloc >

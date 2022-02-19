@@ -4,12 +4,13 @@
 # include <memory>
 # include "node.hpp"
 # include "../Iterators/Binary_Search_Tree_Iterator.hpp"
+# include "../functionnal.hpp"
 
 namespace	ft
 {
 	namespace
 	{
-		template< class T, class Compare = std::less< T > , class T_Alloc = typename std::allocator< T >,
+		template< class T, class Compare = ft::less< T > , class T_Alloc = typename std::allocator< T >,
 						class key = typename T::first_type, typename N = ft::node< T >, class N_Alloc = typename std::allocator< N > >
 		class rb_tree
 		{

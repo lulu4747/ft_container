@@ -10,6 +10,7 @@
 	#include <map.hpp>
 	#include <vector.hpp>
 	#include <algorithm.hpp>
+	#include <functionnal.hpp>
 	#include <pair.hpp>
 	#include <type_trait.hpp>
 #endif

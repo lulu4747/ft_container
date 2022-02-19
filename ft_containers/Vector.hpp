@@ -475,18 +475,7 @@ namespace	ft
 	{
 		if (lhs.size() != rhs.size())
 			return false;
-
-		typename ft::vector<T>::const_iterator	first1 = lhs.begin();
-		typename ft::vector<T>::const_iterator	first2 = rhs.begin();
-
-		while (first1 != lhs.end())
-		{
-			if (first2 == rhs.end() || *first1 != *first2)
-				return false;
-			first1++;
-			first2++;
-		}
-		return true;
+		return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 	}
 
 	template < class T, class Alloc >
