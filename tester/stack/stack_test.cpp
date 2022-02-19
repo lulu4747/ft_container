@@ -211,140 +211,130 @@ static bool	relationnal_operators_test()
 		<< " \"==\" " << std::endl << std::endl
 		<< "stack1 == stack2 ? :		";
 
-	if (!print_test_result((ft1 == ft2) == (stl1 == stl2)))
-		return false;
+	std::cout << std::boolalpha << (vct1 == vct2) << std::endl;
+	
 
 	std::cout << "stack1 == stack3 ? :		";
 
-	if (!print_test_result((ft1 == ft3) == (stl1 == stl3)))
-		return false;
+	std::cout << std::boolalpha << (vct1 == vct3) << std::endl;
+	
 
 	std::cout << "stack1 == stack4 ? :		";
 
-	if (!print_test_result((ft1 == ft4) == (stl1 == stl4)))
-		return false;
+	std::cout << std::boolalpha << (vct1 == vct4) << std::endl;
+	
 
 	std::cout << "stack1 == stack5 ? :		";
 
-	if (!print_test_result((ft1 == ft5) == (stl1 == stl5)))
-		return false;
+	std::cout << std::boolalpha << (vct1 == vct5) << std::endl;
+	
 
 	std::cout << std::endl << std::endl
 		<< "#######################################" << std::endl << std::endl
 		<< " \"!=\" " << std::endl << std::endl
 		<< "stack1 != stack2 ? :		";
 
-	if (!print_test_result((ft1 != ft2) == (stl1 != stl2)))
-		return false;
+	std::cout << std::boolalpha << (vct1 != vct2) << std::endl;
+
 
 	std::cout << "stack1 != stack3 ? :		";
 
-	if (!print_test_result((ft1 != ft3) == (stl1 != stl3)))
-		return false;
+	std::cout << std::boolalpha << (vct1 != vct3) << std::endl;
+
 
 	std::cout << "stack1 != stack4 ? :		";
 
-	if (!print_test_result((ft1 != ft4) == (stl1 != stl4)))
-		return false;
+	std::cout << std::boolalpha << (vct1 != vct4) << std::endl;
+
 
 	std::cout << "stack1 != stack5 ? :		";
 
-	if (!print_test_result((ft1 != ft5) == (stl1 != stl5)))
-		return false;
+	std::cout << std::boolalpha << (vct1 != vct5) << std::endl;
+
 
 	std::cout << std::endl << std::endl
 		<< "#######################################" << std::endl << std::endl
 		<< " \"<\" " << std::endl << std::endl
 		<< "stack1 < stack2 ? :			";
 
-	if (!print_test_result((ft1 < ft2) == (stl1 < stl2)))
-		return false;
+	std::cout << std::boolalpha << (vct1 < fvct)  << std::endl;
 
 	std::cout << "stack1 < stack3 ? :			";
 
-	if (!print_test_result((ft1 < ft3) == (stl1 < stl3)))
-		return false;
+	std::cout << std::boolalpha << (vct1 < fvct)  << std::endl;
 
 	std::cout << "stack1 < stack4 ? :			";
 
-	if (!print_test_result((ft1 < ft4) == (stl1 < stl4)))
-		return false;
+	std::cout << std::boolalpha << (vct1 < fvct)  << std::endl;
 
 	std::cout << "stack1 < stack5 ? :			";
 
-	if (!print_test_result((ft1 < ft5) == (stl1 < stl5)))
-		return false;
+	std::cout << std::boolalpha << (vct1 < fvct)  << std::endl;
 
 	std::cout << std::endl << std::endl
 		<< "#######################################" << std::endl << std::endl
 		<< " \"<=\" " << std::endl << std::endl
 		<< "stack1 <= stack2 ? :		";
 
-	if (!print_test_result((ft1 <= ft2) == (stl1 <= stl2)))
-		return false;
+	std::cout << std::boolalpha << (vct1 <= vct2) << std::endl;
+
 
 	std::cout << "stack1 <= stack3 ? :		";
 
-	if (!print_test_result((ft1 <= ft3) == (stl1 <= stl3)))
-		return false;
+	std::cout << std::boolalpha << (vct1 <= vct3) << std::endl;
+
 
 	std::cout << "stack1 <= stack4 ? :		";
 
-	if (!print_test_result((ft1 <= ft4) == (stl1 <= stl4)))
-		return false;
+	std::cout << std::boolalpha << (vct1 <= vct4) << std::endl;
+
 
 	std::cout << "stack1 <= stack5 ? :		";
 
-	if (!print_test_result((ft1 <= ft5) == (stl1 <= stl5)))
-		return false;
+	std::cout << std::boolalpha << (vct1 <= vct5) << std::endl;
+
 
 	std::cout << std::endl << std::endl
 		<< "#######################################" << std::endl << std::endl
 		<< " \">\" " << std::endl << std::endl
 		<< "stack1 > stack2 ? :			";
 
-	if (!print_test_result((ft1 > ft2) == (stl1 > stl2)))
-		return false;
+	std::cout << std::boolalpha << (vct1 > fvct)  << std::endl;
 
 	std::cout << "stack1 > stack3 ? :			";
 
-	if (!print_test_result((ft1 > ft3) == (stl1 > stl3)))
-		return false;
+	std::cout << std::boolalpha << (vct1 > fvct)  << std::endl;
 
 	std::cout << "stack1 > stack4 ? :			";
 
-	if (!print_test_result((ft1 > ft4) == (stl1 > stl4)))
-		return false;
+	std::cout << std::boolalpha << (vct1 > fvct)  << std::endl;
 
 	std::cout << "stack1 > stack5 ? :			";
 
-	if (!print_test_result((ft1 > ft5) == (stl1 > stl5)))
-		return false;
+	std::cout << std::boolalpha << (vct1 > fvct)  << std::endl;
 
 	std::cout << std::endl << std::endl
 		<< "#######################################" << std::endl << std::endl
 		<< " \">=\" " << std::endl << std::endl
 		<< "stack1 >= stack2 ? :		";
 
-	if (!print_test_result((ft1 >= ft2) == (stl1 >= stl2)))
-		return false;
+	std::cout << std::boolalpha << (vct1 >= vct2) << std::endl;
+
 
 	std::cout << "stack1 >= stack3 ? :		";
 
-	if (!print_test_result((ft1 >= ft3) == (stl1 >= stl3)))
-		return false;
+	std::cout << std::boolalpha << (vct1 >= vct3) << std::endl;
+
 
 	std::cout << "stack1 >= stack4 ? :		";
 
-	if (!print_test_result((ft1 >= ft4) == (stl1 >= stl4)))
-		return false;
+	std::cout << std::boolalpha << (vct1 >= vct4) << std::endl;
+
 
 	std::cout << "stack1 >= stack5 ? :		";
 
-	if (!print_test_result((ft1 >= ft5) == (stl1 >= stl5)))
-		return false;
+	std::cout << std::boolalpha << (vct1 >= vct5) << std::endl;
 
-	return true;
 }
 
 bool	stack_test()

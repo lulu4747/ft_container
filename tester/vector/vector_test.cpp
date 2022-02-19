@@ -332,7 +332,7 @@ int main()
 
 	{
 		std::cout << "default construct with class <std::string> :" << std::endl << std::endl
-			<< "push_back increasingly large std::string" << std::endl << std::endl;
+			<< "push_back increasingly 2000 std::string" << std::endl << std::endl;
 		ft::vector<std::string> vec1;
 
 		
@@ -867,5 +867,174 @@ int main()
 		std::cout << (--crit == tmp4) << std::endl;
 
 	}
+
+	std::cout << "_______________________________________________" << std::endl;
+
+	{
+	std::cout << "Relational operator test" << std::endl << std::endl
+		<< "vector1 = randomly filled vector of size " << 200 << ";" << std::endl
+		<< "vector2 = vector1 copy;" << std::endl
+		<< "vector3 = other random vec of size " << 200 << ";" << std::endl
+		<< "vector4 = other random vec of size " << 2000 << ";" << std::endl
+		<< "vector5 = other random vec of size " << 20 << ";" << std::endl << std::endl;
+
+	ft::vector<int>		vct1;
+	ft::vector<int>		vct2;
+	ft::vector<int>		vct3;
+	ft::vector<int>		vct4;
+	ft::vector<int>		vct5;
+	int					val;
+
+	for (int i = 0; i < 200; i++)
+	{
+		val = std::rand();
+		vct1.push_back(val);
+		vct2.push_back(val);
+	}
+	for (int i = 0; i < 200; i++)
+	{
+		val = std::rand();
+	}
+	for (int i = 0; i < 2000; i++)
+	{
+		val = std::rand();
+	}
+	for (int i = 0; i < 20; i++)
+	{
+		val = std::rand();
+		vct5.push_back(val);
+	}
+
+	std::cout << std::endl << std::endl
+		<< "#######################################" << std::endl << std::endl
+		<< " \"==\" " << std::endl << std::endl
+		<< "vector1 == vector2 ? :		";
+
+	std::cout << std::boolalpha << (vct1 == vct2) << std::endl;
+	
+
+	std::cout << "vector1 == vector3 ? :		";
+
+	std::cout << std::boolalpha << (vct1 == vct3) << std::endl;
+	
+
+	std::cout << "vector1 == vector4 ? :		";
+
+	std::cout << std::boolalpha << (vct1 == vct4) << std::endl;
+	
+
+	std::cout << "vector1 == vector5 ? :		";
+
+	std::cout << std::boolalpha << (vct1 == vct5) << std::endl;
+	
+
+	std::cout << std::endl << std::endl
+		<< "#######################################" << std::endl << std::endl
+		<< " \"!=\" " << std::endl << std::endl
+		<< "vector1 != vector2 ? :		";
+
+	std::cout << std::boolalpha << (vct1 != vct2) << std::endl;
+
+
+	std::cout << "vector1 != vector3 ? :		";
+
+	std::cout << std::boolalpha << (vct1 != vct3) << std::endl;
+
+
+	std::cout << "vector1 != vector4 ? :		";
+
+	std::cout << std::boolalpha << (vct1 != vct4) << std::endl;
+
+
+	std::cout << "vector1 != vector5 ? :		";
+
+	std::cout << std::boolalpha << (vct1 != vct5) << std::endl;
+
+
+	std::cout << std::endl << std::endl
+		<< "#######################################" << std::endl << std::endl
+		<< " \"<\" " << std::endl << std::endl
+		<< "vector1 < vector2 ? :			";
+
+	std::cout << std::boolalpha << (vct1 < vct2)  << std::endl;
+
+	std::cout << "vector1 < vector3 ? :			";
+
+	std::cout << std::boolalpha << (vct1 < vct3)  << std::endl;
+
+	std::cout << "vector1 < vector4 ? :			";
+
+	std::cout << std::boolalpha << (vct1 < vct4)  << std::endl;
+
+	std::cout << "vector1 < vector5 ? :			";
+
+	std::cout << std::boolalpha << (vct1 < vct5)  << std::endl;
+
+	std::cout << std::endl << std::endl
+		<< "#######################################" << std::endl << std::endl
+		<< " \"<=\" " << std::endl << std::endl
+		<< "vector1 <= vector2 ? :		";
+
+	std::cout << std::boolalpha << (vct1 <= vct2) << std::endl;
+
+
+	std::cout << "vector1 <= vector3 ? :		";
+
+	std::cout << std::boolalpha << (vct1 <= vct3) << std::endl;
+
+
+	std::cout << "vector1 <= vector4 ? :		";
+
+	std::cout << std::boolalpha << (vct1 <= vct4) << std::endl;
+
+
+	std::cout << "vector1 <= vector5 ? :		";
+
+	std::cout << std::boolalpha << (vct1 <= vct5) << std::endl;
+
+
+	std::cout << std::endl << std::endl
+		<< "#######################################" << std::endl << std::endl
+		<< " \">\" " << std::endl << std::endl
+		<< "vector1 > vector2 ? :			";
+
+	std::cout << std::boolalpha << (vct1 > vct2)  << std::endl;
+
+	std::cout << "vector1 > vector3 ? :			";
+
+	std::cout << std::boolalpha << (vct1 > vct3)  << std::endl;
+
+	std::cout << "vector1 > vector4 ? :			";
+
+	std::cout << std::boolalpha << (vct1 > vct4)  << std::endl;
+
+	std::cout << "vector1 > vector5 ? :			";
+
+	std::cout << std::boolalpha << (vct1 > vct5)  << std::endl;
+
+	std::cout << std::endl << std::endl
+		<< "#######################################" << std::endl << std::endl
+		<< " \">=\" " << std::endl << std::endl
+		<< "vector1 >= vector2 ? :		";
+
+	std::cout << std::boolalpha << (vct1 >= vct2) << std::endl;
+
+
+	std::cout << "vector1 >= vector3 ? :		";
+
+	std::cout << std::boolalpha << (vct1 >= vct3) << std::endl;
+
+
+	std::cout << "vector1 >= vector4 ? :		";
+
+	std::cout << std::boolalpha << (vct1 >= vct4) << std::endl;
+
+
+	std::cout << "vector1 >= vector5 ? :		";
+
+	std::cout << std::boolalpha << (vct1 >= vct5) << std::endl;
+
+	}
+
 	return 0;
 }
