@@ -190,7 +190,6 @@ int main(void)
 	}
 
 	std::cout << "______________________________________" << std::endl << std::endl;
-	/* ******** */ // at() swap() empty() capacity() pop_back()...
 
 	{
 		std::cout << "default construct 2 maps :" << std::endl << std::endl;
@@ -227,8 +226,6 @@ int main(void)
 	}
 
 	std::cout << "______________________________________" << std::endl << std::endl;
-	
-	/* ******** */ //range_constructor front() back()
 
 	{
 		std::cout << "default construct :" << std::endl << std::endl
@@ -503,7 +500,7 @@ int main(void)
 		tmp3 = rit;
 
 		std::cout << (--rit == tmp3) << std::endl;
-/*
+
 		str_it = "crit";
 
 		std::cout << "//////////////////////////const reverse iterator//////////////////////////" << std::endl << std::endl
@@ -558,7 +555,7 @@ int main(void)
 
 		tmp4 = crit;
 
-		std::cout << (--crit == tmp4) << std::endl;*/
+		std::cout << (--crit == tmp4) << std::endl;
 
 	}
 
