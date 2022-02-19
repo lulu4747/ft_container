@@ -37,9 +37,12 @@ RM			= rm -f
 RM_DIR		= rm -rf
 
 all:
-	$(MAKE) map --no-print-directory
-	$(MAKE) stack --no-print-directory
-	$(MAKE) vector --no-print-directory
+	$(MAKE) $(FT_MAP) --no-print-directory
+	$(MAKE) $(STD_MAP) --no-print-directory
+	$(MAKE) $(FT_STACK) --no-print-directory
+	$(MAKE) $(STD_STACK) --no-print-directory
+	$(MAKE) $(FT_VECTOR) --no-print-directory
+	$(MAKE) $(STD_VECTOR) --no-print-directory
 
 %.o:%.cpp $(INC)
 	$(CC) $(GDBFLAG) $(CFLAGS) -c $< -o $@
@@ -58,6 +61,9 @@ vector:$(OBJ_VECTOR) $(INC)
 	$(MAKE) $(FT_VECTOR) --no-print-directory
 	$(MAKE) $(STD_VECTOR) --no-print-directory
 	./test.sh vector
+
+test:all
+	./test.sh
 
 $(FT_MAP):$(OBJ_MAP) $(INC)
 	$(CC) $(CFLAGS) $(NS) $(OBJ_MAP) -o $(FT_MAP)
@@ -104,4 +110,4 @@ re:
 	$(MAKE) fclean --no-print-directory
 	$(MAKE) all --no-print-directory
 
-.PHONY:all map stack vector clean fclean re
+.PHONY:all map stack vector test clean fclean re
