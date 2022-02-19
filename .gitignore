@@ -37,8 +37,6 @@ ft_container_tester.g
 ft
 std
 ret
-map_test.*
-vector_test.*
 ft_map_test
 ft_vector_test
 ft_stack_test
@@ -46,3 +44,5 @@ std_map_test
 std_vector_test
 std_stack_test
 result
+tmp.cpp
+tmp.hpp
