@@ -11,7 +11,6 @@
 	#include <vector.hpp>
 	#include <algorithm.hpp>
 	#include <pair.hpp>
-	#include <functionnal.hpp>
 	#include <type_trait.hpp>
 #endif
 
@@ -22,7 +21,9 @@
 	# define SEED 10
 #endif
 
-#define LEN 100
+#ifndef LEN
+	# define LEN rand() % 1000000
+#endif
 
 
 template<typename Iter>

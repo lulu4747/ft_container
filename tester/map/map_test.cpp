@@ -569,18 +569,18 @@ int main(void)
 		<< "map4 = other random mp of size " << 2000 << ";" << std::endl
 		<< "map5 = other random mp of size " << 20 << ";" << std::endl << std::endl;
 
-	ft::map<int, int>		vct1;
-	ft::map<int, int>		vct2;
-	ft::map<int, int>		vct3;
-	ft::map<int, int>		vct4;
-	ft::map<int, int>		vct5;
+	ft::map<int, int>		mp1;
+	ft::map<int, int>		mp2;
+	ft::map<int, int>		mp3;
+	ft::map<int, int>		mp4;
+	ft::map<int, int>		mp5;
 	ft::pair<int, int>		val;
 
 	for (int i = 0; i < 200; i++)
 	{
 		val = ft::make_pair(rand(), rand());
-		vct1.insert(val);
-		vct2.insert(val);
+		mp1.insert(val);
+		mp2.insert(val);
 	}
 	for (int i = 0; i < 200; i++)
 	{
@@ -593,7 +593,7 @@ int main(void)
 	for (int i = 0; i < 20; i++)
 	{
 		val = ft::make_pair(rand(), rand());
-		vct5.insert(val);
+		mp5.insert(val);
 	}
 
 	std::cout << std::endl << std::endl
@@ -601,22 +601,22 @@ int main(void)
 		<< " \"==\" " << std::endl << std::endl
 		<< "map1 == map2 ? :		";
 
-	std::cout << (vct1 == vct2) << std::endl;
+	std::cout << (mp1 == mp2) << std::endl;
 	
 
 	std::cout << "map1 == map3 ? :		";
 
-	std::cout << (vct1 == vct3) << std::endl;
+	std::cout << (mp1 == mp3) << std::endl;
 	
 
 	std::cout << "map1 == map4 ? :		";
 
-	std::cout << (vct1 == vct4) << std::endl;
+	std::cout << (mp1 == mp4) << std::endl;
 	
 
 	std::cout << "map1 == map5 ? :		";
 
-	std::cout << (vct1 == vct5) << std::endl;
+	std::cout << (mp1 == mp5) << std::endl;
 	
 
 	std::cout << std::endl << std::endl
@@ -624,22 +624,22 @@ int main(void)
 		<< " \"!=\" " << std::endl << std::endl
 		<< "map1 != map2 ? :		";
 
-	std::cout << (vct1 != vct2) << std::endl;
+	std::cout << (mp1 != mp2) << std::endl;
 
 
 	std::cout << "map1 != map3 ? :		";
 
-	std::cout << (vct1 != vct3) << std::endl;
+	std::cout << (mp1 != mp3) << std::endl;
 
 
 	std::cout << "map1 != map4 ? :		";
 
-	std::cout << (vct1 != vct4) << std::endl;
+	std::cout << (mp1 != mp4) << std::endl;
 
 
 	std::cout << "map1 != map5 ? :		";
 
-	std::cout << (vct1 != vct5) << std::endl;
+	std::cout << (mp1 != mp5) << std::endl;
 
 
 	std::cout << std::endl << std::endl
@@ -647,41 +647,41 @@ int main(void)
 		<< " \"<\" " << std::endl << std::endl
 		<< "map1 < map2 ? :			";
 
-	std::cout << (vct1 < vct2)  << std::endl;
+	std::cout << (mp1 < mp2)  << std::endl;
 
 	std::cout << "map1 < map3 ? :			";
 
-	std::cout << (vct1 < vct3)  << std::endl;
+	std::cout << (mp1 < mp3)  << std::endl;
 
 	std::cout << "map1 < map4 ? :			";
 
-	std::cout << (vct1 < vct4)  << std::endl;
+	std::cout << (mp1 < mp4)  << std::endl;
 
 	std::cout << "map1 < map5 ? :			";
 
-	std::cout << (vct1 < vct5)  << std::endl;
+	std::cout << (mp1 < mp5)  << std::endl;
 
 	std::cout << std::endl << std::endl
 		<< "#######################################" << std::endl << std::endl
 		<< " \"<=\" " << std::endl << std::endl
 		<< "map1 <= map2 ? :		";
 
-	std::cout << (vct1 <= vct2) << std::endl;
+	std::cout << (mp1 <= mp2) << std::endl;
 
 
 	std::cout << "map1 <= map3 ? :		";
 
-	std::cout << (vct1 <= vct3) << std::endl;
+	std::cout << (mp1 <= mp3) << std::endl;
 
 
 	std::cout << "map1 <= map4 ? :		";
 
-	std::cout << (vct1 <= vct4) << std::endl;
+	std::cout << (mp1 <= mp4) << std::endl;
 
 
 	std::cout << "map1 <= map5 ? :		";
 
-	std::cout << (vct1 <= vct5) << std::endl;
+	std::cout << (mp1 <= mp5) << std::endl;
 
 
 	std::cout << std::endl << std::endl
@@ -689,41 +689,41 @@ int main(void)
 		<< " \">\" " << std::endl << std::endl
 		<< "map1 > map2 ? :			";
 
-	std::cout << (vct1 > vct2)  << std::endl;
+	std::cout << (mp1 > mp2)  << std::endl;
 
 	std::cout << "map1 > map3 ? :			";
 
-	std::cout << (vct1 > vct3)  << std::endl;
+	std::cout << (mp1 > mp3)  << std::endl;
 
 	std::cout << "map1 > map4 ? :			";
 
-	std::cout << (vct1 > vct4)  << std::endl;
+	std::cout << (mp1 > mp4)  << std::endl;
 
 	std::cout << "map1 > map5 ? :			";
 
-	std::cout << (vct1 > vct5)  << std::endl;
+	std::cout << (mp1 > mp5)  << std::endl;
 
 	std::cout << std::endl << std::endl
 		<< "#######################################" << std::endl << std::endl
 		<< " \">=\" " << std::endl << std::endl
 		<< "map1 >= map2 ? :		";
 
-	std::cout << (vct1 >= vct2) << std::endl;
+	std::cout << (mp1 >= mp2) << std::endl;
 
 
 	std::cout << "map1 >= map3 ? :		";
 
-	std::cout << (vct1 >= vct3) << std::endl;
+	std::cout << (mp1 >= mp3) << std::endl;
 
 
 	std::cout << "map1 >= map4 ? :		";
 
-	std::cout << (vct1 >= vct4) << std::endl;
+	std::cout << (mp1 >= mp4) << std::endl;
 
 
 	std::cout << "map1 >= map5 ? :		";
 
-	std::cout << (vct1 >= vct5) << std::endl;
+	std::cout << (mp1 >= mp5) << std::endl;
 
 	}
 

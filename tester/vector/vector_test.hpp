@@ -9,7 +9,6 @@
 	#include <vector.hpp>
 	#include <algorithm.hpp>
 	#include <pair.hpp>
-	#include <functionnal.hpp>
 	#include <type_trait.hpp>
 #endif
 

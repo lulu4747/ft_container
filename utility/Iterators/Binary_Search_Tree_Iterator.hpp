@@ -2,7 +2,6 @@
 # define BINARY_SEARCH_TREE_ITERATOR
 
 # include "Iterator.hpp"
-# include "../functionnal.hpp"
 # include "../BST_tree/node.hpp"
 
 namespace	ft

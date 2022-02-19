@@ -3,7 +3,6 @@
 
 # include <memory>
 # include "../utility/algorithm.hpp"
-# include "../utility/functionnal.hpp"
 # include "../utility/pair.hpp"
 # include "../utility/type_trait.hpp"
 # include "../utility/BST_tree/rb_tree.hpp"
@@ -11,7 +10,7 @@
 
 namespace	ft
 {
-	template < class Key, class T, class Compare = ft::less<Key>,
+	template < class Key, class T, class Compare = std::less<Key>,
 			class Alloc = std::allocator< ft::pair<const Key, T> > >
 	class map
 	{
@@ -36,23 +35,7 @@ namespace	ft
 		typedef				Reverse_Iterator<iterator>							reverse_iterator;
 		typedef				Reverse_Iterator<const_iterator>					const_reverse_iterator;
 
-		class value_compare : binary_function< value_type, value_type, bool >
-		{
-			friend class map< key_type, value_type, key_compare, allocator_type >;
-
-			protected:
-
-				key_compare	comp;
-
-				value_compare(key_compare c): comp(c){}
-			
-			public:
-
-				bool	operator()(const value_type& x, const value_type& y) const
-				{
-					return comp(x.first, y.first);
-				}
-		};
+		class value_compare;
 
 		explicit map(const key_compare& comp = key_compare(),
 						const allocator_type& alloc = allocator_type())
@@ -332,7 +315,7 @@ namespace	ft
 	template< class Key, class T, class Compare, class Alloc >
 	bool operator<(const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs)
 	{
-		return (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
 	template< class Key, class T, class Compare, class Alloc >
