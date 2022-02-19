@@ -1,9 +1,9 @@
-FT_MAP		= ft_map_test
-STD_MAP		= std_map_test
-FT_STACK	= ft_stack_test
-STD_STACK	= std_stack_test
-FT_VECTOR	= ft_vector_test
-STD_VECTOR	= std_vector_test
+FT_MAP		= ft_map_test.exe
+STD_MAP		= std_map_test.exe
+FT_STACK	= ft_stack_test.exe
+STD_STACK	= std_stack_test.exe
+FT_VECTOR	= ft_vector_test.exe
+STD_VECTOR	= std_vector_test.exe
 
 SRC_MAP		= tester/map/map_test.cpp
 SRC_STACK	= tester/stack/stack_test.cpp
@@ -102,9 +102,7 @@ fclean:
 	$(RM) $(FT_VECTOR).g
 	$(RM) $(STD_VECTOR)
 	$(RM) $(STD_VECTOR).g
-	$(RM) ft
-	$(RM) std
-	$(RM) result
+	$(RM) *.out
 
 re:
 	$(MAKE) fclean --no-print-directory

@@ -17,30 +17,30 @@ CMD_DATE=date
 	then
 		if [[ $1 == "vector" ]]
 		then
-			./ft_vector_test > ft
-			./std_vector_test > std
-			diff ft std > result
+			./ft_vector_test.exe > ft.out
+			./std_vector_test.exe > std.out
+			diff ft.out std.out > result.out
 		fi
 		if [[ $1 == "stack" ]]
 		then
-			./ft_stack_test > ft
-			./std_stack_test > std
-			diff ft std > result
+			./ft_stack_test.exe > ft.out
+			./std_stack_test.exe > std.out
+			diff ft.out std.out > result.out
 		fi
 		if [[ $1 == "map" ]]
 		then
-			./ft_map_test > ft
-			./std_map_test > std
-			diff ft std > result
+			./ft_map_test.exe > ft.out
+			./std_map_test.exe > std.out
+			diff ft.out std.out > result.out
 		fi
 	else
-			./ft_vector_test > ft
-			./std_vector_test > std
-			./ft_stack_test >> ft
-			./std_stack_test >> std
-			./ft_map_test >> ft
-			./std_map_test >> std
-			diff ft std > result
+			./ft_vector_test.exe > ft.out
+			./std_vector_test.exe > std.out
+			./ft_stack_test.exe >> ft.out
+			./std_stack_test.exe >> std.out
+			./ft_map_test.exe >> ft.out
+			./std_map_test.exe >> std.out
+			diff ft.out std.out > result.out
 	fi
 
 	if [[ $? -eq 0 ]]
