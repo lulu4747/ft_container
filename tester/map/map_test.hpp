@@ -217,7 +217,6 @@ void	cmp(const MAP &lhs, const MAP &rhs)
 			<< "left_it->first < right_it->first	: " << (left_it->first < right_it->first) << std::endl
 			<< "left_it->first >= right_it->first	: " << (left_it->first >= right_it->first) << std::endl
 			<< "left_it->first > right_it->first	: " << (left_it->first > right_it->first) << std::endl << std::endl;
-		std::cout << "1		" << left_it->first << "	|	" << right_it->first << std::endl;
 		left_it++;
 		right_it++;
 	}
@@ -250,7 +249,6 @@ void	cmp(const L_MAP &lhs, const R_MAP &rhs)
 			<< "left_it->first < right_it->first	: " << (left_it->first < right_it->first) << std::endl
 			<< "left_it->first >= right_it->first	: " << (left_it->first >= right_it->first) << std::endl
 			<< "left_it->first > right_it->first	: " << (left_it->first > right_it->first) << std::endl << std::endl;
-		std::cout << "2		" << left_it->first << "	|	" << right_it->first << std::endl;
 		left_it++;
 		right_it++;
 	}

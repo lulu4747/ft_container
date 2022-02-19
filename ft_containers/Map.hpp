@@ -171,17 +171,17 @@ namespace	ft
 			if (first == _data.end())
 			{
 				new_val = _alloc.allocate(1);
-				_alloc.construct(new_val, make_pair(val.first, val.second));
+				_alloc.construct(new_val, ft::make_pair(val.first, val.second));
 				second = _data.insert(new_val);
 				first = find(val.first);
 			}
-			return (make_pair(first, second));
+			return (ft::make_pair(first, second));
 		}
 
 		iterator insert(iterator position, const value_type& val)
 		{
 			(void)position;
-			return insert(*val).first;
+			return ((insert(val)).first);
 		}
 
 		template <class InputIt>

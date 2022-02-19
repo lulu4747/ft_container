@@ -3,13 +3,6 @@ CMD_DATE=date
 
 SEED=$($CMD_DATE +%s);
 
-ft_vec="./ft_vector_test.exe"
-std_vec="./std_vector_test.exe"
-ft_stack="./ft_stack_test.exe"
-std_stack="./std_stack_test.exe"
-ft_map="./ft_map_test.exe"
-std_map="./std_map_test.exe"
-
 echo "Seed is : $SEED"
 
 
@@ -18,48 +11,42 @@ then
 	if [[ $1 == "vector" ]]
 	then
 		echo -e "\n\nft::vector"
-		time $ft_vector > ft.out
+		time ./ft_vector_test.exe > ft.out
 		echo -e "\nstd::vector"
-		time $std_vector > std.out
-
-		diff ft.out std.out > result.out
+		time ./std_vector_test.exe > std.out
 	fi
 	if [[ $1 == "stack" ]]
 	then
 		echo -e "\n\nft::stack"
-		time $ft_stack > ft.out
+		time ./ft_stack_test.exe > ft.out
 		echo -e "\nstd::stack"
-		time $std_stack > std.out
-
-		diff ft.out std.out > result.out
+		time ./std_stack_test.exe > std.out
 	fi
 	if [[ $1 == "map" ]]
 	then
 		echo -e "\n\nft::map"
-		time $ft_map > ft.out
+		time ./ft_map_test.exe > ft.out
 		echo -e "\nstd::map"
-		time $std_map > std.out
-
-		diff ft.out std.out > result.out
+		time ./std_map_test.exe > std.out
 	fi
-	else
-		echo -e "\n\nft::vector"
-		time $ft_vector > ft.out
-		echo -e "\nstd::vector"
-		time $std_vector > std.out
+else
+	echo -e "\n\nft::vector"
+	time ./ft_vector_test.exe > ft.out
+	echo -e "\nstd::vector"
+	time ./std_vector_test.exe > std.out
 
-		echo -e "\n\nft::stack"
-		time $ft_stack >> ft.out
-		echo -e "\nstd::stack"
-		time $std_stack >> std.out
+	echo -e "\n\nft::stack"
+	time ./ft_stack_test.exe >> ft.out
+	echo -e "\nstd::stack"
+	time ./std_stack_test.exe >> std.out
 
-		echo -e "\n\nft::map"
-		time $ft_map >> ft.out
-		echo -e "\nstd::map"
-		time $std_map >> std.out
-
-		diff ft.out std.out > result.out
+	echo -e "\n\nft::map"
+	time ./ft_map_test.exe >> ft.out
+	echo -e "\nstd::map"
+	time ./std_map_test.exe >> std.out
 fi
+
+diff ft.out std.out > result.out
 
 if [[ $? -eq 0 ]]
 then 

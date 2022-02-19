@@ -26,13 +26,10 @@ INC			+= utility/functionnal.hpp
 INC			+= utility/pair.hpp
 INC			+= utility/type_trait.hpp
 
-OBJ_MAP		= $(SRC_MAP:.cpp=.o)
-OBJ_STACK	= $(SRC_STACK:.cpp=.o)
-OBJ_VECTOR	= $(SRC_VECTOR:.cpp=.o)
-
 CC			= clang++
 CFLAGS		= -std=c++98 -Wall -Werror -Wextra
 NS			= -D NS=ft
+IFLAG		= -I ./ft_containers/ -I ./utility/
 RM			= rm -f
 RM_DIR		= rm -rf
 
@@ -44,20 +41,17 @@ all:
 	$(MAKE) $(FT_VECTOR) --no-print-directory
 	$(MAKE) $(STD_VECTOR) --no-print-directory
 
-%.o:%.cpp $(INC)
-	$(CC) $(GDBFLAG) $(CFLAGS) -c $< -o $@
-
-map:$(OBJ_MAP) $(INC)
+map:$(SRC_MAP) $(INC)
 	$(MAKE) $(FT_MAP) --no-print-directory
 	$(MAKE) $(STD_MAP) --no-print-directory
 	./test.sh map
 
-stack:$(OBJ_STACK) $(INC)
+stack:$(SRC_STACK) $(INC)
 	$(MAKE) $(FT_STACK) --no-print-directory
 	$(MAKE) $(STD_STACK) --no-print-directory
 	./test.sh stack
 
-vector:$(OBJ_VECTOR) $(INC)
+vector:$(SRC_VECTOR) $(INC)
 	$(MAKE) $(FT_VECTOR) --no-print-directory
 	$(MAKE) $(STD_VECTOR) --no-print-directory
 	./test.sh vector
@@ -65,28 +59,25 @@ vector:$(OBJ_VECTOR) $(INC)
 test:all
 	./test.sh
 
-$(FT_MAP):$(OBJ_MAP) $(INC)
-	$(CC) $(CFLAGS) $(NS) $(OBJ_MAP) -o $(FT_MAP)
+$(FT_MAP):$(SRC_MAP) $(INC)
+	$(CC) $(CFLAGS) $(SRC_MAP) $(NS) $(IFLAG) -o $(FT_MAP)
 
-$(STD_MAP):$(OBJ_MAP) $(INC)
-	$(CC) $(CFLAGS) $(OBJ_MAP) -o $(STD_MAP)
+$(STD_MAP):$(SRC_MAP) $(INC)
+	$(CC) $(CFLAGS) $(SRC_MAP) $(IFLAG) -o $(STD_MAP)
 
-$(FT_STACK):$(OBJ_STACK) $(INC)
-	$(CC) $(CFLAGS) $(NS) $(OBJ_STACK) -o $(FT_STACK)
+$(FT_STACK):$(SRC_STACK) $(INC)
+	$(CC) $(CFLAGS) $(SRC_STACK) $(NS) $(IFLAG) -o $(FT_STACK)
 
-$(STD_STACK):$(OBJ_STACK) $(INC)
-	$(CC) $(CFLAGS) $(OBJ_STACK) -o $(STD_STACK)
+$(STD_STACK):$(SRC_STACK) $(INC)
+	$(CC) $(CFLAGS) $(SRC_STACK) $(IFLAG) -o $(STD_STACK)
 
-$(FT_VECTOR):$(OBJ_VECTOR) $(INC)
-	$(CC) $(CFLAGS) $(NS) $(OBJ_VECTOR) -o $(FT_VECTOR)
+$(FT_VECTOR):$(SRC_VECTOR) $(INC)
+	$(CC) $(CFLAGS) $(SRC_VECTOR) $(NS) $(IFLAG) -o $(FT_VECTOR)
 
-$(STD_VECTOR):$(OBJ_VECTOR) $(INC)
-	$(CC) $(CFLAGS) $(OBJ_VECTOR) -o $(STD_VECTOR)
+$(STD_VECTOR):$(SRC_VECTOR) $(INC)
+	$(CC) $(CFLAGS) $(SRC_VECTOR) $(IFLAG) -o $(STD_VECTOR)
 
 clean:
-	$(RM_DIR) $(OBJ_MAP)
-	$(RM_DIR) $(OBJ_STACK)
-	$(RM_DIR) $(OBJ_VECTOR)
 
 fclean:
 	$(MAKE) clean

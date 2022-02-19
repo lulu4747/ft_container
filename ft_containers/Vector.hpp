@@ -381,20 +381,20 @@ namespace	ft
 
 		iterator erase (iterator position)
 		{
-			size_type	new_pos(position - begin());
-
-			if (position == end())
+			pointer p_pos = &(*position);
+			_alloc.destroy(&(*position));
+			if (&(*position) + 1 == _end)
+				_alloc.destroy(&(*position));
+			else
 			{
-				pop_back();
-				return end();
+				for (int i = 0; i < _end - &(*position) - 1; i++)
+				{
+					_alloc.construct(&(*position) + i, *(&(*position) + i + 1));
+					_alloc.destroy(&(*position) + i + 1);
+				}
 			}
-			for (iterator it = position; it + 1 != end(); it++)
-			{
-				_alloc.destroy(&(*it));
-				_alloc.construct(&(*it), *(it + 1));
-			}
-			pop_back();
-			return (begin() + new_pos);
+			_end -= 1;
+			return (iterator(p_pos));
 		}
 
 		iterator erase (iterator first, iterator last)

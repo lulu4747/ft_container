@@ -118,13 +118,13 @@ int main(void)
 
 	//iterator compile
 	{
-		std::vector<ft::pair<int, int> > arr;
+		ft::vector<ft::pair<int, int> > vct;
 
 		for (int i = 0; i != 100; i++)
-			arr.push_back(ft::make_pair(rand(), rand()));
+			vct.push_back(ft::make_pair(rand(), rand()));
 	
 
-		ft::map<int, int> mymap(arr.begin(), arr.end());
+		ft::map<int, int> mymap(vct.begin(), vct.end());
 
 
 		ft::map<int, int>::iterator a; //default

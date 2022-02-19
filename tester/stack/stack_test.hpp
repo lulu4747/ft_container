@@ -46,7 +46,4 @@ void	print_attributes(const STACK &stk)
 		std::cout << std::endl;
 }
 
-bool	content_compare(ft::stack<int> ft, std::stack<int> stl);
-bool	stack_compare(ft::stack<int> ft, std::stack<int> stl);
-
 #endif
