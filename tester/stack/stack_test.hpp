@@ -1,74 +1,50 @@
 #ifndef STACK_TEST_HPP
 # define STACK_TEST_HPP
 
-# include "../tester.hpp"
-# include "../../ft_containers/stack.hpp"
+#ifndef NS //CREATE A REAL STL EXAMPLE
+	#include <stack>
+	#include <utility>
+	namespace ft = std;
+#else
+	#include <stack.hpp>
+	#include <algorithm.hpp>
+	#include <pair.hpp>
+	#include <functionnal.hpp>
+	#include <type_trait.hpp>
+#endif
+
+# include <iostream>
+
+#ifndef SEED
+	# define SEED 10
+#endif
 
 /*
 **		Compare Functions	**
 */
 
-template< class T, class Container = ft::vector<T> >
-class Mutant_FT_Stack : public ft::stack<T, Container>
+template < class STACK >
+void	print_content(const STACK &src)
 {
+	STACK	stk(src);
 
-	public:
+	while (!stk.empty())
+	{
+		std::cout << "	|" << stk.top() << "|";
+		stk.pop();
+	}
+	std::cout << std::endl;
+}
 
-		Mutant_FT_Stack(void): ft::stack<T, Container>(){}
-		Mutant_FT_Stack(ft::stack<T, Container> const & src): ft::stack<T, Container>(src){}
-		Mutant_FT_Stack(Mutant_FT_Stack const & src): ft::stack<T, Container>(src){}
-		virtual ~Mutant_FT_Stack(void){}
-		Mutant_FT_Stack &	operator=(Mutant_FT_Stack const & rhs){return *this = ft::stack<T, Container>::operator=(rhs);}
-
-		typedef	typename Container::iterator				iterator;
-		typedef	typename Container::const_iterator			const_iterator;
-		typedef	typename Container::reverse_iterator		reverse_iterator;
-		typedef	typename Container::const_reverse_iterator	const_reverse_iterator;
-
-		iterator				begin(void){return ft::stack<T, Container>::c.begin();}
-		const_iterator			begin(void) const{return ft::stack<T, Container>::c.begin();}
-
-		iterator				end(void){return ft::stack<T, Container>::c.end();}
-		const_iterator			end(void) const{return ft::stack<T, Container>::c.end();}
-
-		reverse_iterator		rbegin(void){return ft::stack<T, Container>::c.rbegin();}
-		const_reverse_iterator	rbegin(void) const{return ft::stack<T, Container>::c.rbegin();}
-
-		reverse_iterator		rend(void){return ft::stack<T, Container>::c.rend();}
-		const_reverse_iterator	rend(void) const{return ft::stack<T, Container>::c.rend();}
-
-};
-
-template< class T, class Container = std::deque<T> >
-class Mutant_STL_Stack : public std::stack<T, Container>
+template < class STACK >
+void	print_attributes(const STACK &stk)
 {
-
-	public:
-
-		Mutant_STL_Stack(void): std::stack<T, Container>(){}
-		Mutant_STL_Stack(std::stack<T, Container> const & src): std::stack<T, Container>(src){}
-		Mutant_STL_Stack(Mutant_STL_Stack const & src): std::stack<T, Container>(src){}
-		virtual ~Mutant_STL_Stack(void){}
-		Mutant_STL_Stack &	operator=(Mutant_STL_Stack const & rhs){return *this = std::stack<T, Container>::operator=(rhs);}
-
-		typedef	typename Container::iterator				iterator;
-		typedef	typename Container::const_iterator			const_iterator;
-		typedef	typename Container::reverse_iterator		reverse_iterator;
-		typedef	typename Container::const_reverse_iterator	const_reverse_iterator;
-
-		iterator				begin(void){return std::stack<T, Container>::c.begin();}
-		const_iterator			begin(void) const{return std::stack<T, Container>::c.begin();}
-
-		iterator				end(void){return std::stack<T, Container>::c.end();}
-		const_iterator			end(void) const{return std::stack<T, Container>::c.end();}
-
-		reverse_iterator		rbegin(void){return std::stack<T, Container>::c.rbegin();}
-		const_reverse_iterator	rbegin(void) const{return std::stack<T, Container>::c.rbegin();}
-
-		reverse_iterator		rend(void){return std::stack<T, Container>::c.rend();}
-		const_reverse_iterator	rend(void) const{return std::stack<T, Container>::c.rend();}
-
-};
+	std::cout << std::boolalpha << "stk.empty() =	" << stk.empty() << std::endl
+		<< "stk.size() =	" << stk.size() << std::endl
+		<< "content :" << std::endl;
+		print_content(stk);
+		std::cout << std::endl;
+}
 
 bool	content_compare(ft::stack<int> ft, std::stack<int> stl);
 bool	stack_compare(ft::stack<int> ft, std::stack<int> stl);

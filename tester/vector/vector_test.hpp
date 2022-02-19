@@ -7,10 +7,10 @@
 	namespace ft = std;
 #else
 	#include <vector.hpp>
-	#include "../../utility/algorithm.hpp"
-	#include "../../utility/pair.hpp"
-	#include "../../utility/functionnal.hpp"
-	#include "../../utility/type_trait.hpp"
+	#include <algorithm.hpp>
+	#include <pair.hpp>
+	#include <functionnal.hpp>
+	#include <type_trait.hpp>
 #endif
 
 #include <iostream>
@@ -143,13 +143,9 @@ void	print_content(const VEC &vec)
 	typename	VEC::const_iterator	it(vec.begin());
 	typename	VEC::const_iterator	end(vec.end());
 
-	for (int i = 0; it != end; it++)
+	for (;it != end; it++)
 	{
 		std::cout << "	|" << *it << "|";
-		if (i++ == 5)
-			i = 0;
-		else
-			std::cout << std::endl;
 	}
 	std::cout << std::endl;
 }

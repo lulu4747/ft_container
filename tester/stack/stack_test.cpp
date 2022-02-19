@@ -1,25 +1,19 @@
 #include <iostream>
-#include <stack>
-#include <sys/time.h>
 #include "stack_test.hpp"
-#include "../tester.hpp"
-#include "../../ft_containers/stack.hpp"
 
-static bool	default_constructor_test()
+int	main()
+{
+	srand(SEED);
+
 {
 	std::cout << "_______________________________________________" << std::endl
 		<< "	stack" << std::endl << std::endl
 		<< "default construction" << std::endl << std::endl;
-	ft::stack<int>	ft;
-	std::stack<int>	stl;
-
-	if (!(print_test_result(stack_compare(ft, stl))))
-		return false;
-
-	return true;
+	ft::stack<int>	stk;
+	print_attributes(stk);
 }
 
-static bool	push_test()
+
 {
 	int	val(std::rand());
 
@@ -28,336 +22,282 @@ static bool	push_test()
 		<< "push test" << std::endl << std::endl
 		<< "stack.push(" << val << ") on empty stack" << std::endl;
 
-	ft::stack<int>	ft;
-	std::stack<int>	stl;
+	ft::stack<int>	stk;
 
-	ft.push(val);
-	stl.push(val);
+	stk.push(val);
 
-	if (!(print_test_result(stack_compare(ft, stl))))
-		return false;
+	print_attributes(stk);
+
 
 	val = std::rand();
 	std::cout << std::endl << std::endl
 		<< "#######################################" << std::endl << std::endl
 		<< "stack.push(" << val << ")" << std::endl;
 
-	ft.push(val);
-	stl.push(val);
+	stk.push(val);
 
-	if (!(print_test_result(stack_compare(ft, stl))))
-		return false;
+	print_attributes(stk);
+
 
 	std::cout << std::endl << std::endl
 		<< "#######################################" << std::endl << std::endl
-		<< "stack.push(std::rand()) " << EXTRA_LARGE << " times" << std::endl;
+		<< "stack.push(std::rand()) " << 20000 << " times" << std::endl;
 
-	for (int i = 0; i < EXTRA_LARGE; i++)
+	for (int i = 0; i < 20000; i++)
 	{
 		val = std::rand();
-		ft.push(val);
-		stl.push(val);
+		stk.push(val);
 	}
 
-	if (!(print_test_result(stack_compare(ft, stl))))
-		return false;
-
-	return true;
+	print_attributes(stk);
 }
 
-static bool	pop_test()
+
 {
 
 	std::cout << "_______________________________________________" << std::endl
 		<< "	stack" << std::endl << std::endl
 		<< "push test" << std::endl << std::endl
-		<< "stack.pop() on random values stack whith size = " << EXTRA_LARGE << std::endl;
+		<< "stack.pop() on random values stack whith size = " << 20000 << std::endl;
 
-	ft::stack<int>	ft;
-	std::stack<int>	stl;
+	ft::stack<int>	stk;
 	int				val;
 
-	for (int i = 0; i < EXTRA_LARGE; i++)
+	for (int i = 0; i < 20000; i++)
 	{
 		val = std::rand();
-		ft.push(val);
-		stl.push(val);
+		stk.push(val);
 	}
 
-	ft.pop();
-	stl.pop();
+	stk.pop();
 
-	if (!(print_test_result(stack_compare(ft, stl))))
-		return false;
+	print_attributes(stk);
+
 
 	std::cout << std::endl << std::endl
 		<< "#######################################" << std::endl << std::endl
-		<< "stack.pop() " << EXTRA_LARGE / 2 << " times" << std::endl;
+		<< "stack.pop() " << 20000 / 2 << " times" << std::endl;
 
-	for (int i = 0; i < EXTRA_LARGE / 2; i++)
+	for (int i = 0; i < 20000 / 2; i++)
 	{
-		ft.pop();
-		stl.pop();
+		stk.pop();
 	}
 
-	if (!(print_test_result(stack_compare(ft, stl))))
-		return false;
+	print_attributes(stk);
+
 
 	std::cout << std::endl << std::endl
 		<< "#######################################" << std::endl << std::endl
 		<< "stack.pop() until stack.empty() is true" << std::endl;
 
-	while (!ft.empty())
+	while (!stk.empty())
 	{
-		ft.pop();
-		stl.pop();
+		stk.pop();
 	}
 
-	if (!(print_test_result(stack_compare(ft, stl))))
-		return false;
-
-	return true;
+	print_attributes(stk);
 }
 
-static bool	top_test()
+
 {
 
 	std::cout << "_______________________________________________" << std::endl
 		<< "	stack" << std::endl << std::endl
 		<< "push test" << std::endl << std::endl
-		<< "stack.top() on random values stack whith size = " << EXTRA_LARGE << std::endl
+		<< "stack.top() on random values stack whith size = " << 20000 << std::endl
 		<< "			";
 
-	ft::stack<int>	ft;
-	std::stack<int>	stl;
+	ft::stack<int>	stk;
 	int				val;
 
-	for (int i = 0; i < EXTRA_LARGE; i++)
+	for (int i = 0; i < 20000; i++)
 	{
 		val = std::rand();
-		ft.push(val);
-		stl.push(val);
+		stk.push(val);
 	}
 
-	if (!(print_test_result(ft.top() == stl.top())))
-		return false;
+	std::cout << "stack.top() = " << stk.top() << std::endl;
 
-	std::cout << "stack.top() after stack.pop() " << EXTRA_LARGE / 2 << " times" << std::endl
+
+	std::cout << "stack.top() astker stack.pop() " << 20000 / 2 << " times" << std::endl
 		<< "			";
 
-	for (int i = 0; i < EXTRA_LARGE / 2; i++)
+	for (int i = 0; i < 20000 / 2; i++)
 	{
-		ft.pop();
-		stl.pop();
+		stk.pop();
 	}
 
-	if (!(print_test_result(ft.top() == stl.top())))
-		return false;
-
-	return true;
+	std::cout << "stack.top() = " << stk.top() << std::endl;
 }
 
-static bool	relationnal_operators_test()
-{
-	std::cout << "_______________________________________________" << std::endl
-		<< "Relational operator test" << std::endl << std::endl
-		<< "stack1 = randomly filled stack of size " << MEDIUM << ";" << std::endl
-		<< "stack2 = stack1 copy;" << std::endl
-		<< "stack3 = other random vec of size " << MEDIUM << ";" << std::endl
-		<< "stack4 = other random vec of size " << LARGE << ";" << std::endl
-		<< "stack5 = other random vec of size " << SHORT << ";" << std::endl << std::endl;
 
-	ft::stack<int>		ft1;
-	ft::stack<int>		ft2;
-	ft::stack<int>		ft3;
-	ft::stack<int>		ft4;
-	ft::stack<int>		ft5;
-	std::stack<int>		stl1;
-	std::stack<int>		stl2;
-	std::stack<int>		stl3;
-	std::stack<int>		stl4;
-	std::stack<int>		stl5;
-	int					val;
-
-	for (int i = 0; i < MEDIUM; i++)
 	{
-		val = std::rand();
-		ft1.push(val);
-		ft2.push(val);
-		stl1.push(val);
-		stl2.push(val);
+		std::cout << "_______________________________________________" << std::endl
+			<< "Relational operator test" << std::endl << std::endl
+			<< "stack1 = randomly filled stack of size " << 200 << ";" << std::endl
+			<< "stack2 = stack1 copy;" << std::endl
+			<< "stack3 = other random vec of size " << 200 << ";" << std::endl
+			<< "stack4 = other random vec of size " << 2000 << ";" << std::endl
+			<< "stack5 = other random vec of size " << 20 << ";" << std::endl << std::endl;
+
+		ft::stack<int>		stk1;
+		ft::stack<int>		stk2;
+		ft::stack<int>		stk3;
+		ft::stack<int>		stk4;
+		ft::stack<int>		stk5;
+		int					val;
+
+		for (int i = 0; i < 200; i++)
+		{
+			val = std::rand();
+			stk1.push(val);
+			stk2.push(val);
+		}
+		for (int i = 0; i < 200; i++)
+		{
+			val = std::rand();
+			stk3.push(val);
+		}
+		for (int i = 0; i < 2000; i++)
+		{
+			val = std::rand();
+			stk4.push(val);
+		}
+		for (int i = 0; i < 20; i++)
+		{
+			val = std::rand();
+			stk5.push(val);
+		}
+
+		std::cout << std::endl << std::endl
+			<< "#######################################" << std::endl << std::endl
+			<< " \"==\" " << std::endl << std::endl
+			<< "stack1 == stack2 ? :		";
+
+		std::cout << std::boolalpha << (stk1 == stk2) << std::endl;
+		
+
+		std::cout << "stack1 == stack3 ? :		";
+
+		std::cout << std::boolalpha << (stk1 == stk3) << std::endl;
+		
+
+		std::cout << "stack1 == stack4 ? :		";
+
+		std::cout << std::boolalpha << (stk1 == stk4) << std::endl;
+		
+
+		std::cout << "stack1 == stack5 ? :		";
+
+		std::cout << std::boolalpha << (stk1 == stk5) << std::endl;
+		
+
+		std::cout << std::endl << std::endl
+			<< "#######################################" << std::endl << std::endl
+			<< " \"!=\" " << std::endl << std::endl
+			<< "stack1 != stack2 ? :		";
+
+		std::cout << std::boolalpha << (stk1 != stk2) << std::endl;
+
+
+		std::cout << "stack1 != stack3 ? :		";
+
+		std::cout << std::boolalpha << (stk1 != stk3) << std::endl;
+
+
+		std::cout << "stack1 != stack4 ? :		";
+
+		std::cout << std::boolalpha << (stk1 != stk4) << std::endl;
+
+
+		std::cout << "stack1 != stack5 ? :		";
+
+		std::cout << std::boolalpha << (stk1 != stk5) << std::endl;
+
+
+		std::cout << std::endl << std::endl
+			<< "#######################################" << std::endl << std::endl
+			<< " \"<\" " << std::endl << std::endl
+			<< "stack1 < stack2 ? :			";
+
+		std::cout << std::boolalpha << (stk1 < stk2)  << std::endl;
+
+		std::cout << "stack1 < stack3 ? :			";
+
+		std::cout << std::boolalpha << (stk1 < stk3)  << std::endl;
+
+		std::cout << "stack1 < stack4 ? :			";
+
+		std::cout << std::boolalpha << (stk1 < stk4)  << std::endl;
+
+		std::cout << "stack1 < stack5 ? :			";
+
+		std::cout << std::boolalpha << (stk1 < stk5)  << std::endl;
+
+		std::cout << std::endl << std::endl
+			<< "#######################################" << std::endl << std::endl
+			<< " \"<=\" " << std::endl << std::endl
+			<< "stack1 <= stack2 ? :		";
+
+		std::cout << std::boolalpha << (stk1 <= stk2) << std::endl;
+
+
+		std::cout << "stack1 <= stack3 ? :		";
+
+		std::cout << std::boolalpha << (stk1 <= stk3) << std::endl;
+
+
+		std::cout << "stack1 <= stack4 ? :		";
+
+		std::cout << std::boolalpha << (stk1 <= stk4) << std::endl;
+
+
+		std::cout << "stack1 <= stack5 ? :		";
+
+		std::cout << std::boolalpha << (stk1 <= stk5) << std::endl;
+
+
+		std::cout << std::endl << std::endl
+			<< "#######################################" << std::endl << std::endl
+			<< " \">\" " << std::endl << std::endl
+			<< "stack1 > stack2 ? :			";
+
+		std::cout << std::boolalpha << (stk1 > stk2)  << std::endl;
+
+		std::cout << "stack1 > stack3 ? :			";
+
+		std::cout << std::boolalpha << (stk1 > stk3)  << std::endl;
+
+		std::cout << "stack1 > stack4 ? :			";
+
+		std::cout << std::boolalpha << (stk1 > stk4)  << std::endl;
+
+		std::cout << "stack1 > stack5 ? :			";
+
+		std::cout << std::boolalpha << (stk1 > stk5)  << std::endl;
+
+		std::cout << std::endl << std::endl
+			<< "#######################################" << std::endl << std::endl
+			<< " \">=\" " << std::endl << std::endl
+			<< "stack1 >= stack2 ? :		";
+
+		std::cout << std::boolalpha << (stk1 >= stk2) << std::endl;
+
+
+		std::cout << "stack1 >= stack3 ? :		";
+
+		std::cout << std::boolalpha << (stk1 >= stk3) << std::endl;
+
+
+		std::cout << "stack1 >= stack4 ? :		";
+
+		std::cout << std::boolalpha << (stk1 >= stk4) << std::endl;
+
+
+		std::cout << "stack1 >= stack5 ? :		";
+
+		std::cout << std::boolalpha << (stk1 >= stk5) << std::endl;
+
 	}
-	for (int i = 0; i < MEDIUM; i++)
-	{
-		val = std::rand();
-		ft3.push(val);
-		stl3.push(val);
-	}
-	for (int i = 0; i < LARGE; i++)
-	{
-		val = std::rand();
-		ft4.push(val);
-		stl4.push(val);
-	}
-	for (int i = 0; i < SHORT; i++)
-	{
-		val = std::rand();
-		ft5.push(val);
-		stl5.push(val);
-	}
-
-	std::cout << std::endl << std::endl
-		<< "#######################################" << std::endl << std::endl
-		<< " \"==\" " << std::endl << std::endl
-		<< "stack1 == stack2 ? :		";
-
-	std::cout << std::boolalpha << (vct1 == vct2) << std::endl;
-	
-
-	std::cout << "stack1 == stack3 ? :		";
-
-	std::cout << std::boolalpha << (vct1 == vct3) << std::endl;
-	
-
-	std::cout << "stack1 == stack4 ? :		";
-
-	std::cout << std::boolalpha << (vct1 == vct4) << std::endl;
-	
-
-	std::cout << "stack1 == stack5 ? :		";
-
-	std::cout << std::boolalpha << (vct1 == vct5) << std::endl;
-	
-
-	std::cout << std::endl << std::endl
-		<< "#######################################" << std::endl << std::endl
-		<< " \"!=\" " << std::endl << std::endl
-		<< "stack1 != stack2 ? :		";
-
-	std::cout << std::boolalpha << (vct1 != vct2) << std::endl;
-
-
-	std::cout << "stack1 != stack3 ? :		";
-
-	std::cout << std::boolalpha << (vct1 != vct3) << std::endl;
-
-
-	std::cout << "stack1 != stack4 ? :		";
-
-	std::cout << std::boolalpha << (vct1 != vct4) << std::endl;
-
-
-	std::cout << "stack1 != stack5 ? :		";
-
-	std::cout << std::boolalpha << (vct1 != vct5) << std::endl;
-
-
-	std::cout << std::endl << std::endl
-		<< "#######################################" << std::endl << std::endl
-		<< " \"<\" " << std::endl << std::endl
-		<< "stack1 < stack2 ? :			";
-
-	std::cout << std::boolalpha << (vct1 < fvct)  << std::endl;
-
-	std::cout << "stack1 < stack3 ? :			";
-
-	std::cout << std::boolalpha << (vct1 < fvct)  << std::endl;
-
-	std::cout << "stack1 < stack4 ? :			";
-
-	std::cout << std::boolalpha << (vct1 < fvct)  << std::endl;
-
-	std::cout << "stack1 < stack5 ? :			";
-
-	std::cout << std::boolalpha << (vct1 < fvct)  << std::endl;
-
-	std::cout << std::endl << std::endl
-		<< "#######################################" << std::endl << std::endl
-		<< " \"<=\" " << std::endl << std::endl
-		<< "stack1 <= stack2 ? :		";
-
-	std::cout << std::boolalpha << (vct1 <= vct2) << std::endl;
-
-
-	std::cout << "stack1 <= stack3 ? :		";
-
-	std::cout << std::boolalpha << (vct1 <= vct3) << std::endl;
-
-
-	std::cout << "stack1 <= stack4 ? :		";
-
-	std::cout << std::boolalpha << (vct1 <= vct4) << std::endl;
-
-
-	std::cout << "stack1 <= stack5 ? :		";
-
-	std::cout << std::boolalpha << (vct1 <= vct5) << std::endl;
-
-
-	std::cout << std::endl << std::endl
-		<< "#######################################" << std::endl << std::endl
-		<< " \">\" " << std::endl << std::endl
-		<< "stack1 > stack2 ? :			";
-
-	std::cout << std::boolalpha << (vct1 > fvct)  << std::endl;
-
-	std::cout << "stack1 > stack3 ? :			";
-
-	std::cout << std::boolalpha << (vct1 > fvct)  << std::endl;
-
-	std::cout << "stack1 > stack4 ? :			";
-
-	std::cout << std::boolalpha << (vct1 > fvct)  << std::endl;
-
-	std::cout << "stack1 > stack5 ? :			";
-
-	std::cout << std::boolalpha << (vct1 > fvct)  << std::endl;
-
-	std::cout << std::endl << std::endl
-		<< "#######################################" << std::endl << std::endl
-		<< " \">=\" " << std::endl << std::endl
-		<< "stack1 >= stack2 ? :		";
-
-	std::cout << std::boolalpha << (vct1 >= vct2) << std::endl;
-
-
-	std::cout << "stack1 >= stack3 ? :		";
-
-	std::cout << std::boolalpha << (vct1 >= vct3) << std::endl;
-
-
-	std::cout << "stack1 >= stack4 ? :		";
-
-	std::cout << std::boolalpha << (vct1 >= vct4) << std::endl;
-
-
-	std::cout << "stack1 >= stack5 ? :		";
-
-	std::cout << std::boolalpha << (vct1 >= vct5) << std::endl;
-
-}
-
-bool	stack_test()
-{
-	if (default_constructor_test() == false)
-		return false;
-
-	if (push_test() == false)
-		return false;
-
-	if (pop_test() == false)
-		return false;
-
-	if (top_test() == false)
-		return false;
-
-	if (relationnal_operators_test() == false)
-		return false;
-
-	std::cout << std::endl << "*****************************************************" << std::endl << std::endl
-		<< "Stack :					";
-	print_test_result(true);
-	std::cout << std::endl << "*****************************************************" << std::endl;
-
-	return true;
+	return 0;
 }
