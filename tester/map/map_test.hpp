@@ -22,10 +22,7 @@
 	# define SEED 10
 #endif
 
-#define LEN	100000
-//#ifndef LEN
-//	# define LEN rand()	%	100
-//#endif
+#define LEN 1000000
 
 
 template<typename Iter>
