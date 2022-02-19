@@ -28,9 +28,7 @@ namespace	ft
 		{}
 
 		~stack()
-		{
-			c.~container_type();
-		}
+		{}
 
 		stack &	operator=( stack const & other)
 		{

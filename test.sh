@@ -2,10 +2,10 @@
 CMD_DATE=date
 
 SEED=$($CMD_DATE +%s);
-LEN=$(( $RANDOM % 1000000 ))
+LEN=$(( $RANDOM % 100000 ))
 
-#SEED=
-#LEN=
+#SEED=			#
+#LEN=1000000	#-> test with 1 million len to get mmore accurate time diff, take between 5 and 10 minutes to complete
 
 echo "Seed is : $SEED"
 echo "Len is : $LEN"
