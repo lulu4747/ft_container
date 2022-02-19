@@ -96,6 +96,9 @@ fclean:
 	$(RM) $(FT_VECTOR).g
 	$(RM) $(STD_VECTOR)
 	$(RM) $(STD_VECTOR).g
+	$(RM) ft
+	$(RM) std
+	$(RM) result
 
 re:
 	$(MAKE) fclean --no-print-directory

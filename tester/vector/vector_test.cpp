@@ -10,8 +10,8 @@ int main()
 	std::cout << "---------------------VECTOR---------------------" << std::endl << std::endl
 		<< "default constructor :" << std::endl << std::endl;
 	{	
-		ft::vector<int> vct; //default const
-		print_attributes(vct);
+		ft::vector<int> vec; //default const
+		print_attributes(vec);
 
 		std::cout << "try/catch vector.at(rand() %" << LEN << ") 1000 times on empty vector :" << std::endl << std::endl;
 		try
@@ -19,7 +19,7 @@ int main()
 			for (int i = 0; i < 1000; i++)
 			{
 				const int idx = rand() % LEN;
-				vct.at(idx);
+				vec.at(idx);
 				std::cerr << "Error: THIS VECTOR SHOULD BE EMPTY!!" << std::endl;
 			}
 		}
@@ -32,26 +32,26 @@ int main()
 
 		for(int i = 0; i < LEN; i++)
 		{
-			vct.insert(vct.end(), rand());
+			vec.insert(vec.end(), rand());
 		}
-		print_attributes(vct);
+		print_attributes(vec);
 
 		std::cout << "vector.reserve(vector.capacity() + 2) :" << std::endl << std::endl;
 
-		vct.reserve(vct.capacity() + 2);
-		print_attributes(vct);
+		vec.reserve(vec.capacity() + 2);
+		print_attributes(vec);
 
 		std::cout << "copy constructor and compare :" << std::endl << std::endl;
 
-		ft::vector<int> cpy = vct; // cpy
+		ft::vector<int> cpy = vec; // cpy
 
-		print_attributes(vct);
-		cmp(vct, cpy); // cmp cpy
+		print_attributes(vec);
+		cmp(vec, cpy); // cmp cpy
 	
 		std::cout << "copy.clear() and compare :" << std::endl << std::endl;
 		cpy.clear();
-		print_attributes(vct);
-		cmp(vct, cpy); //cmp with empty
+		print_attributes(vec);
+		cmp(vec, cpy); //cmp with empty
 	}
 
 	std::cout << "______________________________________" << std::endl << std::endl;
@@ -60,58 +60,58 @@ int main()
 	{
 		std::cout << "default construct 2 vectors :" << std::endl << std::endl;
 
-		ft::vector<int> vct1;
-		ft::vector<int> vct2;
+		ft::vector<int> vec1;
+		ft::vector<int> vec2;
 
 		std::cout << "for(int i = 0; i < 125; i++)" << std::endl
-			<< "	vct1.insert(vct1.end(), rand()); :" << std::endl << std::endl;
+			<< "	vec1.insert(vec1.end(), rand()); :" << std::endl << std::endl;
 
 		for(int i = 0; i < 125; i++)
 		{
-			vct1.insert(vct1.end(), rand());
+			vec1.insert(vec1.end(), rand());
 		}
 
-		print_attributes(vct1);
-		print_attributes(vct2);
+		print_attributes(vec1);
+		print_attributes(vec2);
 
-		std::cout << "vct2.swap(vct1);" << std::endl << std::endl;
+		std::cout << "vec2.swap(vec1);" << std::endl << std::endl;
 
-		vct2.swap(vct1);
+		vec2.swap(vec1);
 
-		print_attributes(vct1);
-		print_attributes(vct2);
+		print_attributes(vec1);
+		print_attributes(vec2);
 
-		std::cout << "vct1 = vct2;" << std::endl << std::endl;
+		std::cout << "vec1 = vec2;" << std::endl << std::endl;
 
-		vct1 = vct2;
+		vec1 = vec2;
 
-		print_attributes(vct1);
-		print_attributes(vct2);
-		cmp(vct1, vct2);
+		print_attributes(vec1);
+		print_attributes(vec2);
+		cmp(vec1, vec2);
 
-		std::cout << "vct2[i] = rand while i < 25;" << std::endl
-			<< "vct2.at(i) = rand while i < 50;" << std::endl << std::endl;
+		std::cout << "vec2[i] = rand while i < 25;" << std::endl
+			<< "vec2.at(i) = rand while i < 50;" << std::endl << std::endl;
 
 		for(int i =0; i < 25; i++)
 		{
-			vct2[i] = rand();
+			vec2[i] = rand();
 		}
 
 		for(int i =25; i < 50; i++)
 		{
-			vct2.at(i) = rand();
+			vec2.at(i) = rand();
 		}
 
-		cmp(vct2, vct1);
+		cmp(vec2, vec1);
 
-		std::cout << "vct2.pop_back() 4 times;" << std::endl << std::endl;
+		std::cout << "vec2.pop_back() 4 times;" << std::endl << std::endl;
 
-		vct2.pop_back();
-		vct2.pop_back();
-		vct2.pop_back();
-		vct2.pop_back();
+		vec2.pop_back();
+		vec2.pop_back();
+		vec2.pop_back();
+		vec2.pop_back();
 
-		cmp(vct2, vct1);
+		cmp(vec2, vec1);
 
 	}
 
@@ -122,37 +122,37 @@ int main()
 	{
 		std::cout << "range construct (10, rand) 2 vectors :" << std::endl << std::endl;
 
-		ft::vector<int> vct1(10, rand());
-		ft::vector<int> vct2(10, rand());
+		ft::vector<int> vec1(10, rand());
+		ft::vector<int> vec2(10, rand());
 
-		cmp(vct2, vct1);
+		cmp(vec2, vec1);
 
-		std::cout << "vct2.pop_back();" << std::endl << std::endl;
+		std::cout << "vec2.pop_back();" << std::endl << std::endl;
 
-		vct2.pop_back();
-		cmp(vct2, vct1);
+		vec2.pop_back();
+		cmp(vec2, vec1);
 
-		std::cout << "vct2.push_back(rand);" << std::endl << std::endl;
+		std::cout << "vec2.push_back(rand);" << std::endl << std::endl;
 
-		vct2.push_back(rand());
-		cmp(vct2, vct1);
+		vec2.push_back(rand());
+		cmp(vec2, vec1);
 
-		std::cout << "vct2.push_back(rand) 2 times;" << std::endl << std::endl;
+		std::cout << "vec2.push_back(rand) 2 times;" << std::endl << std::endl;
 
-		vct2.push_back(rand());
-		vct2.push_back(rand());
-		cmp(vct2, vct1);
+		vec2.push_back(rand());
+		vec2.push_back(rand());
+		cmp(vec2, vec1);
 
 		size_t n_len = rand() % 100;
-		std::cout << "vct2.resize(" << n_len << ", rand);" << std::endl
-			<< "vct1.resize(" << n_len << ");"<< std::endl << std::endl;
+		std::cout << "vec2.resize(" << n_len << ", rand);" << std::endl
+			<< "vec1.resize(" << n_len << ");"<< std::endl << std::endl;
 	
-		vct2.resize(n_len, rand());
-		vct1.resize(n_len);
+		vec2.resize(n_len, rand());
+		vec1.resize(n_len);
 	
-		cmp(vct2, vct1);
-		print_attributes(vct1);
-		print_attributes(vct2);
+		cmp(vec2, vec1);
+		print_attributes(vec1);
+		print_attributes(vec2);
 		
 	}
 
@@ -163,90 +163,90 @@ int main()
 	{
 		std::cout << "default construct :" << std::endl << std::endl
 			<< "for(int i = 0; i < " << LEN << "; i++)" << std::endl
-			<< "	vct1.insert(vct1.end(), rand()); :" << std::endl << std::endl;
+			<< "	vec1.insert(vec1.end(), rand()); :" << std::endl << std::endl;
 
-		ft::vector<int> vct1;
+		ft::vector<int> vec1;
 
 		for(int i =0; i < LEN; i++)
 		{
-			vct1.insert(vct1.end(), rand());
+			vec1.insert(vec1.end(), rand());
 		}
 
-		std::cout << "range construct vct2 from vct1.begin() to vct1.begin() + rand_size:" << std::endl << std::endl;
+		std::cout << "range construct vec2 from vec1.begin() to vec1.begin() + rand_size:" << std::endl << std::endl;
 
-		ft::vector<int> vct2(vct1.begin(), vct1.begin() + (rand_size(vct1)));
+		ft::vector<int> vec2(vec1.begin(), vec1.begin() + (rand_size(vec1)));
 
-		std::cout << "copy construct vct3 from vct1 :" << std::endl << std::endl;
+		std::cout << "copy construct vec3 from vec1 :" << std::endl << std::endl;
 
-		ft::vector<int> vct3(vct1);
+		ft::vector<int> vec3(vec1);
 
-		std::cout << "default construct vct4 :" << std::endl << std::endl;
+		std::cout << "default construct vec4 :" << std::endl << std::endl;
 
-		ft::vector<int> vct4;
+		ft::vector<int> vec4;
 
-		cmp(vct2, vct1);
-		cmp(vct3, vct1);
-		cmp(vct3, vct2);
-		print_attributes(vct1);
-		print_attributes(vct2);
-		print_attributes(vct3);
-		print_attributes(vct4);
+		cmp(vec2, vec1);
+		cmp(vec3, vec1);
+		cmp(vec3, vec2);
+		print_attributes(vec1);
+		print_attributes(vec2);
+		print_attributes(vec3);
+		print_attributes(vec4);
 
-		std::cout << "vct3.assign(vct1.begin(), vct1.begin() + (rand_size(vct1)));" << std::endl << std::endl;
+		std::cout << "vec3.assign(vec1.begin(), vec1.begin() + (rand_size(vec1)));" << std::endl << std::endl;
 	
-		vct3.assign(vct1.begin(), vct1.begin() + (rand_size(vct1)));
+		vec3.assign(vec1.begin(), vec1.begin() + (rand_size(vec1)));
 
-		std::cout << "vct4.assign(vct3.size(), rand());" << std::endl << std::endl;
+		std::cout << "vec4.assign(vec3.size(), rand());" << std::endl << std::endl;
 
-		vct4.assign(vct3.size(), rand());
+		vec4.assign(vec3.size(), rand());
 
-		cmp(vct3, vct1);
-		cmp(vct3, vct2);
-		cmp(vct2, vct1);
-		print_attributes(vct1);
-		print_attributes(vct2);
+		cmp(vec3, vec1);
+		cmp(vec3, vec2);
+		cmp(vec2, vec1);
+		print_attributes(vec1);
+		print_attributes(vec2);
 
 		std::cout << "erase pos;" << std::endl << std::endl;
 	
-		if (!vct4.empty())
-			vct4.erase(vct4.begin() + rand_size(vct4));
+		if (!vec4.empty())
+			vec4.erase(vec4.begin() + rand_size(vec4));
 
-		print_attributes(vct4);
+		print_attributes(vec4);
 
 		std::cout << "erase range;" << std::endl << std::endl;
 
-		vct3.erase(vct3.begin(), vct3.begin() + rand_size(vct3));
+		vec3.erase(vec3.begin(), vec3.begin() + rand_size(vec3));
 
-		print_attributes(vct3);
+		print_attributes(vec3);
 
 		std::cout << "insert single;" << std::endl << std::endl;
 
-		vct3.insert(vct3.begin() + rand_size(vct3), rand());
-		print_attributes(vct3);
+		vec3.insert(vec3.begin() + rand_size(vec3), rand());
+		print_attributes(vec3);
 
 		std::cout << "insert fill;" << std::endl << std::endl;
 
-		vct3.insert(vct3.begin() + (rand() % vct3.size()), rand() % 1000, rand());
-		print_attributes(vct3);
+		vec3.insert(vec3.begin() + (rand() % vec3.size()), rand() % 1000, rand());
+		print_attributes(vec3);
 
 		std::cout << "insert range;" << std::endl << std::endl;
 
-		vct3.insert(vct3.end(), vct1.begin(), vct1.begin() + (rand() % vct1.size()));
-		print_attributes(vct3);
+		vec3.insert(vec3.end(), vec1.begin(), vec1.begin() + (rand() % vec1.size()));
+		print_attributes(vec3);
 	
 		std::cout << "insert range from self;" << std::endl << std::endl;
-		vct3.insert(vct3.end() , vct3.begin(), vct3.end());
-		print_attributes(vct3);
+		vec3.insert(vec3.end() , vec3.begin(), vec3.end());
+		print_attributes(vec3);
 
 		std::cout << "swap vec3 and vec4" << std::endl << std::endl;
-		ft::swap(vct3, vct4);
-		print_attributes(vct3);
-		print_attributes(vct4);
+		ft::swap(vec3, vec4);
+		print_attributes(vec3);
+		print_attributes(vec4);
 	
-		print_it(vct4.rbegin(), vct4.rend());
+		print_it(vec4.rbegin(), vec4.rend());
 		
-		ft::vector<int>::const_iterator first = vct3.begin();
-		ft::vector<int>::const_iterator last = vct3.end();
+		ft::vector<int>::const_iterator first = vec3.begin();
+		ft::vector<int>::const_iterator last = vec3.end();
 		print_it(first, last);
 	}
 
@@ -255,77 +255,77 @@ int main()
 	{
 		std::cout << "default construct with class <FOO> :" << std::endl << std::endl
 			<< "for(int i = 0; i < " << LEN << "; i++)" << std::endl
-			<< "	vct1.insert(vct1.end(), rand()); :" << std::endl << std::endl;
+			<< "	vec1.insert(vec1.end(), rand()); :" << std::endl << std::endl;
 
-		ft::vector<Foo> vct1;
+		ft::vector<Foo> vec1;
 
 		for(int i =0; i < LEN; i++)
 		{
-			vct1.insert(vct1.end(), rand());
+			vec1.insert(vec1.end(), rand());
 		}
 
-		std::cout << "range construct from vct1;" << std::endl << std::endl;
+		std::cout << "range construct from vec1;" << std::endl << std::endl;
 
-		ft::vector<Foo> vct2(vct1.begin(), vct1.begin() + (rand_size(vct1)));
+		ft::vector<Foo> vec2(vec1.begin(), vec1.begin() + (rand_size(vec1)));
 
-		std::cout << "copy construct from vct1;" << std::endl << std::endl;
+		std::cout << "copy construct from vec1;" << std::endl << std::endl;
 
-		ft::vector<Foo> vct3(vct1);
+		ft::vector<Foo> vec3(vec1);
 
 		std::cout << "Default construct;" << std::endl << std::endl;
-		ft::vector<Foo> vct4;
+		ft::vector<Foo> vec4;
 
-		std::cout << "range assign from vct1;" << std::endl << std::endl;
+		std::cout << "range assign from vec1;" << std::endl << std::endl;
 
-		vct3.assign(vct1.begin(), vct1.begin() + (rand_size(vct1)));
+		vec3.assign(vec1.begin(), vec1.begin() + (rand_size(vec1)));
 
 		std::cout << "fill assign;" << std::endl << std::endl;
 
-		vct4.assign(vct3.size(), rand());
+		vec4.assign(vec3.size(), rand());
 
 
-		cmp(vct3, vct1);
-		cmp(vct3, vct2);
-		cmp(vct2, vct1);
-		print_attributes(vct1);
-		print_attributes(vct2);
-		print_attributes(vct3);
-		print_attributes(vct4);
+		cmp(vec3, vec1);
+		cmp(vec3, vec2);
+		cmp(vec2, vec1);
+		print_attributes(vec1);
+		print_attributes(vec2);
+		print_attributes(vec3);
+		print_attributes(vec4);
 
 		std::cout << "erase pos;" << std::endl << std::endl;
 
-		vct4.erase(vct4.begin() + rand_size(vct4));
-		print_attributes(vct4);
+		vec4.erase(vec4.begin() + rand_size(vec4));
+		print_attributes(vec4);
 
 		std::cout << "erase range;" << std::endl << std::endl;
 
-		vct3.erase(vct3.begin(), vct3.begin() + rand_size(vct3));
-		print_attributes(vct3);
+		vec3.erase(vec3.begin(), vec3.begin() + rand_size(vec3));
+		print_attributes(vec3);
 
 		std::cout << "insert single;" << std::endl << std::endl;
 
-		vct3.insert(vct3.begin() + rand_size(vct3), rand());
-		print_attributes(vct3);
+		vec3.insert(vec3.begin() + rand_size(vec3), rand());
+		print_attributes(vec3);
 
 		std::cout << "erase fill;" << std::endl << std::endl;
 
-		vct3.insert(vct3.begin() + (rand() % vct3.size()), rand() % 1000, rand());
-		print_attributes(vct3);
+		vec3.insert(vec3.begin() + (rand() % vec3.size()), rand() % 1000, rand());
+		print_attributes(vec3);
 
 		std::cout << "insert range;" << std::endl << std::endl;
 
-		vct3.insert(vct3.end(), vct1.begin(), vct1.begin() + (rand() % vct1.size()));
-		print_attributes(vct3);
+		vec3.insert(vec3.end(), vec1.begin(), vec1.begin() + (rand() % vec1.size()));
+		print_attributes(vec3);
 
 		std::cout << "insert from self;" << std::endl << std::endl;
 
-		vct3.insert(vct3.end() , vct3.begin(), vct3.end());
-		print_attributes(vct3);
+		vec3.insert(vec3.end() , vec3.begin(), vec3.end());
+		print_attributes(vec3);
 
 		std::cout << "swap;" << std::endl << std::endl;
-		ft::swap(vct3, vct4);
-		print_attributes(vct3);
-		print_attributes(vct4);
+		ft::swap(vec3, vec4);
+		print_attributes(vec3);
+		print_attributes(vec4);
 	}
 
 	std::cout << "______________________________________" << std::endl << std::endl;
@@ -333,7 +333,7 @@ int main()
 	{
 		std::cout << "default construct with class <std::string> :" << std::endl << std::endl
 			<< "push_back increasingly large std::string" << std::endl << std::endl;
-		ft::vector<std::string> vct1;
+		ft::vector<std::string> vec1;
 
 		
 		std::string str = "A";
@@ -341,93 +341,531 @@ int main()
 		for (size_t i = 0; i < len; i++)
 		{
 			str += static_cast<char>(rand() % 127 + 'A');
-			vct1.push_back(str);
+			vec1.push_back(str);
 		}
 
-		print_attributes(vct1);
+		print_attributes(vec1);
 
-		std::cout << "copy construct from vct1;" << std::endl << std::endl;
+		std::cout << "copy construct from vec1;" << std::endl << std::endl;
 
-		ft::vector<std::string> vct2(vct1);
+		ft::vector<std::string> vec2(vec1);
 
-		cmp(vct1, vct2);
+		cmp(vec1, vec2);
 
 		std::cout << "Default construct;" << std::endl << std::endl;
 
-		ft::vector<std::string> vct3;
+		ft::vector<std::string> vec3;
 
-		std::cout << "push_back random elements from vct2;" << std::endl << std::endl;
+		std::cout << "push_back random elements from vec2;" << std::endl << std::endl;
 
 		for (size_t i = 0; i < len; i++)
 		{
-			size_t index = rand() % vct2.size();
+			size_t index = rand() % vec2.size();
 
-			std::cout << index << " | " << vct2.size() << std::endl;
-			vct3.push_back(vct2[index]);
+			std::cout << index << " | " << vec2.size() << std::endl;
+			vec3.push_back(vec2[index]);
 		}
 
-		print_attributes(vct3);
+		print_attributes(vec3);
 
-		std::cout << "erase random number of random elements from vct2;" << std::endl << std::endl;
+		std::cout << "erase random number of random elements from vec2;" << std::endl << std::endl;
 
-		erase_rand_el(vct2, rand_size(vct2));
+		erase_rand_el(vec2, rand_size(vec2));
 
-		print_attributes(vct2);
-		cmp(vct1, vct2);
+		print_attributes(vec2);
+		cmp(vec1, vec2);
 
-		std::cout << "insert random number of random elements from vct2;" << std::endl << std::endl;
+		std::cout << "insert random number of random elements from vec2;" << std::endl << std::endl;
 
-		insert_rand_el(vct2, vct1.size() - vct2.size(), "A");
+		insert_rand_el(vec2, vec1.size() - vec2.size(), "A");
 
-		cmp(vct1, vct2);
-		cmp(vct1, vct3);
-		cmp(vct3, vct2);
+		cmp(vec1, vec2);
+		cmp(vec1, vec3);
+		cmp(vec3, vec2);
 
 	}
-/*
+
 	std::cout << "______________________________________" << std::endl << std::endl;
 
 	{
-		std::cout << std::endl << "#######################################" << std::endl
-			<< "iterators operators test" << std::endl
-			<< "Crescent values filled vector from 0 to " << 500 << std::endl << std::endl
-			<< "normal iterator :" << std::endl
-			<< "it(vector.begin());" << std::endl << std::endl;
+		std::cout << "default construct<int> 2 vectors :" << std::endl << std::endl
+			<< "push_back 200 rand() on both" << std::endl << std::endl;
 
-		ft::vector<int>		vec;
-		std::string			str("it");
-		for (int i = 0; i < 500; i++)
-			vec.push_back(i);
+		std::string		begin("begin()");
+		std::string		str_it("begin()");
+		ft::vector<int>	vec1;
+		ft::vector<int>	vec2;
+	
+		for (int i = 0; i < 200; i++)
+		{
+			vec1.push_back(std::rand());
+			vec2.push_back(std::rand());
+		}
 
-		ft::vector<int>::iterator				it(vec.begin());
+		std::cout  << "copy construct from vec1 :" << std::endl << std::endl;
 
-		op_test(vec, it, str);
+		ft::vector<int>	vec3(vec1);
+
+		std::cout << "//////////////////////////Default iterator//////////////////////////" << std::endl << std::endl
+			<< "it = vec1.begin()" << std::endl;
+
+		ft::vector<int>::iterator	it(vec1.begin());
+
+		std::cout << "*it = " << *it << std::endl
+			<< "it2 = vec2.begin()" << std::endl;
+
+		ft::vector<int>::iterator	it2(vec2.begin());
+
+		std::cout << "*it2 = " << *it2 << std::endl
+			<< "it3 = vec3.begin()" << std::endl;
+
+		ft::vector<int>::iterator	it3(vec3.begin());
+		std::cout << "*it3 = " << *it3 << std::endl
+			<< "compare (range from it to it + vec1.size() / 2) to (range from it2 to it2 + vec2.size() / 2)" << std::endl;
+
+		cmp_it_range(it, it + vec1.size() / 2, it2, it2 + vec2.size() / 2);
 		
-		std::cout << std::endl << "constant iterator :" << std::endl
-			<< "cit(vector.begin());" << std::endl << std::endl;
+		std::cout << "compare (range from it to it + vec1.size() / 2) to (range from it3 to it3 + vec3.size() / 2)" << std::endl;
 
-		ft::vector<int>::const_iterator			cit(vec.begin());
-		str = "cit";
-
-		op_test(vec, cit, str);
+		cmp_it_range(it, it + vec1.size() / 2, it3, it3 + vec3.size() / 2);
 		
-		std::cout << std::endl << "reverse iterator :" << std::endl
-			<< "rit(vector.rbegin());" << std::endl << std::endl;
+		std::cout << "compare (range from it to it + vec1.size() / 2) to (range it + vec1.size() / 2 to vec1.end())" << std::endl;
 
-		ft::vector<int>::reverse_iterator		rit(vec.rbegin());
-		str = "rit";
+		cmp_it_range(it, it + vec1.size() / 2, it + vec1.size() / 2, vec1.end());
 
-		op_test(vec, rit, str);
+
+		std::cout << "----------Arithmetic operators----------" << std::endl
+			<< "Mostly using \"operator*()\" to print output" << std::endl
+			<< std::endl << str_it << " += " << vec1.size() / 2 << " :			";
+
+		std::cout << *(it += vec1.size() / 2) << std::endl;
+
+		std::cout << str_it << " + " << vec1.size() / 5 << " :			";
+
+		std::cout << *(it + vec1.size() / 5) << std::endl;
+
+		std::cout << str_it << " - " << vec1.size() / 3 << " :			";
+
+		std::cout << *(it - vec1.size() / 3) << std::endl;
+
+		std::cout << str_it << " - vector." << begin << "() :		";
+
+		std::cout << (it - vec1.begin()) << std::endl;
+
+		std::cout << str_it << " -= " << vec1.size() / 4 << " :			";
+
+		std::cout << *(it -= vec1.size() / 4) << std::endl;
+
+		std::cout << str_it << " = vector." << begin << "() :	";
+
+		std::cout << *(it = vec1.begin()) << std::endl;
+
+		std::cout << std::endl << "----------Comparison operators----------" << std::endl << std::endl
+			<< str_it << " == vector." << begin << "() ? :	";
+
+		std::cout << (it == vec1.begin())
+			<< str_it << " != vector." << begin << "() ? :	"
+				<< (it != vec1.begin()) << std::endl
+				<< str_it << " <= vector." << begin << "() ? :	"
+				<< (it <= vec1.begin()) << std::endl
+				<< str_it << " >= vector." << begin << "() ? :	"
+				<< (it >= vec1.begin()) << std::endl
+				<< str_it << " < vector." << begin << "() ? :		"
+				<< (it < vec1.begin()) << std::endl
+				<< str_it << " > vector." << begin << "() ? :		"
+				<< (it > vec1.begin()) << std::endl
+				<< str_it << "++ == vector." << begin << "() ? :	"
+				<< (it++ == vec1.begin()) << std::endl
+				<< str_it << " != vector." << begin << "() ? :	"
+				<< (it != vec1.begin()) << std::endl
+				<< str_it << " <= vector." << begin << "() ? :	"
+				<< (it <= vec1.begin()) << std::endl
+				<< str_it << " >= vector." << begin << "() ? :	"
+				<< (it >= vec1.begin()) << std::endl
+				<< str_it << " < vector." << begin << "() ? :		"
+				<< (it < vec1.begin()) << std::endl
+				<< str_it << " > vector." << begin << "() ? :		"
+				<< (it > vec1.begin()) << std::endl
+				<< "--" << str_it << " == vector." << begin << "() ? :	"
+				<< (--it == vec1.begin()) << std::endl;
+
+		std::cout << std::endl << "----------Access operators----------" << std::endl << std::endl
+			<< str_it << "[" << vec1.size() / 5 << "] :			";
+
+		std::cout << (it[vec1.size() / 5]) << std::endl;
+
+		std::cout << std::endl << "----------Increment/Decrement operators----------" << std::endl << std::endl
+			<< "iterator		tmp(" << str_it << ");" << std::endl << std::endl << str_it << "++ == tmp ? :	";
 		
-		std::cout << std::endl << "const reverse iterator :" << std::endl
-			<< "crit(vector.rbegin());" << std::endl << std::endl;
+		ft::vector<int>::iterator		tmp(it);
 
-		ft::vector<int>::const_reverse_iterator		crit(vec.rbegin());
-		str = "crit";
+		std::cout << (it++ == tmp) << std::endl;
 
-		op_test(vec, crit, str);
+		std::cout << std::endl << "tmp = " << str_it << ";" << std::endl << str_it << "-- == tmp ? :	";
+
+		tmp = it;
+
+		std::cout << (it-- == tmp) << std::endl;
+
+		std::cout << std::endl << "tmp = " << str_it << ";" << std::endl << "++" << str_it << " == tmp ? :	";
+
+		tmp = it;
+
+		std::cout << (++it == tmp) << std::endl;
+
+		std::cout << std::endl << "tmp = " << str_it << ";" << std::endl << "--" << str_it << " == tmp ? :	";
+
+		tmp = it;
+
+		std::cout << (--it == tmp) << std::endl;
+
+
+		str_it = "cit";
+
+		std::cout << "//////////////////////////Const iterator//////////////////////////" << std::endl << std::endl
+			<< "cit = vec1.begin()" << std::endl;
+
+		ft::vector<int>::const_iterator	cit(vec1.begin());
+
+		std::cout << "*cit = " << *cit << std::endl
+			<< "cit2 = vec2.begin()" << std::endl;
+
+		ft::vector<int>::const_iterator	cit2(vec2.begin());
+
+		std::cout << "*cit2 = " << *cit2 << std::endl
+			<< "cit3 = vec3.begin()" << std::endl;
+
+		ft::vector<int>::const_iterator	cit3(vec3.begin());
+		std::cout << "*cit3 = " << *cit3 << std::endl
+			<< "compare (range from cit to cit + vec1.size() / 2) to (range from cit2 to cit2 + vec2.size() / 2)" << std::endl;
+
+		cmp_it_range(cit, cit + vec1.size() / 2, cit2, cit2 + vec2.size() / 2);
+		
+		std::cout << "compare (range from cit to cit + vec1.size() / 2) to (range from cit3 to cit3 + vec3.size() / 2)" << std::endl;
+
+		cmp_it_range(cit, cit + vec1.size() / 2, cit3, cit3 + vec3.size() / 2);
+		
+		std::cout << "compare (range from cit to cit + vec1.size() / 2) to (range cit + vec1.size() / 2 to vec1.end())" << std::endl;
+
+		cmp_it_range(cit, cit + vec1.size() / 2, cit + vec1.size() / 2, vec1.end());
+
+
+		std::cout << "----------Arcithmetic operators----------" << std::endl
+			<< "Mostly using \"operator*()\" to print output" << std::endl
+			<< std::endl << str_it << " += " << vec1.size() / 2 << " :			";
+
+		std::cout << *(cit += vec1.size() / 2) << std::endl;
+
+		std::cout << str_it << " + " << vec1.size() / 5 << " :			";
+
+		std::cout << *(cit + vec1.size() / 5) << std::endl;
+
+		std::cout << str_it << " - " << vec1.size() / 3 << " :			";
+
+		std::cout << *(cit - vec1.size() / 3) << std::endl;
+
+		std::cout << str_it << " - vector." << begin << "() :		";
+
+		std::cout << (cit - vec1.begin()) << std::endl;
+
+		std::cout << str_it << " -= " << vec1.size() / 4 << " :			";
+
+		std::cout << *(cit -= vec1.size() / 4) << std::endl;
+
+		std::cout << str_it << " = vector." << begin << "() :	";
+
+		std::cout << *(cit = vec1.begin()) << std::endl;
+
+		std::cout << std::endl << "----------Comparison operators----------" << std::endl << std::endl
+			<< str_it << " == vector." << begin << "() ? :	";
+
+		std::cout << (cit == vec1.begin())
+			<< str_it << " != vector." << begin << "() ? :	"
+				<< (cit != vec1.begin()) << std::endl
+				<< str_it << " <= vector." << begin << "() ? :	"
+				<< (cit <= vec1.begin()) << std::endl
+				<< str_it << " >= vector." << begin << "() ? :	"
+				<< (cit >= vec1.begin()) << std::endl
+				<< str_it << " < vector." << begin << "() ? :		"
+				<< (cit < vec1.begin()) << std::endl
+				<< str_it << " > vector." << begin << "() ? :		"
+				<< (cit > vec1.begin()) << std::endl
+				<< str_it << "++ == vector." << begin << "() ? :	"
+				<< (cit++ == vec1.begin()) << std::endl
+				<< str_it << " != vector." << begin << "() ? :	"
+				<< (cit != vec1.begin()) << std::endl
+				<< str_it << " <= vector." << begin << "() ? :	"
+				<< (cit <= vec1.begin()) << std::endl
+				<< str_it << " >= vector." << begin << "() ? :	"
+				<< (cit >= vec1.begin()) << std::endl
+				<< str_it << " < vector." << begin << "() ? :		"
+				<< (cit < vec1.begin()) << std::endl
+				<< str_it << " > vector." << begin << "() ? :		"
+				<< (cit > vec1.begin()) << std::endl
+				<< "--" << str_it << " == vector." << begin << "() ? :	"
+				<< (--cit == vec1.begin()) << std::endl;
+
+		std::cout << std::endl << "----------Access operators----------" << std::endl << std::endl
+			<< str_it << "[" << vec1.size() / 5 << "] :			";
+
+		std::cout << (cit[vec1.size() / 5]) << std::endl;
+
+		std::cout << std::endl << "----------Increment/Decrement operators----------" << std::endl << std::endl
+			<< "const_iterator		tmp2(" << str_it << ");" << std::endl << std::endl << str_it << "++ == tmp ? :	";
+		
+		ft::vector<int>::const_iterator		tmp2(cit);
+
+		std::cout << (cit++ == tmp2) << std::endl;
+
+		std::cout << std::endl << "tmp2 = " << str_it << ";" << std::endl << str_it << "-- == tmp2 ? :	";
+
+		tmp2 = cit;
+
+		std::cout << (cit-- == tmp2) << std::endl;
+
+		std::cout << std::endl << "tmp2 = " << str_it << ";" << std::endl << "++" << str_it << " == tmp2 ? :	";
+
+		tmp2 = cit;
+
+		std::cout << (++cit == tmp2) << std::endl;
+
+		std::cout << std::endl << "tmp2 = " << str_it << ";" << std::endl << "--" << str_it << " == tmp2 ? :	";
+
+		tmp2 = cit;
+
+		std::cout << (--cit == tmp2) << std::endl;
+		
+		str_it = "rit";
+		begin = "rbegin";
+
+		std::cout << "//////////////////////////reverse iterator//////////////////////////" << std::endl << std::endl
+			<< "rit = vec1.rbegin()" << std::endl;
+
+		ft::vector<int>::reverse_iterator	rit(vec1.rbegin());
+
+		std::cout << "*rit = " << *rit << std::endl
+			<< "rit2 = vec2.rbegin()" << std::endl;
+
+		ft::vector<int>::reverse_iterator	rit2(vec2.rbegin());
+
+		std::cout << "*rit2 = " << *rit2 << std::endl
+			<< "rit3 = vec3.rbegin()" << std::endl;
+
+		ft::vector<int>::reverse_iterator	rit3(vec3.rbegin());
+		std::cout << "*rit3 = " << *rit3 << std::endl
+			<< "compare (range from rit to rit + vec1.size() / 2) to (range from rit2 to rit2 + vec2.size() / 2)" << std::endl;
+
+		cmp_it_range(rit, rit + vec1.size() / 2, rit2, rit2 + vec2.size() / 2);
+		
+		std::cout << "compare (range from rit to rit + vec1.size() / 2) to (range from rit3 to rit3 + vec3.size() / 2)" << std::endl;
+
+		cmp_it_range(rit, rit + vec1.size() / 2, rit3, rit3 + vec3.size() / 2);
+		
+		std::cout << "compare (range from rit to rit + vec1.size() / 2) to (range rit + vec1.size() / 2 to vec1.rend())" << std::endl;
+
+		cmp_it_range(rit, rit + vec1.size() / 2, rit + vec1.size() / 2, vec1.rend());
+
+
+		std::cout << "----------Arrithmetic operators----------" << std::endl
+			<< "Mostly using \"operator*()\" to print output" << std::endl
+			<< std::endl << str_it << " += " << vec1.size() / 2 << " :			";
+
+		std::cout << *(rit += vec1.size() / 2) << std::endl;
+
+		std::cout << str_it << " + " << vec1.size() / 5 << " :			";
+
+		std::cout << *(rit + vec1.size() / 5) << std::endl;
+
+		std::cout << str_it << " - " << vec1.size() / 3 << " :			";
+
+		std::cout << *(rit - vec1.size() / 3) << std::endl;
+
+		std::cout << str_it << " - vector." << begin << "() :		";
+
+		std::cout << (rit - vec1.rbegin()) << std::endl;
+
+		std::cout << str_it << " -= " << vec1.size() / 4 << " :			";
+
+		std::cout << *(rit -= vec1.size() / 4) << std::endl;
+
+		std::cout << str_it << " = vector." << begin << "() :	";
+
+		std::cout << *(rit = vec1.rbegin()) << std::endl;
+
+		std::cout << std::endl << "----------Comparison operators----------" << std::endl << std::endl
+			<< str_it << " == vector." << begin << "() ? :	";
+
+		std::cout << (rit == vec1.rbegin())
+			<< str_it << " != vector." << begin << "() ? :	"
+				<< (rit != vec1.rbegin()) << std::endl
+				<< str_it << " <= vector." << begin << "() ? :	"
+				<< (rit <= vec1.rbegin()) << std::endl
+				<< str_it << " >= vector." << begin << "() ? :	"
+				<< (rit >= vec1.rbegin()) << std::endl
+				<< str_it << " < vector." << begin << "() ? :		"
+				<< (rit < vec1.rbegin()) << std::endl
+				<< str_it << " > vector." << begin << "() ? :		"
+				<< (rit > vec1.rbegin()) << std::endl
+				<< str_it << "++ == vector." << begin << "() ? :	"
+				<< (rit++ == vec1.rbegin()) << std::endl
+				<< str_it << " != vector." << begin << "() ? :	"
+				<< (rit != vec1.rbegin()) << std::endl
+				<< str_it << " <= vector." << begin << "() ? :	"
+				<< (rit <= vec1.rbegin()) << std::endl
+				<< str_it << " >= vector." << begin << "() ? :	"
+				<< (rit >= vec1.rbegin()) << std::endl
+				<< str_it << " < vector." << begin << "() ? :		"
+				<< (rit < vec1.rbegin()) << std::endl
+				<< str_it << " > vector." << begin << "() ? :		"
+				<< (rit > vec1.rbegin()) << std::endl
+				<< "--" << str_it << " == vector." << begin << "() ? :	"
+				<< (--rit == vec1.rbegin()) << std::endl;
+
+		std::cout << std::endl << "----------Access operators----------" << std::endl << std::endl
+			<< str_it << "[" << vec1.size() / 5 << "] :			";
+
+		std::cout << (rit[vec1.size() / 5]) << std::endl;
+
+		std::cout << std::endl << "----------Increment/Decrement operators----------" << std::endl << std::endl
+			<< "reverse_iterator		tmp3(" << str_it << ");" << std::endl << std::endl << str_it << "++ == tmp ? :	";
+		
+		ft::vector<int>::reverse_iterator		tmp3(rit);
+
+		std::cout << (rit++ == tmp3) << std::endl;
+
+		std::cout << std::endl << "tmp3 = " << str_it << ";" << std::endl << str_it << "-- == tmp3 ? :	";
+
+		tmp3 = rit;
+
+		std::cout << (rit-- == tmp3) << std::endl;
+
+		std::cout << std::endl << "tmp3 = " << str_it << ";" << std::endl << "++" << str_it << " == tmp3 ? :	";
+
+		tmp3 = rit;
+
+		std::cout << (++rit == tmp3) << std::endl;
+
+		std::cout << std::endl << "tmp3 = " << str_it << ";" << std::endl << "--" << str_it << " == tmp3 ? :	";
+
+		tmp3 = rit;
+
+		std::cout << (--rit == tmp3) << std::endl;
+		
+		str_it = "crit";
+
+		std::cout << "//////////////////////////const reverse iterator//////////////////////////" << std::endl << std::endl
+			<< "crit = vec1.rbegin()" << std::endl;
+
+		ft::vector<int>::const_reverse_iterator	crit(vec1.rbegin());
+
+		std::cout << "*crit = " << *crit << std::endl
+			<< "crit2 = vec2.rbegin()" << std::endl;
+
+		ft::vector<int>::const_reverse_iterator	crit2(vec2.rbegin());
+
+		std::cout << "*crit2 = " << *crit2 << std::endl
+			<< "crit3 = vec3.rbegin()" << std::endl;
+
+		ft::vector<int>::const_reverse_iterator	crit3(vec3.rbegin());
+		std::cout << "*crit3 = " << *crit3 << std::endl
+			<< "compare (range from crit to crit + vec1.size() / 2) to (range from crit2 to crit2 + vec2.size() / 2)" << std::endl;
+
+		cmp_it_range(crit, crit + vec1.size() / 2, crit2, crit2 + vec2.size() / 2);
+		
+		std::cout << "compare (range from crit to crit + vec1.size() / 2) to (range from crit3 to crit3 + vec3.size() / 2)" << std::endl;
+
+		cmp_it_range(crit, crit + vec1.size() / 2, crit3, crit3 + vec3.size() / 2);
+		
+		std::cout << "compare (range from crit to crit + vec1.size() / 2) to (range crit + vec1.size() / 2 to vec1.rend())" << std::endl;
+
+		cmp_it_range(crit, crit + vec1.size() / 2, crit + vec1.size() / 2, vec1.rend());
+
+
+		std::cout << "----------Arcrithmetic operators----------" << std::endl
+			<< "Mostly using \"operator*()\" to print output" << std::endl
+			<< std::endl << str_it << " += " << vec1.size() / 2 << " :			";
+
+		std::cout << *(crit += vec1.size() / 2) << std::endl;
+
+		std::cout << str_it << " + " << vec1.size() / 5 << " :			";
+
+		std::cout << *(crit + vec1.size() / 5) << std::endl;
+
+		std::cout << str_it << " - " << vec1.size() / 3 << " :			";
+
+		std::cout << *(crit - vec1.size() / 3) << std::endl;
+
+		std::cout << str_it << " - vector." << begin << "() :		";
+
+		std::cout << (crit - vec1.rbegin()) << std::endl;
+
+		std::cout << str_it << " -= " << vec1.size() / 4 << " :			";
+
+		std::cout << *(crit -= vec1.size() / 4) << std::endl;
+
+		std::cout << str_it << " = vector." << begin << "() :	";
+
+		std::cout << *(crit = vec1.rbegin()) << std::endl;
+
+		std::cout << std::endl << "----------Comparison operators----------" << std::endl << std::endl
+			<< str_it << " == vector." << begin << "() ? :	";
+
+		std::cout << (crit == vec1.rbegin())
+			<< str_it << " != vector." << begin << "() ? :	"
+				<< (crit != vec1.rbegin()) << std::endl
+				<< str_it << " <= vector." << begin << "() ? :	"
+				<< (crit <= vec1.rbegin()) << std::endl
+				<< str_it << " >= vector." << begin << "() ? :	"
+				<< (crit >= vec1.rbegin()) << std::endl
+				<< str_it << " < vector." << begin << "() ? :		"
+				<< (crit < vec1.rbegin()) << std::endl
+				<< str_it << " > vector." << begin << "() ? :		"
+				<< (crit > vec1.rbegin()) << std::endl
+				<< str_it << "++ == vector." << begin << "() ? :	"
+				<< (crit++ == vec1.rbegin()) << std::endl
+				<< str_it << " != vector." << begin << "() ? :	"
+				<< (crit != vec1.rbegin()) << std::endl
+				<< str_it << " <= vector." << begin << "() ? :	"
+				<< (crit <= vec1.rbegin()) << std::endl
+				<< str_it << " >= vector." << begin << "() ? :	"
+				<< (crit >= vec1.rbegin()) << std::endl
+				<< str_it << " < vector." << begin << "() ? :		"
+				<< (crit < vec1.rbegin()) << std::endl
+				<< str_it << " > vector." << begin << "() ? :		"
+				<< (crit > vec1.rbegin()) << std::endl
+				<< "--" << str_it << " == vector." << begin << "() ? :	"
+				<< (--crit == vec1.rbegin()) << std::endl;
+
+		std::cout << std::endl << "----------Access operators----------" << std::endl << std::endl
+			<< str_it << "[" << vec1.size() / 5 << "] :			";
+
+		std::cout << (crit[vec1.size() / 5]) << std::endl;
+
+		std::cout << std::endl << "----------Increment/Decrement operators----------" << std::endl << std::endl
+			<< "const_reverse_iterator		tmp4(" << str_it << ");" << std::endl << std::endl << str_it << "++ == tmp ? :	";
+		
+		ft::vector<int>::const_reverse_iterator		tmp4(crit);
+
+		std::cout << (crit++ == tmp4) << std::endl;
+
+		std::cout << std::endl << "tmp4 = " << str_it << ";" << std::endl << str_it << "-- == tmp4 ? :	";
+
+		tmp4 = crit;
+
+		std::cout << (crit-- == tmp4) << std::endl;
+
+		std::cout << std::endl << "tmp4 = " << str_it << ";" << std::endl << "++" << str_it << " == tmp4 ? :	";
+
+		tmp4 = crit;
+
+		std::cout << (++crit == tmp4) << std::endl;
+
+		std::cout << std::endl << "tmp4 = " << str_it << ";" << std::endl << "--" << str_it << " == tmp4 ? :	";
+
+		tmp4 = crit;
+
+		std::cout << (--crit == tmp4) << std::endl;
+
 	}
-
-*/
 	return 0;
 }

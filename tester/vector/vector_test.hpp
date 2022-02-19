@@ -7,7 +7,10 @@
 	namespace ft = std;
 #else
 	#include <vector.hpp>
-	#include <utility>
+	#include "../../utility/algorithm.hpp"
+	#include "../../utility/pair.hpp"
+	#include "../../utility/functionnal.hpp"
+	#include "../../utility/type_trait.hpp"
 #endif
 
 #include <iostream>
@@ -162,135 +165,95 @@ void	print_attributes(const VEC &vec)
 		print_content(vec);
 		std::cout << std::endl;
 }
-/*
 
-template < typename VEC, typename IT > 
-void	op_test(VEC &vec, IT &it, std::string &str_it)
+template < class ITERATOR >
+void	cmp_it_range(ITERATOR l_start, ITERATOR l_end, ITERATOR r_start, ITERATOR r_end)
 {
-	std::string	begin(str_it.find('r') == str_it.npos ? "begin" : "rbegin");
+	size_t	l_diff = l_end - l_start;
+	size_t	r_diff = r_end - r_start;
 
-
-	std::cout << "----------Arithmetic operators----------" << std::endl
-		<< "Mostly using \"operator*()\" to print output" << std::endl
-		<< std::endl << str_it << " += " << vec.size() / 2 << " :			";
-
-	std::cout << *(it += vec.size() / 2) << std::endl;
-
-	std::cout << str_it << " + " << vec.size() / 5 << " :			";
-
-	std::cout << *(it + vec.size() / 5) << std::endl;
-
-	std::cout << str_it << " - " << vec.size() / 3 << " :			";
-
-	std::cout << *(it - vec.size() / 3) << std::endl;
-
-	std::cout << str_it << " - vector." << begin << "() :		";
-
-	if (str_it.find('r') == str_it.npos)
-		std::cout << (it - vec.begin()) << std::endl;
-	else
-		std::cout << (it - vec.rbegin()) << std::endl;
-
-	std::cout << str_it << " -= " << vec.size() / 4 << " :			";
-
-	std::cout << *(it -= vec.size() / 4) << std::endl;
-
-	std::cout << str_it << " = vector." << begin << "() :	";
-
-	if (str_it.find('r') == str_it.npos)
-		std::cout << *(it = vec.begin()) << std::endl;
-	else
-		std::cout << *(it = vec.rbegin()) << std::endl;
-
-	std::cout << std::endl << "----------Comparison operators----------" << std::endl << std::endl
-		<< str_it << " == vector." << begin << "() ? :	";
-
-	if (str_it.find('r') == str_it.npos)
+	std::cout << std::boolalpha << "Range size lhs == Range size rhs ?	" << (l_diff == r_diff) << std::endl
+		<< "Comparing element from start to end :" << std::endl;
+	while (l_diff-- && r_diff--)
 	{
-		std::cout << (it == vec.begin())
-			<< str_it << " != vector." << begin << "() ? :	"
-			<< (it != vec.begin()) << std::endl
-			<< str_it << " <= vector." << begin << "() ? :	"
-			<< (it <= vec.begin()) << std::endl
-			<< str_it << " >= vector." << begin << "() ? :	"
-			<< (it >= vec.begin()) << std::endl
-			<< str_it << " < vector." << begin << "() ? :		"
-			<< (it < vec.begin()) << std::endl
-			<< str_it << " > vector." << begin << "() ? :		"
-			<< (it > vec.begin()) << std::endl
-			<< str_it << "++ == vector." << begin << "() ? :	"
-			<< (it++ == vec.begin()) << std::endl
-			<< str_it << " != vector." << begin << "() ? :	"
-			<< (it != vec.begin()) << std::endl
-			<< str_it << " <= vector." << begin << "() ? :	"
-			<< (it <= vec.begin()) << std::endl
-			<< str_it << " >= vector." << begin << "() ? :	"
-			<< (it >= vec.begin()) << std::endl
-			<< str_it << " < vector." << begin << "() ? :		"
-			<< (it < vec.begin()) << std::endl
-			<< str_it << " > vector." << begin << "() ? :		"
-			<< (it > vec.begin()) << std::endl
-			<< "--" << str_it << " == vector." << begin << "() ? :	"
-			<< (--it == vec.begin()) << std::endl;
+		std::cout << std::boolalpha << "	*==	: " << (*l_start == *r_start) << std::endl;
+		std::cout << std::boolalpha << "	==	: " << (l_start == r_start) << std::endl;
+		std::cout << std::boolalpha << "	!=	: " << (l_start != r_start) << std::endl;
+		l_start++;
+		r_start++;
 	}
-	else
+}
+
+template < class L_ITERATOR, class R_ITERATOR >
+void	cmp_it_range(L_ITERATOR l_start, L_ITERATOR l_end, R_ITERATOR r_start, R_ITERATOR r_end)
+{
+	size_t	l_diff = l_end - l_start;
+	size_t	r_diff = r_end - r_start;
+
+	std::cout << std::boolalpha << "Range size lhs == Range size rhs ?	" << (l_diff == r_diff) << std::endl
+		<< "Comparing element from start to end :" << std::endl;
+	while (l_diff-- && r_diff--)
 	{
-		std::cout << (it == vec.rbegin())
-			<< str_it << " != vector." << begin << "() ? :	"
-			<< (it != vec.rbegin()) << std::endl
-			<< str_it << " <= vector." << begin << "() ? :	"
-			<< (it <= vec.rbegin()) << std::endl
-			<< str_it << " >= vector." << begin << "() ? :	"
-			<< (it >= vec.rbegin()) << std::endl
-			<< str_it << " < vector." << begin << "() ? :		"
-			<< (it < vec.rbegin()) << std::endl
-			<< str_it << " > vector." << begin << "() ? :		"
-			<< (it > vec.rbegin()) << std::endl
-			<< str_it << "++ == vector." << begin << "() ? :	"
-			<< (it++ == vec.rbegin()) << std::endl
-			<< str_it << " != vector." << begin << "() ? :	"
-			<< (it != vec.rbegin()) << std::endl
-			<< str_it << " <= vector." << begin << "() ? :	"
-			<< (it <= vec.rbegin()) << std::endl
-			<< str_it << " >= vector." << begin << "() ? :	"
-			<< (it >= vec.rbegin()) << std::endl
-			<< str_it << " < vector." << begin << "() ? :		"
-			<< (it < vec.rbegin()) << std::endl
-			<< str_it << " > vector." << begin << "() ? :		"
-			<< (it > vec.rbegin()) << std::endl
-			<< "--" << str_it << " == vector." << begin << "() ? :	"
-			<< (--it == vec.rbegin()) << std::endl;
+		std::cout << std::boolalpha << "	*==	: " << (*l_start == *r_start) << std::endl;
+		std::cout << std::boolalpha << "	==	: " << (l_start == r_start) << std::endl;
+		std::cout << std::boolalpha << "	!=	: " << (l_start != r_start) << std::endl;
+		l_start++;
+		r_start++;
 	}
+}
 
-	std::cout << std::endl << "----------Access operators----------" << std::endl << std::endl
-		<< str_it << "[" << vec.size() / 5 << "] :			";
+template < class L_ITERATOR1, class L_ITERATOR2, class R_ITERATOR >
+void	cmp_it_range(L_ITERATOR1 l_start, L_ITERATOR2 l_end, R_ITERATOR r_start, R_ITERATOR r_end)
+{
+	size_t	l_diff = l_end - l_start;
+	size_t	r_diff = r_end - r_start;
 
-	std::cout << (it[vec.size() / 5]) << std::endl;
+	std::cout << std::boolalpha << "Range size lhs == Range size rhs ?	" << (l_diff == r_diff) << std::endl
+		<< "Comparing element from start to end :" << std::endl;
+	while (l_diff-- && r_diff--)
+	{
+		std::cout << std::boolalpha << "	*==	: " << (*l_start == *r_start) << std::endl;
+		std::cout << std::boolalpha << "	==	: " << (l_start == r_start) << std::endl;
+		std::cout << std::boolalpha << "	!=	: " << (l_start != r_start) << std::endl;
+		l_start++;
+		r_start++;
+	}
+}
 
-	std::cout << std::endl << "----------Increment/Decrement operators----------" << std::endl << std::endl
-		<< "iterator		tmp(" << str_it << ");" << std::endl << std::endl << str_it << "++ == tmp ? :	";
-	
-	IT		tmp(it);
+template < class L_ITERATOR1, class L_ITERATOR2, class R_ITERATOR1 , class R_ITERATOR2 >
+void	cmp_it_range(L_ITERATOR1 l_start, L_ITERATOR2 l_end, R_ITERATOR1 r_start, R_ITERATOR2 r_end)
+{
+	size_t	l_diff = l_end - l_start;
+	size_t	r_diff = r_end - r_start;
 
-	std::cout << (it++ == tmp) << std::endl;
+	std::cout << std::boolalpha << "Range size lhs == Range size rhs ?	" << (l_diff == r_diff) << std::endl
+		<< "Comparing element from start to end :" << std::endl;
+	while (l_diff-- && r_diff--)
+	{
+		std::cout << std::boolalpha << "	*==	: " << (*l_start == *r_start) << std::endl;
+		std::cout << std::boolalpha << "	==	: " << (l_start == r_start) << std::endl;
+		std::cout << std::boolalpha << "	!=	: " << (l_start != r_start) << std::endl;
+		l_start++;
+		r_start++;
+	}
+}
 
-	std::cout << std::endl << "tmp = " << str_it << ";" << std::endl << str_it << "-- == tmp ? :	";
+template < class L_ITERATOR, class R_ITERATOR1 , class R_ITERATOR2 >
+void	cmp_it_range(L_ITERATOR l_start, L_ITERATOR l_end, R_ITERATOR1 r_start, R_ITERATOR2 r_end)
+{
+	size_t	l_diff = l_end - l_start;
+	size_t	r_diff = r_end - r_start;
 
-	tmp = it;
-
-	std::cout << (it-- == tmp) << std::endl;
-
-	std::cout << std::endl << "tmp = " << str_it << ";" << std::endl << "++" << str_it << " == tmp ? :	";
-
-	tmp = it;
-
-	std::cout << (++it == tmp) << std::endl;
-
-	std::cout << std::endl << "tmp = " << str_it << ";" << std::endl << "--" << str_it << " == tmp ? :	";
-
-	tmp = it;
-
-	std::cout << (--it == tmp) << std::endl;
-}*/
+	std::cout << std::boolalpha << "Range size lhs == Range size rhs ?	" << (l_diff == r_diff) << std::endl
+		<< "Comparing element from start to end :" << std::endl;
+	while (l_diff-- && r_diff--)
+	{
+		std::cout << std::boolalpha << "	*==	: " << (*l_start == *r_start) << std::endl;
+		std::cout << std::boolalpha << "	==	: " << (l_start == r_start) << std::endl;
+		std::cout << std::boolalpha << "	!=	: " << (l_start != r_start) << std::endl;
+		l_start++;
+		r_start++;
+	}
+}
 
 #endif
