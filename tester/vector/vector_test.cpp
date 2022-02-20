@@ -266,7 +266,7 @@ int main(int argc, char **argv)
 
 		ft::vector<Foo> vec1;
 
-		for(size_t i =0; i < (len >= 3 ? len : 3); i++)
+		for(size_t i =0; i < len; i++)
 		{
 			vec1.insert(vec1.end(), rand());
 		}
@@ -301,7 +301,8 @@ int main(int argc, char **argv)
 
 		std::cout << "erase pos;" << std::endl << std::endl;
 
-		vec4.erase(vec4.begin() + rand_size(vec4));
+		if(!vec4.empty())
+			vec4.erase(vec4.begin() + rand_size(vec4));
 		print_attributes(vec4);
 
 		std::cout << "erase range;" << std::endl << std::endl;
