@@ -413,7 +413,7 @@ namespace	ft
 
 		void swap(vector& x)
 		{
-			if (*this != x)
+			if (&(*this) != &x)
 			{
 				allocator_type	tmp_alloc = x._alloc;
 				pointer			tmp_data = x._data;

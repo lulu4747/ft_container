@@ -240,6 +240,9 @@ namespace	ft
 
 			void	swap(rb_tree &x)
 			{
+				if (&(*this) == &x)
+					return;
+
 				node_pointer			tmp_root(_root);
 				node_pointer			tmp_end_node(_end_node);
 				key_compare				tmp_comp(_comp);
