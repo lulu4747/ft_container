@@ -155,6 +155,16 @@ namespace	ft
 
 		//	Element access
 
+		mapped_type&	at(const key_type& k)
+		{
+			iterator	it(find(k));
+
+			if (it == end())
+				throw(std::out_of_range("map.at(const key_type& k)"));
+			
+			return it->second;
+		}
+
 		mapped_type&	operator[](const key_type& k)
 		{
 			return _data[k];
