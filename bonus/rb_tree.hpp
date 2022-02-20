@@ -3,8 +3,8 @@
 
 # include <memory>
 # include "node.hpp"
-# include "../Iterators/Binary_Search_Tree_Iterator.hpp"
-# include "../functionnal.hpp"
+# include "../utility/Iterators/Binary_Search_Tree_Iterator.hpp"
+# include "../utility/functionnal.hpp"
 
 namespace	ft
 {
@@ -145,7 +145,7 @@ namespace	ft
 
 				while (it != end)
 				{
-					if (!(_comp((*it).first, k)))
+					if (!(_comp(*it, k)))
 						break;
 					it++;
 				}
@@ -164,7 +164,7 @@ namespace	ft
 
 				while (it != end)
 				{
-					if (_comp(k, (*it).first))
+					if (_comp(k, *it))
 						break;
 					it++;
 				}
@@ -201,7 +201,7 @@ namespace	ft
 
 			void	erase(iterator to_remove)
 			{
-				node_pointer	ptr(_find(to_remove->first));
+				node_pointer	ptr(_find(*to_remove));
 
 				if (ptr == _end_node->left)
 					_end_node->left = _inorder_successor(ptr);
@@ -559,14 +559,14 @@ namespace	ft
 				node_pointer	ptr(_root);
 				bool			is_left;
 		
-				if (_comp(value->first, _end_node->left->key()))
+				if (_comp(*value, _end_node->left->key()))
 					return _new_leftmost(value);
-				if (_comp(_end_node->right->key(), value->first))
+				if (_comp(_end_node->right->key(), *value))
 					return _new_rightmost(value);
 				while (ptr != _end_node)
 				{
 					new_parent = ptr;
-					is_left = _comp(value->first, ptr->key());
+					is_left = _comp(*value, ptr->key());
 					ptr = is_left ? ptr->left : ptr->right;
 				}
 				return _node_init(value, new_parent, is_left);

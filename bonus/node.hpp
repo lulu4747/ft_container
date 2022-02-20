@@ -16,8 +16,7 @@ namespace	ft
 			typedef	struct		node&						reference;
 			typedef				T							value_type;
 			typedef				value_type*					value_pointer;
-
-			typedef	typename	value_type::first_type		key_type;
+			typedef				value_type					key_type;
 
 			pointer			parent;
 			pointer			left;

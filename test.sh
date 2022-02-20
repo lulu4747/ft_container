@@ -33,6 +33,13 @@ then
 		echo -e "\nstd::map"
 		time ./std_map_test.exe $SEED $LEN > std.out
 	fi
+	if [[ $1 == "set" ]]
+	then
+		echo -e "\n\nft::set"
+		time ./ft_set_test.exe $SEED $LEN > ft.out
+		echo -e "\nstd::set"
+		time ./std_set_test.exe $SEED $LEN > std.out
+	fi
 else
 	echo -e "\n\nft::vector"
 	time ./ft_vector_test.exe $SEED $LEN > ft.out

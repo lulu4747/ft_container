@@ -55,7 +55,7 @@ namespace	ft
 			insert(first, last);
 		}
 
-		set( ft::set const & src)
+		set( set const & src)
 			:_data(src.key_comp(), src.get_allocator()),
 			_comp(src.key_comp()),
 			_alloc(src.get_allocator())
@@ -138,7 +138,7 @@ namespace	ft
 
 		pair< iterator, bool > insert (const key_type& val)
 		{
-			iterator	first(find(val.first));
+			iterator	first(find(val));
 			bool		second(false);
 			pointer		new_val(NULL);
 
