@@ -1,5 +1,5 @@
-#ifndef ft::SET_HPP
-# define ft::SET_HPP
+#ifndef SET_HPP
+# define SET_HPP
 
 # include <memory>
 # include "../utility/algorithm.hpp"
@@ -12,7 +12,7 @@
 namespace	ft
 {
 	template < class Key, class Compare = ft::less<Key>, class Alloc = std::allocator< Key > >
-	class ft::set
+	class set
 	{
 
 	public:
@@ -35,7 +35,7 @@ namespace	ft
 		typedef				Reverse_Iterator<iterator>							reverse_iterator;
 		typedef				Reverse_Iterator<const_iterator>					const_reverse_iterator;
 
-		explicit ft::set(const key_compare& comp = key_compare(),
+		explicit set(const key_compare& comp = key_compare(),
 						const allocator_type& alloc = allocator_type())
 			:_data(comp, alloc),
 			_comp(comp),
@@ -163,7 +163,7 @@ namespace	ft
 		{
 
 			if(!(is_input_iterator_tagged< typename iterator_traits<InputIt>::iterator_category >::value))
-				throw std::invalid_argument("In ft::set::insert(InputIt first, InputIt last), InputIt class is'nt at least InputIterator tagged");
+				throw std::invalid_argument("In ft::set.insert(InputIt first, InputIt last), InputIt class is'nt at least InputIterator tagged");
 
 			while (first != last)
 				insert(*(first++));
@@ -272,54 +272,55 @@ namespace	ft
 	private:
 
 		rb_tree<key_type, key_compare, allocator_type>	_data;
-		key_compare											_comp;
-		allocator_type										_alloc;
+		key_compare										_comp;
+		allocator_type									_alloc;
 
 	};
 
-	template< class Key, class T, class Compare, class Alloc >
-	bool operator==(const ft::set<Key, Compare,Alloc>& lhs, const ft::set<Key, Compare,Alloc>& rhs)
+	template< class Key, class Compare, class Alloc >
+	bool operator==( const ft::set<Key,Compare,Alloc>& lhs, const ft::set<Key,Compare,Alloc>& rhs )
 	{
 		if (lhs.size() != rhs.size())
 			return false;
 		return ft::equal(lhs.begin(), lhs.end(), rhs.begin());
 	}
 
-	template< class Key, class T, class Compare, class Alloc >
-	bool operator!=(const ft::set<Key, Compare,Alloc>& lhs, const ft::set<Key, Compare,Alloc>& rhs)
+	template< class Key, class Compare, class Alloc >
+	bool operator!=( const ft::set<Key,Compare,Alloc>& lhs, const ft::set<Key,Compare,Alloc>& rhs )
 	{
-		return (!(lhs == rhs));
+		return !(lhs == rhs);
 	}
 
-	template< class Key, class T, class Compare, class Alloc >
-	bool operator<(const ft::set<Key, Compare,Alloc>& lhs, const ft::set<Key, Compare,Alloc>& rhs)
+	template< class Key, class Compare, class Alloc >
+	bool operator<( const ft::set<Key,Compare,Alloc>& lhs, const ft::set<Key,Compare,Alloc>& rhs )
 	{
 		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
-	template< class Key, class T, class Compare, class Alloc >
-	bool operator<=(const ft::set<Key, Compare,Alloc>& lhs, const ft::set<Key, Compare,Alloc>& rhs)
-	{
-		return (!(rhs < lhs));
-	}
-
-	template< class Key, class T, class Compare, class Alloc >
-	bool operator>(const ft::set<Key, Compare,Alloc>& lhs, const ft::set<Key, Compare,Alloc>& rhs)
+	template< class Key, class Compare, class Alloc >
+	bool operator>( const ft::set<Key,Compare,Alloc>& lhs, const ft::set<Key,Compare,Alloc>& rhs )
 	{
 		return (rhs < lhs);
 	}
 
-	template< class Key, class T, class Compare, class Alloc >
-	bool operator>=(const ft::set<Key, Compare,Alloc>& lhs, const ft::set<Key, Compare,Alloc>& rhs)
+	template< class Key, class Compare, class Alloc >
+	bool operator<=( const ft::set<Key,Compare,Alloc>& lhs, const ft::set<Key,Compare,Alloc>& rhs )
 	{
-		return (!(lhs < rhs));
+		return !(rhs < lhs);
 	}
 
-	template< class Key, class T, class Compare, class Alloc >
-	void swap( ft::set<Key, Compare,Alloc>& lhs, ft::set<Key, Compare,Alloc>& rhs )
+	template< class Key, class Compare, class Alloc >
+	bool operator>=( const ft::set<Key,Compare,Alloc>& lhs, const ft::set<Key,Compare,Alloc>& rhs )
 	{
-		return lhs.swap(rhs);
+		return !(lhs < rhs);
 	}
+
+	template< class Key, class Compare, class Alloc >
+	void swap( ft::set<Key,Compare,Alloc>& lhs, ft::set<Key,Compare,Alloc>& rhs )
+	{
+		lhs.swap(rhs);
+	}
+
 
 }
 

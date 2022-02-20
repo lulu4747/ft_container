@@ -11,13 +11,13 @@ namespace	ft
 	namespace
 	{
 		template< class T, class Compare = ft::less< T > , class T_Alloc = typename std::allocator< T >,
-						class key = typename T::first_type, typename N = ft::node< T >, class N_Alloc = typename std::allocator< N > >
+					typename N = ft::node< T >, class N_Alloc = typename std::allocator< N > >
 		class rb_tree
 		{
 
 		public :
 
-			typedef				T												value_type;
+			typedef				T												key_type;
 			typedef				N												node_type;
 			typedef 			T_Alloc											value_allocator_type;
 			typedef 			N_Alloc											node_allocator_type;
@@ -27,13 +27,10 @@ namespace	ft
 			typedef typename	node_allocator_type::const_pointer				const_node_pointer;
 
 			typedef 			Compare											key_compare;
-			typedef				key												key_type;
 			typedef				size_t											size_type;
 		
 			typedef				Binary_Search_Tree_Iterator<node_type>			iterator;
 			typedef				Binary_Search_Tree_Iterator<const node_type>	const_iterator;
-
-			typedef typename	value_type::second_type							mapped_type;
 
 	/*
 				**		Construction		**
@@ -189,23 +186,6 @@ namespace	ft
 			equal_range(const key_type& k) const
 			{
 				return (ft::make_pair(lower_bound(k), upper_bound(k)));
-			}
-
-	/*
-				**		ElementAccess		**
-	*/
-
-			mapped_type&	operator[](const key_type& k)
-			{
-				node_pointer	ptr(_find(k));
-				value_type*		new_val(NULL);
-
-				if (ptr != _end_node)
-					return ptr->value->second;
-				new_val = _value_alloc.allocate(sizeof(value_type));
-				_value_alloc.construct(new_val, make_pair(k, mapped_type()));
-				insert(new_val);
-				return new_val->second;
 			}
 
 	/*
@@ -450,7 +430,7 @@ namespace	ft
 					if (parent != _root)
 					{
 						parent->double_black = true;
-						sibling = parent == parent->parent->left ? parent->parent->right : parent->parent->left;
+						sibling = parent->is_left_child() ? parent->parent->right : parent->parent->left;
 						return _balance(parent, parent->parent, sibling);
 					}
 					else
@@ -701,11 +681,11 @@ namespace	ft
 
 				if (ptr == _root)
 					return _root_erase();
-				sibling = ptr == parent->left ?
+				sibling = ptr->is_left_child() ?
 					parent->right : parent->left;
 				if (ptr->left == _end_node && ptr->right == _end_node)
 				{
-					ptr == parent->left ? parent->left = _end_node : parent->right = _end_node;
+					ptr->is_left_child() ? parent->left = _end_node : parent->right = _end_node;
 					if (parent->red == true)
 						parent->red = false;
 					else if (ptr->red == false)
@@ -715,7 +695,7 @@ namespace	ft
 				{
 					balancer = ptr->left != _end_node ?
 						ptr->left : ptr->right;
-					ptr == parent->left ?
+					ptr->is_left_child() ?
 						parent->left = balancer : parent->right = balancer;
 					balancer->parent = parent;
 					if (ptr->red == false && balancer->red == false)
@@ -736,9 +716,9 @@ namespace	ft
 				if (np1 == np2)
 					return ;
 				if (np1->parent != _end_node)
-					np1 == np1->parent->left ? np1->parent->left = np2 : np1->parent->right = np2;
+					np1->is_left_child() ? np1->parent->left = np2 : np1->parent->right = np2;
 				if (np2->parent != _end_node)
-					np2 == np2->parent->left ? np2->parent->left = np1 : np2->parent->right = np1;
+					np2->is_left_child() ? np2->parent->left = np1 : np2->parent->right = np1;
 				if (np1 != _end_node)
 					np1->parent = np2->parent;
 				np1->left = np2->left != np1 ? np2->left : np2;

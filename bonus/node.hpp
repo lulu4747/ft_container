@@ -64,7 +64,7 @@ namespace	ft
 
 			key_type&	key() const
 			{
-				return value->first;
+				return *value;
 			}
 
 			pointer	root()

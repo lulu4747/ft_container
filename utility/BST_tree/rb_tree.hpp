@@ -450,7 +450,7 @@ namespace	ft
 					if (parent != _root)
 					{
 						parent->double_black = true;
-						sibling = parent == parent->parent->left ? parent->parent->right : parent->parent->left;
+						sibling = parent->is_left_child() ? parent->parent->right : parent->parent->left;
 						return _balance(parent, parent->parent, sibling);
 					}
 					else
@@ -701,11 +701,11 @@ namespace	ft
 
 				if (ptr == _root)
 					return _root_erase();
-				sibling = ptr == parent->left ?
+				sibling = ptr->is_left_child() ?
 					parent->right : parent->left;
 				if (ptr->left == _end_node && ptr->right == _end_node)
 				{
-					ptr == parent->left ? parent->left = _end_node : parent->right = _end_node;
+					ptr->is_left_child() ? parent->left = _end_node : parent->right = _end_node;
 					if (parent->red == true)
 						parent->red = false;
 					else if (ptr->red == false)
@@ -715,7 +715,7 @@ namespace	ft
 				{
 					balancer = ptr->left != _end_node ?
 						ptr->left : ptr->right;
-					ptr == parent->left ?
+					ptr->is_left_child() ?
 						parent->left = balancer : parent->right = balancer;
 					balancer->parent = parent;
 					if (ptr->red == false && balancer->red == false)
@@ -736,9 +736,9 @@ namespace	ft
 				if (np1 == np2)
 					return ;
 				if (np1->parent != _end_node)
-					np1 == np1->parent->left ? np1->parent->left = np2 : np1->parent->right = np2;
+					np1->is_left_child() ? np1->parent->left = np2 : np1->parent->right = np2;
 				if (np2->parent != _end_node)
-					np2 == np2->parent->left ? np2->parent->left = np1 : np2->parent->right = np1;
+					np2->is_left_child() ? np2->parent->left = np1 : np2->parent->right = np1;
 				if (np1 != _end_node)
 					np1->parent = np2->parent;
 				np1->left = np2->left != np1 ? np2->left : np2;
